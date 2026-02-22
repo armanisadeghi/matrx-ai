@@ -1,0 +1,125 @@
+{
+    "output": "Hello! I'm doing well, thanks for asking! How are you doing today? Is there something I can help you with? \ud83d\ude0a",
+    "assistant_response": {
+        "role": "assistant",
+        "content": [
+            {
+                "type": "text",
+                "text": "Hello! I'm doing well, thanks for asking! How are you doing today? Is there something I can help you with? \ud83d\ude0a",
+                "id": "",
+                "metadata": {}
+            }
+        ],
+        "id": "msg_01LsLAfUV6jk5nPEsC1kULJn",
+        "name": null,
+        "timestamp": null,
+        "status": "active",
+        "metadata": {}
+    },
+    "config": {
+        "model": "claude-sonnet-4-6",
+        "messages": {
+            "_messages": [
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "Hello! How are you?",
+                            "id": "",
+                            "metadata": {}
+                        }
+                    ],
+                    "id": null,
+                    "name": null,
+                    "timestamp": null,
+                    "status": "active",
+                    "metadata": {}
+                },
+                {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "Hello! I'm doing well, thanks for asking! How are you doing today? Is there something I can help you with? \ud83d\ude0a",
+                            "id": "",
+                            "metadata": {}
+                        }
+                    ],
+                    "id": "msg_01LsLAfUV6jk5nPEsC1kULJn",
+                    "name": null,
+                    "timestamp": null,
+                    "status": "active",
+                    "metadata": {}
+                }
+            ]
+        },
+        "system_instruction": "You're a helpful assistant.",
+        "stream": true,
+        "max_output_tokens": null,
+        "temperature": null,
+        "top_p": null,
+        "top_k": null,
+        "tools": [],
+        "tool_choice": null,
+        "parallel_tool_calls": true,
+        "reasoning_effort": null,
+        "reasoning_summary": null,
+        "thinking_level": null,
+        "include_thoughts": null,
+        "thinking_budget": null,
+        "response_format": null,
+        "stop_sequences": [],
+        "store": null,
+        "verbosity": null,
+        "internal_web_search": null,
+        "internal_url_context": null,
+        "size": null,
+        "quality": null,
+        "count": 1,
+        "audio_voice": null,
+        "audio_format": null,
+        "seconds": null,
+        "fps": null,
+        "steps": null,
+        "seed": null,
+        "guidance_scale": null,
+        "output_quality": null,
+        "negative_prompt": null,
+        "output_format": null,
+        "width": null,
+        "height": null,
+        "frame_images": null,
+        "reference_images": null,
+        "disable_safety_checker": null,
+        "custom_configs": null,
+        "metadata": {}
+    },
+    "usage": {
+        "by_model": {
+            "claude-sonnet-4-6": {
+                "input_tokens": 20,
+                "output_tokens": 32,
+                "cached_input_tokens": 0,
+                "total_tokens": 52,
+                "api": "anthropic",
+                "request_count": 1,
+                "cost": 0.00054
+            }
+        },
+        "total": {
+            "input_tokens": 20,
+            "output_tokens": 32,
+            "cached_input_tokens": 0,
+            "total_tokens": 52,
+            "total_requests": 1,
+            "unique_models": 1,
+            "total_cost": 0.00054
+        }
+    },
+    "metadata": {
+        "finish_reason": "stop",
+        "response_id": "msg_01LsLAfUV6jk5nPEsC1kULJn",
+        "model": "claude-sonnet-4-6"
+    }
+}

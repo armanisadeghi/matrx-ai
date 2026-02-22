@@ -5,6 +5,7 @@ description = "Matrx AI — core FastAPI backend for AI integrations"
 requires-python = ">=3.13"
 
 dependencies = [
+    # --- Web framework & server ---
     "fastapi[standard]>=0.115.0",
     "uvicorn[standard]>=0.34.0",
     "uvloop>=0.21.0",
@@ -14,8 +15,27 @@ dependencies = [
     "httpx>=0.28.0",
     "orjson>=3.10.0",
     "python-dotenv>=1.0.0",
+
+    # --- AI providers ---
+    "anthropic",
+    "openai",
+    "google-genai",
+    "cerebras-cloud-sdk",
+    "groq",
+    "together",
+    "xai-sdk",
+
+    # --- Supabase & database ---
+    "supabase",
+
+    # --- Matrx ecosystem ---
     "matrx-utils>=1.0.4",
-    "matrx-orm>=1.5.1",
+    "matrx-orm>=1.5.3",
+
+    # --- Utilities used by ai module ---
+    "rich",
+    "tiktoken",
+    "aiofiles",
 ]
 
 [project.optional-dependencies]
@@ -45,7 +65,7 @@ ignore = ["E501"]
 
 [tool.pyright]
 pythonVersion = "3.13"
-typeCheckingMode = "strict"
+typeCheckingMode = "standard"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

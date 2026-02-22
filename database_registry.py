@@ -56,6 +56,29 @@ MANAGER_CONFIG_OVERRIDES = {
     "compiled_recipe": compiled_recipe_overrides,
 }
 
+# Tables for which Python models and managers are auto-generated.
+# Add a table name here (exact PostgreSQL snake_case name) then run:
+#   uv run python makemigrations.py
+# See SCHEMA_GENERATION.md for full instructions.
+MANAGED_TABLES = {
+    "cx_conversation",
+    "cx_messages",
+    "cx_agent_memory",
+    "cx_media",
+    "cx_request",
+    "cx_tool_call",
+    "cx_user_request",
+    "ai_model",
+    "tools",
+    "prompts",
+    "prompt_builtins",
+    "content_blocks",
+    "table_data",
+    "ai_provider",
+    "shortcut_categories",
+    "user_tables",
+}
+
 config = DatabaseProjectConfig(name="supabase_automation_matrix",
                                alias="main",
                                user=settings.SUPABASE_MATRIX_USER,

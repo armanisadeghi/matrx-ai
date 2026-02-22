@@ -1,0 +1,659 @@
+{
+    "request": {
+        "conversation_id": "12345678-1234-1234-1234-123456789012",
+        "user_id": "12345678-1234-1234-1234-123456789012",
+        "ai_model_id": "gemini-3-flash-preview",
+        "messages": {
+            "_messages": [
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "Hi",
+                            "id": "",
+                            "metadata": {}
+                        }
+                    ],
+                    "id": null,
+                    "name": null,
+                    "timestamp": null,
+                    "metadata": {}
+                },
+                {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "Hello! How may I assist you today?",
+                            "id": "",
+                            "metadata": {}
+                        }
+                    ],
+                    "id": null,
+                    "name": null,
+                    "timestamp": null,
+                    "metadata": {}
+                },
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "Hello! Can you give me some recommendations for today? restaurants and events in the area?",
+                            "id": "",
+                            "metadata": {}
+                        }
+                    ],
+                    "id": null,
+                    "name": null,
+                    "timestamp": null,
+                    "metadata": {}
+                },
+                {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "type": "thinking",
+                            "text": "**Clarifying the Goal**\n\nI've zeroed in on the user's need: restaurant and event suggestions, today, locally.  My next move is clear - I *must* get their location. That's the critical missing piece.  Without it, I'm stuck.  Location is the priority; the foundation upon which I'll build relevant recommendations.\n\n\n",
+                            "id": "",
+                            "summary": [],
+                            "metadata": {}
+                        },
+                        {
+                            "type": "thinking",
+                            "text": "**Sequencing My Actions**\n\nI'm now in the process of getting the user's location, using the `get_location` tool. This is the first action to initiate my workflow. Once I have the location, I'll then grab the weather, which will be the input for the activities and events search, along with the location. I'll search for restaurants and activities, as well as events happening in the area. Finally, I will compile this information with the `create_summary` tool.\n\n\n",
+                            "id": "",
+                            "summary": [],
+                            "metadata": {}
+                        },
+                        {
+                            "type": "tool_call",
+                            "id": "gemini_-550285943019727131",
+                            "call_id": "",
+                            "name": "get_location",
+                            "arguments": {},
+                            "metadata": {
+                                "google_thought_signature": "<binary data length=1094>"
+                            }
+                        }
+                    ],
+                    "id": null,
+                    "name": null,
+                    "timestamp": null,
+                    "metadata": {
+                        "finish_reason": "stop"
+                    }
+                },
+                {
+                    "role": "tool",
+                    "content": [
+                        {
+                            "type": "tool_result",
+                            "tool_use_id": "gemini_-550285943019727131",
+                            "call_id": "",
+                            "name": "get_location",
+                            "content": {
+                                "city": "Seattle"
+                            },
+                            "is_error": false,
+                            "metadata": {}
+                        }
+                    ],
+                    "id": null,
+                    "name": null,
+                    "timestamp": null,
+                    "metadata": {}
+                },
+                {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "type": "thinking",
+                            "text": "**Examining Current Location**\n\nI've determined that the current location is Seattle. Now, I'm working on refining my plan to gather relevant information. I'll start by retrieving the weather forecast for Seattle, then identify suitable restaurants. Finally, I'll leverage the weather data to suggest activities tailored to Seattle's conditions.\n\n\n",
+                            "id": "",
+                            "summary": [],
+                            "metadata": {}
+                        },
+                        {
+                            "type": "thinking",
+                            "text": "**Finalizing the Strategy**\n\nNow I have initiated the planned steps. I executed the tool calls to obtain the weather details and local restaurant recommendations in Seattle. Next, I will leverage this information to retrieve a list of events happening in the city. Finally, I will summarize all the collected details into a cohesive and coherent report.\n\n\n",
+                            "id": "",
+                            "summary": [],
+                            "metadata": {}
+                        },
+                        {
+                            "type": "tool_call",
+                            "id": "gemini_-1923659020463805247",
+                            "call_id": "",
+                            "name": "get_weather",
+                            "arguments": {
+                                "city": "Seattle"
+                            },
+                            "metadata": {
+                                "google_thought_signature": "<binary data length=605>"
+                            }
+                        },
+                        {
+                            "type": "tool_call",
+                            "id": "gemini_-5017566657939224485",
+                            "call_id": "",
+                            "name": "get_restaurants",
+                            "arguments": {
+                                "city": "Seattle"
+                            },
+                            "metadata": {}
+                        }
+                    ],
+                    "id": null,
+                    "name": null,
+                    "timestamp": null,
+                    "metadata": {
+                        "finish_reason": "stop"
+                    }
+                },
+                {
+                    "role": "tool",
+                    "content": [
+                        {
+                            "type": "tool_result",
+                            "tool_use_id": "gemini_-1923659020463805247",
+                            "call_id": "",
+                            "name": "get_weather",
+                            "content": {
+                                "city": "Seattle",
+                                "condition": "snowy",
+                                "temperature": 71,
+                                "unit": "fahrenheit"
+                            },
+                            "is_error": false,
+                            "metadata": {}
+                        },
+                        {
+                            "type": "tool_result",
+                            "tool_use_id": "gemini_-5017566657939224485",
+                            "call_id": "",
+                            "name": "get_restaurants",
+                            "content": {
+                                "city": "Seattle",
+                                "restaurants": [
+                                    "Chez American Kitchen",
+                                    "Mama Italian Kitchen",
+                                    "Chez Italian Bistro"
+                                ]
+                            },
+                            "is_error": false,
+                            "metadata": {}
+                        }
+                    ],
+                    "id": null,
+                    "name": null,
+                    "timestamp": null,
+                    "metadata": {}
+                },
+                {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "type": "thinking",
+                            "text": "**Considering Anomalies**\n\nI'm currently dwelling on the recent analysis, particularly the Seattle data. The discrepancy between \"snowy\" and \"71\u00b0F\" is quite perplexing. I'm carefully reviewing the source material to ensure accurate interpretation before proceeding with the next stage of my plan.\n\n\n",
+                            "id": "",
+                            "summary": [],
+                            "metadata": {}
+                        },
+                        {
+                            "type": "thinking",
+                            "text": "**Implementing Requests**\n\nI've just initiated the API calls. I'm waiting for the results of the Seattle \"snowy\" activities and events queries now. My plan is to compile all of this, hoping for some insights.\n\n\n",
+                            "id": "",
+                            "summary": [],
+                            "metadata": {}
+                        },
+                        {
+                            "type": "tool_call",
+                            "id": "gemini_2704538508963538220",
+                            "call_id": "",
+                            "name": "get_activities",
+                            "arguments": {
+                                "weather": "snowy",
+                                "city": "Seattle"
+                            },
+                            "metadata": {
+                                "google_thought_signature": "<binary data length=725>"
+                            }
+                        },
+                        {
+                            "type": "tool_call",
+                            "id": "gemini_-6644750901429700432",
+                            "call_id": "",
+                            "name": "get_events",
+                            "arguments": {
+                                "city": "Seattle",
+                                "weather": "snowy"
+                            },
+                            "metadata": {}
+                        }
+                    ],
+                    "id": null,
+                    "name": null,
+                    "timestamp": null,
+                    "metadata": {
+                        "finish_reason": "stop"
+                    }
+                },
+                {
+                    "role": "tool",
+                    "content": [
+                        {
+                            "type": "tool_result",
+                            "tool_use_id": "gemini_2704538508963538220",
+                            "call_id": "",
+                            "name": "get_activities",
+                            "content": {
+                                "city": "Seattle",
+                                "weather": "snowy",
+                                "activities": [
+                                    "Indoor climbing",
+                                    "Museum tour",
+                                    "Aquarium"
+                                ]
+                            },
+                            "is_error": false,
+                            "metadata": {}
+                        },
+                        {
+                            "type": "tool_result",
+                            "tool_use_id": "gemini_-6644750901429700432",
+                            "call_id": "",
+                            "name": "get_events",
+                            "content": {
+                                "city": "Seattle",
+                                "weather": "snowy",
+                                "events": [
+                                    "Food festival (indoor)",
+                                    "Theater performance"
+                                ]
+                            },
+                            "is_error": false,
+                            "metadata": {}
+                        }
+                    ],
+                    "id": null,
+                    "name": null,
+                    "timestamp": null,
+                    "metadata": {}
+                },
+                {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "type": "thinking",
+                            "text": "**Reviewing the Data**\n\nI'm currently digesting the Seattle data, specifically the restaurant and activity options. I'm focusing on the contrast between the weather and available indoor activities. It feels paradoxical to have snow with such a high temperature! The restaurant choices offer a surprising diversity: American, Italian, and Italian again, perhaps with subtle differences.\n\n\n",
+                            "id": "",
+                            "summary": [],
+                            "metadata": {}
+                        },
+                        {
+                            "type": "thinking",
+                            "text": "**Exploring New Options**\n\nI've just added exploring indoor festivals and theatre performances to the activity list. The goal is to provide a complete picture of options despite the weather. The restaurant offerings now seem less critical to this plan.\n\n\n",
+                            "id": "",
+                            "summary": [],
+                            "metadata": {}
+                        },
+                        {
+                            "type": "tool_call",
+                            "id": "gemini_3909897102919969177",
+                            "call_id": "",
+                            "name": "create_summary",
+                            "arguments": {
+                                "location": "Seattle",
+                                "restaurants": [
+                                    "Chez American Kitchen",
+                                    "Mama Italian Kitchen",
+                                    "Chez Italian Bistro"
+                                ],
+                                "activities": [
+                                    "Indoor climbing",
+                                    "Museum tour",
+                                    "Aquarium"
+                                ],
+                                "weather_info": {
+                                    "condition": "snowy",
+                                    "temperature": 71
+                                },
+                                "events": [
+                                    "Food festival (indoor)",
+                                    "Theater performance"
+                                ]
+                            },
+                            "metadata": {
+                                "google_thought_signature": "<binary data length=552>"
+                            }
+                        }
+                    ],
+                    "id": null,
+                    "name": null,
+                    "timestamp": null,
+                    "metadata": {
+                        "finish_reason": "stop"
+                    }
+                },
+                {
+                    "role": "tool",
+                    "content": [
+                        {
+                            "type": "tool_result",
+                            "tool_use_id": "gemini_3909897102919969177",
+                            "call_id": "",
+                            "name": "create_summary",
+                            "content": {
+                                "summary": "\ud83c\udf0d LOCATION: Seattle\n\ud83c\udf24\ufe0f  WEATHER: snowy at 71\u00b0F\n\n\ud83c\udf7d\ufe0f  RESTAURANT RECOMMENDATIONS:\n   \u2022 Chez American Kitchen\n   \u2022 Mama Italian Kitchen\n   \u2022 Chez Italian Bistro\n\n\ud83c\udfaf ACTIVITIES:\n   \u2022 Indoor climbing\n   \u2022 Museum tour\n   \u2022 Aquarium\n\n\ud83c\udf89 LOCAL EVENTS:\n   \u2022 Food festival (indoor)\n   \u2022 Theater performance"
+                            },
+                            "is_error": false,
+                            "metadata": {}
+                        }
+                    ],
+                    "id": null,
+                    "name": null,
+                    "timestamp": null,
+                    "metadata": {}
+                },
+                {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "Of course! Since you're in Seattle today, here's a plan for you:\n\n\ud83c\udf0d **LOCATION:** Seattle  \n\ud83c\udf24\ufe0f **WEATHER:** Surprisingly, it's snowy but quite warm at 71\u00b0F.\n\n\ud83c\udf7d\ufe0f **RESTAURANT RECOMMENDATIONS:**\n*   **Chez American Kitchen** for some classic American dishes.\n*   **Mama Italian Kitchen** or **Chez Italian Bistro** if you're in the mood for Italian.\n\n\ud83c\udfaf **ACTIVITIES:**\nSince it's snowy outside, you might enjoy some indoor fun:\n*   **Indoor climbing** for something active.\n*   A **Museum tour** to soak in some culture.\n*   The **Seattle Aquarium** to see local marine life while staying dry.\n\n\ud83c\udf89 **LOCAL EVENTS:**\n*   An indoor **Food Festival** \u2013 a great way to sample different cuisines.\n*   A **Theater performance** for a relaxing evening.\n\nEnjoy your day in Seattle! Let me know if you need more details on any of these.",
+                            "id": "",
+                            "metadata": {}
+                        }
+                    ],
+                    "id": null,
+                    "name": null,
+                    "timestamp": null,
+                    "metadata": {
+                        "finish_reason": "stop"
+                    }
+                }
+            ]
+        },
+        "config": {
+            "model": "gemini-3-flash-preview",
+            "system_instruction": "You're a helpful assistant. Think through your response step by step and use the many tools you have available to you. You have tools to get you the user's location, the weather, restaurants, activities, and events in the area.",
+            "stream": true,
+            "max_output_tokens": null,
+            "temperature": null,
+            "top_p": null,
+            "top_k": null,
+            "tools": [
+                "get_location",
+                "get_weather",
+                "get_restaurants",
+                "get_activities",
+                "get_events",
+                "create_summary"
+            ],
+            "tool_choice": "auto",
+            "parallel_tool_calls": true,
+            "reasoning_effort": "low",
+            "reasoning_summary": "detailed",
+            "thinking_level": null,
+            "include_thoughts": null,
+            "thinking_budget": null,
+            "response_format": null,
+            "stop_sequences": [],
+            "store": null,
+            "verbosity": null,
+            "internal_web_search": false,
+            "internal_url_context": false,
+            "size": null,
+            "quality": null,
+            "count": 1,
+            "audio_voice": null,
+            "audio_format": null,
+            "seconds": null,
+            "fps": null,
+            "steps": null,
+            "seed": null,
+            "guidance_scale": null,
+            "output_quality": null,
+            "negative_prompt": null,
+            "output_format": null,
+            "width": null,
+            "height": null,
+            "frame_images": null,
+            "reference_images": null,
+            "disable_safety_checker": null,
+            "custom_configs": null,
+            "metadata": {}
+        },
+        "debug": true,
+        "stream_handler": "<common.socket.response.socket_printer.SocketPrinter object at 0x7f580bdc9be0>",
+        "request_id": "ac94be3a-433f-4d85-ac04-9b3695c9b352",
+        "created_at": "2026-01-01T18:28:30.859855+00:00",
+        "created_by": null,
+        "status": null,
+        "usage_history": [
+            {
+                "input_tokens": 629,
+                "output_tokens": 10,
+                "cached_input_tokens": 0,
+                "model": "gemini-3-flash-preview",
+                "api": "google",
+                "response_id": "z7xWaZfkEamqqtsP55XCyQ0",
+                "metadata": {}
+            },
+            {
+                "input_tokens": 1062,
+                "output_tokens": 32,
+                "cached_input_tokens": 0,
+                "model": "gemini-3-flash-preview",
+                "api": "google",
+                "response_id": "0bxWacyVMqf6qtsPl9un0A0",
+                "metadata": {}
+            },
+            {
+                "input_tokens": 1427,
+                "output_tokens": 46,
+                "cached_input_tokens": 0,
+                "model": "gemini-3-flash-preview",
+                "api": "google",
+                "response_id": "1LxWaYOzCYCoqtsPg4aUiQs",
+                "metadata": {}
+            },
+            {
+                "input_tokens": 1814,
+                "output_tokens": 84,
+                "cached_input_tokens": 0,
+                "model": "gemini-3-flash-preview",
+                "api": "google",
+                "response_id": "1rxWadSgHJmlmtkPqujUgQ4",
+                "metadata": {}
+            },
+            {
+                "input_tokens": 2210,
+                "output_tokens": 217,
+                "cached_input_tokens": 0,
+                "model": "gemini-3-flash-preview",
+                "api": "google",
+                "response_id": "17xWaYfBLOW6qtsPp4T1wQ0",
+                "metadata": {}
+            }
+        ],
+        "timing_history": [
+            {
+                "start_time": 1767292110.983959,
+                "end_time": 1767292114.1625984,
+                "api_call_duration": 3.15525221824646,
+                "tool_execution_duration": 0.005666017532348633,
+                "model": "gemini-3-flash-preview",
+                "iteration": 1
+            },
+            {
+                "start_time": 1767292114.1725087,
+                "end_time": 1767292116.4094672,
+                "api_call_duration": 2.2291066646575928,
+                "tool_execution_duration": 0.003698110580444336,
+                "model": "gemini-3-flash-preview",
+                "iteration": 2
+            },
+            {
+                "start_time": 1767292116.411252,
+                "end_time": 1767292118.726595,
+                "api_call_duration": 2.3068854808807373,
+                "tool_execution_duration": 0.00428318977355957,
+                "model": "gemini-3-flash-preview",
+                "iteration": 3
+            },
+            {
+                "start_time": 1767292118.7291782,
+                "end_time": 1767292120.9595034,
+                "api_call_duration": 2.223243474960327,
+                "tool_execution_duration": 0.0027298927307128906,
+                "model": "gemini-3-flash-preview",
+                "iteration": 4
+            },
+            {
+                "start_time": 1767292120.9624867,
+                "end_time": 1767292122.9643555,
+                "api_call_duration": 1.9963722229003906,
+                "tool_execution_duration": 4.0531158447265625e-06,
+                "model": "gemini-3-flash-preview",
+                "iteration": 5
+            }
+        ],
+        "tool_call_history": [
+            {
+                "iteration": 1,
+                "tool_calls_count": 1,
+                "tool_calls_details": [
+                    {
+                        "name": "get_location",
+                        "id": "gemini_-550285943019727131",
+                        "call_id": "",
+                        "success": true
+                    }
+                ]
+            },
+            {
+                "iteration": 2,
+                "tool_calls_count": 2,
+                "tool_calls_details": [
+                    {
+                        "name": "get_weather",
+                        "id": "gemini_-1923659020463805247",
+                        "call_id": "",
+                        "success": true
+                    },
+                    {
+                        "name": "get_restaurants",
+                        "id": "gemini_-5017566657939224485",
+                        "call_id": "",
+                        "success": true
+                    }
+                ]
+            },
+            {
+                "iteration": 3,
+                "tool_calls_count": 2,
+                "tool_calls_details": [
+                    {
+                        "name": "get_activities",
+                        "id": "gemini_2704538508963538220",
+                        "call_id": "",
+                        "success": true
+                    },
+                    {
+                        "name": "get_events",
+                        "id": "gemini_-6644750901429700432",
+                        "call_id": "",
+                        "success": true
+                    }
+                ]
+            },
+            {
+                "iteration": 4,
+                "tool_calls_count": 1,
+                "tool_calls_details": [
+                    {
+                        "name": "create_summary",
+                        "id": "gemini_3909897102919969177",
+                        "call_id": "",
+                        "success": true
+                    }
+                ]
+            }
+        ],
+        "metadata": {}
+    },
+    "iterations": 5,
+    "total_usage": {
+        "by_model": {
+            "gemini-3-flash-preview": {
+                "input_tokens": 7142,
+                "output_tokens": 389,
+                "cached_input_tokens": 0,
+                "total_tokens": 7531,
+                "api": "google",
+                "request_count": 5,
+                "cost": 0.004738000000000001
+            }
+        },
+        "total": {
+            "input_tokens": 7142,
+            "output_tokens": 389,
+            "cached_input_tokens": 0,
+            "total_tokens": 7531,
+            "total_requests": 5,
+            "unique_models": 1,
+            "total_cost": 0.004738000000000001
+        }
+    },
+    "timing_stats": {
+        "total_duration": 11.980396509170532,
+        "sum_duration": 11.963134765625,
+        "api_duration": 11.910860061645508,
+        "tool_duration": 0.016381263732910156,
+        "processing_duration": 0.05315518379211426,
+        "iterations": 5,
+        "avg_iteration_duration": 2.3960793018341064
+    },
+    "tool_call_stats": {
+        "total_tool_calls": 6,
+        "iterations_with_tools": 4,
+        "by_tool": {
+            "get_location": {
+                "count": 1,
+                "success": 1,
+                "error": 0
+            },
+            "get_weather": {
+                "count": 1,
+                "success": 1,
+                "error": 0
+            },
+            "get_restaurants": {
+                "count": 1,
+                "success": 1,
+                "error": 0
+            },
+            "get_activities": {
+                "count": 1,
+                "success": 1,
+                "error": 0
+            },
+            "get_events": {
+                "count": 1,
+                "success": 1,
+                "error": 0
+            },
+            "create_summary": {
+                "count": 1,
+                "success": 1,
+                "error": 0
+            }
+        }
+    },
+    "metadata": {
+        "finish_reason": "stop"
+    }
+}

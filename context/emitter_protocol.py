@@ -1,0 +1,48 @@
+from __future__ import annotations
+
+from typing import Any, Protocol, runtime_checkable
+
+from context.events import BrokerPayload, CompletionPayload, ToolEventPayload
+
+
+@runtime_checkable
+class Emitter(Protocol):
+    async def send_chunk(self, text: str) -> None: ...
+
+    async def send_status_update(
+        self,
+        status: str,
+        system_message: str | None = None,
+        user_message: str | None = None,
+        metadata: dict[str, Any] | None = None,
+    ) -> None: ...
+
+    async def send_data(self, data: Any) -> None: ...
+
+    async def send_completion(self, payload: CompletionPayload) -> None: ...
+
+    async def send_error(
+        self,
+        error_type: str,
+        message: str,
+        user_message: str | None = None,
+        code: str | None = None,
+        details: dict[str, Any] | None = None,
+    ) -> None: ...
+
+    async def send_tool_event(self, event_data: ToolEventPayload) -> None: ...
+
+    async def send_broker(self, broker: BrokerPayload) -> None: ...
+
+    async def send_end(self, reason: str = "complete") -> None: ...
+
+    async def send_cancelled(self) -> None: ...
+
+    async def fatal_error(
+        self,
+        error_type: str,
+        message: str,
+        user_message: str | None = None,
+        code: str | None = None,
+        details: dict[str, Any] | None = None,
+    ) -> None: ...

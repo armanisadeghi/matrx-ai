@@ -1,4 +1,5 @@
 import database_registry  # noqa: F401
+from database_registry import MANAGED_TABLES
 from matrx_utils import clear_terminal, vcprint
 from matrx_orm.schema_builder import SchemaManager
 
@@ -8,19 +9,6 @@ schema = "public"
 database_project = "supabase_automation_matrix"
 additional_schemas = ["auth"]
 save_direct = True
-
-# Only generate models and managers for these tables.
-# All other tables in the database are ignored.
-MANAGED_TABLES = {
-    "cx_conversation",
-    "cx_messages",
-    "cx_agent_memory",
-    "cx_media",
-    "cx_request",
-    "cx_tool_call",
-    "cx_user_request",
-    "ai_model",
-}
 
 schema_manager = SchemaManager(
     schema=schema,
