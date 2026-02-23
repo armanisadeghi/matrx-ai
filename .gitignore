@@ -40,5 +40,6 @@ coverage.xml
 *.log
 logs/
 
-# Matrx Teno Files
-temp/
+# Matrx Temp Files
+temp/*
+!temp/.gitkeep
