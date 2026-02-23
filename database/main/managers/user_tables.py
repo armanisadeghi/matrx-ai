@@ -11,23 +11,23 @@ from typing import Optional, Type, Any
 class UserTablesDTO(BaseDTO):
     id: str
 
-    async def _initialize_dto(self, user_tables_item):
+    async def _initialize_dto(self, model):
         '''Override the base initialization method.'''
-        self.id = str(user_tables_item.id)
-        await self._process_core_data(user_tables_item)
-        await self._process_metadata(user_tables_item)
-        await self._initial_validation(user_tables_item)
+        self.id = str(model.id)
+        await self._process_core_data(model)
+        await self._process_metadata(model)
+        await self._initial_validation(model)
         self.initialized = True
 
-    async def _process_core_data(self, user_tables_item):
+    async def _process_core_data(self, model):
         '''Process core data from the model item.'''
         pass
 
-    async def _process_metadata(self, user_tables_item):
+    async def _process_metadata(self, model):
         '''Process metadata from the model item.'''
         pass
 
-    async def _initial_validation(self, user_tables_item):
+    async def _initial_validation(self, model):
         '''Validate fields from the model item.'''
         pass
 

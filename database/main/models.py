@@ -3,10 +3,6 @@ from matrx_orm import BigIntegerField, BooleanField, CharField, DateTimeField, D
 from enum import Enum
 from dataclasses import dataclass
 
-verbose = False
-debug = False
-info = True
-
 class Users(Model):
     id = UUIDField(primary_key=True, null=False)
     email = CharField(null=False)
@@ -309,232 +305,22 @@ class CxToolCall(Model):
 
 model_registry.register_all(
 [
-        FieldNameMigrationLog,
-        MatrxMigrations,
-        Action,
-        AdminEmailLogs,
-        Admins,
-        AgentConversations,
-        AgentRequests,
-        AiAgent,
-        AiEndpoint,
-        AiModel,
-        AiModelEndpoint,
         AiProvider,
-        AiRuns,
-        AiSettings,
-        AiTasks,
-        AiTrainingData,
-        ApiRequestLog,
-        AppInstances,
-        AppSettings,
-        AppSyncStatus,
-        Applet,
-        AppletContainers,
-        Arg,
-        Attachments,
-        AudioLabel,
-        AudioRecording,
-        AudioRecordingUsers,
-        AutomationBoundaryBroker,
-        AutomationMatrix,
-        Broker,
-        BrokerValue,
-        BrokerValues,
-        BucketStructures,
-        BucketTreeStructures,
-        CanvasCommentLikes,
-        CanvasComments,
-        CanvasItems,
-        CanvasLikes,
-        CanvasScores,
-        CanvasViews,
-        Category,
-        CategoryConfigs,
-        CategoryMigrationMap,
-        CompiledRecipe,
-        ComponentGroups,
-        ContactSubmissions,
-        ContainerFields,
-        ContentBlocks,
-        ContentTemplate,
-        Conversation,
-        ConversationParticipants,
-        Conversations,
-        CustomAppConfigs,
-        CustomAppletConfigs,
         CxAgentMemory,
+        Prompts,
+        ShortcutCategories,
+        Tools,
+        UserTables,
+        AiModel,
+        ContentBlocks,
+        PromptBuiltins,
+        TableData,
         CxConversation,
         CxMedia,
         CxMessage,
-        CxMessages,
+        CxUserRequest,
         CxRequest,
         CxToolCall,
-        CxUserRequest,
-        DataBroker,
-        DataInputComponent,
-        DataOutputComponent,
-        DisplayOption,
-        DmConversationParticipants,
-        DmConversations,
-        DmMessages,
-        Emails,
-        Extractor,
-        FeedbackCategories,
-        FeedbackComments,
-        FeedbackUserMessages,
-        FieldComponents,
-        FileStructure,
-        FlashcardData,
-        FlashcardHistory,
-        FlashcardImages,
-        FlashcardSetRelations,
-        FlashcardSets,
-        FullSpectrumPositions,
-        GuestExecutionLog,
-        GuestExecutions,
-        HeatmapSaves,
-        HtmlExtractions,
-        InvitationCodes,
-        InvitationRequests,
-        MathCourseStructure,
-        MathProblems,
-        McpRegistry,
-        Message,
-        MessageBroker,
-        MessageReactions,
-        MessageTemplate,
-        Messages,
-        MicroserviceProject,
-        NodeCategory,
-        NoteDevices,
-        NoteDirectoryMappings,
-        NoteFolders,
-        NoteShares,
-        NoteSyncLog,
-        NoteVersions,
-        Notes,
-        OrganizationInvitations,
-        OrganizationMembers,
-        Organizations,
-        Permissions,
-        Processor,
-        Profiles,
-        ProjectInvitations,
-        ProjectMembers,
-        Projects,
-        PromptActions,
-        PromptAppCategories,
-        PromptAppErrors,
-        PromptAppExecutions,
-        PromptAppRateLimits,
-        PromptApps,
-        PromptBuiltins,
-        PromptShortcuts,
-        PromptTemplates,
-        Prompts,
-        QuizSessions,
-        Recipe,
-        RecipeBroker,
-        RecipeDisplay,
-        RecipeMessage,
-        RecipeMessageReorderQueue,
-        RecipeModel,
-        RecipeProcessor,
-        RegisteredFunction,
-        RegisteredNode,
-        RegisteredNodeResults,
-        RsAnalysis,
-        RsContent,
-        RsDocument,
-        RsKeyword,
-        RsKeywordSource,
-        RsMedia,
-        RsSource,
-        RsSourceTag,
-        RsSynthesis,
-        RsTag,
-        RsTemplate,
-        RsTopic,
-        SandboxInstances,
-        SchemaTemplates,
-        ScrapeBaseConfig,
-        ScrapeCachePolicy,
-        ScrapeConfiguration,
-        ScrapeCycleRun,
-        ScrapeCycleTracker,
-        ScrapeDomain,
-        ScrapeDomainDisallowedNotes,
-        ScrapeDomainNotes,
-        ScrapeDomainQuickScrapeSettings,
-        ScrapeDomainRobotsTxt,
-        ScrapeDomainSitemap,
-        ScrapeJob,
-        ScrapeOverride,
-        ScrapeOverrideValue,
-        ScrapeParsedPage,
-        ScrapePathPattern,
-        ScrapePathPatternCachePolicy,
-        ScrapePathPatternOverride,
-        ScrapeQuickFailureLog,
-        ScrapeTask,
-        ScrapeTaskResponse,
-        SharedCanvasItems,
-        ShortcutCategories,
-        SiteMetadata,
-        SmsConsent,
-        SmsConversations,
-        SmsMedia,
-        SmsMessages,
-        SmsNotificationPreferences,
-        SmsNotifications,
-        SmsPhoneNumbers,
-        SmsRateLimits,
-        SmsWebhookLogs,
-        Subcategory,
-        SubcategoryConfigs,
-        SystemAnnouncements,
-        SystemFunction,
-        SystemPromptCategories,
-        SystemPromptExecutions,
-        SystemPromptFunctionalityConfigs,
-        SystemPrompts,
-        SystemPromptsNew,
-        TableData,
-        TableFields,
-        TaskAssignments,
-        TaskAttachments,
-        TaskComments,
-        Tasks,
-        ToolTestSamples,
-        ToolUiComponents,
-        ToolUiIncidents,
-        Tools,
-        Transcripts,
-        Transformer,
-        UserAchievements,
-        UserBookmarks,
-        UserEmailPreferences,
-        UserFeedback,
-        UserFiles,
-        UserFollows,
-        UserListItems,
-        UserLists,
-        UserPreferences,
-        UserStats,
-        UserTables,
-        WcClaim,
-        WcImpairmentDefinition,
-        WcInjury,
-        WcReport,
-        Workflow,
-        WorkflowData,
-        WorkflowEdge,
-        WorkflowNode,
-        WorkflowNodeData,
-        WorkflowRelay,
-        WorkflowUserInput,
-        Workspaces,
         Users
     ]
 )
@@ -546,7 +332,7 @@ class AiProviderDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model):
+    async def from_model(cls, model: "Model"):
         return cls(id=str(model.id))
 
 
@@ -567,7 +353,7 @@ class CxAgentMemoryDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model):
+    async def from_model(cls, model: "Model"):
         return cls(id=str(model.id))
 
 
@@ -588,7 +374,7 @@ class PromptsDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model):
+    async def from_model(cls, model: "Model"):
         return cls(id=str(model.id))
 
 
@@ -609,7 +395,7 @@ class ShortcutCategoriesDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model):
+    async def from_model(cls, model: "Model"):
         return cls(id=str(model.id))
 
 
@@ -630,7 +416,7 @@ class ToolsDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model):
+    async def from_model(cls, model: "Model"):
         return cls(id=str(model.id))
 
 
@@ -651,7 +437,7 @@ class UserTablesDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model):
+    async def from_model(cls, model: "Model"):
         return cls(id=str(model.id))
 
 
@@ -672,7 +458,7 @@ class AiModelDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model):
+    async def from_model(cls, model: "Model"):
         return cls(id=str(model.id))
 
 
@@ -693,7 +479,7 @@ class ContentBlocksDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model):
+    async def from_model(cls, model: "Model"):
         return cls(id=str(model.id))
 
 
@@ -714,7 +500,7 @@ class PromptBuiltinsDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model):
+    async def from_model(cls, model: "Model"):
         return cls(id=str(model.id))
 
 
@@ -735,7 +521,7 @@ class TableDataDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model):
+    async def from_model(cls, model: "Model"):
         return cls(id=str(model.id))
 
 
@@ -756,7 +542,7 @@ class CxConversationDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model):
+    async def from_model(cls, model: "Model"):
         return cls(id=str(model.id))
 
 
@@ -777,7 +563,7 @@ class CxMediaDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model):
+    async def from_model(cls, model: "Model"):
         return cls(id=str(model.id))
 
 
@@ -798,7 +584,7 @@ class CxMessageDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model):
+    async def from_model(cls, model: "Model"):
         return cls(id=str(model.id))
 
 
@@ -819,7 +605,7 @@ class CxUserRequestDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model):
+    async def from_model(cls, model: "Model"):
         return cls(id=str(model.id))
 
 
@@ -840,7 +626,7 @@ class CxRequestDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model):
+    async def from_model(cls, model: "Model"):
         return cls(id=str(model.id))
 
 
@@ -861,7 +647,7 @@ class CxToolCallDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model):
+    async def from_model(cls, model: "Model"):
         return cls(id=str(model.id))
 
 

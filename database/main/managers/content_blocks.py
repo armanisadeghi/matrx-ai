@@ -11,23 +11,23 @@ from typing import Optional, Type, Any
 class ContentBlocksDTO(BaseDTO):
     id: str
 
-    async def _initialize_dto(self, content_blocks_item):
+    async def _initialize_dto(self, model):
         '''Override the base initialization method.'''
-        self.id = str(content_blocks_item.id)
-        await self._process_core_data(content_blocks_item)
-        await self._process_metadata(content_blocks_item)
-        await self._initial_validation(content_blocks_item)
+        self.id = str(model.id)
+        await self._process_core_data(model)
+        await self._process_metadata(model)
+        await self._initial_validation(model)
         self.initialized = True
 
-    async def _process_core_data(self, content_blocks_item):
+    async def _process_core_data(self, model):
         '''Process core data from the model item.'''
         pass
 
-    async def _process_metadata(self, content_blocks_item):
+    async def _process_metadata(self, model):
         '''Process metadata from the model item.'''
         pass
 
-    async def _initial_validation(self, content_blocks_item):
+    async def _initial_validation(self, model):
         '''Validate fields from the model item.'''
         pass
 
