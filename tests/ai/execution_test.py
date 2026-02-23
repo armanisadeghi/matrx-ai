@@ -1,21 +1,29 @@
 import asyncio
-import uuid
+
+
 from client.unified_client import (
     UnifiedAIClient,
     AIMatrixRequest,
 )
 from client.ai_requests import execute_until_complete
 from datetime import datetime
-from initialize_systems import initialize
+# from initialize_systems import initialize
 import json
 from pathlib import Path
 from shared.json_utils import to_matrx_json  # TODO: move to matrx_utils or inline json.dumps
 from matrx_utils import vcprint, clear_terminal, cleanup_async_resources
 import rich
 from prompts.session import SimpleSession
-from tests.ai.test_context import create_test_session, create_test_execution_context, get_test_user_id
+from tests.ai.test_context import create_test_session, create_test_execution_context
+from matrx_utils import clear_terminal, vcprint
+import dotenv
+import os
 
-initialize()
+dotenv.load_dotenv()
+
+LOCAL_USER_ID = os.getenv("LOCAL_USER_ID")
+
+# initialize()
 _ctx_token = create_test_execution_context(debug=False)
 
 
@@ -311,7 +319,7 @@ if __name__ == "__main__":
                         },
                         {
                             "type": "input_image",
-                            "image_url": f"https://txzxabzwovsujtloxrus.supabase.co/storage/v1/object/public/user-public-assets/user-{get_test_user_id()}/mcp-logo.png",
+                            "image_url": f"https://txzxabzwovsujtloxrus.supabase.co/storage/v1/object/public/user-public-assets/user-{LOCAL_USER_ID}/mcp-logo.png",
                         },
                     ],
                 },
@@ -338,7 +346,7 @@ if __name__ == "__main__":
                         },
                         {
                             "type": "input_document",
-                            "url": f"https://txzxabzwovsujtloxrus.supabase.co/storage/v1/object/public/user-public-assets/user-{get_test_user_id()}/Ads%20Conv%20Analysis.pdf",
+                            "url": f"https://txzxabzwovsujtloxrus.supabase.co/storage/v1/object/public/user-public-assets/user-{LOCAL_USER_ID}/Ads%20Conv%20Analysis.pdf",
                         },
                     ],
                 },

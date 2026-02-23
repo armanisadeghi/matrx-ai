@@ -5,7 +5,7 @@
 
 output:
   python_root: /Volumes/Samsung2TB/code/matrx-ai
-  typescript_root: /Volumes/Samsung2TB/code/junk
+  typescript_root: /Volumes/Samsung2TB/code/junk # Always OURSIDE of the project
   save_direct: true
   python: true
   typescript: false # Always false in this project

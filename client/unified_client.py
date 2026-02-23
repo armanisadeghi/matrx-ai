@@ -3,7 +3,7 @@ Unified AI API System for OpenAI, Anthropic, and Google Gemini
 Preserves ALL content types and metadata from all providers
 """
 
-from models.ai_model_manager import get_ai_model_manager
+from database.custom.ai_model_manager import get_ai_model_manager
 from typing import Any, Dict, List, Literal, Optional
 from dataclasses import dataclass, field, asdict
 from datetime import datetime, timezone

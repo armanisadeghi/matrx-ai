@@ -27,7 +27,7 @@ from conversation import (
     cx_user_request_manager,
     cx_request_manager,
 )
-from models.ai_model_manager import get_ai_model_manager
+from database.custom.ai_model_manager import get_ai_model_manager
 
 
 def _is_valid_uuid(value: Optional[str]) -> bool:
