@@ -1,6 +1,8 @@
 """
 Chat router — streaming-first LLM completions.
 
+  POST /api/ai/chat — one-shot or managed chat
+
 Both SSE and NDJSON modes are supported. The mock generator here is a
 stand-in for your real provider integrations; replace `_mock_stream` with
 calls to your ORM / provider layer when you wire those in.
@@ -17,10 +19,10 @@ from fastapi.responses import ORJSONResponse
 from app.core.streaming import make_ndjson_response, make_sse_response, text_chunks_to_sse
 from app.models.chat import ChatRequest, ChatResponse, StreamMode
 
-router = APIRouter(prefix="/chat", tags=["chat"])
+router = APIRouter(prefix="/api/ai", tags=["chat"])
 
 
-@router.post("")
+@router.post("/chat")
 async def chat(request: Request, body: ChatRequest) -> Any:
     if not body.stream:
         return await _chat_blocking(body)

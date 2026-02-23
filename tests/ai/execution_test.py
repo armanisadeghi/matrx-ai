@@ -443,8 +443,8 @@ if __name__ == "__main__":
     
     # options: simple_chat_settings, single_tool_settings_v2, image_generation_settings, complex_settings, 
     # document_input_settings, youtube_url_settings, audio_transcription_test_settings, audio_direct_google_settings
-    settings_to_use = simple_chat_settings
-    settings_to_use["config"]["model"] = claude_adaptive
+    settings_to_use = multiple_tools_settings
+    settings_to_use["config"]["model"] = google
     # settings_to_use["debug"] = True
 
     # Run autonomous execution that handles all tool calls automatically
@@ -453,7 +453,7 @@ if __name__ == "__main__":
     # )
 
     session = create_test_session(
-        new_conversation=True,
+        # new_conversation=True,
         debug=False,
     )
     final_result = asyncio.run(

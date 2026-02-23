@@ -1,9 +1,9 @@
 """
 Tool router.
 
-  GET  /tool          — list registered tools
-  GET  /tool/{name}   — get a tool's definition
-  POST /tool/call     — invoke a tool (async, returns result or SSE stream)
+  GET  /api/tools/test/list       — list registered tools
+  GET  /api/tools/test/{name}     — get a tool's definition
+  POST /api/tools/test/execute    — invoke a tool (returns result)
 """
 
 import time
@@ -16,7 +16,7 @@ from fastapi.responses import ORJSONResponse
 from app.core.exceptions import ToolNotFoundError
 from app.models.tool import ToolCallRequest, ToolCallResult, ToolDefinition, ToolParameter
 
-router = APIRouter(prefix="/tool", tags=["tool"])
+router = APIRouter(prefix="/api/tools/test", tags=["tool"])
 
 
 # ---------------------------------------------------------------------------
@@ -50,7 +50,7 @@ _TOOL_REGISTRY: dict[str, ToolDefinition] = {
 }
 
 
-@router.get("", response_class=ORJSONResponse)
+@router.get("/list", response_class=ORJSONResponse)
 async def list_tools() -> list[ToolDefinition]:
     return list(_TOOL_REGISTRY.values())
 
@@ -65,8 +65,8 @@ async def get_tool(
     return tool
 
 
-@router.post("/call", response_class=ORJSONResponse)
-async def call_tool(body: ToolCallRequest) -> ToolCallResult:
+@router.post("/execute", response_class=ORJSONResponse)
+async def execute_tool(body: ToolCallRequest) -> ToolCallResult:
     tool = _TOOL_REGISTRY.get(body.tool_name)
     if tool is None:
         raise ToolNotFoundError(body.tool_name)

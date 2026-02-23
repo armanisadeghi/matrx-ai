@@ -15,10 +15,14 @@ class AgentStatus(StrEnum):
 
 
 class AgentRunRequest(BaseModel):
-    messages: list[Message] = Field(..., min_length=1)
+    """Body for POST /api/ai/agents/{agent_id} — start a new agent conversation."""
+    user_input: str | None = None
+    messages: list[Message] | None = None
+    variables: dict[str, Any] = Field(default_factory=dict)
+    config_overrides: dict[str, Any] = Field(default_factory=dict)
     stream: bool = True
     stream_mode: StreamMode = StreamMode.sse
-    config: dict[str, Any] = Field(default_factory=dict)
+    debug: bool = False
     metadata: dict[str, Any] = Field(default_factory=dict)
 
 

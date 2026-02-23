@@ -22,7 +22,7 @@ from app.config import get_settings
 from app.core.exceptions import MatrxException, matrx_exception_handler, unhandled_exception_handler
 from app.core.middleware import RequestContextMiddleware
 from app.core.sentry import init_sentry
-from app.routers import agent, chat, health, tool
+from app.routers import agent, chat, conversation, health, tool
 
 # Sentry must be initialised before the app is created so that import-time
 # errors and startup exceptions are captured.
@@ -119,6 +119,8 @@ def create_app() -> FastAPI:
     app.include_router(health.router)
     app.include_router(chat.router)
     app.include_router(agent.router)
+    app.include_router(agent.cancel_router)
+    app.include_router(conversation.router)
     app.include_router(tool.router)
 
     return app

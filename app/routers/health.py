@@ -6,11 +6,25 @@ from fastapi.responses import ORJSONResponse
 from app.config import get_settings
 from app.models.health import HealthStatus
 
-router = APIRouter(prefix="/health", tags=["health"])
+router = APIRouter(prefix="/api/health", tags=["health"])
 
 
 @router.get("", response_class=ORJSONResponse)
 async def health() -> HealthStatus:
+    settings = get_settings()
+    checks = await _run_checks()
+    overall = "ok" if all(v == "ok" for v in checks.values()) else "degraded"
+    return HealthStatus(
+        status=overall,
+        version=settings.app_version,
+        environment=settings.environment,
+        checks=checks,
+    )
+
+
+@router.get("/detailed", response_class=ORJSONResponse)
+async def health_detailed() -> HealthStatus:
+    """Detailed health with component-level status checks."""
     settings = get_settings()
     checks = await _run_checks()
     overall = "ok" if all(v == "ok" for v in checks.values()) else "degraded"

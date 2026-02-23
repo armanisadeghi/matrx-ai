@@ -1,9 +1,10 @@
 """
 Agent router.
 
-  POST /agent/{agent_id}/run   — stream an agent execution
-  GET  /agent/{agent_id}       — fetch agent status / metadata
-  POST /agent/{agent_id}/stop  — request graceful stop
+  POST /api/ai/agents/{agent_id}        — start a new agent conversation (streaming)
+  POST /api/ai/agents/{agent_id}/warm   — pre-warm / cache agent (no body, fire-and-forget)
+  GET  /api/ai/agents/{agent_id}        — fetch agent status / metadata
+  POST /api/ai/cancel/{request_id}      — request graceful cancellation
 
 The `agent_id` path parameter is dynamic and opaque; your ORM layer will
 resolve it to a concrete agent implementation.
@@ -22,14 +23,15 @@ from app.core.exceptions import AgentNotFoundError
 from app.core.streaming import make_ndjson_response, make_sse_response
 from app.models.agent import AgentEvent, AgentInfo, AgentRunRequest, AgentStatus, StreamMode
 
-router = APIRouter(prefix="/agent", tags=["agent"])
+router = APIRouter(prefix="/api/ai/agents", tags=["agent"])
 
 
-@router.post("/{agent_id}/run")
-async def run_agent(
+@router.post("/{agent_id}")
+async def start_agent(
     agent_id: str = Path(..., description="Unique agent identifier"),
     body: AgentRunRequest = ...,
 ) -> Any:
+    """Start a new agent conversation. The server generates the conversation_id."""
     _assert_agent_exists(agent_id)
 
     stream = _mock_agent_stream(agent_id, body)
@@ -52,6 +54,15 @@ async def run_agent(
     return make_ndjson_response(_to_ndjson())
 
 
+@router.post("/{agent_id}/warm")
+async def warm_agent(
+    agent_id: str = Path(..., description="Unique agent identifier"),
+) -> ORJSONResponse:
+    """Pre-warm / cache the agent so the first real request is faster."""
+    # TODO: wire real cache-warming logic here
+    return ORJSONResponse({"status": "ok", "agent_id": agent_id})
+
+
 @router.get("/{agent_id}", response_class=ORJSONResponse)
 async def get_agent(
     agent_id: str = Path(..., description="Unique agent identifier"),
@@ -64,12 +75,20 @@ async def get_agent(
     )
 
 
-@router.post("/{agent_id}/stop", response_class=ORJSONResponse)
-async def stop_agent(
-    agent_id: str = Path(..., description="Unique agent identifier"),
+# ---------------------------------------------------------------------------
+# Cancel — POST /api/ai/cancel/{request_id}
+# ---------------------------------------------------------------------------
+
+cancel_router = APIRouter(prefix="/api/ai", tags=["agent"])
+
+
+@cancel_router.post("/cancel/{request_id}", response_class=ORJSONResponse)
+async def cancel_request(
+    request_id: str = Path(..., description="Request ID to cancel"),
 ) -> ORJSONResponse:
-    _assert_agent_exists(agent_id)
-    return ORJSONResponse({"agent_id": agent_id, "status": "stop_requested"})
+    """Request graceful cancellation of a running agent/conversation request."""
+    # TODO: wire real cancellation logic here
+    return ORJSONResponse({"request_id": request_id, "status": "cancel_requested"})
 
 
 # ---------------------------------------------------------------------------
