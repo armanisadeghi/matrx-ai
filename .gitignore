@@ -39,3 +39,6 @@ coverage.xml
 # Logs
 *.log
 logs/
+
+# Matrx Teno Files
+temp/

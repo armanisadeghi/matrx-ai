@@ -15,7 +15,6 @@ dependencies = [
     "httpx>=0.28.0",
     "orjson>=3.10.0",
     "python-dotenv>=1.0.0",
-
     # --- AI providers ---
     "anthropic",
     "openai",
@@ -24,18 +23,16 @@ dependencies = [
     "groq",
     "together",
     "xai-sdk",
-
     # --- Supabase & database ---
     "supabase",
-
     # --- Matrx ecosystem ---
     "matrx-utils>=1.0.4",
-    "matrx-orm>=1.5.3",
-
+    "matrx-orm>=2.0.7",
     # --- Utilities used by ai module ---
     "rich",
     "tiktoken",
     "aiofiles",
+    "pip>=26.0.1",
 ]
 
 [project.optional-dependencies]
@@ -70,3 +67,6 @@ typeCheckingMode = "standard"
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+
+[tool.uv.sources]
+matrx-orm = { path = "../matrx-orm", editable = true }

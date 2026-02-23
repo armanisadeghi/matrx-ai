@@ -1,0 +1,104 @@
+# =============================================================================
+# matrx-orm configuration — matrx-ai
+# =============================================================================
+# Run:  python generate.py
+
+output:
+  python_root: /Volumes/Samsung2TB/code/matrx-ai
+  typescript_root: /Volumes/Samsung2TB/code/matrx-ai/app
+  save_direct: true  # set true once you've committed pending changes
+  python: true
+  typescript: true
+  json: true
+
+# =============================================================================
+# Databases
+# =============================================================================
+databases:
+  - name: supabase_automation_matrix
+    env_prefix: SUPABASE_MATRIX
+    alias: main
+    additional_schemas:
+      - auth
+    manager_config_overrides:
+      ai_model:
+        relations:
+          - ai_provider
+          - ai_model_endpoint
+          - ai_settings
+          - recipe_model
+        filter_fields:
+          - name
+          - common_name
+          - provider
+          - model_class
+          - model_provider
+      data_input_component:
+        relations:
+          - message_broker
+          - broker
+          - data_broker
+        filter_fields:
+          - options
+          - component
+      compiled_recipe:
+        relations:
+          - recipe
+          - applet
+        filter_fields:
+          - recipe_id
+          - user_id
+          - version
+        include_core_relations: true
+        include_filter_fields: true
+
+  - name: external_postgres
+    env_prefix: POSTGRES
+    alias: external
+    additional_schemas: []
+
+# =============================================================================
+# Schema generation
+# =============================================================================
+# manager_flags sets the default methods included in every generated manager
+# for this generation run.  Per-table manager_config_overrides (in databases
+# above) stack on top and can override individual flags per table.
+#
+# Defaults shown match the system defaults — only set what you want to change.
+#
+generate:
+  - database: supabase_automation_matrix
+    schema: public
+    include_tables:
+      - cx_conversation
+      - cx_messages
+      - cx_agent_memory
+      - cx_media
+      - cx_request
+      - cx_tool_call
+      - cx_user_request
+      - ai_model
+      - tools
+      - prompts
+      - prompt_builtins
+      - content_blocks
+      - table_data
+      - ai_provider
+      - shortcut_categories
+      - user_tables
+    manager_flags:
+      include_core_relations: true      # FK/IFK fetch methods
+      include_filter_fields: true       # filter_by_* methods
+      include_active_relations: false
+      include_active_methods: false
+      include_or_not_methods: false
+      include_to_dict_methods: false
+      include_to_dict_relations: false
+
+# =============================================================================
+# Debug
+# =============================================================================
+debug:
+  info: false
+  verbose: false
+  debug: false
