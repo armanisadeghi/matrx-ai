@@ -71,7 +71,7 @@ generate:
     schema: public
     include_tables:
       - cx_conversation
-      - cx_messages
+      - cx_message
       - cx_agent_memory
       - cx_media
       - cx_request
