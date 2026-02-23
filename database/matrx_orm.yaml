@@ -5,10 +5,10 @@
 
 output:
   python_root: /Volumes/Samsung2TB/code/matrx-ai
-  typescript_root: /Volumes/Samsung2TB/code/junk
-  save_direct: true  # set true once you've committed pending changes
+  typescript_root: /Volumes/Samsung2TB/code/junk # Always OURSIDE of the project
+  save_direct: true
   python: true
-  typescript: false
+  typescript: false # Always false in this project
   json: true
 
 # =============================================================================
