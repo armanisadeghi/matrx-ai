@@ -1,12 +1,11 @@
 from __future__ import annotations
 
 import asyncio
-import logging
 import time
 from collections import defaultdict
 from typing import Any, Callable, Coroutine
 
-logger = logging.getLogger(__name__)
+from matrx_utils import vcprint
 
 
 CleanupFn = Callable[[], Coroutine[Any, Any, None]]
@@ -59,7 +58,7 @@ class ToolLifecycleManager:
             try:
                 await fn()
             except Exception as exc:
-                logger.warning("Cleanup error for conversation '%s': %s", conversation_id, exc)
+                vcprint(f"Cleanup error for conversation '{conversation_id}': {exc}", "[ToolLifecycle] Cleanup callback failed", color="red")
                 errors += 1
         return len(fns) - errors
 
@@ -73,7 +72,7 @@ class ToolLifecycleManager:
 
         for conv_id in idle_conversations:
             await self.cleanup_conversation(conv_id)
-            logger.info("Cleaned up idle conversation '%s'", conv_id)
+            vcprint(f"Cleaned up idle conversation '{conv_id}'", "[ToolLifecycle] Idle cleanup", color="cyan")
 
         return idle_conversations
 
@@ -106,11 +105,11 @@ class ToolLifecycleManager:
                 await asyncio.sleep(self._sweep_interval_seconds)
                 cleaned = await self.cleanup_idle()
                 if cleaned:
-                    logger.info("Sweep cleaned %d idle conversations", len(cleaned))
+                    vcprint(f"Sweep cleaned {len(cleaned)} idle conversations", "[ToolLifecycle] Sweep", color="cyan")
             except asyncio.CancelledError:
                 break
             except Exception as exc:
-                logger.error("Sweep error: %s", exc)
+                vcprint(f"Sweep error: {exc}", "[ToolLifecycle] Sweep error", color="red")
 
     # ------------------------------------------------------------------
     # Info

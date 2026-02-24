@@ -66,7 +66,7 @@ async def text_analyze(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     )
 
 
-async def regex_extract(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+async def text_regex_extract(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     started_at = time.time()
     parsed = RegexExtractArgs(**args)
 

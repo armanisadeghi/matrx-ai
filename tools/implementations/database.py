@@ -1,14 +1,5 @@
 from __future__ import annotations
 
-# NOTE: This module INTENTIONALLY uses the Supabase client directly (not the ORM).
-# It provides AI agents with controlled, sandboxed database access (db_query, db_insert,
-# db_update, db_schema tools). The direct client usage is required because:
-#   1. Agents construct dynamic SQL/table queries at runtime — the ORM managers are
-#      table-specific singletons and can't serve arbitrary table access.
-#   2. Security is enforced here via BLOCKED_TABLES, READ_ONLY_TABLES, _is_safe_select,
-#      and the execute_safe_query RPC rather than relying on ORM-level guards.
-# Do NOT convert this to ORM usage.
-
 import logging
 import re
 import time
@@ -20,9 +11,9 @@ from tools.models import ToolContext, ToolError, ToolResult
 logger = logging.getLogger(__name__)
 
 
-def _get_supabase():
-    from shared.supabase_client import get_supabase_client
-    return get_supabase_client()
+def _get_async_supabase():
+    from common.supabase.supabase_client import get_async_supabase_client
+    return get_async_supabase_client()
 
 BLOCKED_TABLES = {"auth", "cx_conversation", "cx_message", "cx_user_request", "cx_request"}
 READ_ONLY_TABLES = {"ai_models", "tools", "prompt_builtins"}
@@ -77,8 +68,8 @@ async def db_query(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         query_with_limit += f" LIMIT {parsed.limit}"
 
     try:
-        client = _get_supabase()
-        response = client.rpc(
+        client = _get_async_supabase()
+        response = await client.rpc(
             "execute_safe_query",
             {"query": query_with_limit},
         ).execute()
@@ -146,8 +137,8 @@ async def db_insert(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         for row in data:
             row.setdefault("user_id", ctx.user_id)
 
-        client = _get_supabase()
-        response = client.table(parsed.table).insert(data).execute()
+        client = _get_async_supabase()
+        response = await client.table(parsed.table).insert(data).execute()
         return ToolResult(
             success=True,
             output={"inserted": len(response.data) if response.data else 0, "data": response.data},
@@ -192,11 +183,11 @@ async def db_update(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         )
 
     try:
-        client = _get_supabase()
+        client = _get_async_supabase()
         query = client.table(parsed.table).update(parsed.data)
         for col, val in parsed.match.items():
             query = query.eq(col, val)
-        response = query.execute()
+        response = await query.execute()
 
         return ToolResult(
             success=True,
@@ -222,10 +213,10 @@ async def db_schema(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     parsed = DbSchemaArgs(**args)
 
     try:
-        client = _get_supabase()
+        client = _get_async_supabase()
         if parsed.table:
             safe_table = parsed.table.replace("'", "''")
-            response = client.rpc(
+            response = await client.rpc(
                 "execute_safe_query",
                 {
                     "query": (
@@ -249,7 +240,7 @@ async def db_schema(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
                 call_id=ctx.call_id,
             )
         else:
-            response = client.rpc(
+            response = await client.rpc(
                 "execute_safe_query",
                 {
                     "query": (

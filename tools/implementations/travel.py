@@ -11,12 +11,12 @@ from typing import Any
 from tools.models import ToolContext, ToolResult
 
 
-async def get_location(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+async def travel_get_location(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     cities = ["San Francisco", "New York", "Austin", "Seattle", "Miami"]
     return ToolResult(success=True, output={"city": random.choice(cities)})
 
 
-async def get_weather(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+async def travel_get_weather(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     city = args.get("city", "Unknown")
     conditions = ["sunny", "rainy", "cloudy", "snowy", "windy"]
     return ToolResult(success=True, output={
@@ -27,7 +27,7 @@ async def get_weather(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     })
 
 
-async def get_restaurants(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+async def travel_get_restaurants(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     city = args.get("city", "Unknown")
     cuisines = ["Italian", "Mexican", "Japanese", "American", "Thai", "French"]
     prefixes = ["The", "Chez", "Casa", "Mama"]
@@ -39,7 +39,7 @@ async def get_restaurants(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     return ToolResult(success=True, output={"city": city, "restaurants": restaurants})
 
 
-async def get_activities(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+async def travel_get_activities(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     city = args.get("city", "Unknown")
     weather = args.get("weather", "sunny")
 
@@ -50,7 +50,7 @@ async def get_activities(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     return ToolResult(success=True, output={"city": city, "weather": weather, "activities": activities})
 
 
-async def get_events(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+async def travel_get_events(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     city = args.get("city", "Unknown")
     weather = args.get("weather", "sunny")
 
@@ -61,7 +61,7 @@ async def get_events(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     return ToolResult(success=True, output={"city": city, "weather": weather, "events": events})
 
 
-async def create_travel_summary(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+async def travel_create_summary(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     location = args.get("location", "Unknown")
     weather_info = args.get("weather_info", {})
     restaurants = args.get("restaurants", [])
@@ -75,7 +75,7 @@ async def create_travel_summary(args: dict[str, Any], ctx: ToolContext) -> ToolR
         f"LOCATION: {location}\n"
         f"WEATHER: {condition} at {temperature}°F\n\n"
         f"RESTAURANT RECOMMENDATIONS:\n" + "\n".join(f"  - {r}" for r in restaurants) + "\n\n"
-        f"ACTIVITIES:\n" + "\n".join(f"  - {a}" for a in activities) + "\n\n"
-        f"LOCAL EVENTS:\n" + "\n".join(f"  - {e}" for e in events)
+        "ACTIVITIES:\n" + "\n".join(f"  - {a}" for a in activities) + "\n\n"
+        "LOCAL EVENTS:\n" + "\n".join(f"  - {e}" for e in events)
     )
     return ToolResult(success=True, output={"summary": summary})

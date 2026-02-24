@@ -22,7 +22,7 @@ SAFE_MATH_NAMES.update({
 })
 
 
-async def calculate(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+async def math_calculate(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     started_at = time.time()
     parsed = CalculateArgs(**args)
 

@@ -7,7 +7,7 @@ from tools.models import ToolContext, ToolError, ToolResult
 VALID_COMPONENT_TYPES = {"dropdown", "checkboxes", "radio", "toggle", "slider", "input", "textarea"}
 
 
-async def ask_user_questions(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+async def interaction_ask(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     introduction = args.get("introduction", "")
     if introduction and not isinstance(introduction, str):
         return ToolResult(success=False, error=ToolError(error_type="validation", message="'introduction' must be a string."))

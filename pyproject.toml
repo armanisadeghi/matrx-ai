@@ -63,10 +63,16 @@ ignore = ["E501"]
 [tool.pyright]
 pythonVersion = "3.13"
 typeCheckingMode = "standard"
+venvPath = "."
+venv = ".venv"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+
+[tool.pyrefly]
+python-interpreter-path = ".venv/bin/python3"
+python-version = "3.13"
 
 [tool.uv.sources]
 matrx-orm = { path = "../matrx-orm", editable = true }

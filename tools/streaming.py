@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING, Any, Literal
 from pydantic import BaseModel, Field
 
 from context.emitter_protocol import Emitter
+from matrx_utils import vcprint
 
 if TYPE_CHECKING:
     from tools.models import ToolResult
@@ -109,6 +110,7 @@ class ToolStreamManager:
             elif output is not None:
                 data["result"] = output
 
+        vcprint(result, "Tool Result", color="green")
         await self.emit(ToolStreamEvent(
             event="tool_completed",
             call_id=self.call_id,

@@ -5,7 +5,7 @@ from tools.models import ToolContext, ToolError, ToolResult
 from matrx_utils import vcprint
 
 
-async def create_user_list(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+async def userlist_create(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     from user_data.user_list_creator import UserListCreator
 
     list_name = args.get("list_name", "")
@@ -55,7 +55,7 @@ async def create_user_list(args: dict[str, Any], ctx: ToolContext) -> ToolResult
         )
 
 
-async def create_simple_list(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+async def userlist_create_simple(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     from user_data.user_list_creator import UserListCreator
 
     list_name = args.get("list_name", "")
@@ -124,7 +124,7 @@ def _make_serializable(obj: Any) -> Any:
     return obj
 
 
-async def get_user_lists(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+async def userlist_get_all(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     from matrx_orm.sql_executor import execute_standard_query
 
     page = max(1, args.get("page", 1))
@@ -173,7 +173,7 @@ async def get_user_lists(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         )
 
 
-async def get_list_details(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+async def userlist_get_details(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     from matrx_orm.sql_executor import execute_standard_query
 
     list_id = args.get("list_id")
@@ -220,7 +220,7 @@ async def get_list_details(args: dict[str, Any], ctx: ToolContext) -> ToolResult
         )
 
 
-async def update_list_item(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+async def userlist_update_item(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     from matrx_orm.sql_executor import execute_standard_query
 
     item_id = args.get("item_id")
@@ -232,7 +232,7 @@ async def update_list_item(args: dict[str, Any], ctx: ToolContext) -> ToolResult
 
     update_fields = {
         k: args[k]
-        for k in ("label", "description", "help_text", "group_name")
+        for k in ("label", "description", "help_text", "group_name", "is_public", "authenticated_read", "public_read", "icon_name")
         if k in args
     }
     if not update_fields:
@@ -250,10 +250,14 @@ async def update_list_item(args: dict[str, Any], ctx: ToolContext) -> ToolResult
             {
                 "item_id": item_id,
                 "user_id": ctx.user_id,
-                **{
-                    k: update_fields.get(k)
-                    for k in ("label", "description", "help_text", "group_name")
-                },
+                "label": update_fields.get("label"),
+                "description": update_fields.get("description"),
+                "help_text": update_fields.get("help_text"),
+                "group_name": update_fields.get("group_name"),
+                "is_public": args.get("is_public"),
+                "authenticated_read": args.get("authenticated_read"),
+                "public_read": args.get("public_read"),
+                "icon_name": args.get("icon_name"),
             },
         )
         return ToolResult(
@@ -268,7 +272,7 @@ async def update_list_item(args: dict[str, Any], ctx: ToolContext) -> ToolResult
         )
 
 
-async def batch_update_list_items(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+async def userlist_batch_update(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     from matrx_orm.sql_executor import execute_standard_query
 
     list_id = args.get("list_id")
@@ -305,6 +309,10 @@ async def batch_update_list_items(args: dict[str, Any], ctx: ToolContext) -> Too
                     "description": item.get("description"),
                     "help_text": item.get("help_text"),
                     "group_name": item.get("group_name"),
+                    "is_public": item.get("is_public"),
+                    "authenticated_read": item.get("authenticated_read"),
+                    "public_read": item.get("public_read"),
+                    "icon_name": item.get("icon_name"),
                 },
             )
             success_count += 1

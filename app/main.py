@@ -6,6 +6,7 @@ Key design decisions:
   - ORJSONResponse is the default; ~10× faster than stdlib json
   - Lifespan context manager replaces deprecated on_startup/on_shutdown events
   - CORS is permissive in dev; lock down allowed_origins in production via .env
+  - AuthMiddleware on every request → creates AppContext with emitter + auth info
 """
 
 import logging
@@ -14,7 +15,7 @@ from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
 import uvloop
-from fastapi import FastAPI
+from fastapi import APIRouter, Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
 
@@ -22,7 +23,10 @@ from app.config import get_settings
 from app.core.exceptions import MatrxException, matrx_exception_handler, unhandled_exception_handler
 from app.core.middleware import RequestContextMiddleware
 from app.core.sentry import init_sentry
+from app.dependencies.auth import require_admin, require_authenticated, require_guest_or_above
+from app.middleware.auth import AuthMiddleware
 from app.routers import agent, chat, conversation, health, tool
+from matrx_utils import vcprint
 
 # Sentry must be initialised before the app is created so that import-time
 # errors and startup exceptions are captured.
@@ -71,14 +75,20 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
         "Starting %s v%s [%s]", settings.app_name, settings.app_version, settings.environment
     )
 
-    # Place async resource initialisation here (DB pools, HTTP clients, etc.)
-    # e.g.:  app.state.http_client = httpx.AsyncClient()
+    # Initialize tool system
+    try:
+        from tools.handle_tool_calls import initialize_tool_system
+        tool_count = await initialize_tool_system()
+        vcprint(f"{tool_count} tools loaded", "[FastAPI] Tool System V2 initialized", color="green")
+    except Exception as e:
+        import traceback
+        vcprint(str(e), "[FastAPI] Tool System V2 init FAILED. Tools will not work", color="red")
+        print(traceback.format_exc())
 
     yield
 
     # Teardown
     logger.info("Shutting down %s", settings.app_name)
-    # e.g.:  await app.state.http_client.aclose()
 
 
 # ---------------------------------------------------------------------------
@@ -97,31 +107,80 @@ def create_app() -> FastAPI:
         docs_url="/docs" if settings.debug else None,
         redoc_url="/redoc" if settings.debug else None,
         openapi_url="/openapi.json" if settings.debug else None,
+        swagger_ui_init_oauth={},
     )
 
-    # --- CORS ---
+    # --- OpenAPI security scheme ---
+    # This makes Swagger show the Authorize button.
+    # Click it and paste:  Bearer <your ADMIN_API_TOKEN>
+    from fastapi.openapi.utils import get_openapi
+
+    def custom_openapi():
+        if app.openapi_schema:
+            return app.openapi_schema
+        schema = get_openapi(
+            title=app.title,
+            version=app.version,
+            routes=app.routes,
+        )
+        schema["components"] = schema.get("components", {})
+        schema["components"]["securitySchemes"] = {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT or API Token",
+            }
+        }
+        schema["security"] = [{"BearerAuth": []}]
+        app.openapi_schema = schema
+        return schema
+
+    app.openapi = custom_openapi
+
+    # --- Middleware ---
+    # Last added = outermost (runs first on request).
+    # Execution order: CORS → RequestContext → Auth → handler
+    app.add_middleware(AuthMiddleware)
+    app.add_middleware(RequestContextMiddleware)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.allowed_origins,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
+        expose_headers=["X-Request-ID", "X-Conversation-ID"],
     )
-
-    # --- Request context (ID + timing) ---
-    app.add_middleware(RequestContextMiddleware)
 
     # --- Exception handlers ---
     app.add_exception_handler(MatrxException, matrx_exception_handler)  # type: ignore[arg-type]
     app.add_exception_handler(Exception, unhandled_exception_handler)  # type: ignore[arg-type]
 
     # --- Routers ---
+
+    # Public — no auth required
     app.include_router(health.router)
-    app.include_router(chat.router)
-    app.include_router(agent.router)
-    app.include_router(agent.cancel_router)
-    app.include_router(conversation.router)
-    app.include_router(tool.router)
+    app.include_router(agent.public_router, tags=["AI"])
+    app.include_router(conversation.public_router, tags=["AI"])
+
+    # Guest OK — fingerprint or token
+    ai_router = APIRouter()
+    ai_router.include_router(chat.router)
+    ai_router.include_router(agent.router)
+    ai_router.include_router(agent.cancel_router)
+    ai_router.include_router(conversation.router)
+
+    app.include_router(
+        ai_router,
+        dependencies=[Depends(require_guest_or_above)],
+    )
+
+    # Authenticated — valid JWT required
+    app.include_router(
+        tool.router,
+        dependencies=[Depends(require_authenticated)],
+    )
+
+    vcprint("FastAPI app initialized with routes", "[FastAPI]", color="green")
 
     return app
 

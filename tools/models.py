@@ -9,7 +9,7 @@ from uuid import uuid4
 
 from pydantic import BaseModel, Field, PrivateAttr
 
-from client.usage import TokenUsage
+from config.unified_config import TokenUsage
 from context.emitter_protocol import Emitter
 
 
@@ -64,7 +64,7 @@ class ToolResult(BaseModel):
         """Return a dict that can construct an existing ToolResultContent dataclass.
 
         Keys match the ToolResultContent.__init__ signature defined in
-        ai.config.tools_config so the caller can do:
+        config.tools_config so the caller can do:
             ToolResultContent(**result.to_tool_result_content())
         """
         if self.success:

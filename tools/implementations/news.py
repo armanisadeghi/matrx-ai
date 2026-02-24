@@ -7,7 +7,7 @@ from typing import Any
 from tools.models import ToolContext, ToolError, ToolResult
 
 
-async def get_news_headlines(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+async def news_get_headlines(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     from api_management.news.news_api import get_top_headlines
 
     country = args.get("country") or None

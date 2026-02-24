@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 import json
-import logging
+import traceback
 from datetime import datetime, timezone
 from typing import Any
 from uuid import uuid4
 
-from tools.models import ToolContext, ToolDefinition, ToolResult
+from matrx_utils import vcprint
 
-logger = logging.getLogger(__name__)
+from tools.models import ToolContext, ToolDefinition, ToolResult
 
 
 class ToolExecutionLogger:
@@ -63,10 +63,14 @@ class ToolExecutionLogger:
         try:
             mgr = self._get_manager()
             await mgr.create_cx_tool_call(**data)
+            return row_id
         except Exception as exc:
-            logger.warning("Failed to INSERT cx_tool_call (started): %s", exc)
-
-        return row_id
+            vcprint(
+                f"Failed to INSERT cx_tool_call (started): {exc}\n{traceback.format_exc()}",
+                "[ToolLogger] INSERT cx_tool_call failed",
+                color="red",
+            )
+            return ""
 
     # ------------------------------------------------------------------
     # Phase 2a: log_completed (UPDATE)
@@ -154,19 +158,29 @@ class ToolExecutionLogger:
             )
             for item in matches:
                 await mgr.update_cx_tool_call(str(item.id), message_id=message_id)
-        except Exception:
-            pass
+        except Exception as exc:
+            vcprint(
+                f"Failed to backfill message_id for call_id={call_id}: {exc}\n{traceback.format_exc()}",
+                "[ToolLogger] backfill_message_id failed",
+                color="red",
+            )
 
     # ------------------------------------------------------------------
     # Internal helpers
     # ------------------------------------------------------------------
 
     async def _update_row(self, row_id: str, data: dict[str, Any]) -> None:
+        if not row_id:
+            return
         try:
             mgr = self._get_manager()
             await mgr.update_cx_tool_call(row_id, **data)
         except Exception as exc:
-            logger.warning("Failed to UPDATE cx_tool_call %s: %s", row_id, exc)
+            vcprint(
+                f"Failed to UPDATE cx_tool_call {row_id}: {exc}\n{traceback.format_exc()}",
+                "[ToolLogger] UPDATE cx_tool_call failed",
+                color="red",
+            )
 
     _MAX_ARG_STRING_CHARS = 10_000
 

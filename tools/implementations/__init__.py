@@ -1,45 +1,89 @@
-from tools.implementations.math import calculate
-from tools.implementations.text import text_analyze, regex_extract
-from tools.implementations.web import web_search, web_read, web_research
+from tools.implementations.math import math_calculate
+from tools.implementations.text import text_analyze, text_regex_extract
+from tools.implementations.web import web_search, web_read, research_web
 from tools.implementations.database import db_query, db_insert, db_update, db_schema
 from tools.implementations.memory import memory_store, memory_recall, memory_search, memory_update, memory_forget
 from tools.implementations.filesystem import fs_read, fs_write, fs_list, fs_search, fs_mkdir
 from tools.implementations.shell import shell_execute, shell_python
-from tools.implementations.browser import browser_navigate, browser_click, browser_type_text, browser_screenshot
+from tools.implementations.browser import (
+    browser_navigate, browser_click, browser_type_text, browser_screenshot, browser_close,
+    browser_select_option, browser_wait_for, browser_get_element, browser_scroll,
+)
 from tools.implementations.user_lists import (
-    create_user_list, create_simple_list, get_user_lists,
-    get_list_details, update_list_item, batch_update_list_items,
+    userlist_create, userlist_create_simple, userlist_get_all,
+    userlist_get_details, userlist_update_item, userlist_batch_update,
 )
 from tools.implementations.seo import (
-    check_meta_titles, check_meta_descriptions, check_meta_tags_batch,
-    get_keyword_search_data,
+    seo_check_meta_titles, seo_check_meta_descriptions, seo_check_meta_tags_batch,
+    seo_get_keyword_data,
 )
-from tools.implementations.code import store_html, fetch_code
-from tools.implementations.news import get_news_headlines
-from tools.implementations.user_tables import create_user_generated_table
-from tools.implementations.questionnaire import ask_user_questions
+from tools.implementations.code import (
+    code_store_html, code_fetch_code, code_fetch_tree, code_execute_python,
+)
+from tools.implementations.news import news_get_headlines
+from tools.implementations.user_tables import usertable_create
+from tools.implementations.personal_tables import (
+    usertable_create_advanced,
+    usertable_get_all,
+    usertable_get_metadata,
+    usertable_get_fields,
+    usertable_get_data,
+    usertable_search_data,
+    usertable_add_rows,
+    usertable_update_row,
+    usertable_delete_row,
+)
+from tools.implementations.questionnaire import interaction_ask
 from tools.implementations.travel import (
-    get_location, get_weather, get_restaurants,
-    get_activities, get_events, create_travel_summary,
+    travel_get_location, travel_get_weather, travel_get_restaurants,
+    travel_get_activities, travel_get_events, travel_create_summary,
 )
 
 __all__ = [
-    "calculate",
-    "text_analyze", "regex_extract",
-    "web_search", "web_read", "web_research",
+    # Math
+    "math_calculate",
+    # Text
+    "text_analyze", "text_regex_extract",
+    # Web
+    "web_search", "web_read",
+    # Research
+    "research_web",
+    # Database
     "db_query", "db_insert", "db_update", "db_schema",
+    # Memory
     "memory_store", "memory_recall", "memory_search", "memory_update", "memory_forget",
+    # Filesystem
     "fs_read", "fs_write", "fs_list", "fs_search", "fs_mkdir",
+    # Shell
     "shell_execute", "shell_python",
-    "browser_navigate", "browser_click", "browser_type_text", "browser_screenshot",
-    "create_user_list", "create_simple_list", "get_user_lists",
-    "get_list_details", "update_list_item", "batch_update_list_items",
-    "check_meta_titles", "check_meta_descriptions", "check_meta_tags_batch",
-    "get_keyword_search_data",
-    "store_html", "fetch_code",
-    "get_news_headlines",
-    "create_user_generated_table",
-    "ask_user_questions",
-    "get_location", "get_weather", "get_restaurants",
-    "get_activities", "get_events", "create_travel_summary",
+    # Browser
+    "browser_navigate", "browser_click", "browser_type_text", "browser_screenshot", "browser_close",
+    "browser_select_option", "browser_wait_for", "browser_get_element", "browser_scroll",
+    # User Lists
+    "userlist_create", "userlist_create_simple", "userlist_get_all",
+    "userlist_get_details", "userlist_update_item", "userlist_batch_update",
+    # SEO
+    "seo_check_meta_titles", "seo_check_meta_descriptions", "seo_check_meta_tags_batch",
+    "seo_get_keyword_data",
+    # Code
+    "code_store_html", "code_fetch_code", "code_fetch_tree", "code_execute_python",
+    # News
+    "news_get_headlines",
+    # User Tables (simple)
+    "usertable_create",
+    # User Tables (advanced)
+    "usertable_create_advanced",
+    "usertable_get_all",
+    "usertable_get_metadata",
+    "usertable_get_fields",
+    "usertable_get_data",
+    "usertable_search_data",
+    "usertable_add_rows",
+    "usertable_update_row",
+    "usertable_delete_row",
+    # Interaction
+    "interaction_ask",
+    # Travel
+    "travel_get_location", "travel_get_weather", "travel_get_restaurants",
+    "travel_get_activities", "travel_get_events", "travel_create_summary",
 ]

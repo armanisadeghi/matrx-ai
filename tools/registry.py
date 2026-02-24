@@ -81,11 +81,11 @@ class ToolRegistryV2:
                         "tool": tool_name,
                         "function_path": row.get("function_path", ""),
                         "error": str(exc),
-                        "traceback": traceback.format_exc(),
                     },
                     f"[ToolRegistryV2] Failed to load tool: {tool_name}",
                     color="red",
                 )
+                print(traceback.format_exc())
 
         if failed:
             vcprint(
@@ -250,13 +250,11 @@ class ToolRegistryV2:
             return [item.to_dict() for item in items]
         except Exception as exc:
             vcprint(
-                {
-                    "error": str(exc),
-                    "traceback": traceback.format_exc(),
-                },
-                "[ToolRegistryV2] Failed to fetch tools from database. No tools will be available.",
+                str(exc),
+                "[ToolRegistryV2] Failed to fetch tools from database. No tools will be available",
                 color="red",
             )
+            print(traceback.format_exc())
             return []
 
     @staticmethod
@@ -267,21 +265,38 @@ class ToolRegistryV2:
             return [item.to_dict() if hasattr(item, "to_dict") else item for item in items]
         except Exception as exc:
             vcprint(
-                {
-                    "error": str(exc),
-                    "traceback": traceback.format_exc(),
-                },
-                "[ToolRegistryV2] Failed to fetch tools from database (sync). No tools will be available.",
+                str(exc),
+                "[ToolRegistryV2] Failed to fetch tools from database (sync). No tools will be available",
                 color="red",
             )
+            print(traceback.format_exc())
             return []
+
+    @staticmethod
+    def _normalize_function_path(function_path: str) -> str:
+        """Remap legacy ``ai.tool_system.*`` paths from the database to ``tools.*``.
+
+        The DB ``tools`` table stores function_path values like
+        ``ai.tool_system.implementations.code.code_fetch_tree``.  In the
+        matrx-ai project the equivalent module lives under ``tools/``, so we
+        strip the ``ai.tool_system.`` prefix and replace it with ``tools.``.
+
+        TODO: Remove this once all DB rows are updated to use ``tools.*``
+              paths directly across all projects.
+        """
+        if function_path.startswith("ai.tool_system."):
+            return "tools." + function_path[len("ai.tool_system."):]
+        return function_path
 
     @staticmethod
     def _row_to_definition(row: dict[str, Any]) -> ToolDefinition:
         tool_type = ToolType.LOCAL
         function_path = row.get("function_path", "")
-        prompt_id: str | None = None
 
+        # Normalize legacy paths before anything else
+        function_path = ToolRegistryV2._normalize_function_path(function_path)
+
+        prompt_id: str | None = None
         if function_path.startswith("agent:"):
             tool_type = ToolType.AGENT
             prompt_id = function_path.split(":", 1)[1]
@@ -329,6 +344,8 @@ class ToolRegistryV2:
     def _resolve_callable(function_path: str) -> Callable[..., Awaitable[Any]]:
         if not function_path or function_path.startswith("agent:") or function_path.startswith("mcp:"):
             raise ValueError(f"Cannot resolve non-local function_path: {function_path}")
+        # Normalize legacy paths in case _row_to_definition was bypassed
+        function_path = ToolRegistryV2._normalize_function_path(function_path)
         module_path, func_name = function_path.rsplit(".", 1)
         module = importlib.import_module(module_path)
         func = getattr(module, func_name)

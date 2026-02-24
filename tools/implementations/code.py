@@ -1,15 +1,100 @@
 from __future__ import annotations
 
+import asyncio
 import os
+import re
 import traceback
+from pathlib import Path
 from typing import Any
-
 import requests
 
 from tools.models import ToolContext, ToolError, ToolResult
 
+_WORKSPACE_BASE = os.environ.get("TOOL_WORKSPACE_BASE", "/tmp/workspaces")
+_MAX_OUTPUT = 10_240
 
-async def store_html(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+
+def _workspace_dir(ctx: ToolContext) -> Path:
+    base = Path(_WORKSPACE_BASE) / ctx.user_id
+    if ctx.project_id:
+        base = base / ctx.project_id
+    base.mkdir(parents=True, exist_ok=True)
+    return base
+
+
+async def code_execute_python(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+    code_input = args.get("code_input", "")
+    timeout = int(args.get("timeout_seconds", 30))
+
+    if not code_input:
+        return ToolResult(
+            success=False,
+            error=ToolError(error_type="validation", message="code_input is required."),
+        )
+
+    # Strip ```python ... ``` markers if present
+    match = re.search(r"```python\s*(.*?)\s*```", code_input, re.DOTALL)
+    code = match.group(1).strip() if match else code_input.strip()
+
+    if not code:
+        return ToolResult(
+            success=False,
+            error=ToolError(error_type="validation", message="No Python code found after stripping markdown markers."),
+        )
+
+    workspace = _workspace_dir(ctx)
+    script_path = workspace / "_execute_python.py"
+
+    try:
+        script_path.write_text(code)
+
+        process = await asyncio.create_subprocess_exec(
+            "python3", str(script_path),
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+            cwd=str(workspace),
+        )
+
+        try:
+            stdout, stderr = await asyncio.wait_for(process.communicate(), timeout=timeout)
+        except asyncio.TimeoutError:
+            process.kill()
+            return ToolResult(
+                success=False,
+                error=ToolError(
+                    error_type="timeout",
+                    message=f"Python execution timed out after {timeout}s.",
+                    is_retryable=True,
+                    suggested_action="Simplify the code or increase timeout_seconds.",
+                ),
+            )
+        finally:
+            try:
+                script_path.unlink()
+            except Exception:
+                pass
+
+        stdout_str = stdout.decode("utf-8", errors="replace")[:_MAX_OUTPUT]
+        stderr_str = stderr.decode("utf-8", errors="replace")[:_MAX_OUTPUT]
+        success = process.returncode == 0
+
+        return ToolResult(
+            success=success,
+            output={"stdout": stdout_str, "stderr": stderr_str, "exit_code": process.returncode},
+            error=ToolError(
+                error_type="python_error",
+                message=f"Python exited with code {process.returncode}: {stderr_str[:500]}",
+            ) if not success else None,
+        )
+
+    except Exception as e:
+        return ToolResult(
+            success=False,
+            error=ToolError(error_type="execution", message=str(e), traceback=traceback.format_exc()),
+        )
+
+
+async def code_store_html(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     html_input = args.get("html_input", "")
     if not html_input:
         return ToolResult(success=False, error=ToolError(error_type="validation", message="html_input is required."))
@@ -23,50 +108,149 @@ async def store_html(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         return ToolResult(success=False, error=ToolError(error_type="execution", message=f"Failed to store HTML: {e}"))
 
 
-async def fetch_code(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
-    from code_generator.code_fetcher.fetcher import get_directory_and_file_lists, prepare_data
+def _resolve_project_root(project_root: str) -> str | None:
+    if not project_root:
+        return None
+    p = Path(project_root)
+    if not p.is_absolute():
+        # Resolve relative to cwd
+        p = Path.cwd() / p
+    p = p.resolve()
+    return str(p) if p.is_dir() else None
 
-    project_root = args.get("project_root", "")
-    directory_to_fetch = args.get("directory_to_fetch", "")
-    output_type = args.get("output_type", "clean_code")
 
-    if not project_root or not os.path.isdir(project_root):
-        return ToolResult(success=False, error=ToolError(error_type="validation", message=f"Project root '{project_root}' is not a valid directory."))
+async def code_fetch_code(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+    """Fetch full file content from a directory using CodeContextBuilder.
 
-    full_path = os.path.join(project_root, directory_to_fetch)
-    if not os.path.isdir(full_path):
-        return ToolResult(success=False, error=ToolError(error_type="validation", message=f"Directory '{full_path}' does not exist."))
+    output_mode controls token cost:
+      "original"   — raw content, unmodified (100% tokens)
+      "clean"      — content with comments stripped (~70-80% tokens)
+      "signatures" — function/class signatures only (~5-10% tokens)
 
-    valid_types = ["all_code", "clean_code", "classes_and_functions", "directory_structure"]
-    if output_type not in valid_types:
-        return ToolResult(success=False, error=ToolError(error_type="validation", message=f"output_type must be one of {valid_types}."))
+    Use "signatures" for large modules where you just need the API surface.
+    Use "clean" or "original" for focused editing or review of small modules.
+    """
+    from utils.code_context.code_context import CodeContextBuilder
+
+    project_root_raw = args.get("project_root", "")
+    subdirectory = args.get("subdirectory", "") or None
+    output_mode = args.get("output_mode", "clean")
+
+    valid_modes = ["original", "clean", "signatures"]
+    if output_mode not in valid_modes:
+        return ToolResult(
+            success=False,
+            error=ToolError(
+                error_type="validation",
+                message=f"output_mode must be one of {valid_modes}.",
+                suggested_action="Use 'signatures' for large codebases, 'clean' for focused review, 'original' when comments matter.",
+            ),
+        )
+
+    project_root = _resolve_project_root(project_root_raw)
+    if not project_root:
+        return ToolResult(
+            success=False,
+            error=ToolError(
+                error_type="validation",
+                message=f"project_root '{project_root_raw}' is not a valid directory.",
+                suggested_action="Provide an absolute path or a path relative to the current working directory.",
+            ),
+        )
+
+    # Validate subdirectory if provided
+    if subdirectory:
+        full_path = Path(project_root) / subdirectory
+        if not full_path.is_dir():
+            return ToolResult(
+                success=False,
+                error=ToolError(
+                    error_type="validation",
+                    message=f"subdirectory '{subdirectory}' does not exist under '{project_root}'.",
+                ),
+            )
 
     try:
-        _, _, _, included_files = get_directory_and_file_lists(project_root=project_root, directory_to_fetch=directory_to_fetch)
-        all_code_data, clean_code_data, cls_and_func_data, _ = prepare_data(included_files)
-
-        type_map = {
-            "all_code": (all_code_data, "Full code including comments and directory structure."),
-            "clean_code": (clean_code_data, "Code without comments/docstrings."),
-            "classes_and_functions": (cls_and_func_data, "Class and function names with arguments."),
-            "directory_structure": ({"Directory Structure": all_code_data.get("Directory Structure", "")}, "Directory structure only."),
-        }
-
-        data, description = type_map[output_type]
-
-        output_text = f"Project Root: {project_root}\nDirectory: {directory_to_fetch}\nType: {output_type} ({description})\n\n"
-        for file_path, content in data.items():
-            if file_path == "Directory Structure":
-                output_text += f'**DIRECTORY STRUCTURE: "{project_root}"**\n\n{content}\n'
-            else:
-                relative = os.path.normpath(os.path.relpath(file_path, start=project_root)).replace("\\", "/")
-                output_text += f"\n**Module: {relative}**\n\n"
-                if isinstance(content, dict):
-                    for key, value in content.items():
-                        output_text += f"{key}: {value}\n"
-                else:
-                    output_text += f"{content}\n"
-
-        return ToolResult(success=True, output=output_text)
+        builder = CodeContextBuilder(
+            project_root=project_root,
+            subdirectory=subdirectory,
+            output_mode=output_mode,
+        )
+        result = builder.build()
+        return ToolResult(
+            success=True,
+            output={
+                "output_mode": output_mode,
+                "project_root": project_root,
+                "subdirectory": subdirectory or "",
+                "files_included": result.stats["total_files"],
+                "directories": result.stats["total_directories"],
+                "content": result.combined_text,
+            },
+        )
     except Exception as e:
-        return ToolResult(success=False, error=ToolError(error_type="execution", message=str(e), traceback=traceback.format_exc()))
+        return ToolResult(
+            success=False,
+            error=ToolError(error_type="execution", message=str(e), traceback=traceback.format_exc()),
+        )
+
+
+async def code_fetch_tree(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+    """Get the directory and file tree of a project or subdirectory.
+
+    Uses CodeContextBuilder in "tree_only" mode — returns just the directory structure
+    with no file content (~1% of full token cost). Ideal for orientation before deciding
+    which subdirectory to fetch in full with code_fetch_code.
+    """
+    from utils.code_context.code_context import CodeContextBuilder
+
+    project_root_raw = args.get("project_root", "")
+    subdirectory = args.get("subdirectory", "") or None
+    show_all_directories = args.get("show_all_directories", False)
+
+    project_root = _resolve_project_root(project_root_raw)
+    if not project_root:
+        return ToolResult(
+            success=False,
+            error=ToolError(
+                error_type="validation",
+                message=f"project_root '{project_root_raw}' is not a valid directory.",
+                suggested_action="Provide an absolute path or a path relative to the current working directory.",
+            ),
+        )
+
+    if subdirectory:
+        full_path = Path(project_root) / subdirectory
+        if not full_path.is_dir():
+            return ToolResult(
+                success=False,
+                error=ToolError(
+                    error_type="validation",
+                    message=f"subdirectory '{subdirectory}' does not exist under '{project_root}'.",
+                ),
+            )
+
+    try:
+        builder = CodeContextBuilder(
+            project_root=project_root,
+            subdirectory=subdirectory,
+            output_mode="tree_only",
+            show_all_tree_directories=show_all_directories,
+        )
+        result = builder.build()
+        return ToolResult(
+            success=True,
+            output={
+                "project_root": project_root,
+                "subdirectory": subdirectory or "",
+                "files_included": result.stats["total_files"],
+                "directories": result.stats["total_directories"],
+                "file_types": result.stats["file_types"],
+                "tree": result.combined_text,
+            },
+        )
+    except Exception as e:
+        return ToolResult(
+            success=False,
+            error=ToolError(error_type="execution", message=str(e), traceback=traceback.format_exc()),
+        )

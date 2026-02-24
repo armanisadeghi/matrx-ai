@@ -6,7 +6,7 @@ from typing import Any
 from tools.models import ToolContext, ToolError, ToolResult
 
 
-async def create_user_generated_table(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+async def usertable_create(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     from user_data.table_creator import UserTableCreator
 
     table_name = args.get("table_name", "")

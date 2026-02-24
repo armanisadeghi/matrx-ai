@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import asyncio
-import logging
 import time
 import traceback
 from typing import Any
@@ -13,17 +12,12 @@ from tools.arg_models.web_args import (
     WebSearchArgs,
 )
 from tools.models import ToolContext, ToolError, ToolResult
-from tools.streaming import ToolStreamManager
+from matrx_utils import vcprint
 
-logger = logging.getLogger(__name__)
+from tools.streaming import ToolStreamManager
 
 
 async def web_search(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
-    """Web search using the existing scraper infrastructure.
-
-    This replaces the old web_search_summarized / web_search_quick wrappers.
-    The function calls directly into the scraper's search helpers.
-    """
     started_at = time.time()
     parsed = WebSearchArgs(**args)
     stream = ToolStreamManager(ctx.emitter, ctx.call_id, "web_search")
@@ -39,6 +33,7 @@ async def web_search(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
             results = await search_web_mcp_quick(
                 queries=[query],
                 freshness=parsed.freshness,
+                count=parsed.max_results_per_query,
                 emitter=ctx.emitter,
                 call_id=ctx.call_id,
             )
@@ -64,26 +59,8 @@ async def web_search(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
                 call_id=ctx.call_id,
             )
 
-        if parsed.summarize and parsed.instructions:
-            await stream.step("summarize", "Summarizing search results...")
-            from tools.implementations._summarize_helper import (
-                summarize_content,
-            )
-
-            summary, child_usages = await summarize_content(
-                content=combined_text,
-                instructions=parsed.instructions,
-                ctx=ctx,
-            )
-            return ToolResult(
-                success=True,
-                output=summary,
-                child_usages=child_usages,
-                started_at=started_at,
-                completed_at=time.time(),
-                tool_name="web_search",
-                call_id=ctx.call_id,
-            )
+        query_label = f"{len(parsed.queries)} quer{'ies' if len(parsed.queries) != 1 else 'y'}"
+        await stream.progress(f"Search complete — {query_label} finished")
 
         return ToolResult(
             success=True,
@@ -212,10 +189,10 @@ async def web_read(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         )
 
 
-async def web_research(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+async def research_web(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     started_at = time.time()
     parsed = WebResearchArgs(**args)
-    stream = ToolStreamManager(ctx.emitter, ctx.call_id, "web_research")
+    stream = ToolStreamManager(ctx.emitter, ctx.call_id, "research_web")
 
     depth_cfg = RESEARCH_DEPTH_CONFIG[parsed.research_depth]
     urls_per_query = depth_cfg["urls_per_query"]
@@ -426,7 +403,7 @@ async def web_research(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         )
 
     except Exception as exc:
-        logger.exception("web_research failed")
+        vcprint(f"web_research failed: {exc}\n{traceback.format_exc()}", "[web_research] Unhandled exception", color="red")
         return ToolResult(
             success=False,
             error=ToolError(

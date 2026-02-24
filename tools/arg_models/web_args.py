@@ -5,10 +5,8 @@ from pydantic import BaseModel, Field
 
 class WebSearchArgs(BaseModel):
     queries: list[str] = Field(min_length=1, max_length=5, description="Search queries to execute")
-    instructions: str = Field(default="", description="Instructions for how to process results")
     freshness: str | None = Field(default=None, description="Time filter: 'day', 'week', 'month'")
     max_results_per_query: int = Field(default=5, ge=1, le=20, description="Max results per query")
-    summarize: bool = Field(default=False, description="Whether to summarize results with an AI model")
 
 
 class WebReadArgs(BaseModel):

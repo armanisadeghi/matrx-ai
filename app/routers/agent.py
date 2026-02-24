@@ -2,122 +2,139 @@
 Agent router.
 
   POST /api/ai/agents/{agent_id}        — start a new agent conversation (streaming)
-  POST /api/ai/agents/{agent_id}/warm   — pre-warm / cache agent (no body, fire-and-forget)
-  GET  /api/ai/agents/{agent_id}        — fetch agent status / metadata
+  POST /api/ai/agents/{agent_id}/warm   — pre-warm / cache agent (public, no auth)
   POST /api/ai/cancel/{request_id}      — request graceful cancellation
-
-The `agent_id` path parameter is dynamic and opaque; your ORM layer will
-resolve it to a concrete agent implementation.
 """
 
-import asyncio
-import json
-from collections.abc import AsyncGenerator
-from datetime import UTC, datetime
+from __future__ import annotations
+
+import uuid
 from typing import Any
 
-from fastapi import APIRouter, Path
-from fastapi.responses import ORJSONResponse
+from fastapi import APIRouter, Depends
+from matrx_utils import vcprint
 
-from app.core.exceptions import AgentNotFoundError
-from app.core.streaming import make_ndjson_response, make_sse_response
-from app.models.agent import AgentEvent, AgentInfo, AgentRunRequest, AgentStatus, StreamMode
+from app.core.cancellation import CancellationRegistry
+from app.core.response import create_streaming_response
+from app.models.agent import AgentStartRequest
+from context.app_context import AppContext, context_dep
+from context.events import CompletionPayload
+from context.stream_emitter import StreamEmitter
+from prompts.agent import Agent
+from prompts.session import SimpleSession
+from prompts.cache import AgentCache
 
+# Protected endpoints (require guest auth or above)
 router = APIRouter(prefix="/api/ai/agents", tags=["agent"])
+
+# Public endpoints (no auth — used for server-to-server warm calls)
+public_router = APIRouter(prefix="/api/ai/agents", tags=["agent"])
+
+# Cancel router (separate prefix)
+cancel_router = APIRouter(prefix="/api/ai", tags=["agent"])
+
+
+async def _run_agent_start(
+    emitter: StreamEmitter,
+    request: AgentStartRequest,
+    agent_id: str,
+    conversation_id: str,
+):
+    vcprint(
+        f"agent={agent_id} conversation={conversation_id[:8]}...",
+        "[Agent] Starting",
+        color="cyan",
+    )
+
+    agent = await Agent.from_id(
+        agent_id,
+        variables=request.variables,
+        config_overrides=request.config_overrides,
+    )
+
+    session = SimpleSession(conversation_id=conversation_id, debug=request.debug)
+    agent.set_session(session)
+    agent.request_metadata = {"agent_id": agent_id}
+
+    await emitter.send_status_update(
+        status="processing",
+        system_message="Agent execution started",
+    )
+
+    result = await agent.execute(user_input=request.user_input)
+    AgentCache.set(conversation_id, agent)
+
+    vcprint(agent.name, "[Agent] Complete", color="green")
+
+    await emitter.send_completion(CompletionPayload(
+        status="complete",
+        output=result.output,
+        total_usage=result.usage.to_dict(),
+        metadata=result.metadata,
+    ))
+    await emitter.send_end()
 
 
 @router.post("/{agent_id}")
 async def start_agent(
-    agent_id: str = Path(..., description="Unique agent identifier"),
-    body: AgentRunRequest = ...,
+    agent_id: str,
+    request: AgentStartRequest,
+    ctx: AppContext = Depends(context_dep),
 ) -> Any:
-    """Start a new agent conversation. The server generates the conversation_id."""
-    _assert_agent_exists(agent_id)
+    conversation_id = str(uuid.uuid4())
+    vcprint(f"agent_id={agent_id} conversation_id={conversation_id}", "[Agent]", color="cyan")
 
-    stream = _mock_agent_stream(agent_id, body)
+    initial_variables = dict(request.variables or {})
+    if request.user_input is not None:
+        initial_variables["__agent_user_input__"] = request.user_input
 
-    if body.stream_mode == StreamMode.sse:
-
-        async def _to_sse() -> AsyncGenerator[dict[str, Any]]:
-            async for event in stream:
-                yield {
-                    "event": event.event,
-                    "data": json.dumps(event.model_dump()),
-                }
-
-        return make_sse_response(_to_sse())
-
-    async def _to_ndjson() -> AsyncGenerator[dict[str, Any]]:
-        async for event in stream:
-            yield event.model_dump()
-
-    return make_ndjson_response(_to_ndjson())
-
-
-@router.post("/{agent_id}/warm")
-async def warm_agent(
-    agent_id: str = Path(..., description="Unique agent identifier"),
-) -> ORJSONResponse:
-    """Pre-warm / cache the agent so the first real request is faster."""
-    # TODO: wire real cache-warming logic here
-    return ORJSONResponse({"status": "ok", "agent_id": agent_id})
-
-
-@router.get("/{agent_id}", response_class=ORJSONResponse)
-async def get_agent(
-    agent_id: str = Path(..., description="Unique agent identifier"),
-) -> AgentInfo:
-    _assert_agent_exists(agent_id)
-    return AgentInfo(
-        agent_id=agent_id,
-        status=AgentStatus.idle,
-        created_at=datetime.now(UTC).isoformat(),
+    ctx.extend(
+        conversation_id=conversation_id,
+        debug=request.debug,
+        initial_variables=initial_variables,
+        initial_overrides=request.config_overrides or {},
     )
+    return create_streaming_response(
+        ctx,
+        _run_agent_start,
+        request, agent_id, conversation_id,
+        initial_message="Connecting to agent...",
+        debug_label="Agent",
+    )
+
+
+@public_router.post("/{agent_id}/warm")
+async def warm_agent(agent_id: str):
+    vcprint(agent_id, "[Agent Warm] Warming", color="cyan")
+    try:
+        agent = await Agent.from_id(agent_id)
+        vcprint(f"{agent_id} ({agent.name})", "[Agent Warm] Cached", color="green")
+        return {"status": "cached", "agent_id": agent_id}
+    except Exception as e:
+        vcprint(str(e), f"[Agent Warm] Error for {agent_id}", color="red")
+        return {"status": "error", "agent_id": agent_id, "message": str(e)}
 
 
 # ---------------------------------------------------------------------------
 # Cancel — POST /api/ai/cancel/{request_id}
 # ---------------------------------------------------------------------------
 
-cancel_router = APIRouter(prefix="/api/ai", tags=["agent"])
 
-
-@cancel_router.post("/cancel/{request_id}", response_class=ORJSONResponse)
+@cancel_router.post("/cancel/{request_id}")
 async def cancel_request(
-    request_id: str = Path(..., description="Request ID to cancel"),
-) -> ORJSONResponse:
-    """Request graceful cancellation of a running agent/conversation request."""
-    # TODO: wire real cancellation logic here
-    return ORJSONResponse({"request_id": request_id, "status": "cancel_requested"})
+    request_id: str,
+    ctx: AppContext = Depends(context_dep),
+):
+    registry = CancellationRegistry.get_instance()
+    await registry.cancel(request_id)
 
+    vcprint(
+        f"request_id={request_id} user={ctx.user_id}",
+        "[Cancel] Cancellation requested",
+        color="yellow",
+    )
 
-# ---------------------------------------------------------------------------
-# Stand-in implementations — replace with your real agent orchestration
-# ---------------------------------------------------------------------------
-
-_KNOWN_AGENTS: set[str] = {"*"}  # "*" = accept any ID; restrict when real registry is wired
-
-
-def _assert_agent_exists(agent_id: str) -> None:
-    if "*" not in _KNOWN_AGENTS and agent_id not in _KNOWN_AGENTS:
-        raise AgentNotFoundError(agent_id)
-
-
-async def _mock_agent_stream(
-    agent_id: str,
-    body: AgentRunRequest,
-) -> AsyncGenerator[AgentEvent]:
-    """
-    Placeholder multi-step agent loop.
-    Replace with your real orchestration engine.
-    """
-    steps = [
-        ("thinking", {"thought": "Analysing the request…"}),
-        ("tool_call", {"tool": "search", "args": {"q": "placeholder"}}),
-        ("chunk", {"text": "Here is a response for agent "}),
-        ("chunk", {"text": agent_id}),
-        ("done", {"message": "Agent run complete"}),
-    ]
-    for step_idx, (event_name, data) in enumerate(steps):
-        await asyncio.sleep(0.1)
-        yield AgentEvent(event=event_name, agent_id=agent_id, data=data, step=step_idx)
+    return {
+        "status": "cancelled",
+        "request_id": request_id,
+    }
