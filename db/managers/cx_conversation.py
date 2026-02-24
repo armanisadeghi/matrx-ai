@@ -4,7 +4,7 @@ from matrx_utils import vcprint
 
 from dataclasses import dataclass
 from matrx_orm import BaseManager, BaseDTO
-from database.main.models import CxConversation
+from db.models import CxConversation
 from typing import Optional, Type, Any
 
 @dataclass

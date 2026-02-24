@@ -4,11 +4,13 @@
 # Run:  python generate.py
 
 output:
-  python_root: /Volumes/Samsung2TB/code/matrx-ai
-  typescript_root: /Volumes/Samsung2TB/code/junk # Always OURSIDE of the project
+  # Paths are machine-specific — set them in your local .env, not here.
+  # Required:  MATRX_PYTHON_ROOT=/absolute/path/to/python/project
+  # Optional:  MATRX_TS_ROOT=/absolute/path/to/nextjs/project  (only if typescript: true)
+  # Optional:  MATRX_SAVE_DIRECT=true
   save_direct: true
   python: true
-  typescript: false # Always false in this project
+  typescript: false
   json: true
 
 # =============================================================================
@@ -17,7 +19,6 @@ output:
 databases:
   - name: supabase_automation_matrix
     env_prefix: SUPABASE_MATRIX
-    alias: main
     additional_schemas:
       - auth
     manager_config_overrides:
@@ -52,10 +53,6 @@ databases:
         include_core_relations: true
         include_filter_fields: true
 
-  - name: external_postgres
-    env_prefix: POSTGRES
-    alias: external
-    additional_schemas: []
 
 # =============================================================================
 # Schema generation

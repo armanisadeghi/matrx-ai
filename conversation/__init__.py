@@ -11,9 +11,9 @@ from conversation.cx_message import cx_message_manager_instance as cx_message_ma
 from conversation.cx_media import cx_media_manager_instance as cx_media_manager
 from conversation.cx_user_request import cx_user_request_manager_instance as cx_user_request_manager
 from conversation.cx_request import cx_request_manager_instance as cx_request_manager
-from database.main.managers.cx_tool_call import cx_tool_call_manager_instance as cx_tool_call_manager
+from db.managers.cx_tool_call import cx_tool_call_manager_instance as cx_tool_call_manager
 from conversation.cx_agent_memory import cx_agent_memory_manager_instance as cx_agent_memory_manager
-from database.main.managers.tools import tools_manager_instance as tools_manager
+from db.managers.tools import tools_manager_instance as tools_manager
 
 __all__ = [
     "cx_conversation_manager",

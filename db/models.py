@@ -1,4 +1,4 @@
-# File: database/main/models.py
+# File: db/models.py
 from matrx_orm import BigIntegerField, BooleanField, CharField, DateTimeField, DecimalField, FloatField, ForeignKey, IntegerField, JSONBField, Model, SmallIntegerField, TextField, UUIDField, model_registry, BaseDTO, BaseManager
 from enum import Enum
 from dataclasses import dataclass
@@ -88,7 +88,7 @@ class Tools(Model):
 
 class UserTables(Model):
     id = UUIDField(primary_key=True, null=False)
-    table_name = CharField(null=False, max_length=255, unique=True)  # pyright: ignore[reportIncompatibleMethodOverride, reportAssignmentType]
+    table_name = CharField(null=False, max_length=255, unique=True)
     description = TextField()
     version = IntegerField(null=False, default=1)
     user_id = ForeignKey(to_model=Users, to_column='id', to_schema='auth', null=False, unique=True)

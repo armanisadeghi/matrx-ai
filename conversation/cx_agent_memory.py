@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from database.main.managers.cx_agent_memory import (
+from db.managers.cx_agent_memory import (
     CxAgentMemoryBase,
     cx_agent_memory_manager_instance,
 )

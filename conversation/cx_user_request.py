@@ -1,5 +1,5 @@
 # File: database/main/managers/cx_user_request.py
-from database.main.managers.cx_user_request import CxUserRequestBase
+from db.managers.cx_user_request import CxUserRequestBase
 
 class CxUserRequestManager(CxUserRequestBase):
     _instance = None

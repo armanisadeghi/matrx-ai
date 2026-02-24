@@ -2,7 +2,7 @@ import json
 from typing import Any, Literal
 
 from matrx_utils import clear_terminal, vcprint
-from database.main.models import TableData
+from db.models import TableData
 
 
 def get_table_data(table_id: str) -> list[dict[str, Any]]:

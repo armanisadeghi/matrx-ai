@@ -38,8 +38,8 @@ from matrx_orm import register_database_from_env, makemigrations, migrate, rollb
 register_database_from_env(
     name="supabase_automation_matrix",
     env_prefix="SUPABASE_MATRIX",
-    alias="main",
     additional_schemas=["auth"],
+    env_var_overrides={"NAME": "SUPABASE_MATRIX_DATABASE_NAME"},
 )
 
 DATABASE = "supabase_automation_matrix"

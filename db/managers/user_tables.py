@@ -4,7 +4,7 @@ from matrx_utils import vcprint
 
 from dataclasses import dataclass
 from matrx_orm import BaseManager, BaseDTO
-from database.main.models import UserTables
+from db.models import UserTables
 from typing import Optional, Type, Any
 
 @dataclass

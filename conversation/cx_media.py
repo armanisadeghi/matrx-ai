@@ -1,5 +1,5 @@
 # File: database/main/managers/cx_media.py
-from database.main.managers.cx_media import CxMediaBase
+from db.managers.cx_media import CxMediaBase
 
 
 class CxMediaManager(CxMediaBase):

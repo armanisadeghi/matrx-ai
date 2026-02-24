@@ -10,7 +10,7 @@ from tests.ai.test_context import create_test_execution_context
 from initialize_systems import initialize
 from matrx_utils import vcprint, clear_terminal
 from prompts.manager import pm
-from database.main.models import Prompts
+from db.models import Prompts
 from typing import Optional
 
 initialize()

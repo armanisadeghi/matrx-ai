@@ -15,7 +15,7 @@ Architecture:
 
 from typing import Dict, Any, Optional, List, TYPE_CHECKING
 from pydantic import BaseModel, ConfigDict
-from database.main.models import Prompts
+from db.models import Prompts
 from prompts.manager import pm
 import uuid
 

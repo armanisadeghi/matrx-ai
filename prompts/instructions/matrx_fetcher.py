@@ -7,7 +7,7 @@ Each table has its own method with appropriate defaults and post-processing.
 
 import uuid
 from typing import Any, Optional, List
-from database.main.models import ContentBlocks
+from db.models import ContentBlocks
 
 
 def is_valid_uuid(value: str) -> bool:

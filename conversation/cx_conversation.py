@@ -1,5 +1,5 @@
 # File: database/main/managers/cx_conversation.py
-from database.main.managers.cx_conversation import CxConversationBase
+from db.managers.cx_conversation import CxConversationBase
 
 class CxConversationManager(CxConversationBase):
     _instance = None

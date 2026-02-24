@@ -1,5 +1,5 @@
 import uuid
-from database.main.models import ContentBlocks
+from db.models import ContentBlocks
 from matrx_utils import vcprint, clear_terminal
 
 

@@ -6,9 +6,9 @@ from typing import Any, Optional
 
 from matrx_utils import vcprint
 
-from database.main.managers.prompts import PromptsBase
-from database.main.managers.prompt_builtins import PromptBuiltinsBase
-from database.main.models import Prompts, PromptBuiltins
+from db.managers.prompts import PromptsBase
+from db.managers.prompt_builtins import PromptBuiltinsBase
+from db.models import Prompts, PromptBuiltins
 from config.unified_config import UnifiedConfig
 from prompts.variables import AgentVariable
 from prompts.types import AgentConfig

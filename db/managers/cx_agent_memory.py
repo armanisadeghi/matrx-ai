@@ -1,14 +1,14 @@
-# File: database/main/managers/ai_provider.py
+# File: database/main/managers/cx_agent_memory.py
 from matrx_utils import vcprint
 
 
 from dataclasses import dataclass
 from matrx_orm import BaseManager, BaseDTO
-from database.main.models import AiProvider
+from db.models import CxAgentMemory
 from typing import Optional, Type, Any
 
 @dataclass
-class AiProviderDTO(BaseDTO):
+class CxAgentMemoryDTO(BaseDTO):
     id: str
 
     async def _initialize_dto(self, model):
@@ -40,65 +40,59 @@ class AiProviderDTO(BaseDTO):
         validated = await self._final_validation()
         dict_data = self.to_dict()
         if not validated:
-            vcprint(dict_data, "[AiProviderDTO] Validation Failed", verbose=True, pretty=True, color="red")
+            vcprint(dict_data, "[CxAgentMemoryDTO] Validation Failed", verbose=True, pretty=True, color="red")
         return dict_data
 
 
 
-class AiProviderBase(BaseManager[AiProvider]):
+class CxAgentMemoryBase(BaseManager[CxAgentMemory]):
     def __init__(self, dto_class: Optional[Type[Any]] = None):
-        self.dto_class = dto_class or AiProviderDTO
-        super().__init__(AiProvider, self.dto_class)
+        self.dto_class = dto_class or CxAgentMemoryDTO
+        super().__init__(CxAgentMemory, self.dto_class)
 
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, ai_provider):
+    async def _initialize_runtime_data(self, cx_agent_memory):
         pass
 
-    async def create_ai_provider(self, **data):
+    async def create_cx_agent_memory(self, **data):
         return await self.create_item(**data)
 
-    async def delete_ai_provider(self, id):
+    async def delete_cx_agent_memory(self, id):
         return await self.delete_item(id)
 
-    async def get_ai_provider_with_all_related(self, id):
+    async def get_cx_agent_memory_with_all_related(self, id):
         return await self.get_item_with_all_related(id)
 
-    async def load_ai_provider_by_id(self, id):
+    async def load_cx_agent_memory_by_id(self, id):
         return await self.load_by_id(id)
 
-    async def load_ai_provider(self, use_cache=True, **kwargs):
+    async def load_cx_agent_memory(self, use_cache=True, **kwargs):
         return await self.load_item(use_cache, **kwargs)
 
-    async def update_ai_provider(self, id, **updates):
+    async def update_cx_agent_memory(self, id, **updates):
         return await self.update_item(id, **updates)
 
     async def exists(self, id):
         return await self.exists(id)
 
-    async def load_ai_providers(self, **kwargs):
+    async def load_cx_agent_memories(self, **kwargs):
         return await self.load_items(**kwargs)
 
-    async def filter_ai_providers(self, **kwargs):
+    async def filter_cx_agent_memories(self, **kwargs):
         return await self.filter_items(**kwargs)
 
     async def get_or_create(self, defaults=None, **kwargs):
         return await self.get_or_create(defaults, **kwargs)
 
-    async def get_ai_provider_with_ai_settings(self, id):
-        return await self.get_item_with_related(id, 'ai_settings')
+    async def load_cx_agent_memories_by_user_id(self, user_id):
+        return await self.load_items(user_id=user_id)
 
-    async def get_ai_providers_with_ai_settings(self):
-        return await self.get_items_with_related('ai_settings')
+    async def filter_cx_agent_memories_by_user_id(self, user_id):
+        return await self.filter_items(user_id=user_id)
 
-    async def get_ai_provider_with_ai_model(self, id):
-        return await self.get_item_with_related(id, 'ai_model')
-
-    async def get_ai_providers_with_ai_model(self):
-        return await self.get_items_with_related('ai_model')
-
-    async def load_ai_providers_by_ids(self, ids):
+    async def load_cx_agent_memories_by_ids(self, ids):
         return await self.load_items_by_ids(ids)
 
     def add_computed_field(self, field):
@@ -108,20 +102,20 @@ class AiProviderBase(BaseManager[AiProvider]):
         self.add_relation_field(field)
 
     @property
-    def active_ai_provider_ids(self):
+    def active_cx_agent_memory_ids(self):
         return self.active_item_ids
 
 
 
-class AiProviderManager(AiProviderBase):
+class CxAgentMemoryManager(CxAgentMemoryBase):
     _instance = None
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
-            cls._instance = super(AiProviderManager, cls).__new__(cls)
+            cls._instance = super(CxAgentMemoryManager, cls).__new__(cls)
         return cls._instance
 
     def __init__(self):
         super().__init__()
 
-ai_provider_manager_instance = AiProviderManager()
+cx_agent_memory_manager_instance = CxAgentMemoryManager()

@@ -1,5 +1,5 @@
 # File: database/main/managers/cx_message.py
-from database.main.managers.cx_message import CxMessageBase
+from db.managers.cx_message import CxMessageBase
 
 
 class CxMessageManager(CxMessageBase):

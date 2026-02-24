@@ -1,5 +1,5 @@
 import uuid
-from database.main.managers.ai_model import AiModelBase
+from db.managers.ai_model import AiModelBase
 
 info = True
 debug = False
