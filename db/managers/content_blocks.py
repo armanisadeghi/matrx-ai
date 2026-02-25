@@ -3,9 +3,12 @@ from matrx_utils import vcprint
 
 
 from dataclasses import dataclass
+from typing import Any
+
 from matrx_orm import BaseManager, BaseDTO, ModelView
+from matrx_utils import vcprint
+
 from db.models import ContentBlocks
-from typing import Optional, Type, Any
 
 
 # ---------------------------------------------------------------------------
@@ -92,7 +95,7 @@ class ContentBlocksDTO(BaseDTO):
 class ContentBlocksBase(BaseManager[ContentBlocks]):
     view_class = ContentBlocksView
 
-    def __init__(self, view_class: Optional[Type[Any]] = None):
+    def __init__(self, view_class: type[Any] | None = None):
         if view_class is not None:
             self.view_class = view_class
         super().__init__(ContentBlocks)
@@ -162,7 +165,7 @@ class ContentBlocksManager(ContentBlocksBase):
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
-            cls._instance = super(ContentBlocksManager, cls).__new__(cls)
+            cls._instance = super().__new__(cls)
         return cls._instance
 
     def __init__(self):

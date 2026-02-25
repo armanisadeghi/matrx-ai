@@ -3,9 +3,12 @@ from matrx_utils import vcprint
 
 
 from dataclasses import dataclass
+from typing import Any
+
 from matrx_orm import BaseManager, BaseDTO, ModelView
+from matrx_utils import vcprint
+
 from db.models import PromptBuiltins
-from typing import Optional, Type, Any
 
 
 # ---------------------------------------------------------------------------
@@ -92,7 +95,7 @@ class PromptBuiltinsDTO(BaseDTO):
 class PromptBuiltinsBase(BaseManager[PromptBuiltins]):
     view_class = PromptBuiltinsView
 
-    def __init__(self, view_class: Optional[Type[Any]] = None):
+    def __init__(self, view_class: type[Any] | None = None):
         if view_class is not None:
             self.view_class = view_class
         super().__init__(PromptBuiltins)
@@ -180,7 +183,7 @@ class PromptBuiltinsManager(PromptBuiltinsBase):
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
-            cls._instance = super(PromptBuiltinsManager, cls).__new__(cls)
+            cls._instance = super().__new__(cls)
         return cls._instance
 
     def __init__(self):

@@ -17,7 +17,7 @@ class AiProvider(Model):
     company_description = TextField()
     documentation_link = CharField()
     models_link = CharField()
-    _inverse_foreign_keys = {'ai_settingss': {'from_model': 'AiSettings', 'from_field': 'ai_provider', 'referenced_field': 'id', 'related_name': 'ai_settingss'}, 'ai_models': {'from_model': 'AiModel', 'from_field': 'model_provider', 'referenced_field': 'id', 'related_name': 'ai_models'}}
+    _inverse_foreign_keys = {'ai_settings': {'from_model': 'AiSettings', 'from_field': 'ai_provider', 'referenced_field': 'id', 'related_name': 'ai_settings'}, 'ai_model': {'from_model': 'AiModel', 'from_field': 'model_provider', 'referenced_field': 'id', 'related_name': 'ai_model'}}
     _database = "supabase_automation_matrix"
 
 class CxAgentMemory(Model):
@@ -50,7 +50,7 @@ class Prompts(Model):
     user_id = ForeignKey(to_model=Users, to_column='id', to_schema='auth', )
     settings = JSONBField()
     description = TextField()
-    _inverse_foreign_keys = {'prompt_appss': {'from_model': 'PromptApps', 'from_field': 'prompt_id', 'referenced_field': 'id', 'related_name': 'prompt_appss'}, 'system_prompts_news': {'from_model': 'SystemPromptsNew', 'from_field': 'source_prompt_id', 'referenced_field': 'id', 'related_name': 'system_prompts_news'}, 'prompt_builtinss': {'from_model': 'PromptBuiltins', 'from_field': 'source_prompt_id', 'referenced_field': 'id', 'related_name': 'prompt_builtinss'}, 'prompt_actionss': {'from_model': 'PromptActions', 'from_field': 'prompt_id', 'referenced_field': 'id', 'related_name': 'prompt_actionss'}, 'system_promptss': {'from_model': 'SystemPrompts', 'from_field': 'source_prompt_id', 'referenced_field': 'id', 'related_name': 'system_promptss'}}
+    _inverse_foreign_keys = {'prompt_apps': {'from_model': 'PromptApps', 'from_field': 'prompt_id', 'referenced_field': 'id', 'related_name': 'prompt_apps'}, 'system_prompts_new': {'from_model': 'SystemPromptsNew', 'from_field': 'source_prompt_id', 'referenced_field': 'id', 'related_name': 'system_prompts_new'}, 'prompt_builtins': {'from_model': 'PromptBuiltins', 'from_field': 'source_prompt_id', 'referenced_field': 'id', 'related_name': 'prompt_builtins'}, 'prompt_actions': {'from_model': 'PromptActions', 'from_field': 'prompt_id', 'referenced_field': 'id', 'related_name': 'prompt_actions'}, 'system_prompts': {'from_model': 'SystemPrompts', 'from_field': 'source_prompt_id', 'referenced_field': 'id', 'related_name': 'system_prompts'}}
     _database = "supabase_automation_matrix"
 
 class ShortcutCategories(Model):
@@ -65,7 +65,7 @@ class ShortcutCategories(Model):
     is_active = BooleanField(default=True)
     metadata = JSONBField(default={})
     enabled_contexts = JSONBField(default=['general'])
-    _inverse_foreign_keys = {'content_blockss': {'from_model': 'ContentBlocks', 'from_field': 'category_id', 'referenced_field': 'id', 'related_name': 'content_blockss'}, 'prompt_shortcutss': {'from_model': 'PromptShortcuts', 'from_field': 'category_id', 'referenced_field': 'id', 'related_name': 'prompt_shortcutss'}, 'system_prompts_news': {'from_model': 'SystemPromptsNew', 'from_field': 'category_id', 'referenced_field': 'id', 'related_name': 'system_prompts_news'}}
+    _inverse_foreign_keys = {'content_blocks': {'from_model': 'ContentBlocks', 'from_field': 'category_id', 'referenced_field': 'id', 'related_name': 'content_blocks'}, 'prompt_shortcuts': {'from_model': 'PromptShortcuts', 'from_field': 'category_id', 'referenced_field': 'id', 'related_name': 'prompt_shortcuts'}, 'system_prompts_new': {'from_model': 'SystemPromptsNew', 'from_field': 'category_id', 'referenced_field': 'id', 'related_name': 'system_prompts_new'}}
     _database = "supabase_automation_matrix"
 
 class Tools(Model):
@@ -83,7 +83,7 @@ class Tools(Model):
     version = TextField(default='1.0.0')
     created_at = DateTimeField()
     updated_at = DateTimeField()
-    _inverse_foreign_keys = {'tool_test_sampless': {'from_model': 'ToolTestSamples', 'from_field': 'tool_id', 'referenced_field': 'id', 'related_name': 'tool_test_sampless'}, 'tool_ui_componentss': {'from_model': 'ToolUiComponents', 'from_field': 'tool_id', 'referenced_field': 'id', 'related_name': 'tool_ui_componentss'}}
+    _inverse_foreign_keys = {'tool_test_samples': {'from_model': 'ToolTestSamples', 'from_field': 'tool_id', 'referenced_field': 'id', 'related_name': 'tool_test_samples'}, 'tool_ui_components': {'from_model': 'ToolUiComponents', 'from_field': 'tool_id', 'referenced_field': 'id', 'related_name': 'tool_ui_components'}}
     _database = "supabase_automation_matrix"
 
 class UserTables(Model):
@@ -97,7 +97,7 @@ class UserTables(Model):
     created_at = DateTimeField(null=False)
     updated_at = DateTimeField(null=False)
     row_ordering_config = JSONBField()
-    _inverse_foreign_keys = {'table_datas': {'from_model': 'TableData', 'from_field': 'table_id', 'referenced_field': 'id', 'related_name': 'table_datas'}, 'table_fieldss': {'from_model': 'TableFields', 'from_field': 'table_id', 'referenced_field': 'id', 'related_name': 'table_fieldss'}}
+    _inverse_foreign_keys = {'table_data': {'from_model': 'TableData', 'from_field': 'table_id', 'referenced_field': 'id', 'related_name': 'table_data'}, 'table_fields': {'from_model': 'TableFields', 'from_field': 'table_id', 'referenced_field': 'id', 'related_name': 'table_fields'}}
     _database = "supabase_automation_matrix"
 
 class AiModel(Model):
@@ -116,7 +116,7 @@ class AiModel(Model):
     is_primary = BooleanField(default=False)
     is_premium = BooleanField(default=False)
     api_class = CharField()
-    _inverse_foreign_keys = {'ai_model_endpoints': {'from_model': 'AiModelEndpoint', 'from_field': 'ai_model_id', 'referenced_field': 'id', 'related_name': 'ai_model_endpoints'}, 'recipe_models': {'from_model': 'RecipeModel', 'from_field': 'ai_model', 'referenced_field': 'id', 'related_name': 'recipe_models'}, 'ai_settingss': {'from_model': 'AiSettings', 'from_field': 'ai_model', 'referenced_field': 'id', 'related_name': 'ai_settingss'}, 'agent_conversationss': {'from_model': 'AgentConversations', 'from_field': 'model_id', 'referenced_field': 'id', 'related_name': 'agent_conversationss'}, 'agent_requestss': {'from_model': 'AgentRequests', 'from_field': 'model_id', 'referenced_field': 'id', 'related_name': 'agent_requestss'}, 'cx_conversations': {'from_model': 'CxConversation', 'from_field': 'ai_model_id', 'referenced_field': 'id', 'related_name': 'cx_conversations'}, 'cx_user_requests': {'from_model': 'CxUserRequest', 'from_field': 'ai_model_id', 'referenced_field': 'id', 'related_name': 'cx_user_requests'}, 'cx_requests': {'from_model': 'CxRequest', 'from_field': 'ai_model_id', 'referenced_field': 'id', 'related_name': 'cx_requests'}}
+    _inverse_foreign_keys = {'ai_model_endpoint': {'from_model': 'AiModelEndpoint', 'from_field': 'ai_model_id', 'referenced_field': 'id', 'related_name': 'ai_model_endpoint'}, 'recipe_model': {'from_model': 'RecipeModel', 'from_field': 'ai_model', 'referenced_field': 'id', 'related_name': 'recipe_model'}, 'ai_settings': {'from_model': 'AiSettings', 'from_field': 'ai_model', 'referenced_field': 'id', 'related_name': 'ai_settings'}, 'agent_conversations': {'from_model': 'AgentConversations', 'from_field': 'model_id', 'referenced_field': 'id', 'related_name': 'agent_conversations'}, 'agent_requests': {'from_model': 'AgentRequests', 'from_field': 'model_id', 'referenced_field': 'id', 'related_name': 'agent_requests'}, 'cx_conversation': {'from_model': 'CxConversation', 'from_field': 'ai_model_id', 'referenced_field': 'id', 'related_name': 'cx_conversation'}, 'cx_user_request': {'from_model': 'CxUserRequest', 'from_field': 'ai_model_id', 'referenced_field': 'id', 'related_name': 'cx_user_request'}, 'cx_request': {'from_model': 'CxRequest', 'from_field': 'ai_model_id', 'referenced_field': 'id', 'related_name': 'cx_request'}}
     _database = "supabase_automation_matrix"
 
 class ContentBlocks(Model):
@@ -148,7 +148,7 @@ class PromptBuiltins(Model):
     is_active = BooleanField(null=False, default=True)
     source_prompt_id = ForeignKey(to_model=Prompts, to_column='id', )
     source_prompt_snapshot_at = DateTimeField()
-    _inverse_foreign_keys = {'prompt_shortcutss': {'from_model': 'PromptShortcuts', 'from_field': 'prompt_builtin_id', 'referenced_field': 'id', 'related_name': 'prompt_shortcutss'}, 'prompt_actionss': {'from_model': 'PromptActions', 'from_field': 'prompt_builtin_id', 'referenced_field': 'id', 'related_name': 'prompt_actionss'}}
+    _inverse_foreign_keys = {'prompt_shortcuts': {'from_model': 'PromptShortcuts', 'from_field': 'prompt_builtin_id', 'referenced_field': 'id', 'related_name': 'prompt_shortcuts'}, 'prompt_actions': {'from_model': 'PromptActions', 'from_field': 'prompt_builtin_id', 'referenced_field': 'id', 'related_name': 'prompt_actions'}}
     _database = "supabase_automation_matrix"
 
 class TableData(Model):
@@ -181,7 +181,7 @@ class CxConversation(Model):
     parent_conversation_id = ForeignKey(to_model='CxConversation', to_column='id', )
     variables = JSONBField(null=False, default={})
     overrides = JSONBField(null=False, default={})
-    _inverse_foreign_keys = {'cx_tool_calls': {'from_model': 'CxToolCall', 'from_field': 'conversation_id', 'referenced_field': 'id', 'related_name': 'cx_tool_calls'}, 'cx_messages': {'from_model': 'CxMessage', 'from_field': 'conversation_id', 'referenced_field': 'id', 'related_name': 'cx_messages'}, 'cx_medias': {'from_model': 'CxMedia', 'from_field': 'conversation_id', 'referenced_field': 'id', 'related_name': 'cx_medias'}, 'cx_user_requests': {'from_model': 'CxUserRequest', 'from_field': 'conversation_id', 'referenced_field': 'id', 'related_name': 'cx_user_requests'}, 'cx_requests': {'from_model': 'CxRequest', 'from_field': 'conversation_id', 'referenced_field': 'id', 'related_name': 'cx_requests'}}
+    _inverse_foreign_keys = {'cx_tool_call': {'from_model': 'CxToolCall', 'from_field': 'conversation_id', 'referenced_field': 'id', 'related_name': 'cx_tool_call'}, 'cx_message': {'from_model': 'CxMessage', 'from_field': 'conversation_id', 'referenced_field': 'id', 'related_name': 'cx_message'}, 'cx_media': {'from_model': 'CxMedia', 'from_field': 'conversation_id', 'referenced_field': 'id', 'related_name': 'cx_media'}, 'cx_user_request': {'from_model': 'CxUserRequest', 'from_field': 'conversation_id', 'referenced_field': 'id', 'related_name': 'cx_user_request'}, 'cx_request': {'from_model': 'CxRequest', 'from_field': 'conversation_id', 'referenced_field': 'id', 'related_name': 'cx_request'}}
     _database = "supabase_automation_matrix"
 
 class CxMedia(Model):
@@ -209,7 +209,7 @@ class CxMessage(Model):
     created_at = DateTimeField(null=False)
     deleted_at = DateTimeField()
     metadata = JSONBField(null=False, default={})
-    _inverse_foreign_keys = {'cx_tool_calls': {'from_model': 'CxToolCall', 'from_field': 'message_id', 'referenced_field': 'id', 'related_name': 'cx_tool_calls'}}
+    _inverse_foreign_keys = {'cx_tool_call': {'from_model': 'CxToolCall', 'from_field': 'message_id', 'referenced_field': 'id', 'related_name': 'cx_tool_call'}}
     _database = "supabase_automation_matrix"
 
 class CxUserRequest(Model):
@@ -238,7 +238,7 @@ class CxUserRequest(Model):
     deleted_at = DateTimeField()
     metadata = JSONBField(null=False, default={})
     ai_model_id = ForeignKey(to_model=AiModel, to_column='id', )
-    _inverse_foreign_keys = {'cx_tool_calls': {'from_model': 'CxToolCall', 'from_field': 'request_id', 'referenced_field': 'id', 'related_name': 'cx_tool_calls'}, 'cx_requests': {'from_model': 'CxRequest', 'from_field': 'user_request_id', 'referenced_field': 'id', 'related_name': 'cx_requests'}}
+    _inverse_foreign_keys = {'cx_tool_call': {'from_model': 'CxToolCall', 'from_field': 'request_id', 'referenced_field': 'id', 'related_name': 'cx_tool_call'}, 'cx_request': {'from_model': 'CxRequest', 'from_field': 'user_request_id', 'referenced_field': 'id', 'related_name': 'cx_request'}}
     _database = "supabase_automation_matrix"
 
 class CxRequest(Model):
