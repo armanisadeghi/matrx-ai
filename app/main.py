@@ -79,10 +79,10 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
     try:
         from tools.handle_tool_calls import initialize_tool_system
         tool_count = await initialize_tool_system()
-        vcprint(f"{tool_count} tools loaded", "[FastAPI] Tool System V2 initialized", color="green")
+        vcprint(f"{tool_count} tools loaded", "[FastAPI] Tool System V2 initialized", color="green", inline=True)
     except Exception as e:
         import traceback
-        vcprint(str(e), "[FastAPI] Tool System V2 init FAILED. Tools will not work", color="red")
+        vcprint(str(e), "[FastAPI] Tool System V2 init FAILED. Tools will not work", color="red", inline=True)
         print(traceback.format_exc())
 
     yield

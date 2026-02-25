@@ -61,9 +61,9 @@ async def execute_agent_tool(
 
         agent = await Agent.from_prompt(
             tool_def.prompt_id,
+            session=child_session,
             variables=args.get("variables"),
         )
-        agent.set_session(child_session)
 
         user_input = (
             args.get("input")

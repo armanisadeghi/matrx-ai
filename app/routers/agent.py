@@ -46,14 +46,13 @@ async def _run_agent_start(
         color="cyan",
     )
 
+    session = SimpleSession(conversation_id=conversation_id, debug=request.debug)
     agent = await Agent.from_id(
         agent_id,
+        session=session,
         variables=request.variables,
         config_overrides=request.config_overrides,
     )
-
-    session = SimpleSession(conversation_id=conversation_id, debug=request.debug)
-    agent.set_session(session)
     agent.request_metadata = {"agent_id": agent_id}
 
     await emitter.send_status_update(
@@ -107,7 +106,8 @@ async def start_agent(
 async def warm_agent(agent_id: str):
     vcprint(agent_id, "[Agent Warm] Warming", color="cyan")
     try:
-        agent = await Agent.from_id(agent_id)
+        warm_session = SimpleSession(conversation_id=str(uuid.uuid4()))
+        agent = await Agent.from_id(agent_id, session=warm_session)
         vcprint(f"{agent_id} ({agent.name})", "[Agent Warm] Cached", color="green")
         return {"status": "cached", "agent_id": agent_id}
     except Exception as e:

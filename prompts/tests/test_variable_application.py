@@ -5,6 +5,7 @@ import asyncio
 from prompts.agent import Agent
 from config.unified_config import UnifiedConfig
 from prompts.variables import AgentVariable
+from prompts.session import SimpleSession
 
 async def test_variable_application():
     """Test that variables are properly applied to config"""
@@ -24,6 +25,7 @@ async def test_variable_application():
     # Create agent
     agent = Agent.from_dict(
         config_dict,
+        session=SimpleSession(),
         variable_defaults={
             "topic": AgentVariable(name="topic", required=True)
         }
@@ -60,6 +62,7 @@ async def test_variable_application():
     # Test with_variables convenience method
     agent2 = Agent.from_dict(
         config_dict,
+        session=SimpleSession(),
         variable_defaults={
             "topic": AgentVariable(name="topic", required=True)
         }

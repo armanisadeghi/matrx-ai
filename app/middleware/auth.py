@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import os
 from typing import Optional
 
 import jwt
@@ -8,11 +7,8 @@ from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoin
 from starlette.requests import Request
 from starlette.responses import Response
 
+from app.config import get_settings
 from context.app_context import AppContext, set_app_context, clear_app_context
-
-SUPABASE_JWT_SECRET: Optional[str] = os.environ.get("SUPABASE_MATRIX_JWT_SECRET")
-ADMIN_TOKEN: Optional[str] = os.environ.get("ADMIN_API_TOKEN")
-ADMIN_USER_ID: Optional[str] = os.environ.get("ADMIN_USER_ID")
 
 
 class AuthMiddleware(BaseHTTPMiddleware):
@@ -69,8 +65,12 @@ def _validate_token(
     except ValueError:
         return None
 
-    if ADMIN_TOKEN and ADMIN_USER_ID and token == ADMIN_TOKEN:
-        ctx.user_id = ADMIN_USER_ID
+    settings = get_settings()
+    admin_token = settings.admin_api_token
+    admin_user_id = settings.admin_user_id
+
+    if admin_token and admin_user_id and token == admin_token:
+        ctx.user_id = admin_user_id
         ctx.auth_type = "token"
         ctx.is_authenticated = True
         ctx.is_admin = True
@@ -79,13 +79,15 @@ def _validate_token(
         ctx.fingerprint_id = fingerprint_id
         return ctx
 
-    if not SUPABASE_JWT_SECRET:
+    jwt_secret = settings.supabase_matrix_jwt_secret
+
+    if not jwt_secret:
         return None
 
     try:
         decoded = jwt.decode(
             token,
-            SUPABASE_JWT_SECRET,
+            jwt_secret,
             algorithms=["HS256"],
             options={"verify_aud": False},
         )

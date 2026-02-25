@@ -19,6 +19,7 @@ from context.events import CompletionPayload
 from context.stream_emitter import StreamEmitter
 from prompts.agent import Agent
 from prompts.cache import AgentCache
+from prompts.session import SimpleSession
 from config.unified_config import UnifiedConfig
 from conversation.rebuild import rebuild_conversation_messages
 from conversation import cx_conversation_manager
@@ -56,7 +57,7 @@ async def _reconstruct_from_db(conversation_id: str) -> Agent:
     ]
 
     unified_config = UnifiedConfig.from_dict(config_dict)
-    return Agent(config=unified_config)
+    return Agent(config=unified_config, session=SimpleSession())
 
 
 async def _run_conversation_continue(

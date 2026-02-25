@@ -14,11 +14,8 @@ async def direct_news_agent_test():
     """Test: Direct news agent execution"""
 
     # Agent is cached at this point
-    news_agent = await Agent.from_prompt("35461e07-bbd1-46cc-81a7-910850815703")
+    news_agent = await Agent.from_prompt("35461e07-bbd1-46cc-81a7-910850815703", session=session)
     # But since the prompt itself is automatically cached, we may not need to 'save' the agent
-
-    # Agent is now scoped to the session (Unless we clone it first)
-    news_agent.set_session(session)
 
     # At this point, the agent is further scoped with variable values.
     news_agent.set_variable("topic", "This news article")
@@ -43,8 +40,7 @@ async def direct_news_agent_test():
 async def test_1_basic_execution():
     """Test 1: Basic agent execution"""
 
-    news_agent = await Agent.from_prompt("35461e07-bbd1-46cc-81a7-910850815703")
-    news_agent.set_session(session)
+    news_agent = await Agent.from_prompt("35461e07-bbd1-46cc-81a7-910850815703", session=session)
     news_agent.set_variable("topic", "Recent advances in AI")
 
     # Execute
@@ -62,8 +58,6 @@ async def test_1B_basic_execution_with_parent_conversation():
     """Test 1B: Basic agent execution with parent conversation tracking."""
     parent_conversation_id = "89dc2516-0598-4fe0-a5a6-6cc9c8274831"
 
-    news_agent = await Agent.from_prompt("35461e07-bbd1-46cc-81a7-910850815703")
-
     from context.app_context import get_app_context, set_app_context
     child_ctx = get_app_context().fork_for_child_agent(str(__import__("uuid").uuid4()))
     child_ctx.parent_conversation_id = parent_conversation_id
@@ -72,7 +66,7 @@ async def test_1B_basic_execution_with_parent_conversation():
         conversation_id=child_ctx.conversation_id,
         debug=True,
     )
-    news_agent.set_session(session_with_parent)
+    news_agent = await Agent.from_prompt("35461e07-bbd1-46cc-81a7-910850815703", session=session_with_parent)
     news_agent.set_variable("topic", "Recent advances in AI")
 
     result = await news_agent.execute(
@@ -89,8 +83,7 @@ async def test_1B_basic_execution_with_parent_conversation():
 async def test_2_with_second_message():
     """Test 2: Basic agent execution"""
 
-    news_agent = await Agent.from_prompt("35461e07-bbd1-46cc-81a7-910850815703")
-    news_agent.set_session(session)
+    news_agent = await Agent.from_prompt("35461e07-bbd1-46cc-81a7-910850815703", session=session)
     news_agent.set_variable("topic", "Recent advances in AI")
 
     # Execute
@@ -118,8 +111,7 @@ async def test_2_with_second_message():
 async def test_3_with_config_overrides():
     """Test 3: With config overrides"""
 
-    news_agent = await Agent.from_prompt("35461e07-bbd1-46cc-81a7-910850815703")
-    news_agent.set_session(session)
+    news_agent = await Agent.from_prompt("35461e07-bbd1-46cc-81a7-910850815703", session=session)
     news_agent.set_variable("topic", "Recent advances in AI")
     news_agent.apply_config_overrides(
         model="gpt-4.1-mini-2025-04-14",
@@ -156,8 +148,7 @@ async def test_4_clone_with_different_models():
     print()
 
     # Create base agent with original model
-    news_agent = await Agent.from_prompt("35461e07-bbd1-46cc-81a7-910850815703")
-    news_agent.set_session(session)
+    news_agent = await Agent.from_prompt("35461e07-bbd1-46cc-81a7-910850815703", session=session)
     news_agent.set_variable("topic", "Recent advances in AI")
 
     print(f"📌 Original model: {news_agent.config.model}")
@@ -233,8 +224,7 @@ async def scrape_research_condenser_agent_1(
 ):
     from prompts.agent import Agent
 
-    agent = await Agent.from_prompt("a5f65b49-f0fa-4d0d-a7ce-e200237ab1b6")
-    agent.set_session(session)
+    agent = await Agent.from_prompt("a5f65b49-f0fa-4d0d-a7ce-e200237ab1b6", session=session)
     agent.set_variable("instructions", instructions)
     agent.set_variable("scraped_content", scraped_content)
     agent.set_variable("queries", queries)

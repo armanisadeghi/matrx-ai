@@ -43,8 +43,7 @@ async def summarize_content(
                 ),
                 "messages": [],
             })
-            agent = Agent(config=config)
-            agent.set_session(session)
+            agent = Agent(config=config, session=session)
 
             prompt = f"Instructions: {instructions}\n\nContent to summarize:\n{content[:100000]}"
             result = await agent.execute(user_input=prompt)

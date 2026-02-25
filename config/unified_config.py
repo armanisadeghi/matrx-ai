@@ -4,7 +4,7 @@ Preserves ALL content types and metadata from all providers
 """
 
 from dataclasses import dataclass, field, fields
-from typing import Any, Literal, Optional, Union
+from typing import Any, Literal, Optional, Union, cast
 from google.genai.types import Part
 from matrx_utils import vcprint
 from openai.types.responses import (
@@ -15,6 +15,15 @@ from openai.types.responses import (
 )
 from openai.types.responses import (
     ResponseReasoningItem as OpenAIResponseReasoningItem,
+)
+from openai.types.responses import (
+    ResponseFunctionToolCall as OpenAIResponseFunctionToolCall,
+)
+from openai.types.responses import (
+    ResponseFunctionWebSearch as OpenAIResponseFunctionWebSearch,
+)
+from openai.types.responses import (
+    ResponseOutputMessage as OpenAIResponseOutputMessage,
 )
 
 from config.extra_config import (
@@ -181,7 +190,7 @@ class TextContent:
         if part.thought_signature:
             metadata["google_thought_signature"] = part.thought_signature
         return cls(
-            text=part.text,
+            text=part.text if part.text is not None else "",
             metadata=metadata,
         )
 
@@ -371,7 +380,7 @@ class ThinkingContent:
         encrypted_content = getattr(item, "encrypted_content", None)
 
         return cls(
-            summary=item.summary,
+            summary=[s.model_dump() for s in item.summary],
             id=item.id,
             provider="openai",
             signature=encrypted_content,
@@ -628,16 +637,19 @@ class UnifiedMessage:
     def from_openai_item(
         cls, item: OpenAIResponseOutputItem
     ) -> Optional["UnifiedMessage"]:
-        content = []
+        content: list[UnifiedContent] = []
         assigned_role = "output"
 
         item_type = item.type
         if item_type == "message":
             assigned_role = "assistant"
-            for content_item in item.content:
+            message_item = cast(OpenAIResponseOutputMessage, item)
+            for content_item in message_item.content:
                 content_type = content_item.type
                 if content_type == "output_text":
-                    content.append(TextContent.from_openai(content_item, item.id))
+                    text_content = TextContent.from_openai(cast(OpenAIResponseOutputText, content_item), message_item.id)
+                    if text_content is not None:
+                        content.append(text_content)
                 else:
                     vcprint(
                         content_item,
@@ -645,13 +657,19 @@ class UnifiedMessage:
                         color="yellow",
                     )
         elif item_type == "reasoning":
-            content.append(ThinkingContent.from_openai(item))
+            thinking_content = ThinkingContent.from_openai(cast(OpenAIResponseReasoningItem, item))
+            if thinking_content is not None:
+                content.append(thinking_content)
         elif item_type == "function_call":
             assigned_role = "tool"
-            content.append(ToolCallContent.from_openai(item))
+            tool_content = ToolCallContent.from_openai(cast(OpenAIResponseFunctionToolCall, item))
+            if tool_content is not None:
+                content.append(tool_content)
         elif item_type == "web_search_call":
             assigned_role = "tool"
-            content.append(WebSearchCallContent.from_openai(item))
+            web_content = WebSearchCallContent.from_openai(cast(OpenAIResponseFunctionWebSearch, item))
+            if web_content is not None:
+                content.append(web_content)
         else:
             vcprint(
                 item, f"WARNING: Unknown OpenAI item type: {item_type}", color="red"
@@ -668,16 +686,22 @@ class UnifiedMessage:
         cls, role: str, content: list[dict[str, Any]], id: str
     ) -> Optional["UnifiedMessage"]:
         """Create UnifiedMessage from Anthropic content blocks"""
-        content_blocks = []
+        content_blocks: list[UnifiedContent] = []
 
         for block in content:
             block_type = block.get("type")
             if block_type == "text":
-                content_blocks.append(TextContent.from_anthropic(block))
+                text_content = TextContent.from_anthropic(block)
+                if text_content is not None:
+                    content_blocks.append(text_content)
             elif block_type == "tool_use":
-                content_blocks.append(ToolCallContent.from_anthropic(block))
+                tool_content = ToolCallContent.from_anthropic(block)
+                if tool_content is not None:
+                    content_blocks.append(tool_content)
             elif block_type == "thinking":
-                content_blocks.append(ThinkingContent.from_anthropic(block))
+                thinking_content = ThinkingContent.from_anthropic(block)
+                if thinking_content is not None:
+                    content_blocks.append(thinking_content)
             else:
                 vcprint(
                     block,
@@ -717,7 +741,7 @@ class UnifiedMessage:
             "parts": parts,
         }
 
-    def to_openai_items(self) -> list[dict[str, Any]]:
+    def to_openai_items(self) -> list[dict[str, Any]] | dict[str, Any] | None:
         """
         Convert message to OpenAI Responses API format items.
 
@@ -787,7 +811,7 @@ class UnifiedMessage:
         Content blocks use each item's to_storage_dict() for the cx_message.content JSONB.
         """
         result: dict[str, Any] = {
-            "role": self.role.value if hasattr(self.role, "value") else self.role,
+            "role": getattr(self.role, "value", self.role),
             "content": [c.to_storage_dict() for c in self.content],
         }
         if self.status != "active":
@@ -798,7 +822,7 @@ class UnifiedMessage:
         """Get the output of the message."""
         output = ""
         for content in self.content:
-            output += content.get_output()
+            output += getattr(content, "get_output", lambda: "")()
         return output
 
 
@@ -1163,7 +1187,7 @@ class UnifiedConfig:
         # Convert messages to MessageList if needed
         if not isinstance(self.messages, MessageList):
             if isinstance(self.messages, list):
-                self.messages = MessageList(_messages=self.messages)
+                self.messages = MessageList(_messages=cast(list[UnifiedMessage], self.messages))
             else:
                 raise TypeError(
                     f"messages must be MessageList or list, got {type(self.messages)}"
@@ -1173,9 +1197,14 @@ class UnifiedConfig:
         self.system_instruction = self._resolve_system_instruction(self.system_instruction)
         self._resolve_message_patterns()
 
+    @property
+    def _message_list(self) -> MessageList:
+        """Type-narrowed accessor for self.messages post __post_init__ conversion."""
+        return cast(MessageList, self.messages)
+
     def _resolve_message_patterns(self) -> None:
         """Resolve <<MATRX>> data-fetch patterns in all TextContent across messages."""
-        for message in self.messages:
+        for message in self._message_list:
             for content in message.content:
                 if isinstance(content, TextContent) and content.text:
                     content.text = resolve_matrx_patterns(content.text)
@@ -1343,9 +1372,9 @@ class UnifiedConfig:
             if isinstance(value, MessageList):
                 result[key] = value.to_dict_list()
             elif isinstance(value, list) and value and hasattr(value[0], "to_dict"):
-                result[key] = [item.to_dict() for item in value]
+                result[key] = [getattr(item, "to_dict")() for item in value]
             elif hasattr(value, "to_dict"):
-                result[key] = value.to_dict()
+                result[key] = getattr(value, "to_dict")()
             else:
                 result[key] = value
 
@@ -1364,7 +1393,7 @@ class UnifiedConfig:
         result: dict[str, Any] = {
             "model": self.model,
             "system_instruction": self.system_instruction,
-            "messages": [msg.to_storage_dict() for msg in self.messages],
+            "messages": [msg.to_storage_dict() for msg in self._message_list],
         }
 
         # Config JSONB -- only include non-default/non-None values
@@ -1419,13 +1448,13 @@ class UnifiedConfig:
             text: The message text
             **kwargs: Additional UnifiedMessage fields (id, name, timestamp, metadata)
         """
-        self.messages.append_user_text(text, **kwargs)
+        self._message_list.append_user_text(text, **kwargs)
 
     def append_or_extend_user_text(self, text: str, **kwargs) -> None:
         """
         Add user text to the message list.
         """
-        self.messages.append_or_extend_user_text(text, **kwargs)
+        self._message_list.append_or_extend_user_text(text, **kwargs)
 
     def append_or_extend_user_input(
         self, user_input: str | list[dict[str, Any]]
@@ -1433,7 +1462,7 @@ class UnifiedConfig:
         """
         Add user input items to the message list.
         """
-        self.messages.append_or_extend_user_input(user_input)
+        self._message_list.append_or_extend_user_input(user_input)
 
     def replace_variables(self, variables: dict[str, Any]) -> None:
         """
@@ -1444,18 +1473,18 @@ class UnifiedConfig:
             variables: dict mapping variable names to their values
         """
         # Replace in system_instruction
-        if self.system_instruction:
+        if isinstance(self.system_instruction, str):
             for var_name, var_value in variables.items():
                 self.system_instruction = self.system_instruction.replace(
                     f"{{{{{var_name}}}}}", str(var_value)
                 )
 
         # Replace in all messages
-        self.messages.replace_variables(variables)
+        self._message_list.replace_variables(variables)
 
     def get_last_output(self) -> str:
         """Get the output of the last assistant message."""
-        return self.messages.get_last_output()
+        return self._message_list.get_last_output()
 
 
 @dataclass
@@ -1485,9 +1514,9 @@ class UnifiedResponse:
                 continue
 
             if isinstance(value, list) and value and hasattr(value[0], "to_dict"):
-                result[key] = [item.to_dict() for item in value]
+                result[key] = [getattr(item, "to_dict")() for item in value]
             elif hasattr(value, "to_dict"):
-                result[key] = value.to_dict()
+                result[key] = getattr(value, "to_dict")()
             else:
                 result[key] = value
 

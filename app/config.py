@@ -42,6 +42,11 @@ class Settings(BaseSettings):
     supabase_url: str = ""
     supabase_anon_key: str = ""
     supabase_service_role_key: str = ""
+    supabase_matrix_jwt_secret: str = ""
+
+    # Admin auth
+    admin_api_token: str = ""
+    admin_user_id: str = ""
 
     # Sentry — matches MATRX_ENGINE_SENTRY_DSN in .env
     matrx_engine_sentry_dsn: str = ""

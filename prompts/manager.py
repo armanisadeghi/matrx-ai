@@ -33,20 +33,22 @@ class PromptsManager(PromptsBase):
     async def to_config(self, prompt_id: str) -> AgentConfig:
         prompt: Prompts = await self.load_prompts_by_id(prompt_id)
 
+        settings: dict[str, Any] = prompt.settings if isinstance(prompt.settings, dict) else {}
         config_dict = {
             "messages": prompt.messages,
-            "model": prompt.settings.get("model_id", ""),
-            **prompt.settings,
+            "model": settings.get("model_id", ""),
+            **settings,
         }
 
         if "tools" not in config_dict and prompt.tools:
             config_dict["tools"] = prompt.tools
 
         config = UnifiedConfig.from_dict(config_dict)
-        variable_defaults = AgentVariable.from_list(prompt.variable_defaults)
+        raw_defaults = prompt.variable_defaults
+        variable_defaults = AgentVariable.from_list(raw_defaults if isinstance(raw_defaults, list) else None)
 
         return AgentConfig(
-            name=prompt.name,
+            name=prompt.name or "",
             config=config,
             variable_defaults=variable_defaults,
         )
@@ -66,20 +68,22 @@ class PromptBuiltinsManager(PromptBuiltinsBase):
     async def to_config(self, builtin_id: str) -> AgentConfig:
         builtin: PromptBuiltins = await self.load_prompt_builtins_by_id(builtin_id)
 
+        settings: dict[str, Any] = builtin.settings if isinstance(builtin.settings, dict) else {}
         config_dict = {
             "messages": builtin.messages,
-            "model": builtin.settings.get("model_id", "") or builtin.settings.get("ai_model", ""),
-            **builtin.settings,
+            "model": settings.get("model_id", "") or settings.get("ai_model", ""),
+            **settings,
         }
 
         if "tools" not in config_dict and builtin.tools:
             config_dict["tools"] = builtin.tools
 
         config = UnifiedConfig.from_dict(config_dict)
-        variable_defaults = AgentVariable.from_list(builtin.variable_defaults)
+        raw_defaults = builtin.variable_defaults
+        variable_defaults = AgentVariable.from_list(raw_defaults if isinstance(raw_defaults, list) else None)
 
         return AgentConfig(
-            name=builtin.name,
+            name=builtin.name or "",
             config=config,
             variable_defaults=variable_defaults,
         )

@@ -19,13 +19,13 @@ class AgentVariable(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     def get_value(self) -> str:
-        """Get the final value with priority: value > default_value > error if required"""
+        """Get the final value with priority: value > default_value > empty string.
+        The 'required' flag is UI guidance only and is never enforced server-side.
+        """
         if self.value is not None:
             return self.value
         if self.default_value:
             return self.default_value
-        if self.required:
-            raise ValueError(f"Required variable '{self.name}' has no value")
         return ""
 
     @classmethod
