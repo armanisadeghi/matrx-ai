@@ -53,7 +53,7 @@ class UserTablesBase(BaseManager[UserTables]):
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, user_tables):
+    async def _initialize_runtime_data(self, item: UserTables) -> None:
         pass
 
     async def create_user_tables(self, **data):
@@ -126,5 +126,8 @@ class UserTablesManager(UserTablesBase):
 
     def __init__(self):
         super().__init__()
+
+    async def _initialize_runtime_data(self, item: UserTables) -> None:
+        pass
 
 user_tables_manager_instance = UserTablesManager()

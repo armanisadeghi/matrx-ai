@@ -53,7 +53,7 @@ class CxMediaBase(BaseManager[CxMedia]):
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, cx_media):
+    async def _initialize_runtime_data(self, item: CxMedia) -> None:
         pass
 
     async def create_cx_media(self, **data):
@@ -126,5 +126,8 @@ class CxMediaManager(CxMediaBase):
 
     def __init__(self):
         super().__init__()
+
+    async def _initialize_runtime_data(self, item: CxMedia) -> None:
+        pass
 
 cx_media_manager_instance = CxMediaManager()

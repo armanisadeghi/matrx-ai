@@ -53,7 +53,7 @@ class ShortcutCategoriesBase(BaseManager[ShortcutCategories]):
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, shortcut_categories):
+    async def _initialize_runtime_data(self, item: ShortcutCategories) -> None:
         pass
 
     async def create_shortcut_categories(self, **data):
@@ -138,5 +138,8 @@ class ShortcutCategoriesManager(ShortcutCategoriesBase):
 
     def __init__(self):
         super().__init__()
+
+    async def _initialize_runtime_data(self, item: ShortcutCategories) -> None:
+        pass
 
 shortcut_categories_manager_instance = ShortcutCategoriesManager()

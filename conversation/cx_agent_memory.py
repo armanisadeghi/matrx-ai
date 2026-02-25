@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 from typing import Any
-
+from db.models import CxAgentMemory
 from db.managers.cx_agent_memory import (
     CxAgentMemoryBase,
-    cx_agent_memory_manager_instance,
 )
 
 
@@ -18,6 +17,9 @@ class CxAgentMemoryManager(CxAgentMemoryBase):
 
     def __init__(self):
         super().__init__()
+
+    async def _initialize_runtime_data(self, item: CxAgentMemory) -> None:
+        pass
 
     async def upsert(
         self, data: dict[str, Any], on_conflict: str = "user_id,scope,scope_id,key",

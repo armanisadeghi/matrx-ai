@@ -2,10 +2,8 @@ import asyncio
 from prompts.agent import Agent
 from tests.ai.test_context import create_test_session, create_test_app_context as create_test_execution_context
 from matrx_utils import vcprint, clear_terminal, cleanup_async_resources
-from initialize_systems import initialize
 
 
-initialize()
 _ctx_token = create_test_execution_context()
 session = create_test_session()
 

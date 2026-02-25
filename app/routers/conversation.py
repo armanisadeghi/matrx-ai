@@ -31,33 +31,30 @@ router = APIRouter(prefix="/api/ai/conversations", tags=["conversation"])
 public_router = APIRouter(prefix="/api/ai/conversations", tags=["conversation"])
 
 
+
+
+# THIS THING IS COMPLETELY AND ABSOLUTELY WRONG!!!!!!!!!!!!!  IT'S COMPLETELY BYPASSING OUR FULL CONFIG SYSETM TO REBUILD MESSAGES LIKE IT'S OPENAI IN 2022 WITH ROLE AND CONTENT! EVERYTHING ELSE IS BEING SILENTLY LOST!
 async def _reconstruct_from_db(conversation_id: str) -> Agent:
-    matches = await cx_conversation_manager.filter_cx_conversations(
+    conversation = await cx_conversation_manager.load_and_get_config(
         id=conversation_id,
     )
-    if not matches:
+    if not conversation:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Conversation {conversation_id} not found.",
         )
 
-    conversation = matches[0]
     messages = await rebuild_conversation_messages(conversation_id)
 
-    # Extract config from row (may be dict or object with .config attr)
-    raw_config = (
-        conversation.get("config", {})
-        if isinstance(conversation, dict)
-        else getattr(conversation, "config", {})
-    ) or {}
-    config_dict: dict[str, Any] = dict(raw_config)
+    config_dict: dict[str, Any] = dict(conversation["config"])
+    
     config_dict["messages"] = [
         {"role": m.get("role", "user"), "content": m.get("content", "")}
         for m in messages
     ]
 
     unified_config = UnifiedConfig.from_dict(config_dict)
-    return Agent(config=unified_config, session=SimpleSession())
+    return Agent(config=unified_config, session=SimpleSession(conversation_id=conversation_id))
 
 
 async def _run_conversation_continue(

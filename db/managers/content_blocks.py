@@ -53,7 +53,7 @@ class ContentBlocksBase(BaseManager[ContentBlocks]):
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, content_blocks):
+    async def _initialize_runtime_data(self, item: ContentBlocks) -> None:
         pass
 
     async def create_content_blocks(self, **data):
@@ -120,5 +120,8 @@ class ContentBlocksManager(ContentBlocksBase):
 
     def __init__(self):
         super().__init__()
+
+    async def _initialize_runtime_data(self, item: ContentBlocks) -> None:
+        pass
 
 content_blocks_manager_instance = ContentBlocksManager()

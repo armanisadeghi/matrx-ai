@@ -53,7 +53,7 @@ class CxUserRequestBase(BaseManager[CxUserRequest]):
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, cx_user_request):
+    async def _initialize_runtime_data(self, item: CxUserRequest) -> None:
         pass
 
     async def create_cx_user_request(self, **data):
@@ -150,5 +150,8 @@ class CxUserRequestManager(CxUserRequestBase):
 
     def __init__(self):
         super().__init__()
+
+    async def _initialize_runtime_data(self, item: CxUserRequest) -> None:
+        pass
 
 cx_user_request_manager_instance = CxUserRequestManager()

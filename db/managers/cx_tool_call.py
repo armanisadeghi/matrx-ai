@@ -53,7 +53,7 @@ class CxToolCallBase(BaseManager[CxToolCall]):
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, cx_tool_call):
+    async def _initialize_runtime_data(self, item: CxToolCall) -> None:
         pass
 
     async def create_cx_tool_call(self, **data):
@@ -162,5 +162,8 @@ class CxToolCallManager(CxToolCallBase):
 
     def __init__(self):
         super().__init__()
+
+    async def _initialize_runtime_data(self, item: CxToolCall) -> None:
+        pass
 
 cx_tool_call_manager_instance = CxToolCallManager()

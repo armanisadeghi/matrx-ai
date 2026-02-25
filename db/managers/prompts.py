@@ -145,4 +145,7 @@ class PromptsManager(PromptsBase):
     def __init__(self):
         super().__init__()
 
+    async def _initialize_runtime_data(self, item: Prompts) -> None:
+        pass
+
 prompts_manager_instance = PromptsManager()

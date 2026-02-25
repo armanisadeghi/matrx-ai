@@ -53,7 +53,7 @@ class CxAgentMemoryBase(BaseManager[CxAgentMemory]):
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, cx_agent_memory):
+    async def _initialize_runtime_data(self, item: CxAgentMemory) -> None:
         pass
 
     async def create_cx_agent_memory(self, **data):
@@ -114,5 +114,8 @@ class CxAgentMemoryManager(CxAgentMemoryBase):
 
     def __init__(self):
         super().__init__()
+
+    async def _initialize_runtime_data(self, item: CxAgentMemory) -> None:
+        pass
 
 cx_agent_memory_manager_instance = CxAgentMemoryManager()

@@ -53,7 +53,7 @@ class ToolsBase(BaseManager[Tools]):
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, tools):
+    async def _initialize_runtime_data(self, item: Tools) -> None:
         pass
 
     async def create_tools(self, **data):
@@ -126,5 +126,8 @@ class ToolsManager(ToolsBase):
 
     def __init__(self):
         super().__init__()
+
+    async def _initialize_runtime_data(self, item: Tools) -> None:
+        pass
 
 tools_manager_instance = ToolsManager()

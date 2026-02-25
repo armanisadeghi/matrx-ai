@@ -53,7 +53,7 @@ class AiModelBase(BaseManager[AiModel]):
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, ai_model):
+    async def _initialize_runtime_data(self, item: AiModel) -> None:
         pass
 
     async def create_ai_model(self, **data):
@@ -162,5 +162,8 @@ class AiModelManager(AiModelBase):
 
     def __init__(self):
         super().__init__()
+
+    async def _initialize_runtime_data(self, item: AiModel) -> None:
+        pass
 
 ai_model_manager_instance = AiModelManager()

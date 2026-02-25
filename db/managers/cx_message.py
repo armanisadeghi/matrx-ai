@@ -53,7 +53,7 @@ class CxMessageBase(BaseManager[CxMessage]):
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, cx_message):
+    async def _initialize_runtime_data(self, item: CxMessage) -> None:
         pass
 
     async def create_cx_message(self, **data):
@@ -126,5 +126,8 @@ class CxMessageManager(CxMessageBase):
 
     def __init__(self):
         super().__init__()
+
+    async def _initialize_runtime_data(self, item: CxMessage) -> None:
+        pass
 
 cx_message_manager_instance = CxMessageManager()

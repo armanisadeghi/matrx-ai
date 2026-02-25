@@ -53,7 +53,7 @@ class TableDataBase(BaseManager[TableData]):
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, table_data):
+    async def _initialize_runtime_data(self, item: TableData) -> None:
         pass
 
     async def create_table_data(self, **data):
@@ -126,5 +126,8 @@ class TableDataManager(TableDataBase):
 
     def __init__(self):
         super().__init__()
+
+    async def _initialize_runtime_data(self, item: TableData) -> None:
+        pass
 
 table_data_manager_instance = TableDataManager()

@@ -139,4 +139,7 @@ class PromptBuiltinsManager(PromptBuiltinsBase):
     def __init__(self):
         super().__init__()
 
+    async def _initialize_runtime_data(self, item: PromptBuiltins) -> None:
+        pass
+
 prompt_builtins_manager_instance = PromptBuiltinsManager()

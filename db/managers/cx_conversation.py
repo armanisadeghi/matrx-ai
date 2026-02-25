@@ -53,7 +53,7 @@ class CxConversationBase(BaseManager[CxConversation]):
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, cx_conversation):
+    async def _initialize_runtime_data(self, item: CxConversation) -> None:
         pass
 
     async def create_cx_conversation(self, **data):
@@ -174,5 +174,8 @@ class CxConversationManager(CxConversationBase):
 
     def __init__(self):
         super().__init__()
+
+    async def _initialize_runtime_data(self, item: CxConversation) -> None:
+        pass
 
 cx_conversation_manager_instance = CxConversationManager()

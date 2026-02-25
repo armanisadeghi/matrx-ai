@@ -53,7 +53,7 @@ class AiProviderBase(BaseManager[AiProvider]):
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, ai_provider):
+    async def _initialize_runtime_data(self, item: AiProvider) -> None:
         pass
 
     async def create_ai_provider(self, **data):
@@ -120,5 +120,8 @@ class AiProviderManager(AiProviderBase):
 
     def __init__(self):
         super().__init__()
+
+    async def _initialize_runtime_data(self, item: AiProvider) -> None:
+        pass
 
 ai_provider_manager_instance = AiProviderManager()
