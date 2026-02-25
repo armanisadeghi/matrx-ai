@@ -2,10 +2,16 @@
 from matrx_utils import vcprint
 
 
-from matrx_orm import BaseManager, ModelView
+from dataclasses import dataclass
+from matrx_orm import BaseManager, BaseDTO, ModelView
 from db.models import CxMedia
 from typing import Optional, Type, Any
 
+
+# ---------------------------------------------------------------------------
+# ModelView (new) — preferred projection layer.
+# Stores results flat on the model instance; no duplication, no nesting.
+# ---------------------------------------------------------------------------
 
 class CxMediaView(ModelView):
     """
@@ -35,6 +41,53 @@ class CxMediaView(ModelView):
     # they never abort the load.                                          #
     # ------------------------------------------------------------------ #
 
+
+# ---------------------------------------------------------------------------
+# BaseDTO (legacy) — kept for backward compatibility.
+# Existing imports of CxMediaDTO from this file continue to work.
+# Migrate business logic to CxMediaView when ready.
+# ---------------------------------------------------------------------------
+
+@dataclass
+class CxMediaDTO(BaseDTO):
+    id: str
+
+    async def _initialize_dto(self, model):
+        '''Override to populate DTO fields from the model.'''
+        self.id = str(model.id)
+        await self._process_core_data(model)
+        await self._process_metadata(model)
+        await self._initial_validation(model)
+        self.initialized = True
+
+    async def _process_core_data(self, model):
+        '''Process core data from the model item.'''
+        pass
+
+    async def _process_metadata(self, model):
+        '''Process metadata from the model item.'''
+        pass
+
+    async def _initial_validation(self, model):
+        '''Validate fields from the model item.'''
+        pass
+
+    async def _final_validation(self):
+        '''Final validation of the model item.'''
+        return True
+
+    async def get_validated_dict(self):
+        '''Get the validated dictionary.'''
+        validated = await self._final_validation()
+        return self.to_dict()
+
+
+# ---------------------------------------------------------------------------
+# Manager — uses ModelView by default.
+# To revert to the legacy DTO path:
+#   view_class = None
+#   super().__init__(CxMedia, dto_class=CxMediaDTO)
+# ---------------------------------------------------------------------------
 
 class CxMediaBase(BaseManager[CxMedia]):
     view_class = CxMediaView
