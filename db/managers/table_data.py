@@ -1,6 +1,4 @@
 # File: db/managers/table_data.py
-from matrx_utils import vcprint
-
 
 from dataclasses import dataclass
 from typing import Any

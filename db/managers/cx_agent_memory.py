@@ -1,6 +1,4 @@
 # File: db/managers/cx_agent_memory.py
-from matrx_utils import vcprint
-
 
 from dataclasses import dataclass
 from typing import Any
