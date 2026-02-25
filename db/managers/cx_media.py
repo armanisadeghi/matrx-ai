@@ -1,4 +1,4 @@
-# File: database/main/managers/cx_media.py
+# File: db/managers/cx_media.py
 from matrx_utils import vcprint
 
 
@@ -73,9 +73,6 @@ class CxMediaBase(BaseManager[CxMedia]):
 
     async def update_cx_media(self, id, **updates):
         return await self.update_item(id, **updates)
-
-    async def exists(self, id):
-        return await self.exists(id)
 
     async def load_cx_medias(self, **kwargs):
         return await self.load_items(**kwargs)

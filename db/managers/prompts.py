@@ -1,4 +1,4 @@
-# File: database/main/managers/prompts.py
+# File: db/managers/prompts.py
 from matrx_utils import vcprint
 
 
@@ -53,7 +53,7 @@ class PromptsBase(BaseManager[Prompts]):
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, prompts):
+    async def _initialize_runtime_data(self, item: Prompts) -> None:
         pass
 
     async def create_prompts(self, **data):
@@ -73,9 +73,6 @@ class PromptsBase(BaseManager[Prompts]):
 
     async def update_prompts(self, id, **updates):
         return await self.update_item(id, **updates)
-
-    async def exists(self, id):
-        return await self.exists(id)
 
     async def load_prompt(self, **kwargs):
         return await self.load_items(**kwargs)

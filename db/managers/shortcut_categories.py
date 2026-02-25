@@ -1,4 +1,4 @@
-# File: database/main/managers/shortcut_categories.py
+# File: db/managers/shortcut_categories.py
 from matrx_utils import vcprint
 
 
@@ -73,9 +73,6 @@ class ShortcutCategoriesBase(BaseManager[ShortcutCategories]):
 
     async def update_shortcut_categories(self, id, **updates):
         return await self.update_item(id, **updates)
-
-    async def exists(self, id):
-        return await self.exists(id)
 
     async def load_shortcut_category(self, **kwargs):
         return await self.load_items(**kwargs)

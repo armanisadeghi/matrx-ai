@@ -1,4 +1,4 @@
-# File: database/main/managers/cx_message.py
+# File: db/managers/cx_message.py
 from matrx_utils import vcprint
 
 
@@ -73,9 +73,6 @@ class CxMessageBase(BaseManager[CxMessage]):
 
     async def update_cx_message(self, id, **updates):
         return await self.update_item(id, **updates)
-
-    async def exists(self, id):
-        return await self.exists(id)
 
     async def load_cx_messages(self, **kwargs):
         return await self.load_items(**kwargs)

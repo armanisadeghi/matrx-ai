@@ -1,4 +1,4 @@
-# File: database/main/managers/table_data.py
+# File: db/managers/table_data.py
 from matrx_utils import vcprint
 
 
@@ -73,9 +73,6 @@ class TableDataBase(BaseManager[TableData]):
 
     async def update_table_data(self, id, **updates):
         return await self.update_item(id, **updates)
-
-    async def exists(self, id):
-        return await self.exists(id)
 
     async def load_table_datas(self, **kwargs):
         return await self.load_items(**kwargs)

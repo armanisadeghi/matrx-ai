@@ -1,4 +1,4 @@
-# File: database/main/managers/cx_tool_call.py
+# File: db/managers/cx_tool_call.py
 from matrx_utils import vcprint
 
 
@@ -73,9 +73,6 @@ class CxToolCallBase(BaseManager[CxToolCall]):
 
     async def update_cx_tool_call(self, id, **updates):
         return await self.update_item(id, **updates)
-
-    async def exists(self, id):
-        return await self.exists(id)
 
     async def load_cx_tool_calls(self, **kwargs):
         return await self.load_items(**kwargs)

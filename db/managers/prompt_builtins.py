@@ -1,4 +1,4 @@
-# File: database/main/managers/prompt_builtins.py
+# File: db/managers/prompt_builtins.py
 from matrx_utils import vcprint
 
 
@@ -53,7 +53,7 @@ class PromptBuiltinsBase(BaseManager[PromptBuiltins]):
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, prompt_builtins):
+    async def _initialize_runtime_data(self, item: PromptBuiltins) -> None:
         pass
 
     async def create_prompt_builtins(self, **data):
@@ -73,9 +73,6 @@ class PromptBuiltinsBase(BaseManager[PromptBuiltins]):
 
     async def update_prompt_builtins(self, id, **updates):
         return await self.update_item(id, **updates)
-
-    async def exists(self, id):
-        return await self.exists(id)
 
     async def load_prompt_builtin(self, **kwargs):
         return await self.load_items(**kwargs)

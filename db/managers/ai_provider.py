@@ -1,4 +1,4 @@
-# File: database/main/managers/ai_provider.py
+# File: db/managers/ai_provider.py
 from matrx_utils import vcprint
 
 
@@ -73,9 +73,6 @@ class AiProviderBase(BaseManager[AiProvider]):
 
     async def update_ai_provider(self, id, **updates):
         return await self.update_item(id, **updates)
-
-    async def exists(self, id):
-        return await self.exists(id)
 
     async def load_ai_providers(self, **kwargs):
         return await self.load_items(**kwargs)

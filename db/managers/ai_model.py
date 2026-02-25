@@ -1,4 +1,4 @@
-# File: database/main/managers/ai_model.py
+# File: db/managers/ai_model.py
 from matrx_utils import vcprint
 
 
@@ -73,9 +73,6 @@ class AiModelBase(BaseManager[AiModel]):
 
     async def update_ai_model(self, id, **updates):
         return await self.update_item(id, **updates)
-
-    async def exists(self, id):
-        return await self.exists(id)
 
     async def load_ai_models(self, **kwargs):
         return await self.load_items(**kwargs)

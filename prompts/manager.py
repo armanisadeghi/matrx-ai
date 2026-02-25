@@ -30,6 +30,14 @@ class PromptsManager(PromptsBase):
     def __init__(self):
         super().__init__()
 
+    async def _initialize_runtime_data(self, item: Prompts) -> None:
+        if not isinstance(item.settings, dict):
+            item.settings = {}
+        if not isinstance(item.variable_defaults, list):
+            item.variable_defaults = []
+        if not isinstance(item.messages, list):
+            item.messages = []
+
     async def to_config(self, prompt_id: str) -> AgentConfig:
         prompt: Prompts = await self.load_prompts_by_id(prompt_id)
 
@@ -64,6 +72,14 @@ class PromptBuiltinsManager(PromptBuiltinsBase):
 
     def __init__(self):
         super().__init__()
+
+    async def _initialize_runtime_data(self, item: PromptBuiltins) -> None:
+        if not isinstance(item.settings, dict):
+            item.settings = {}
+        if not isinstance(item.variable_defaults, list):
+            item.variable_defaults = []
+        if not isinstance(item.messages, list):
+            item.messages = []
 
     async def to_config(self, builtin_id: str) -> AgentConfig:
         builtin: PromptBuiltins = await self.load_prompt_builtins_by_id(builtin_id)

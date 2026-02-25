@@ -1,4 +1,4 @@
-# File: database/main/managers/user_tables.py
+# File: db/managers/user_tables.py
 from matrx_utils import vcprint
 
 
@@ -73,9 +73,6 @@ class UserTablesBase(BaseManager[UserTables]):
 
     async def update_user_tables(self, id, **updates):
         return await self.update_item(id, **updates)
-
-    async def exists(self, id):
-        return await self.exists(id)
 
     async def load_user_table(self, **kwargs):
         return await self.load_items(**kwargs)

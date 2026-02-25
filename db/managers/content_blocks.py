@@ -1,4 +1,4 @@
-# File: database/main/managers/content_blocks.py
+# File: db/managers/content_blocks.py
 from matrx_utils import vcprint
 
 
@@ -73,9 +73,6 @@ class ContentBlocksBase(BaseManager[ContentBlocks]):
 
     async def update_content_blocks(self, id, **updates):
         return await self.update_item(id, **updates)
-
-    async def exists(self, id):
-        return await self.exists(id)
 
     async def load_content_block(self, **kwargs):
         return await self.load_items(**kwargs)

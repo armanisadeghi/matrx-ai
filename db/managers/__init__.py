@@ -1,4 +1,4 @@
-# File: database/main/managers/__init__.py
+# File: db/managers/__init__.py
 from .ai_provider import AiProviderDTO, AiProviderBase
 from .cx_agent_memory import CxAgentMemoryDTO, CxAgentMemoryBase
 from .prompts import PromptsDTO, PromptsBase
