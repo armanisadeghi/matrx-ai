@@ -27,12 +27,12 @@ dependencies = [
     "supabase",
     # --- Matrx ecosystem ---
     "matrx-utils>=1.0.4",
-    "matrx-orm==2.0.18",
     # --- Utilities used by ai module ---
     "rich",
     "tiktoken",
     "aiofiles",
     "pip>=26.0.1",
+    "matrx-orm>=2.0.19",
 ]
 
 [project.optional-dependencies]
@@ -73,6 +73,3 @@ testpaths = ["tests"]
 [tool.pyrefly]
 python-interpreter-path = ".venv/bin/python3"
 python-version = "3.13"
-
-[tool.uv.sources]
-matrx-orm = { path = "../matrx-orm", editable = true }

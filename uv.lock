@@ -1110,7 +1110,7 @@ requires-dist = [
     { name = "groq" },
     { name = "httpx", specifier = ">=0.28.0" },
     { name = "httpx", marker = "extra == 'dev'", specifier = ">=0.28.0" },
-    { name = "matrx-orm", editable = "../matrx-orm" },
+    { name = "matrx-orm", specifier = ">=2.0.19" },
     { name = "matrx-utils", specifier = ">=1.0.4" },
     { name = "openai" },
     { name = "orjson", specifier = ">=3.10.0" },
@@ -1143,8 +1143,8 @@ dev = [
 
 [[package]]
 name = "matrx-orm"
-version = "2.0.18"
-source = { editable = "../matrx-orm" }
+version = "2.0.19"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "asyncpg" },
     { name = "gitpython" },
@@ -1153,19 +1153,10 @@ dependencies = [
     { name = "psycopg-pool" },
     { name = "pyyaml" },
 ]
-
-[package.metadata]
-requires-dist = [
-    { name = "asyncpg", specifier = ">=0.30.0" },
-    { name = "gitpython", specifier = ">=3.1.40" },
-    { name = "matrx-utils", specifier = ">=1.0.4" },
-    { name = "psycopg", extras = ["binary"], specifier = ">=3.2.5" },
-    { name = "psycopg-pool", specifier = ">=3.2.5" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=9.0" },
-    { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = ">=1.0" },
-    { name = "pyyaml", specifier = ">=6.0.3" },
+sdist = { url = "https://files.pythonhosted.org/packages/01/96/8a764a63dfeccb4ea5b0ec309c950598e997769bda3d79f88b14f68d34cb/matrx_orm-2.0.19.tar.gz", hash = "sha256:35a5595fe5bab0b95d37366ea0095c9f3ae161d3165eb536b161843178f319bc", size = 293334, upload-time = "2026-02-25T18:58:10.266Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e0/9e/b4724e324e06ced801a42d4da35e685da49e14e8cce671faa2b87c826207/matrx_orm-2.0.19-py3-none-any.whl", hash = "sha256:5e1092c73e4af27e2f7ca18832039db9eb3a7bff1acbf95636cdaaf5f7a46578", size = 208674, upload-time = "2026-02-25T18:58:08.608Z" },
 ]
-provides-extras = ["dev"]
 
 [[package]]
 name = "matrx-utils"
