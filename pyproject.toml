@@ -27,7 +27,7 @@ dependencies = [
     "supabase",
     # --- Matrx ecosystem ---
     "matrx-utils>=1.0.4",
-    "matrx-orm>=2.0.15",
+    "matrx-orm==2.0.18",
     # --- Utilities used by ai module ---
     "rich",
     "tiktoken",

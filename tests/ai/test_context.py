@@ -20,7 +20,7 @@ Rules enforced:
     - Emitter is always a real ConsoleEmitter — never None, never a mock
     - request_id is always a fresh UUID — callers cannot pass empty strings
     - ip_address and user_agent are the only fields allowed to be synthetic
-      ("127.0.0.1" / "ai-dream-test/1.0") since they are browser-only values
+      ("127.0.0.1" / "aidream-test/1.0") since they are browser-only values
 
 Usage:
     from tests.ai.test_context import create_test_app_context
@@ -163,7 +163,7 @@ def create_test_app_context(
         is_admin=is_admin,
         fingerprint_id=None,
         ip_address="127.0.0.1",        # synthetic: browser-only, irrelevant in tests
-        user_agent="ai-dream-test/1.0", # synthetic: browser-only, irrelevant in tests
+        user_agent="aidream-test/1.0", # synthetic: browser-only, irrelevant in tests
         token=None,
         request_id=str(uuid4()),        # always a fresh UUID — never empty
         project_id=project_id or get_test_project_id(),
