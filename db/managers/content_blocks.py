@@ -2,53 +2,47 @@
 from matrx_utils import vcprint
 
 
-from dataclasses import dataclass
-from matrx_orm import BaseManager, BaseDTO
+from matrx_orm import BaseManager, ModelView
 from db.models import ContentBlocks
 from typing import Optional, Type, Any
 
-@dataclass
-class ContentBlocksDTO(BaseDTO):
-    id: str
 
-    async def _initialize_dto(self, model):
-        '''Override the base initialization method.'''
-        self.id = str(model.id)
-        await self._process_core_data(model)
-        await self._process_metadata(model)
-        await self._initial_validation(model)
-        self.initialized = True
+class ContentBlocksView(ModelView):
+    """
+    Declarative view for ContentBlocks.
 
-    async def _process_core_data(self, model):
-        '''Process core data from the model item.'''
-        pass
+    Configure what gets fetched and shaped automatically on every load:
 
-    async def _process_metadata(self, model):
-        '''Process metadata from the model item.'''
-        pass
+      prefetch    — relation names to fetch concurrently (FK / IFK / M2M)
+      exclude     — model field names to omit from to_dict() output
+      inline_fk   — replace FK id columns with the full related object
+                    e.g. {"customer_id": "customer"}
 
-    async def _initial_validation(self, model):
-        '''Validate fields from the model item.'''
-        pass
+    Add async methods (no leading underscore) for computed fields:
 
-    async def _final_validation(self):
-        '''Final validation of the model item.'''
-        return True
+        async def display_name(self, model: ContentBlocks) -> str:
+            return model.name.title()
+    """
 
-    async def get_validated_dict(self):
-        '''Get the validated dictionary.'''
-        validated = await self._final_validation()
-        dict_data = self.to_dict()
-        if not validated:
-            vcprint(dict_data, "[ContentBlocksDTO] Validation Failed", verbose=True, pretty=True, color="red")
-        return dict_data
+    prefetch: list = ['shortcut_categories']
+    exclude: list = []
+    inline_fk: dict = {}
 
+    # ------------------------------------------------------------------ #
+    # Computed fields — add async methods below.                          #
+    # Each method receives the model instance and returns a plain value.  #
+    # Errors in computed fields are logged and stored as None —           #
+    # they never abort the load.                                          #
+    # ------------------------------------------------------------------ #
 
 
 class ContentBlocksBase(BaseManager[ContentBlocks]):
-    def __init__(self, dto_class: Optional[Type[Any]] = None):
-        self.dto_class = dto_class or ContentBlocksDTO
-        super().__init__(ContentBlocks, self.dto_class)
+    view_class = ContentBlocksView
+
+    def __init__(self, view_class: Optional[Type[Any]] = None):
+        if view_class is not None:
+            self.view_class = view_class
+        super().__init__(ContentBlocks)
 
     def _initialize_manager(self):
         super()._initialize_manager()
