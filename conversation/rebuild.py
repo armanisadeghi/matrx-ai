@@ -7,132 +7,82 @@ rows to rebuild the full ToolResultContent objects.
 Usage:
     from conversation.rebuild import rebuild_conversation_messages
 
-    messages = await rebuild_conversation_messages(conversation_id)
+    messages = await rebuild_conversation_messages(raw_messages, tool_calls, media)
 """
 from __future__ import annotations
 
-import logging
 from typing import Any
 
-logger = logging.getLogger(__name__)
+from config.unified_config import UnifiedMessage
+from db.models import (
+    CxMessage,
+    CxToolCall,
+    CxMedia,
+)
 
 
-async def rebuild_conversation_messages(
-    conversation_id: str,
-    supabase_client: Any | None = None,
+def _rebuild_tool_result_content(
+    tool_calls: list[CxToolCall],
 ) -> list[dict[str, Any]]:
-    """Load cx_message rows and enrich tool-role messages with cx_tool_call data.
+    content_blocks: list[dict[str, Any]] = []
 
-    Returns a list of message dicts ready for UnifiedMessage.from_dict(),
-    ordered by position ASC.
+    for tc in tool_calls:
+        content_blocks.append(
+            {
+                "type": "tool_result",
+                "tool_use_id": tc.call_id,
+                "call_id": tc.call_id,
+                "name": tc.tool_name,
+                "content": tc.output,
+                "is_error": tc.is_error,
+            }
+        )
 
-    The ``supabase_client`` parameter is deprecated and ignored — tool call
-    loading now goes through the ORM manager.
-    """
-    from conversation import cx_message_manager, cx_tool_call_manager
+    return content_blocks
 
-    raw_messages = await cx_message_manager.filter_cx_messages(
-        conversation_id=conversation_id,
-    )
 
-    if not raw_messages:
-        return []
+async def _map_tool_calls_to_messages(
+    messages: list[CxMessage],
+    tool_calls: list[CxToolCall],
+) -> dict[str, list[dict[str, Any]]]:
+    message_ids = [msg.id for msg in messages]
 
     rows = []
-    for msg in raw_messages:
-        row = _msg_to_dict(msg)
-        rows.append(row)
-
-    rows.sort(key=lambda m: m.get("position", 0))
-
-    tool_message_ids = [
-        r["id"] for r in rows
-        if r.get("role") == "tool" and _is_empty_content(r.get("content"))
-    ]
-
-    tool_call_map: dict[str, list[dict[str, Any]]] = {}
-
-    if tool_message_ids:
-        tool_call_map = await _load_tool_calls_for_messages(
-            tool_message_ids, conversation_id, cx_tool_call_manager,
-        )
-
-    result: list[dict[str, Any]] = []
-    for row in rows:
-        role = row.get("role")
-        msg_id = row.get("id")
-
-        if role == "tool" and msg_id in tool_call_map:
-            rebuilt_content = _rebuild_tool_result_content(tool_call_map[msg_id])
-            row["content"] = rebuilt_content
-
-        result.append(row)
-
-    return result
-
-
-def _msg_to_dict(msg: Any) -> dict[str, Any]:
-    if isinstance(msg, dict):
-        return msg
-    d: dict[str, Any] = {}
-    for fld in ("id", "conversation_id", "role", "position", "status", "content", "metadata", "created_at"):
-        val = getattr(msg, fld, None)
-        if val is not None:
-            d[fld] = str(val) if fld == "id" else val
-    return d
-
-
-def _is_empty_content(content: Any) -> bool:
-    if content is None:
-        return True
-    if isinstance(content, list) and len(content) == 0:
-        return True
-    if isinstance(content, str) and content.strip() in ("", "[]", "null"):
-        return True
-    return False
-
-
-async def _load_tool_calls_for_messages(
-    message_ids: list[str],
-    conversation_id: str,
-    tool_call_manager: Any,
-) -> dict[str, list[dict[str, Any]]]:
-    """Fetch cx_tool_call rows grouped by message_id."""
-    try:
-        all_tc_items = await tool_call_manager.filter_cx_tool_calls(
-            conversation_id=conversation_id,
-        )
-
-        rows = []
-        for item in all_tc_items:
-            tc_dict = item.to_dict() if hasattr(item, "to_dict") else item
-            mid = tc_dict.get("message_id")
-            if mid and str(mid) in message_ids and not tc_dict.get("deleted_at"):
-                rows.append(tc_dict)
-    except Exception as exc:
-        logger.warning("Failed to load cx_tool_call rows: %s", exc)
-        return {}
+    for tc in tool_calls:
+        mid = tc.message_id
+        if mid and str(mid) in message_ids and not tc.deleted_at:
+            rows.append(tc)
 
     grouped: dict[str, list[dict[str, Any]]] = {}
     for row in rows:
-        mid = str(row.get("message_id"))
+        mid = str(row.message_id)
         grouped.setdefault(mid, []).append(row)
 
     return grouped
 
 
-def _rebuild_tool_result_content(tool_calls: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Convert cx_tool_call rows into ToolResultContent-compatible dicts."""
-    content_blocks: list[dict[str, Any]] = []
+async def rebuild_conversation_messages(
+    raw_messages: list[CxMessage],
+    tool_calls: list[CxToolCall],
+    media: list[CxMedia],
+) -> list[CxMessage]:
+    ordered_messages = sorted(raw_messages, key=lambda x: x.position)
 
-    for tc in tool_calls:
-        content_blocks.append({
-            "type": "tool_result",
-            "tool_use_id": tc.get("call_id", ""),
-            "call_id": tc.get("call_id", ""),
-            "name": tc.get("tool_name", ""),
-            "content": tc.get("output", ""),
-            "is_error": tc.get("is_error", False),
-        })
+    tool_call_map: dict[str, list[CxToolCall]] = await _map_tool_calls_to_messages(
+        ordered_messages,
+        tool_calls,
+    )
 
-    return content_blocks
+    result: list[dict[str, Any]] = []
+    for msg in ordered_messages:
+        role = msg.role
+        msg_id = msg.id
+
+        if role == "tool" and msg_id in tool_call_map:
+            rebuilt_content = _rebuild_tool_result_content(tool_call_map[msg_id])
+            msg.content = rebuilt_content
+
+        unified_message = UnifiedMessage.from_cx_message(msg)
+        result.append(unified_message)
+
+    return result

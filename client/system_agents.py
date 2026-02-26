@@ -11,7 +11,6 @@ from context.app_context import (
     get_app_context,
 )
 from prompts.agent import Agent
-from prompts.session import SimpleSession
 from tools.models import ToolContext
 from client.usage import TokenUsage
 from matrx_utils import vcprint
@@ -39,7 +38,6 @@ async def scrape_research_condenser_agent_1(
     try:
         agent = await Agent.from_prompt(
             "a5f65b49-f0fa-4d0d-a7ce-e200237ab1b6",
-            session=SimpleSession(conversation_id=child_ctx.conversation_id),
         )
 
         agent.set_variable("instructions", instructions)
@@ -77,7 +75,6 @@ async def scrape_research_condenser_agent_2(
     try:
         agent = await Agent.from_prompt(
             "048fb140-8ba4-4a5a-b290-2e657c3785e9",
-            session=SimpleSession(conversation_id=child_ctx.conversation_id),
         )
 
         agent.set_variable("instructions", instructions)

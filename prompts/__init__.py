@@ -3,7 +3,6 @@
 Core components for agent-based AI interactions:
 - Agent: Main class for executing prompts with variable support
 - AgentCache: In-memory cache for multi-turn conversations
-- SimpleSession: Session context for agent execution
 - AgentVariable: Variable definition for prompt templates
 - AgentConfig: Configuration container for agent initialization
 - pm: PromptManagers aggregator — single access point for prompt/builtin operations
@@ -12,7 +11,6 @@ Core components for agent-based AI interactions:
 __all__ = [
     "Agent",
     "AgentCache",
-    "SimpleSession",
     "AgentConfig",
     "AgentVariable",
     "PromptManagers",
@@ -28,9 +26,6 @@ def __getattr__(name: str):
     elif name == "AgentCache":
         from prompts.cache import AgentCache
         return AgentCache
-    elif name == "SimpleSession":
-        from prompts.session import SimpleSession
-        return SimpleSession
     elif name == "AgentConfig":
         from prompts.types import AgentConfig
         return AgentConfig

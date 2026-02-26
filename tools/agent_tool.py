@@ -37,7 +37,6 @@ async def execute_agent_tool(
 
     try:
         from context.app_context import get_app_context, set_app_context as set_execution_context, clear_app_context as clear_execution_context
-        from prompts.session import SimpleSession
         from prompts.agent import Agent
     except ImportError as exc:
         return ToolResult(
@@ -57,11 +56,8 @@ async def execute_agent_tool(
     token = set_execution_context(child_ctx)
 
     try:
-        child_session = SimpleSession(conversation_id=child_conversation_id)
-
         agent = await Agent.from_prompt(
             tool_def.prompt_id,
-            session=child_session,
             variables=args.get("variables"),
         )
 

@@ -32,8 +32,8 @@ def _scope_id(ctx: ToolContext, scope: str) -> str | None:
 
 
 def _get_memory_manager():
-    from conversation import cx_agent_memory_manager
-    return cx_agent_memory_manager
+    from conversation import cxm
+    return cxm.agent_memory
 
 
 async def memory_store(args: dict[str, Any], ctx: ToolContext) -> ToolResult:

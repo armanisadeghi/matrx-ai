@@ -600,8 +600,11 @@ class TokenUsage:
     cached_input_tokens: int = 0
     """Input tokens served from cache (reduced/free cost)"""
 
-    model: str = ""
-    """Model name used for this request (for cost calculation)"""
+    matrx_model_name: str = ""
+    """AI Model ID (Truth) used for this request (for cost calculation)"""
+
+    provider_model_name: str = ""
+    """Model name used by the provider (could be different than requested model due to aliasing)"""
 
     api: str = ""
     """API provider (e.g., 'google', 'openai', 'anthropic')"""
@@ -637,20 +640,20 @@ class TokenUsage:
             >>> print(f"${cost:.4f}")
             $0.2025
         """
-        if not self.model:
+        if not self.matrx_model_name:
             return None
 
         # Use provided lookup or default
         lookup = pricing_lookup or MODEL_PRICING
 
         # Try exact match first
-        model_pricing = lookup.get(self.model)
+        model_pricing = lookup.get(self.matrx_model_name)
 
         # If no exact match and this is OpenAI, try prefix matching
         # OpenAI models often have version suffixes (e.g., gpt-5.2-2025-01-15)
         if not model_pricing and self.api == "openai":
             for model_key, pricing in lookup.items():
-                if pricing.api == "openai" and self.model.startswith(model_key):
+                if pricing.api == "openai" and self.matrx_model_name.startswith(model_key):
                     model_pricing = pricing
                     break
 
@@ -658,7 +661,7 @@ class TokenUsage:
         # Anthropic models often have version suffixes (e.g., claude-sonnet-4-5-20250929)
         if not model_pricing and self.api == "anthropic":
             for model_key, pricing in lookup.items():
-                if pricing.api == "anthropic" and self.model.startswith(model_key):
+                if pricing.api == "anthropic" and self.matrx_model_name.startswith(model_key):
                     model_pricing = pricing
                     break
 
@@ -666,35 +669,35 @@ class TokenUsage:
         # Cerebras models might have variations or versions
         if not model_pricing and self.api == "cerebras":
             for model_key, pricing in lookup.items():
-                if pricing.api == "cerebras" and self.model.startswith(model_key):
+                if pricing.api == "cerebras" and self.matrx_model_name.startswith(model_key):
                     model_pricing = pricing
                     break
 
         # If no exact match and this is Together, try prefix matching
         if not model_pricing and self.api == "together":
             for model_key, pricing in lookup.items():
-                if pricing.api == "together" and self.model.startswith(model_key):
+                if pricing.api == "together" and self.matrx_model_name.startswith(model_key):
                     model_pricing = pricing
                     break
 
         # If no exact match and this is Groq, try prefix matching
         if not model_pricing and self.api == "groq":
             for model_key, pricing in lookup.items():
-                if pricing.api == "groq" and self.model.startswith(model_key):
+                if pricing.api == "groq" and self.matrx_model_name.startswith(model_key):
                     model_pricing = pricing
                     break
 
         # If no exact match and this is xAI, try prefix matching
         if not model_pricing and self.api == "xai":
             for model_key, pricing in lookup.items():
-                if pricing.api == "xai" and self.model.startswith(model_key):
+                if pricing.api == "xai" and self.matrx_model_name.startswith(model_key):
                     model_pricing = pricing
                     break
 
         if not model_pricing:
             # No pricing data available for this model - return None gracefully
             vcprint(
-                f"\n\n⚠️  Pricing not found for model: {self.model} (api: {self.api})\n\n",
+                f"\n\n⚠️  Pricing not found for model: {self.matrx_model_name} (api: {self.api})\n\n",
                 color="red",
             )
             return None
@@ -706,7 +709,7 @@ class TokenUsage:
         tier = model_pricing.get_tier(total_input)
         if not tier:
             vcprint(
-                f"\n\n⚠️  Pricing tier not found for model: {self.model} (total_input: {total_input:,} tokens)\n\n",
+                f"\n\n⚠️  Pricing tier not found for model: {self.matrx_model_name} (total_input: {total_input:,} tokens)\n\n",
                 color="red",
             )
             return None
@@ -727,47 +730,51 @@ class TokenUsage:
         Response ID is set to empty string when aggregating multiple responses.
         """
         # Preserve model/API if they match, otherwise mark as mixed
-        model = self.model if self.model == other.model else "mixed"
+        model = self.matrx_model_name if self.matrx_model_name == other.matrx_model_name else "mixed"
         api = self.api if self.api == other.api else "mixed"
 
         return TokenUsage(
             input_tokens=self.input_tokens + other.input_tokens,
             output_tokens=self.output_tokens + other.output_tokens,
             cached_input_tokens=self.cached_input_tokens + other.cached_input_tokens,
-            model=model,
+            matrx_model_name=self.matrx_model_name,
+            provider_model_name=self.provider_model_name,
             api=api,
             response_id="",  # Clear response_id when aggregating
         )
 
     @classmethod
     def from_gemini(
-        cls, usage_metadata: Dict[str, Any], model: str = "", response_id: str = ""
+        cls, usage_metadata: Dict[str, Any], matrx_model_name: str = "", provider_model_name: str = "", response_id: str = ""
     ) -> "TokenUsage":
         """Create TokenUsage from Google Gemini usage metadata.
 
         Args:
             usage_metadata: The usageMetadata dict from Gemini response
-            model: Model name used for this request
+            matrx_model_name: AI Model ID (Truth) used for this request
+            provider_model_name: Model name used by the provider (could be different than requested model due to aliasing)
             response_id: Response ID from Gemini API
         """
         return cls(
             input_tokens=usage_metadata.prompt_token_count or 0,
             output_tokens=usage_metadata.candidates_token_count or 0,
             cached_input_tokens=usage_metadata.cached_content_token_count or 0,
-            model=model,
+            matrx_model_name=matrx_model_name,
+            provider_model_name=provider_model_name,
             api="google",
             response_id=response_id,
         )
 
     @classmethod
     def from_openai(
-        cls, usage: OpenAIResponseUsage, model: str = "", response_id: str = ""
+        cls, usage: OpenAIResponseUsage, matrx_model_name: str, provider_model_name: str, response_id: str = ""
     ) -> "TokenUsage":
         """Create TokenUsage from OpenAI usage object.
 
         Args:
             usage: The usage dict from OpenAI response
-            model: Model name used for this request
+            matrx_model_name: AI Model ID (Truth) used for this request
+            provider_model_name: Model name used by the provider (could be different than requested model due to aliasing)
             response_id: Response ID from OpenAI API
         """
         cached = (
@@ -779,20 +786,21 @@ class TokenUsage:
             input_tokens=usage.input_tokens - cached,
             output_tokens=usage.output_tokens,
             cached_input_tokens=cached,
-            model=model,
+            matrx_model_name=matrx_model_name,
+            provider_model_name=provider_model_name,
             api="openai",
             response_id=response_id,
         )
 
     @classmethod
     def from_anthropic(
-        cls, usage: AnthropicUsage, model: str = "", response_id: str = ""
+        cls, usage: AnthropicUsage, matrx_model_name: str, response_id: str = ""
     ) -> "TokenUsage":
         """Create TokenUsage from Anthropic usage object.
 
         Args:
             usage: The usage dict from Anthropic response
-            model: Model name used for this request
+            matrx_model_name: AI Model ID (Truth) used for this request
             response_id: Response ID from Anthropic API
         """
         cached = usage.get("cache_read_input_tokens", 0)
@@ -800,7 +808,8 @@ class TokenUsage:
             input_tokens=usage["input_tokens"] - cached,
             output_tokens=usage["output_tokens"],
             cached_input_tokens=cached,
-            model=model,
+            matrx_model_name=matrx_model_name,
+            provider_model_name=matrx_model_name,
             api="anthropic",
             response_id=response_id,
         )
@@ -818,7 +827,7 @@ class TokenUsage:
         model_usage: Dict[str, ModelUsageSummary] = {}
 
         for usage in usage_list:
-            model_key = usage.model or "unknown"
+            model_key = usage.matrx_model_name or "unknown"
 
             if model_key not in model_usage:
                 model_usage[model_key] = ModelUsageSummary(api=usage.api)

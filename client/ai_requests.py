@@ -4,7 +4,7 @@ from typing import Any, Dict, List, Optional, Tuple
 from client.recovery_logic import handle_finish_reason
 from matrx_utils import vcprint
 from client.unified_client import UnifiedAIClient, AIMatrixRequest, CompletedRequest
-from config.unified_config import ToolCallContent, UnifiedResponse, UnifiedMessage
+from config.unified_config import ToolCallContent, UnifiedResponse, UnifiedMessage, UnifiedConfig
 from client.usage import TokenUsage
 from client.timing import TimingUsage
 from client.tool_call_tracking import ToolCallUsage
@@ -19,6 +19,47 @@ import time
 
 
 LOCAL_DEBUG = False
+
+
+# ============================================================================
+# PUBLIC ENTRY POINT
+# ============================================================================
+
+
+async def execute_ai_request(
+    config: UnifiedConfig,
+    max_iterations: int = 20,
+    max_retries_per_iteration: int = 2,
+    metadata: Optional[Dict[str, Any]] = None,
+) -> CompletedRequest:
+    """The single entry point for all AI execution.
+
+    Reads everything it needs from AppContext (set by AuthMiddleware for API
+    calls, or by create_test_app_context() for local scripts):
+        user_id, conversation_id, request_id, emitter, debug, parent_conversation_id
+
+    Creates AIMatrixRequest internally — callers never construct it directly.
+    """
+    from uuid import uuid4
+    from context.app_context import get_app_context
+    ctx = get_app_context()
+
+    request_id = ctx.request_id if ctx.request_id else str(uuid4())
+
+    request = AIMatrixRequest(
+        conversation_id=ctx.conversation_id,
+        config=config,
+        debug=ctx.debug,
+        request_id=request_id,
+        parent_conversation_id=ctx.parent_conversation_id,
+        metadata=metadata or {},
+    )
+    return await execute_until_complete(
+        request,
+        UnifiedAIClient(),
+        max_iterations,
+        max_retries_per_iteration,
+    )
 
 
 async def handle_tool_calls(
@@ -417,7 +458,8 @@ async def execute_until_complete(
                     metadata={
                         "finish_reason": response.finish_reason,
                         "response_id": response.usage.response_id if response.usage else None,
-                        "model": response.usage.model if response.usage else None,
+                        "matrx_model_name": response.usage.matrx_model_name if response.usage else None,
+                        "provider_model_name": response.usage.provider_model_name if response.usage else None,
                     },
                     trigger_position=trigger_position,
                     pre_execution_message_count=pre_execution_message_count,

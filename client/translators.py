@@ -174,7 +174,7 @@ class OpenAITranslator:
 
         # Convert usage to TokenUsage if present
         token_usage = TokenUsage.from_openai(
-            response.usage, model=response.model, response_id=response.id
+            response.usage, matrx_model_name=matrx_model_name, provider_model_name=response.model, response_id=response.id
         )
 
         # # Map OpenAI status/finish_reason to unified format
@@ -320,7 +320,7 @@ class AnthropicTranslator:
 
         # Convert usage to TokenUsage if present
         token_usage = TokenUsage.from_anthropic(
-            response["usage"], model=response.get("model"), response_id=message_id
+            response["usage"], matrx_model_name=matrx_model_name, response_id=message_id
         )
 
         finish_reason = FinishReason.from_anthropic(response.get("stop_reason"))
@@ -524,7 +524,8 @@ class CerebrasTranslator:
                 input_tokens=response.usage.prompt_tokens - cached_tokens,
                 output_tokens=response.usage.completion_tokens,
                 cached_input_tokens=cached_tokens,
-                model=response.model,
+                matrx_model_name=response.model,
+                provider_model_name=response.model,
                 api="cerebras",
                 response_id=response.id,
             )
@@ -708,7 +709,8 @@ class TogetherTranslator:
             token_usage = TokenUsage(
                 input_tokens=response.usage.prompt_tokens,
                 output_tokens=response.usage.completion_tokens,
-                model=response.model,
+                matrx_model_name=response.model,
+                provider_model_name=response.model,
                 api="together",
                 response_id=response.id,
             )
@@ -886,7 +888,8 @@ class GroqTranslator:
             token_usage = TokenUsage(
                 input_tokens=response.usage.prompt_tokens,
                 output_tokens=response.usage.completion_tokens,
-                model=response.model,
+                matrx_model_name=response.model,
+                provider_model_name=response.model,
                 api="groq",
                 response_id=response.id,
             )
@@ -1064,7 +1067,8 @@ class XAITranslator:
             token_usage = TokenUsage(
                 input_tokens=response.usage.prompt_tokens,
                 output_tokens=response.usage.completion_tokens,
-                model=response.model,
+                matrx_model_name=response.model,
+                provider_model_name=response.model,
                 api="xai",
                 response_id=response.id,
             )
@@ -1240,7 +1244,7 @@ class GoogleTranslator:
             "config": generated_config,
         }
 
-    def from_google(self, chunks: List[GenerateContentResponse]) -> UnifiedResponse:
+    def from_google(self, matrx_model_name: str, chunks: List[GenerateContentResponse]) -> UnifiedResponse:
         """Convert Google API response chunks to unified format"""
 
         content = []
@@ -1357,7 +1361,7 @@ class GoogleTranslator:
         token_usage = None
         if usage_metadata:
             token_usage = TokenUsage.from_gemini(
-                usage_metadata, model=model_version, response_id=response_id
+                usage_metadata, matrx_model_name=matrx_model_name, provider_model_name=model_version, response_id=response_id
             )
         else:
             vcprint(

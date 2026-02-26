@@ -3,8 +3,12 @@ Unified AI API Configuration System for OpenAI, Anthropic, and Google Gemini
 Preserves ALL content types and metadata from all providers
 """
 
+from __future__ import annotations
 from dataclasses import dataclass, field, fields
-from typing import Any, Literal, Optional, Union, cast
+from typing import Any, Literal, Optional, Union, cast, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from db.models import CxMessage
 from google.genai.types import Part
 from matrx_utils import vcprint
 from openai.types.responses import (
@@ -631,6 +635,22 @@ class UnifiedMessage:
             timestamp=data.get("timestamp"),
             status=data.get("status", "active"),
             metadata=data.get("metadata", {}),
+        )
+
+    @classmethod
+    def from_cx_message(cls, message: "CxMessage") -> "UnifiedMessage":
+        content = []
+        for item in message.content:
+            item = reconstruct_content(item)
+            content.append(item)
+
+        return cls(
+            role=message.role,
+            content=content,
+            id=message.id,
+            timestamp=message.created_at.isoformat(),
+            status=message.status,
+            metadata=message.metadata,
         )
 
     @classmethod

@@ -37,7 +37,7 @@ from typing import Any, Dict, Optional
 from uuid import UUID
 
 from matrx_utils import vcprint
-from conversation import cx_conversation_manager, cx_user_request_manager
+from conversation import cxm
 
 
 class ConversationGateError(Exception):
@@ -106,7 +106,7 @@ async def create_new_conversation(
     }
 
     try:
-        await cx_conversation_manager.create_cx_conversation(**create_kwargs)
+        await cxm.conversation.create_cx_conversation(**create_kwargs)
         vcprint(
             f"[ConversationGate] Created conversation: {conversation_id}...",
             color="green",
@@ -145,7 +145,7 @@ async def ensure_conversation_exists(
 
     safe_user_id = _require_valid_user_id(user_id, "ensure_conversation_exists")
 
-    existing = await cx_conversation_manager.filter_cx_conversations(
+    existing = await cxm.conversation.filter_cx_conversations(
         id=conversation_id,
     )
     if existing:
@@ -169,13 +169,13 @@ async def ensure_conversation_exists(
         create_kwargs["parent_conversation_id"] = parent_conversation_id
 
     try:
-        await cx_conversation_manager.create_cx_conversation(**create_kwargs)
+        await cxm.conversation.create_cx_conversation(**create_kwargs)
         vcprint(
             f"[ConversationGate] Auto-created conversation: {conversation_id}",
             color="green",
         )
     except Exception as exc:
-        recheck = await cx_conversation_manager.filter_cx_conversations(
+        recheck = await cxm.conversation.filter_cx_conversations(
             id=conversation_id,
         )
         if recheck:
@@ -199,7 +199,7 @@ async def verify_existing_conversation(
             f"conversation_id is not a valid UUID: {conversation_id!r}"
         )
 
-    matches = await cx_conversation_manager.filter_cx_conversations(
+    matches = await cxm.conversation.filter_cx_conversations(
         id=conversation_id,
     )
 
@@ -227,7 +227,7 @@ async def update_conversation_status(
     if not _is_valid_uuid(conversation_id):
         return
     try:
-        await cx_conversation_manager.update_cx_conversation(
+        await cxm.conversation.update_cx_conversation(
             conversation_id,
             status=status,
         )
@@ -285,7 +285,7 @@ async def create_pending_user_request(
         create_kwargs["conversation_id"] = safe_conversation_id
 
     try:
-        await cx_user_request_manager.create_cx_user_request(**create_kwargs)
+        await cxm.user_request.create_cx_user_request(**create_kwargs)
         vcprint(
             f"[ConversationGate] Created pending user_request: {request_id}...",
             color="green",
@@ -314,7 +314,7 @@ async def update_user_request_status(
         update_kwargs["error"] = error
 
     try:
-        await cx_user_request_manager.update_cx_user_request(
+        await cxm.user_request.update_cx_user_request(
             request_id,
             **update_kwargs,
         )

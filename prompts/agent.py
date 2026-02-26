@@ -17,16 +17,8 @@ from prompts.manager import pm
 from prompts.types import AgentConfig
 from prompts.variables import AgentVariable
 from client.usage import TokenUsage, AggregatedUsage
-from client.unified_client import (
-    CompletedRequest,
-    UnifiedAIClient,
-    AIMatrixRequest,
-)
-from context.emitter_protocol import Emitter
-from context.console_emitter import ConsoleEmitter
-from prompts.session import SimpleSession
-from client.ai_requests import execute_until_complete
-from matrx_utils import vcprint
+from client.unified_client import CompletedRequest
+from client.ai_requests import execute_ai_request
 
 
 # ============================================================================
@@ -63,30 +55,16 @@ class Agent:
     def __init__(
         self,
         config: UnifiedConfig,
-        session: SimpleSession,
         variable_defaults: Optional[Dict[str, AgentVariable]] = None,
         name: Optional[str] = None,
     ):
-        """
-        Initialize agent with core components.
-
-        Args:
-            config: UnifiedConfig instance (the actual dataclass)
-            session: Session for the agent (always required)
-            variable_defaults: Dict of variable definitions
-            name: Optional name for identification in logs
-        """
         self.name = name or "Agent"
         self.config = config
         self.variable_defaults = variable_defaults or {}
         self.variable_values: Dict[str, Any] = {}
-        self._variables_applied = False  # Track if variables have been applied
+        self._variables_applied = False
 
-        self.client = UnifiedAIClient()
-        self.emitter: Emitter = ConsoleEmitter("agent")
-        self.session = session
         self.request_metadata: Dict[str, Any] = {}
-
         self.last_completed_request: Optional[CompletedRequest] = None
 
     def clone(self) -> "Agent":
@@ -105,7 +83,7 @@ class Agent:
         so setting new variables on the clone won't work as expected.
 
         Recommended pattern:
-            base = await Agent.from_prompt("id", session=session)  # Don't apply variables yet
+            base = await Agent.from_prompt("id")  # Don't apply variables yet
             agent1 = base.clone().with_variables(topic="AI")
             agent2 = base.clone().with_variables(topic="ML")
 
@@ -114,7 +92,6 @@ class Agent:
         """
         cloned = Agent(
             config=deepcopy(self.config),
-            session=self.session,
             variable_defaults=deepcopy(self.variable_defaults),
             name=self.name,  # Preserve name in clone
         )
@@ -137,7 +114,7 @@ class Agent:
             New Agent instance with variables applied
 
         Example:
-            base = await Agent.from_prompt("prompt-id", session=session)
+            base = await Agent.from_prompt("prompt-id")
 
             # Create multiple variations
             agent_en = base.clone_with_variables(language="English")
@@ -157,7 +134,7 @@ class Agent:
             New Agent instance with overrides applied
 
         Example:
-            base = await Agent.from_prompt("prompt-id", session=session)
+            base = await Agent.from_prompt("prompt-id")
 
             # Create variations with different configs
             agent_creative = base.clone_with_overrides(temperature=0.9)
@@ -181,7 +158,7 @@ class Agent:
             New Agent instance with all modifications applied
 
         Example:
-            base = await Agent.from_prompt("prompt-id", session=session)
+            base = await Agent.from_prompt("prompt-id")
 
             # Create variation with both variables and config changes
             agent = base.clone_with(
@@ -200,35 +177,10 @@ class Agent:
         return cloned
 
     def set_variable(self, name: str, value: Any) -> "Agent":
-        """
-        Set a variable value.
-
-        Args:
-            name: Variable name
-            value: Variable value (will be converted to string when replaced)
-
-        Returns:
-            Self (for method chaining)
-
-        Example:
-            agent.set_variable("topic", "AI Safety")
-        """
         self.variable_values[name] = value
         return self
 
     def set_variables(self, **variables) -> "Agent":
-        """
-        Set multiple variable values at once.
-
-        Args:
-            **variables: Variable names and values as kwargs
-
-        Returns:
-            Self (for method chaining)
-
-        Example:
-            agent.set_variables(topic="AI Safety", audience="developers")
-        """
         self.variable_values.update(variables)
         return self
 
@@ -242,16 +194,7 @@ class Agent:
 
         Uses values from variable_values (set via set_variable/set_variables).
         Falls back to default_value from variable_defaults if value not set.
-        Missing variables resolve to empty string — 'required' is UI guidance only.
-
-        Args:
-            force: If True, apply variables even if already applied
-
-        Returns:
-            Self (for method chaining)
-
-        Example:
-            agent.set_variables(topic="AI", audience="devs").apply_variables()
+        Raises ValueError if required variable has no value.
         """
         # Skip if already applied (unless forced)
         if self._variables_applied and not force:
@@ -282,37 +225,11 @@ class Agent:
         return self
 
     def with_variables(self, **variables) -> "Agent":
-        """
-        Set variables and apply them in one call (convenience method).
-        This is the most common usage pattern.
-
-        Args:
-            **variables: Variable names and values as kwargs
-
-        Returns:
-            Self (for method chaining)
-
-        Example:
-            agent.with_variables(topic="AI Safety", audience="developers")
-        """
         self.set_variables(**variables)
         self.apply_variables()
         return self
 
     def apply_config_overrides(self, **overrides) -> "Agent":
-        """
-        Apply config overrides to the agent's UnifiedConfig.
-        Can be called at any time to modify config settings.
-
-        Args:
-            **overrides: Config settings to override (e.g., temperature=0.7, max_output_tokens=2000)
-
-        Returns:
-            Self (for method chaining)
-
-        Example:
-            agent.apply_config_overrides(temperature=0.9, max_output_tokens=4000)
-        """
         for key, value in overrides.items():
             if hasattr(self.config, key):
                 setattr(self.config, key, value)
@@ -322,27 +239,13 @@ class Agent:
     def from_dict(
         cls,
         config_dict: Dict[str, Any],
-        session: SimpleSession,
         variable_defaults: Optional[Dict[str, AgentVariable]] = None,
         variables: Optional[Dict[str, Any]] = None,
         config_overrides: Optional[Dict[str, Any]] = None,
     ) -> "Agent":
-        """
-        Create agent from config dictionary.
-
-        Args:
-            config_dict: Dictionary containing config data (messages, model, etc.)
-            session: Session for the agent (always required)
-            variable_defaults: Optional dict of variable definitions
-            variables: Optional dict of variable values to set and apply immediately
-            config_overrides: Optional dict of config settings to override
-
-        Returns:
-            Agent instance
-        """
         # Use UnifiedConfig's from_dict method
         config = UnifiedConfig.from_dict(config_dict)
-        agent = cls(config=config, session=session, variable_defaults=variable_defaults)
+        agent = cls(config=config, variable_defaults=variable_defaults)
 
         # Apply variables if provided
         if variables:
@@ -358,13 +261,11 @@ class Agent:
     def _build_from_config(
         cls,
         agent_config: AgentConfig,
-        session: SimpleSession,
         variables: Optional[Dict[str, Any]] = None,
         config_overrides: Optional[Dict[str, Any]] = None,
     ) -> "Agent":
         agent = cls(
             config=agent_config.config,
-            session=session,
             variable_defaults=agent_config.variable_defaults,
             name=agent_config.name,
         )
@@ -378,87 +279,59 @@ class Agent:
     async def from_id(
         cls,
         prompt_id: str,
-        session: SimpleSession,
         variables: Optional[Dict[str, Any]] = None,
         config_overrides: Optional[Dict[str, Any]] = None,
     ) -> "Agent":
         agent_config = await pm.get_config(prompt_id)
-        return cls._build_from_config(agent_config, session, variables, config_overrides)
+        return cls._build_from_config(agent_config, variables, config_overrides)
 
     @classmethod
     async def from_prompt(
         cls,
         prompt_id: str,
-        session: SimpleSession,
         variables: Optional[Dict[str, Any]] = None,
         config_overrides: Optional[Dict[str, Any]] = None,
     ) -> "Agent":
         agent_config = await pm.get_prompt_config(prompt_id)
-        return cls._build_from_config(agent_config, session, variables, config_overrides)
+        return cls._build_from_config(agent_config, variables, config_overrides)
 
     @classmethod
     async def from_builtin(
         cls,
         builtin_id: str,
-        session: SimpleSession,
         variables: Optional[Dict[str, Any]] = None,
         config_overrides: Optional[Dict[str, Any]] = None,
     ) -> "Agent":
         agent_config = await pm.get_builtin_config(builtin_id)
-        return cls._build_from_config(agent_config, session, variables, config_overrides)
-
-    def set_session(self, session: SimpleSession) -> "Agent":
-        """
-        Set the session for the agent.
-        """
-        self.session = session
-        return self
+        return cls._build_from_config(agent_config, variables, config_overrides)
 
     def set_user_input(self, user_input: str | list[dict[str, Any]]) -> "Agent":
         self.config.append_or_extend_user_input(user_input)
         return self
 
     async def execute(self, user_input: Optional[str | list[dict[str, Any]]] = None) -> AgentExecuteResult:
+        """Execute the agent with optional user input.
+
+        Applies variables on first execution, appends user_input if provided,
+        then delegates entirely to execute_ai_request() which reads all context
+        (user_id, conversation_id, emitter, debug) from AppContext.
+
+        This works identically whether called from an API route task, a tool
+        spawning a sub-agent, or a local test script.
         """
-        Execute the agent with user input.
-
-        Automatically applies variables on first execution if any are set.
-        Subsequent executions continue the conversation without reapplying variables.
-
-        Args:
-            user_input: Optional user input to add to the conversation
-
-        Returns:
-            AgentExecuteResult with output, assistant_response, config, usage, metadata
-        """
-        # Auto-apply variables on first execution (apply_variables handles the flag)
         if self.variable_values and not self._variables_applied:
             self.apply_variables()
-
-        # Add user input if provided
         if user_input:
             self.set_user_input(user_input)
 
-        # Create request from current config
-        request = AIMatrixRequest.from_session(self.config, self.session, metadata=self.request_metadata)
-
-
-        try:
-            completed = await execute_until_complete(
-                initial_request=request,
-                client=self.client,
-                max_iterations=10,
-                max_retries_per_iteration=1,
-            )
-
-            return self._clean_up_response(completed)
-
-        except RuntimeError as e:
-            vcprint(f"\n✗ Autonomous execution failed: {str(e)}", color="red")
-            raise
+        completed = await execute_ai_request(
+            self.config,
+            metadata=self.request_metadata,
+        )
+        return self._clean_up_response(completed)
 
     def _clean_up_response(self, response: CompletedRequest) -> AgentExecuteResult:
-        last_response = response.request.config._message_list.get_last_by_role("assistant")
+        last_response = response.request.config.messages.get_last_by_role("assistant")
         last_output = response.request.config.get_last_output()
         self.config = response.request.config
         self.last_completed_request = response
@@ -472,13 +345,10 @@ class Agent:
         )
 
     def to_dict(self) -> Dict[str, Any]:
-        result = {
+        return {
             "name": self.name,
             "config": self.config,
             "variable_defaults": self.variable_defaults,
             "variable_values": self.variable_values,
             "variables_applied": self._variables_applied,
-            "session": self.session,
         }
-
-        return result

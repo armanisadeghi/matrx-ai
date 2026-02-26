@@ -25,15 +25,12 @@ async def summarize_content(
     try:
         from context.app_context import get_app_context, set_app_context, clear_app_context
         from prompts.agent import Agent
-        from prompts.session import SimpleSession
 
         child_ctx = get_app_context().fork_for_child_agent(str(uuid4()))
         token = set_app_context(child_ctx)
 
         try:
             from config.unified_config import UnifiedConfig
-
-            session = SimpleSession(conversation_id=child_ctx.conversation_id)
 
             config = UnifiedConfig.from_dict({
                 "model": model_id,
@@ -43,7 +40,7 @@ async def summarize_content(
                 ),
                 "messages": [],
             })
-            agent = Agent(config=config, session=session)
+            agent = Agent(config=config)
 
             prompt = f"Instructions: {instructions}\n\nContent to summarize:\n{content[:100000]}"
             result = await agent.execute(user_input=prompt)

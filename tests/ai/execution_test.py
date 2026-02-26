@@ -13,8 +13,7 @@ from pathlib import Path
 from shared.json_utils import to_matrx_json  # TODO: move to matrx_utils or inline json.dumps
 from matrx_utils import vcprint, clear_terminal, cleanup_async_resources
 import rich
-from prompts.session import SimpleSession
-from tests.ai.test_context import create_test_session, create_test_execution_context
+from tests.ai.test_context import create_test_execution_context
 from matrx_utils import clear_terminal, vcprint
 import dotenv
 import os
@@ -27,11 +26,11 @@ LOCAL_USER_ID = os.getenv("LOCAL_USER_ID")
 _ctx_token = create_test_execution_context(debug=False)
 
 
-async def test_autonomous_execution(config: dict, session: SimpleSession):
+async def test_autonomous_execution(config: dict, conversation_id: str, debug: bool = False):
     """Test autonomous execution that handles all tool calls automatically"""
     settings_to_use = {
-        "conversation_id": session.conversation_id,
-        "debug": session.debug,
+        "conversation_id": conversation_id,
+        "debug": debug,
         "config": config,
     }
     
@@ -452,12 +451,10 @@ if __name__ == "__main__":
     #     test_autonomous_execution(settings_to_use, emitter)
     # )
 
-    session = create_test_session(
-        # new_conversation=True,
-        debug=False,
-    )
+    from tests.ai.test_context import get_test_conversation_id
+    conversation_id = get_test_conversation_id()
     final_result = asyncio.run(
-        test_autonomous_execution(settings_to_use["config"], session)
+        test_autonomous_execution(settings_to_use["config"], conversation_id, debug=False)
     )
 
     # Save to file for easy review

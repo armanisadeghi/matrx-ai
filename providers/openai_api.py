@@ -65,14 +65,16 @@ class OpenAIChat:
         if self.debug:
             rich.print(config_data)
 
+        matrx_model_name = unified_config.model
+
         try:
             if unified_config.stream:
                 return await self._execute_streaming(
-                    config_data, emitter
+                    config_data, emitter, matrx_model_name
                 )
             else:
                 return await self._execute_non_streaming(
-                    config_data, emitter
+                    config_data, emitter, matrx_model_name
                 )
 
         except Exception as e:
@@ -98,6 +100,7 @@ class OpenAIChat:
         self,
         config_data: Dict[str, Any],
         emitter: Emitter,
+        matrx_model_name: str,
     ) -> UnifiedResponse:
         """Execute non-streaming OpenAI request"""
 
@@ -128,12 +131,13 @@ class OpenAIChat:
 
         await emitter.send_chunk(content)
 
-        return self.translator.from_openai(response)
+        return self.translator.from_openai(response, matrx_model_name)
 
     async def _execute_streaming(
         self,
         config_data: Dict[str, Any],
         emitter: Emitter,
+        matrx_model_name: str,
     ) -> UnifiedResponse:
         """Execute streaming OpenAI request"""
 
@@ -152,7 +156,7 @@ class OpenAIChat:
             # Get the final response with usage data
             final_response: OpenAIResponse = await stream.get_final_response()
 
-        return self.translator.from_openai(final_response)
+        return self.translator.from_openai(final_response, matrx_model_name)
 
     async def _handle_event(self, event: Any, emitter: Emitter):
         """Handle individual streaming event"""

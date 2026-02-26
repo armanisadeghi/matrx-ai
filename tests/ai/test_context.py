@@ -26,7 +26,6 @@ Usage:
     from tests.ai.test_context import create_test_app_context
 
     token = create_test_app_context()
-    session = create_test_session()
 
     from tests.ai.test_context import create_test_tool_context
     ctx = create_test_tool_context("web_search")
@@ -43,7 +42,6 @@ from uuid import uuid4
 from context.app_context import AppContext, set_app_context
 from context.emitter_protocol import Emitter
 from context.console_emitter import ConsoleEmitter
-from prompts.session import SimpleSession
 from tools.models import ToolContext
 
 
@@ -173,20 +171,6 @@ def create_test_app_context(
         conversation_id=conv_id,
     )
     return set_app_context(ctx)
-
-
-# ---------------------------------------------------------------------------
-# SimpleSession — requires AppContext to already be set
-# ---------------------------------------------------------------------------
-
-def create_test_session(
-    *,
-    conversation_id: str | None = None,
-    debug: bool = True,
-    new_conversation: bool = False,
-) -> SimpleSession:
-    conv_id = str(uuid4()) if new_conversation else (conversation_id or get_test_conversation_id())
-    return SimpleSession(conversation_id=conv_id, debug=debug)
 
 
 # ---------------------------------------------------------------------------

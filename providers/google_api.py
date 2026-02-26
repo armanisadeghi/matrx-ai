@@ -47,6 +47,7 @@ class GoogleChat:
         config_data: GoogleProviderConfig = self.translator.to_google(
             unified_config, api_class
         )
+        matrx_model_name = unified_config.model
         self.debug = debug or LOCAL_DEBUG
 
         vcprint(f"[Google Chat] executing, with debug: {self.debug}", color="blue")
@@ -79,7 +80,7 @@ class GoogleChat:
                                     await self._handle_part(part, emitter)
 
                 converted_response = self.translator.from_google(
-                    accumulated_chunks
+                    accumulated_chunks, matrx_model_name
                 )
             else:
                 # Non-streaming mode - returns single GenerateContentResponse
@@ -100,7 +101,7 @@ class GoogleChat:
                                 await self._handle_part(part, emitter)
                 
                 converted_response = self.translator.from_google(
-                    accumulated_chunks
+                    accumulated_chunks, matrx_model_name
                 )
 
             return converted_response

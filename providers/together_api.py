@@ -251,7 +251,8 @@ class TogetherChat:
             token_usage = TokenUsage(
                 input_tokens=usage_data.prompt_tokens,
                 output_tokens=usage_data.completion_tokens,
-                model=model,
+                matrx_model_name=model,
+                provider_model_name=model,
                 api="together",
                 response_id=response_id or ""
             )

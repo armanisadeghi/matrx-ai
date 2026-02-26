@@ -21,7 +21,6 @@ from config.unified_config import (
     ToolResultContent,
 )
 from matrx_utils import vcprint
-from prompts.session import SimpleSession
 
 
 # ============================================================================
@@ -134,25 +133,6 @@ class AIMatrixRequest:
             metadata=data.get("metadata", {}),
         )
     
-    @classmethod
-    def from_session(
-        cls,
-        config: UnifiedConfig,
-        session: SimpleSession,
-        metadata: Optional[Dict[str, Any]] = None,
-    ) -> "AIMatrixRequest":
-        """Create AIMatrixRequest from SimpleSession.
-
-        User identity and emitter are read from ExecutionContext.
-        """
-        return cls(
-            conversation_id=session.conversation_id,
-            config=config,
-            debug=session.debug,
-            parent_conversation_id=getattr(session, "parent_conversation_id", None),
-            metadata=metadata or {},
-        )
-
     @classmethod
     def add_response(
         cls,
@@ -349,7 +329,7 @@ class CompletedRequest:
             # Usage for this iteration
             if i < len(usage_list):
                 u = usage_list[i]
-                row["ai_model"] = u.model
+                row["ai_model"] = u.matrx_model_name
                 row["api_class"] = u.api
                 row["input_tokens"] = u.input_tokens
                 row["output_tokens"] = u.output_tokens

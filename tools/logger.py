@@ -9,6 +9,7 @@ from uuid import uuid4
 from matrx_utils import vcprint
 
 from tools.models import ToolContext, ToolDefinition, ToolResult
+from conversation import cxm
 
 
 class ToolExecutionLogger:
@@ -23,10 +24,6 @@ class ToolExecutionLogger:
     Both phases are fire-and-forget — failures are logged but never block
     the execution pipeline.
     """
-
-    def _get_manager(self) -> Any:
-        from conversation import cx_tool_call_manager
-        return cx_tool_call_manager
 
     # ------------------------------------------------------------------
     # Phase 1: log_started (INSERT)
@@ -61,8 +58,7 @@ class ToolExecutionLogger:
         }
 
         try:
-            mgr = self._get_manager()
-            await mgr.create_cx_tool_call(**data)
+            await cxm.tool_call.create_cx_tool_call(**data)
             return row_id
         except Exception as exc:
             vcprint(
@@ -152,12 +148,11 @@ class ToolExecutionLogger:
         self, call_id: str, conversation_id: str, message_id: str,
     ) -> None:
         try:
-            mgr = self._get_manager()
-            matches = await mgr.filter_cx_tool_calls(
+            matches = await cxm.tool_call.filter_cx_tool_calls(
                 call_id=call_id, conversation_id=conversation_id,
             )
             for item in matches:
-                await mgr.update_cx_tool_call(str(item.id), message_id=message_id)
+                await cxm.tool_call.update_cx_tool_call(str(item.id), message_id=message_id)
         except Exception as exc:
             vcprint(
                 f"Failed to backfill message_id for call_id={call_id}: {exc}\n{traceback.format_exc()}",
@@ -173,8 +168,7 @@ class ToolExecutionLogger:
         if not row_id:
             return
         try:
-            mgr = self._get_manager()
-            await mgr.update_cx_tool_call(row_id, **data)
+            await cxm.tool_call.update_cx_tool_call(row_id, **data)
         except Exception as exc:
             vcprint(
                 f"Failed to UPDATE cx_tool_call {row_id}: {exc}\n{traceback.format_exc()}",

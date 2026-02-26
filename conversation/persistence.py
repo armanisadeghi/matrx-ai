@@ -21,12 +21,7 @@ from typing import Any, Dict, Optional
 from datetime import datetime, timezone
 from uuid import UUID
 from matrx_utils import vcprint
-from conversation import (
-    cx_conversation_manager,
-    cx_message_manager,
-    cx_user_request_manager,
-    cx_request_manager,
-)
+from conversation import cxm
 from db.custom.ai_model_manager import get_ai_model_manager
 
 
@@ -176,7 +171,7 @@ async def persist_completed_request(
             if conv_data.get("parent_conversation_id") and _is_valid_uuid(conv_data["parent_conversation_id"]):
                 update_kwargs["parent_conversation_id"] = conv_data["parent_conversation_id"]
 
-            await cx_conversation_manager.update_cx_conversation(
+            await cxm.conversation.update_cx_conversation(
                 db_conversation_id,
                 **update_kwargs,
             )
@@ -219,7 +214,7 @@ async def persist_completed_request(
             if is_tool_message:
                 msg_content = []
 
-            message = await cx_message_manager.create_cx_message(
+            message = await cxm.message.create_cx_message(
                 conversation_id=db_conversation_id,
                 role=role_val,
                 position=msg["position"],
@@ -288,7 +283,7 @@ async def persist_completed_request(
             if ur_data.get("tool_duration_ms") is not None:
                 ur_update_data["tool_duration_ms"] = ur_data["tool_duration_ms"]
 
-            await cx_user_request_manager.update_cx_user_request(
+            await cxm.user_request.update_cx_user_request(
                 user_request_id,
                 **ur_update_data,
             )
@@ -332,7 +327,7 @@ async def persist_completed_request(
                 "metadata": req.get("metadata", {}),
             }
 
-            request_row = await cx_request_manager.create_cx_request(
+            request_row = await cxm.request.create_cx_request(
                 **req_create_data
             )
             req_id = str(request_row.id) if hasattr(request_row, "id") else str(request_row)

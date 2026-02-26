@@ -16,13 +16,10 @@ from matrx_utils import vcprint
 
 from app.core.cancellation import CancellationRegistry
 from app.core.response import create_streaming_response
+from app.core.ai_task import run_ai_task
 from app.models.agent import AgentStartRequest
 from context.app_context import AppContext, context_dep
-from context.events import CompletionPayload
-from context.stream_emitter import StreamEmitter
-from prompts.agent import Agent
-from prompts.session import SimpleSession
-from prompts.cache import AgentCache
+from conversation.conversation_resolver import AgentConfigResolver
 
 # Protected endpoints (require guest auth or above)
 router = APIRouter(prefix="/api/ai/agents", tags=["agent"])
@@ -34,52 +31,18 @@ public_router = APIRouter(prefix="/api/ai/agents", tags=["agent"])
 cancel_router = APIRouter(prefix="/api/ai", tags=["agent"])
 
 
-async def _run_agent_start(
-    emitter: StreamEmitter,
-    request: AgentStartRequest,
-    agent_id: str,
-    conversation_id: str,
-):
-    vcprint(
-        f"agent={agent_id} conversation={conversation_id[:8]}...",
-        "[Agent] Starting",
-        color="cyan",
-    )
-
-    session = SimpleSession(conversation_id=conversation_id, debug=request.debug)
-    agent = await Agent.from_id(
-        agent_id,
-        session=session,
-        variables=request.variables,
-        config_overrides=request.config_overrides,
-    )
-    agent.request_metadata = {"agent_id": agent_id}
-
-    await emitter.send_status_update(
-        status="processing",
-        system_message="Agent execution started",
-    )
-
-    result = await agent.execute(user_input=request.user_input)
-    AgentCache.set(conversation_id, agent)
-
-    vcprint(agent.name, "[Agent] Complete", color="green")
-
-    await emitter.send_completion(CompletionPayload(
-        status="complete",
-        output=result.output,
-        total_usage=result.usage.to_dict(),
-        metadata=result.metadata,
-    ))
-    await emitter.send_end()
-
-
 @router.post("/{agent_id}")
 async def start_agent(
     agent_id: str,
     request: AgentStartRequest,
     ctx: AppContext = Depends(context_dep),
 ) -> Any:
+    """Start a new agent conversation.
+
+    Resolves the agent's UnifiedConfig (with variables/overrides applied),
+    then hands off to the AI engine. A new conversation_id is generated here
+    and set on AppContext so execution and persistence use the same ID.
+    """
     conversation_id = str(uuid.uuid4())
     vcprint(f"agent_id={agent_id} conversation_id={conversation_id}", "[Agent]", color="cyan")
 
@@ -93,10 +56,20 @@ async def start_agent(
         initial_variables=initial_variables,
         initial_overrides=request.config_overrides or {},
     )
+
+    config = await AgentConfigResolver.from_id(
+        agent_id,
+        variables=request.variables,
+        overrides=request.config_overrides,
+    )
+
+    if request.user_input is not None:
+        config.append_or_extend_user_input(request.user_input)
+
     return create_streaming_response(
         ctx,
-        _run_agent_start,
-        request, agent_id, conversation_id,
+        run_ai_task,
+        config,
         initial_message="Connecting to agent...",
         debug_label="Agent",
     )
@@ -104,15 +77,11 @@ async def start_agent(
 
 @public_router.post("/{agent_id}/warm")
 async def warm_agent(agent_id: str):
+    """Pre-load an agent definition into the PromptManager cache."""
     vcprint(agent_id, "[Agent Warm] Warming", color="cyan")
-    try:
-        warm_session = SimpleSession(conversation_id=str(uuid.uuid4()))
-        agent = await Agent.from_id(agent_id, session=warm_session)
-        vcprint(f"{agent_id} ({agent.name})", "[Agent Warm] Cached", color="green")
-        return {"status": "cached", "agent_id": agent_id}
-    except Exception as e:
-        vcprint(str(e), f"[Agent Warm] Error for {agent_id}", color="red")
-        return {"status": "error", "agent_id": agent_id, "message": str(e)}
+    loaded = await AgentConfigResolver.warm(agent_id)
+    status = "cached" if loaded else "error"
+    return {"status": status, "agent_id": agent_id}
 
 
 # ---------------------------------------------------------------------------
