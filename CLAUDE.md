@@ -11,6 +11,16 @@ A **Python FastAPI backend** that serves as the unified AI orchestration engine 
 
 This is **not** a frontend project. It is consumed by separate Next.js and React Native clients via REST/streaming APIs.
 
+**Origin:** Extracted from the main `aidream` application (`ai/` layer) into a standalone package. Directory mapping from aidream:
+
+- `ai/` → `client/`
+- `ai/config/` → `config/`
+- `ai/db/` → `conversation/`
+- `ai/providers/` → `providers/`
+- `ai/tool_system/` → `tools/`
+- `ai/prompts/` → `prompts/`
+- `aidream/api/` → `app/` and `context/`
+
 ---
 
 ## Tech Stack
@@ -55,27 +65,30 @@ matrx-ai/
 │   ├── main.py                   # App factory, lifespan, middleware, router registration
 │   ├── config.py                 # pydantic-settings (reads .env)
 │   ├── core/
+│   │   ├── ai_task.py            # run_ai_task() — shared streaming task for all AI routes
+│   │   ├── response.py           # create_streaming_response() — NDJSON streaming infra
+│   │   ├── cancellation.py       # CancellationRegistry
 │   │   ├── exceptions.py         # MatrxException hierarchy + handlers
 │   │   ├── middleware.py         # RequestContextMiddleware (request ID + timing)
 │   │   ├── streaming.py          # SSE & NDJSON response helpers, keepalive
 │   │   └── sentry.py             # Sentry init
-│   ├── routers/                  # ⚠️ CURRENTLY PLACEHOLDER — see Task List
-│   │   ├── health.py             # /api/health (real, but no DB checks)
-│   │   ├── chat.py               # /api/ai/chat (MOCK — _mock_stream)
-│   │   ├── agent.py              # /api/ai/agents/* (MOCK — _mock_agent_stream)
-│   │   ├── conversation.py       # /api/ai/conversations/* (MOCK — _mock_conversation_stream)
-│   │   └── tool.py               # /api/tools/test/* (PARTIAL — hardcoded registry)
+│   ├── routers/
+│   │   ├── health.py             # /api/health
+│   │   ├── chat.py               # /api/ai/chat — uses run_ai_task
+│   │   ├── agent.py              # /api/ai/agents/* — uses AgentConfigResolver + run_ai_task
+│   │   ├── conversation.py       # /api/ai/conversations/* — uses ConversationResolver + run_ai_task
+│   │   └── tool.py               # /api/tools/test/*
 │   └── models/                   # Pydantic request/response schemas
-│       ├── chat.py               # ChatRequest, ChatResponse, StreamMode
-│       ├── agent.py              # AgentRunRequest, AgentEvent, AgentStatus
+│       ├── chat.py               # ChatRequest
+│       ├── agent.py              # AgentStartRequest
 │       ├── conversation.py       # ConversationContinueRequest
-│       └── tool.py               # ToolCallRequest, ToolCallResult, ToolDefinition
+│       └── tool.py               # ToolCallRequest, ToolCallResult
 │
-├── client/                       # Unified AI client & execution engine (REAL)
+├── client/                       # Unified AI client & execution engine
 │   ├── unified_client.py         # AIMatrixRequest, UnifiedAIClient, CompletedRequest
-│   ├── ai_requests.py            # execute_until_complete() — main agentic loop
-│   ├── translators.py            # Provider response → unified format
-│   ├── usage.py                  # TokenUsage tracking
+│   ├── ai_requests.py            # execute_until_complete() + execute_ai_request() entry point
+│   ├── translators.py            # Provider response → unified format (TokenUsage)
+│   ├── usage.py                  # TokenUsage (matrx_model_name + provider_model_name)
 │   ├── timing.py                 # TimingUsage tracking
 │   ├── tool_call_tracking.py     # ToolCallUsage tracking
 │   ├── recovery_logic.py         # Finish reason handling + retry decisions
@@ -85,7 +98,7 @@ matrx-ai/
 │   ├── cache.py                  # Response caching
 │   └── system_agents.py          # System-level agent definitions
 │
-├── providers/                    # AI provider SDKs (ALL REAL)
+├── providers/                    # AI provider SDKs
 │   ├── openai_api.py             # AsyncOpenAI (Responses API)
 │   ├── anthropic_api.py          # AsyncAnthropic
 │   ├── google_api.py             # google.genai
@@ -95,15 +108,11 @@ matrx-ai/
 │   └── xai_api.py                # AsyncOpenAI → xAI endpoint
 │
 ├── conversation/                 # Conversation persistence & lifecycle
+│   ├── cx_managers.py            # CxManagers singleton (cxm) — unified DB access
+│   ├── conversation_resolver.py  # ConversationResolver + AgentConfigResolver
 │   ├── gate.py                   # ensure_conversation_exists, create_pending_user_request
 │   ├── persistence.py            # persist_completed_request (central write path)
-│   ├── rebuild.py                # Rebuild conversation from message history
-│   ├── cx_conversation.py        # Conversation manager
-│   ├── cx_message.py             # Message manager
-│   ├── cx_media.py               # Media manager
-│   ├── cx_user_request.py        # User request manager
-│   ├── cx_request.py             # Per-iteration request manager
-│   └── cx_agent_memory.py        # Agent memory manager
+│   └── rebuild.py                # Rebuild conversation from raw message/tool/media data
 │
 ├── config/                       # Domain configuration models
 │   ├── unified_config.py         # UnifiedConfig, UnifiedMessage, UnifiedResponse
@@ -115,8 +124,9 @@ matrx-ai/
 │
 ├── context/                      # Request-scoped context (ContextVar)
 │   ├── app_context.py            # AppContext: user_id, emitter, conversation state
+│   ├── stream_emitter.py         # StreamEmitter for NDJSON responses
 │   ├── emitter_protocol.py       # Streaming emitter protocol
-│   ├── events.py                 # Event type definitions
+│   ├── events.py                 # Event type definitions (CompletionPayload, etc.)
 │   └── console_emitter.py        # Dev/test console emitter
 │
 ├── tools/                        # Tool system V2
@@ -125,33 +135,21 @@ matrx-ai/
 │   ├── handle_tool_calls.py      # Integration with AI request loop
 │   ├── guardrails.py             # 6-layer security (rate, cost, loop, recursion)
 │   ├── models.py                 # ToolResult, ToolContext, ToolError
-│   ├── logger.py                 # Two-phase DB logging (started → completed)
+│   ├── logger.py                 # Two-phase DB logging via cxm.tool_call
 │   ├── streaming.py              # Tool event streaming
 │   ├── lifecycle.py              # Tool lifecycle management
 │   ├── arg_models/               # Pydantic input validators per tool
 │   └── implementations/          # 14 tool implementations
-│       ├── browser.py            # Playwright browser automation (REAL)
-│       ├── code.py               # HTML storage, code fetching (REAL)
-│       ├── database.py           # Sandboxed SQL via Supabase RPC (REAL)
-│       ├── filesystem.py         # Workspace file ops (REAL)
-│       ├── math.py               # Safe math eval (REAL)
-│       ├── memory.py             # Persistent agent memory (REAL)
-│       ├── news.py               # News API integration (REAL)
-│       ├── questionnaire.py      # Interactive questionnaire (REAL)
-│       ├── seo.py                # DataForSEO integration (REAL)
-│       ├── shell.py              # Sandboxed shell execution (REAL)
-│       ├── text.py               # Text analysis, regex (REAL)
-│       ├── travel.py             # MOCK — demo/test only
-│       ├── user_lists.py         # User list management (REAL)
-│       ├── user_tables.py        # User table creation (REAL)
-│       └── web.py                # Web search/read/research (REAL)
+│       ├── browser.py, code.py, database.py, filesystem.py
+│       ├── math.py, memory.py, news.py, questionnaire.py
+│       ├── seo.py, shell.py, text.py, travel.py
+│       ├── user_lists.py, user_tables.py, web.py
 │
 ├── prompts/                      # Prompt management & templating
 │   ├── manager.py                # PromptsManager — load from DB, to_config()
-│   ├── session.py                # SimpleSession for stateful prompts
-│   ├── agent.py                  # Agent prompt system
+│   ├── agent.py                  # Agent — config resolution, variable application, execution
 │   ├── variables.py              # {{variable}} substitution
-│   ├── cache.py                  # Prompt caching
+│   ├── cache.py                  # Two-tier AgentCache (active 30min + warm 10min)
 │   └── instructions/             # System instruction generation
 │       ├── system_instructions.py
 │       ├── content_blocks_manager.py
@@ -160,11 +158,11 @@ matrx-ai/
 │
 ├── db/                           # Database layer (matrx-orm)
 │   ├── models.py                 # 17 auto-generated ORM models
-│   ├── managers/                 # Auto-generated + custom managers
-│   │   ├── ai_model.py, ai_provider.py
+│   ├── managers/                 # Auto-generated Base managers (DO NOT EDIT)
 │   │   ├── cx_conversation.py, cx_message.py, cx_request.py
 │   │   ├── cx_user_request.py, cx_tool_call.py, cx_media.py
 │   │   ├── cx_agent_memory.py
+│   │   ├── ai_model.py, ai_provider.py
 │   │   ├── prompts.py, prompt_builtins.py, tools.py
 │   │   ├── content_blocks.py, shortcut_categories.py
 │   │   └── user_tables.py, table_data.py, table_fields.py
@@ -173,7 +171,7 @@ matrx-ai/
 │   ├── matrx_orm.yaml            # ORM schema config
 │   └── generate.py               # Schema code generator
 │
-├── shared/                       # Shared utilities (PLACEHOLDER stubs)
+├── shared/                       # Shared utilities
 │   ├── supabase_client.py        # get_supabase_client() — lazy singleton
 │   ├── json_utils.py             # to_matrx_json helper
 │   └── file_handler.py           # FileHandler placeholder
@@ -181,10 +179,7 @@ matrx-ai/
 ├── media/                        # Media handling
 │   └── mime_utils.py             # MIME type detection
 │
-├── migrations/                   # Database migrations
-│   └── 0001_baseline.py          # Initial schema (8 cx_ tables + ai_model)
-│
-├── tests/                        # Test suite (mostly manual/interactive)
+├── tests/                        # Test suite
 │   ├── ai/                       # AI execution, error handling, translation tests
 │   ├── openai/                   # OpenAI-specific integration tests
 │   └── prompts/                  # Prompt loading, variable tests
@@ -201,46 +196,78 @@ matrx-ai/
 
 ## Architecture
 
-### The Disconnect: Routers vs Engine
+### Core Patterns
 
-**This is the project's central problem.** Two layers exist independently:
-
-1. **FastAPI Routers** (`app/routers/`) — Placeholder HTTP endpoints returning mock/hardcoded data
-2. **AI Engine** (`client/`, `providers/`, `tools/`, `conversation/`) — Production-grade execution pipeline that actually works
-
-The routers need to be wired to the engine. The engine's entry point is:
+**CxManagers (cxm)** — All database access for conversation tables goes through the singleton:
 ```python
-from client.ai_requests import execute_until_complete
-from client.unified_client import UnifiedAIClient, AIMatrixRequest
+from conversation import cxm
+
+await cxm.conversation.create_cx_conversation(...)
+await cxm.message.create_cx_message(...)
+await cxm.tool_call.filter_cx_tool_calls(...)
+await cxm.get_conversation_unified_config(conversation_id)
 ```
 
-### Execution Flow (How the Engine Works)
+**ConversationResolver** — Cache-first config resolution:
+```python
+from conversation.conversation_resolver import ConversationResolver, AgentConfigResolver
+
+# Continuing a conversation (AgentCache → DB fallback):
+config = await ConversationResolver.from_conversation_id(conversation_id, user_input=...)
+
+# Starting an agent:
+config = await AgentConfigResolver.from_id(agent_id, variables=..., overrides=...)
+```
+
+**execute_ai_request()** — Public entry point for AI execution. Reads identity/scoping from AppContext:
+```python
+from client.ai_requests import execute_ai_request
+completed = await execute_ai_request(config)
+```
+
+**run_ai_task()** — Shared streaming task for all router endpoints:
+```python
+from app.core.ai_task import run_ai_task
+return create_streaming_response(ctx, run_ai_task, config, ...)
+```
+
+### Execution Flow
 
 ```
-1. AppContext set (user_id, conversation_id, emitter)
-2. AIMatrixRequest created with UnifiedConfig
-3. conversation.gate.ensure_conversation_exists()
-4. conversation.gate.create_pending_user_request()
-5. execute_until_complete() loop:
-   ├─ client.execute(request) → provider SDK call
-   ├─ handle_finish_reason() → retry/continue/stop
-   ├─ handle_tool_calls() → ToolExecutor pipeline
-   │   ├─ guardrails check
-   │   ├─ dispatch (local/mcp/agent)
-   │   ├─ log to cx_tool_call
-   │   └─ return results
-   ├─ AIMatrixRequest.add_response() → append to messages
-   └─ Loop until no more tool calls
-6. persist_completed_request() → write all to DB
+1. Router resolves UnifiedConfig (via ConversationResolver or AgentConfigResolver)
+2. create_streaming_response() → run_ai_task(emitter, config)
+3. execute_ai_request(config) — reads AppContext for user_id, conversation_id
+   ├─ conversation.gate.ensure_conversation_exists()
+   ├─ conversation.gate.create_pending_user_request()
+   └─ execute_until_complete() loop:
+       ├─ client.execute(request) → provider SDK call
+       ├─ handle_finish_reason() → retry/continue/stop
+       ├─ handle_tool_calls() → ToolExecutor pipeline
+       │   ├─ guardrails check
+       │   ├─ dispatch (local/mcp/agent)
+       │   ├─ log to cx_tool_call via cxm
+       │   └─ return results
+       ├─ AIMatrixRequest.add_response() → append to messages
+       └─ Loop until no more tool calls
+4. _update_cache() → write config to AgentCache
+5. persist_completed_request() → write all to DB via cxm
+6. _emit_completion() → send result to client stream
 ```
+
+### Two-Tier Agent Cache
+
+- **Active cache** (30min TTL, 200 entries) — Full Agent objects from recent conversations
+- **Warm cache** (10min TTL, 200 entries) — Pre-loaded via `/warm` endpoints
+- Cache hits auto-promote from warm → active
 
 ### Streaming Architecture
-- **SSE**: `text/event-stream` with 15s keepalive heartbeat
+
 - **NDJSON**: `application/x-ndjson` with line-delimited JSON
-- Both support: `chunk`, `thinking`, `tool_call`, `done`, `error` events
+- Events: `status_update`, `chunk`, `thinking`, `tool_call`, `completion`, `error`, `end`
 
 ### Database Pattern
-- **Two-phase writes**: Minimal INSERT at start, full UPDATE after execution
+
+- **Two-phase writes**: Minimal INSERT at start (gate), full UPDATE after execution (persistence)
 - **Fire-and-forget persistence**: Errors logged, never crash the caller
 - **Conversation gate**: Ensures row exists before any writes
 
@@ -248,21 +275,17 @@ from client.unified_client import UnifiedAIClient, AIMatrixRequest
 
 ## API Endpoints
 
-| Method | Path | Status | Purpose |
-|--------|------|--------|---------|
-| GET | `/api/health` | Real (partial) | Health check (no DB ping) |
-| GET | `/api/health/ready` | Real | Kubernetes readiness |
-| GET | `/api/health/live` | Real | Kubernetes liveness |
-| POST | `/api/ai/chat` | **MOCK** | Streaming chat completions |
-| POST | `/api/ai/agents/{agent_id}` | **MOCK** | Agent conversation |
-| POST | `/api/ai/agents/{agent_id}/warm` | **TODO** | Cache warming |
-| GET | `/api/ai/agents/{agent_id}` | **MOCK** | Agent status/metadata |
-| POST | `/api/ai/cancel/{request_id}` | **TODO** | Request cancellation |
-| POST | `/api/ai/conversations/{id}` | **MOCK** | Continue conversation |
-| POST | `/api/ai/conversations/{id}/warm` | **TODO** | Cache warming |
-| GET | `/api/tools/test/list` | Real (hardcoded) | List tools |
-| GET | `/api/tools/test/{name}` | Real (hardcoded) | Get tool definition |
-| POST | `/api/tools/test/execute` | Partial | Execute tool (search is stub) |
+| Method | Path | Purpose |
+| ------ | ---- | ------- |
+| GET | `/api/health` | Health check |
+| GET | `/api/health/ready` | Kubernetes readiness |
+| GET | `/api/health/live` | Kubernetes liveness |
+| POST | `/api/ai/chat` | Streaming chat completions |
+| POST | `/api/ai/agents/{agent_id}` | Start agent conversation |
+| POST | `/api/ai/agents/{agent_id}/warm` | Pre-warm agent cache |
+| POST | `/api/ai/cancel/{request_id}` | Request cancellation |
+| POST | `/api/ai/conversations/{id}` | Continue conversation |
+| POST | `/api/ai/conversations/{id}/warm` | Pre-warm conversation cache |
 
 ---
 
