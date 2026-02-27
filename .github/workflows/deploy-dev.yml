@@ -17,8 +17,15 @@ jobs:
     steps:
       - name: Trigger Coolify deployment
         run: |
-          curl -s -f -X GET \
-            "${{ secrets.COOLIFY_WEBHOOK_URL_DEV }}" \
-            --max-time 30
-        env:
-          COOLIFY_WEBHOOK_URL_DEV: ${{ secrets.COOLIFY_WEBHOOK_URL_DEV }}
+          response=$(curl -s -f -w "\n%{http_code}" -X POST \
+            "${{ secrets.COOLIFY_API_URL }}/applications/${{ secrets.COOLIFY_APP_UUID_DEV }}/restart" \
+            -H "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            --max-time 30)
+          http_code=$(echo "$response" | tail -1)
+          body=$(echo "$response" | head -1)
+          echo "HTTP $http_code: $body"
+          if [ "$http_code" -ge 400 ]; then
+            echo "Deployment trigger failed"
+            exit 1
+          fi
