@@ -104,9 +104,9 @@ def create_app() -> FastAPI:
         version=settings.app_version,
         default_response_class=ORJSONResponse,
         lifespan=lifespan,
-        docs_url="/docs" if settings.debug else None,
-        redoc_url="/redoc" if settings.debug else None,
-        openapi_url="/openapi.json" if settings.debug else None,
+        docs_url="/docs",
+        redoc_url="/redoc",
+        openapi_url="/openapi.json",
         swagger_ui_init_oauth={},
     )
 
