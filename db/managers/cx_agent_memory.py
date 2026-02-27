@@ -10,11 +10,8 @@ from db.models import CxAgentMemory
 
 
 # ---------------------------------------------------------------------------
-# ModelView (new) — opt-in projection layer.
+# ModelView (new) — preferred projection layer.
 # Stores results flat on the model instance; no duplication, no nesting.
-# To activate: set view_class = CxAgentMemoryView on your manager subclass,
-# or pass view_class=CxAgentMemoryView to super().__init__().
-# When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
 class CxAgentMemoryView(ModelView):
@@ -47,10 +44,9 @@ class CxAgentMemoryView(ModelView):
 
 
 # ---------------------------------------------------------------------------
-# BaseDTO (default) — active by default, fully backward compatible.
-# Extend _process_core_data / _process_metadata with your business logic.
-# When you are ready to migrate to the View above, set view_class on your
-# manager subclass and this DTO will be bypassed automatically.
+# BaseDTO (legacy) — kept for backward compatibility.
+# Existing imports of CxAgentMemoryDTO from this file continue to work.
+# Migrate business logic to CxAgentMemoryView when ready.
 # ---------------------------------------------------------------------------
 
 @dataclass
@@ -88,19 +84,19 @@ class CxAgentMemoryDTO(BaseDTO):
 
 
 # ---------------------------------------------------------------------------
-# Manager — DTO is active by default for full backward compatibility.
-# To switch to the View (opt-in):
-#   1. Quick: set view_class = CxAgentMemoryView  (replaces DTO automatically)
-#   2. Explicit: super().__init__(CxAgentMemory, view_class=CxAgentMemoryView)
+# Manager — uses ModelView by default.
+# To revert to the legacy DTO path:
+#   view_class = None
+#   super().__init__(CxAgentMemory, dto_class=CxAgentMemoryDTO)
 # ---------------------------------------------------------------------------
 
 class CxAgentMemoryBase(BaseManager[CxAgentMemory]):
-    view_class = None  # DTO is used by default; set to CxAgentMemoryView to opt in
+    view_class = CxAgentMemoryView
 
     def __init__(self, view_class: type[Any] | None = None):
         if view_class is not None:
             self.view_class = view_class
-        super().__init__(CxAgentMemory, dto_class=CxAgentMemoryDTO)
+        super().__init__(CxAgentMemory)
 
     def _initialize_manager(self):
         super()._initialize_manager()

@@ -10,11 +10,8 @@ from db.models import CxMessage
 
 
 # ---------------------------------------------------------------------------
-# ModelView (new) — opt-in projection layer.
+# ModelView (new) — preferred projection layer.
 # Stores results flat on the model instance; no duplication, no nesting.
-# To activate: set view_class = CxMessageView on your manager subclass,
-# or pass view_class=CxMessageView to super().__init__().
-# When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
 class CxMessageView(ModelView):
@@ -34,7 +31,7 @@ class CxMessageView(ModelView):
             return model.name.title()
     """
 
-    prefetch: list = []
+    prefetch: list = ['cx_conversation', 'cx_tool_call']
     exclude: list = []
     inline_fk: dict = {}
 
@@ -47,10 +44,9 @@ class CxMessageView(ModelView):
 
 
 # ---------------------------------------------------------------------------
-# BaseDTO (default) — active by default, fully backward compatible.
-# Extend _process_core_data / _process_metadata with your business logic.
-# When you are ready to migrate to the View above, set view_class on your
-# manager subclass and this DTO will be bypassed automatically.
+# BaseDTO (legacy) — kept for backward compatibility.
+# Existing imports of CxMessageDTO from this file continue to work.
+# Migrate business logic to CxMessageView when ready.
 # ---------------------------------------------------------------------------
 
 @dataclass
@@ -88,19 +84,19 @@ class CxMessageDTO(BaseDTO):
 
 
 # ---------------------------------------------------------------------------
-# Manager — DTO is active by default for full backward compatibility.
-# To switch to the View (opt-in):
-#   1. Quick: set view_class = CxMessageView  (replaces DTO automatically)
-#   2. Explicit: super().__init__(CxMessage, view_class=CxMessageView)
+# Manager — uses ModelView by default.
+# To revert to the legacy DTO path:
+#   view_class = None
+#   super().__init__(CxMessage, dto_class=CxMessageDTO)
 # ---------------------------------------------------------------------------
 
 class CxMessageBase(BaseManager[CxMessage]):
-    view_class = None  # DTO is used by default; set to CxMessageView to opt in
+    view_class = CxMessageView
 
     def __init__(self, view_class: type[Any] | None = None):
         if view_class is not None:
             self.view_class = view_class
-        super().__init__(CxMessage, dto_class=CxMessageDTO)
+        super().__init__(CxMessage)
 
     def _initialize_manager(self):
         super()._initialize_manager()

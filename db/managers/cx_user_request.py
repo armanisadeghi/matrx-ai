@@ -10,11 +10,8 @@ from db.models import CxUserRequest
 
 
 # ---------------------------------------------------------------------------
-# ModelView (new) — opt-in projection layer.
+# ModelView (new) — preferred projection layer.
 # Stores results flat on the model instance; no duplication, no nesting.
-# To activate: set view_class = CxUserRequestView on your manager subclass,
-# or pass view_class=CxUserRequestView to super().__init__().
-# When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
 class CxUserRequestView(ModelView):
@@ -34,7 +31,7 @@ class CxUserRequestView(ModelView):
             return model.name.title()
     """
 
-    prefetch: list = []
+    prefetch: list = ['ai_model', 'cx_conversation', 'cx_tool_call', 'cx_request']
     exclude: list = []
     inline_fk: dict = {}
 
@@ -47,10 +44,9 @@ class CxUserRequestView(ModelView):
 
 
 # ---------------------------------------------------------------------------
-# BaseDTO (default) — active by default, fully backward compatible.
-# Extend _process_core_data / _process_metadata with your business logic.
-# When you are ready to migrate to the View above, set view_class on your
-# manager subclass and this DTO will be bypassed automatically.
+# BaseDTO (legacy) — kept for backward compatibility.
+# Existing imports of CxUserRequestDTO from this file continue to work.
+# Migrate business logic to CxUserRequestView when ready.
 # ---------------------------------------------------------------------------
 
 @dataclass
@@ -88,19 +84,19 @@ class CxUserRequestDTO(BaseDTO):
 
 
 # ---------------------------------------------------------------------------
-# Manager — DTO is active by default for full backward compatibility.
-# To switch to the View (opt-in):
-#   1. Quick: set view_class = CxUserRequestView  (replaces DTO automatically)
-#   2. Explicit: super().__init__(CxUserRequest, view_class=CxUserRequestView)
+# Manager — uses ModelView by default.
+# To revert to the legacy DTO path:
+#   view_class = None
+#   super().__init__(CxUserRequest, dto_class=CxUserRequestDTO)
 # ---------------------------------------------------------------------------
 
 class CxUserRequestBase(BaseManager[CxUserRequest]):
-    view_class = None  # DTO is used by default; set to CxUserRequestView to opt in
+    view_class = CxUserRequestView
 
     def __init__(self, view_class: type[Any] | None = None):
         if view_class is not None:
             self.view_class = view_class
-        super().__init__(CxUserRequest, dto_class=CxUserRequestDTO)
+        super().__init__(CxUserRequest)
 
     def _initialize_manager(self):
         super()._initialize_manager()

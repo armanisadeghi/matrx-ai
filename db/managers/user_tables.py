@@ -10,11 +10,8 @@ from db.models import UserTables
 
 
 # ---------------------------------------------------------------------------
-# ModelView (new) — opt-in projection layer.
+# ModelView (new) — preferred projection layer.
 # Stores results flat on the model instance; no duplication, no nesting.
-# To activate: set view_class = UserTablesView on your manager subclass,
-# or pass view_class=UserTablesView to super().__init__().
-# When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
 class UserTablesView(ModelView):
@@ -34,7 +31,7 @@ class UserTablesView(ModelView):
             return model.name.title()
     """
 
-    prefetch: list = []
+    prefetch: list = ['table_data', 'table_fields']
     exclude: list = []
     inline_fk: dict = {}
 
@@ -47,10 +44,9 @@ class UserTablesView(ModelView):
 
 
 # ---------------------------------------------------------------------------
-# BaseDTO (default) — active by default, fully backward compatible.
-# Extend _process_core_data / _process_metadata with your business logic.
-# When you are ready to migrate to the View above, set view_class on your
-# manager subclass and this DTO will be bypassed automatically.
+# BaseDTO (legacy) — kept for backward compatibility.
+# Existing imports of UserTablesDTO from this file continue to work.
+# Migrate business logic to UserTablesView when ready.
 # ---------------------------------------------------------------------------
 
 @dataclass
@@ -88,19 +84,19 @@ class UserTablesDTO(BaseDTO):
 
 
 # ---------------------------------------------------------------------------
-# Manager — DTO is active by default for full backward compatibility.
-# To switch to the View (opt-in):
-#   1. Quick: set view_class = UserTablesView  (replaces DTO automatically)
-#   2. Explicit: super().__init__(UserTables, view_class=UserTablesView)
+# Manager — uses ModelView by default.
+# To revert to the legacy DTO path:
+#   view_class = None
+#   super().__init__(UserTables, dto_class=UserTablesDTO)
 # ---------------------------------------------------------------------------
 
 class UserTablesBase(BaseManager[UserTables]):
-    view_class = None  # DTO is used by default; set to UserTablesView to opt in
+    view_class = UserTablesView
 
     def __init__(self, view_class: type[Any] | None = None):
         if view_class is not None:
             self.view_class = view_class
-        super().__init__(UserTables, dto_class=UserTablesDTO)
+        super().__init__(UserTables)
 
     def _initialize_manager(self):
         super()._initialize_manager()

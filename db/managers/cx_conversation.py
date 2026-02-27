@@ -10,11 +10,8 @@ from db.models import CxConversation
 
 
 # ---------------------------------------------------------------------------
-# ModelView (new) — opt-in projection layer.
+# ModelView (new) — preferred projection layer.
 # Stores results flat on the model instance; no duplication, no nesting.
-# To activate: set view_class = CxConversationView on your manager subclass,
-# or pass view_class=CxConversationView to super().__init__().
-# When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
 class CxConversationView(ModelView):
@@ -34,7 +31,7 @@ class CxConversationView(ModelView):
             return model.name.title()
     """
 
-    prefetch: list = []
+    prefetch: list = ['ai_model', 'self_reference', 'cx_tool_call', 'cx_message', 'cx_media', 'cx_user_request', 'cx_request']
     exclude: list = []
     inline_fk: dict = {}
 
@@ -47,10 +44,9 @@ class CxConversationView(ModelView):
 
 
 # ---------------------------------------------------------------------------
-# BaseDTO (default) — active by default, fully backward compatible.
-# Extend _process_core_data / _process_metadata with your business logic.
-# When you are ready to migrate to the View above, set view_class on your
-# manager subclass and this DTO will be bypassed automatically.
+# BaseDTO (legacy) — kept for backward compatibility.
+# Existing imports of CxConversationDTO from this file continue to work.
+# Migrate business logic to CxConversationView when ready.
 # ---------------------------------------------------------------------------
 
 @dataclass
@@ -88,19 +84,19 @@ class CxConversationDTO(BaseDTO):
 
 
 # ---------------------------------------------------------------------------
-# Manager — DTO is active by default for full backward compatibility.
-# To switch to the View (opt-in):
-#   1. Quick: set view_class = CxConversationView  (replaces DTO automatically)
-#   2. Explicit: super().__init__(CxConversation, view_class=CxConversationView)
+# Manager — uses ModelView by default.
+# To revert to the legacy DTO path:
+#   view_class = None
+#   super().__init__(CxConversation, dto_class=CxConversationDTO)
 # ---------------------------------------------------------------------------
 
 class CxConversationBase(BaseManager[CxConversation]):
-    view_class = None  # DTO is used by default; set to CxConversationView to opt in
+    view_class = CxConversationView
 
     def __init__(self, view_class: type[Any] | None = None):
         if view_class is not None:
             self.view_class = view_class
-        super().__init__(CxConversation, dto_class=CxConversationDTO)
+        super().__init__(CxConversation)
 
     def _initialize_manager(self):
         super()._initialize_manager()

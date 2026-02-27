@@ -10,11 +10,8 @@ from db.models import AiModel
 
 
 # ---------------------------------------------------------------------------
-# ModelView (new) — opt-in projection layer.
+# ModelView (new) — preferred projection layer.
 # Stores results flat on the model instance; no duplication, no nesting.
-# To activate: set view_class = AiModelView on your manager subclass,
-# or pass view_class=AiModelView to super().__init__().
-# When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
 class AiModelView(ModelView):
@@ -34,7 +31,7 @@ class AiModelView(ModelView):
             return model.name.title()
     """
 
-    prefetch: list = []
+    prefetch: list = ['ai_provider', 'ai_model_endpoint', 'ai_settings', 'recipe_model']
     exclude: list = []
     inline_fk: dict = {}
 
@@ -47,10 +44,9 @@ class AiModelView(ModelView):
 
 
 # ---------------------------------------------------------------------------
-# BaseDTO (default) — active by default, fully backward compatible.
-# Extend _process_core_data / _process_metadata with your business logic.
-# When you are ready to migrate to the View above, set view_class on your
-# manager subclass and this DTO will be bypassed automatically.
+# BaseDTO (legacy) — kept for backward compatibility.
+# Existing imports of AiModelDTO from this file continue to work.
+# Migrate business logic to AiModelView when ready.
 # ---------------------------------------------------------------------------
 
 @dataclass
@@ -88,19 +84,19 @@ class AiModelDTO(BaseDTO):
 
 
 # ---------------------------------------------------------------------------
-# Manager — DTO is active by default for full backward compatibility.
-# To switch to the View (opt-in):
-#   1. Quick: set view_class = AiModelView  (replaces DTO automatically)
-#   2. Explicit: super().__init__(AiModel, view_class=AiModelView)
+# Manager — uses ModelView by default.
+# To revert to the legacy DTO path:
+#   view_class = None
+#   super().__init__(AiModel, dto_class=AiModelDTO)
 # ---------------------------------------------------------------------------
 
 class AiModelBase(BaseManager[AiModel]):
-    view_class = None  # DTO is used by default; set to AiModelView to opt in
+    view_class = AiModelView
 
     def __init__(self, view_class: type[Any] | None = None):
         if view_class is not None:
             self.view_class = view_class
-        super().__init__(AiModel, dto_class=AiModelDTO)
+        super().__init__(AiModel)
 
     def _initialize_manager(self):
         super()._initialize_manager()
