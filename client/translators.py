@@ -33,6 +33,7 @@ from tools.registry import ToolRegistryV2
 import rich
 
 
+
 # ============================================================================
 # TRANSLATORS FOR ALL PROVIDERS: OpenAI, Anthropic, Cerebras, Together, Groq, XAI, Google
 # ============================================================================
@@ -160,7 +161,7 @@ class OpenAITranslator:
 
         return openai_request
 
-    def from_openai(self, response: OpenAIResponse) -> UnifiedResponse:
+    def from_openai(self, response: OpenAIResponse, matrx_model_name: str) -> UnifiedResponse:
         """
         Convert OpenAI Responses API response to unified format.
 
@@ -307,7 +308,7 @@ class AnthropicTranslator:
 
         return anthropic_request
 
-    def from_anthropic(self, response: Dict[str, Any]) -> UnifiedResponse:
+    def from_anthropic(self, response: Dict[str, Any], matrx_model_name: str) -> UnifiedResponse:
         """Convert Anthropic Messages API response to unified format"""
 
         message_id = response.get("id")
@@ -1244,7 +1245,7 @@ class GoogleTranslator:
             "config": generated_config,
         }
 
-    def from_google(self, matrx_model_name: str, chunks: List[GenerateContentResponse]) -> UnifiedResponse:
+    def from_google(self, chunks: List[GenerateContentResponse], matrx_model_name: str) -> UnifiedResponse:
         """Convert Google API response chunks to unified format"""
 
         content = []

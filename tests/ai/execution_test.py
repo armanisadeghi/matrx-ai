@@ -1,22 +1,22 @@
 import asyncio
 
-
-from client.unified_client import (
-    UnifiedAIClient,
-    AIMatrixRequest,
-)
-from client.ai_requests import execute_until_complete
-from datetime import datetime
 # from initialize_systems import initialize
 import json
-from pathlib import Path
-from shared.json_utils import to_matrx_json  # TODO: move to matrx_utils or inline json.dumps
-from matrx_utils import vcprint, clear_terminal, cleanup_async_resources
-import rich
-from tests.ai.test_context import create_test_execution_context
-from matrx_utils import clear_terminal, vcprint
-import dotenv
 import os
+from datetime import datetime
+from pathlib import Path
+
+import dotenv
+import rich
+from matrx_utils import cleanup_async_resources, clear_terminal, vcprint
+
+from client.ai_requests import execute_until_complete
+from client.unified_client import (
+    AIMatrixRequest,
+    UnifiedAIClient,
+)
+from shared.json_utils import to_matrx_json  # TODO: move to matrx_utils or inline json.dumps
+from tests.ai.test_context import create_test_execution_context
 
 dotenv.load_dotenv()
 
@@ -442,7 +442,7 @@ if __name__ == "__main__":
     
     # options: simple_chat_settings, single_tool_settings_v2, image_generation_settings, complex_settings, 
     # document_input_settings, youtube_url_settings, audio_transcription_test_settings, audio_direct_google_settings
-    settings_to_use = multiple_tools_settings
+    settings_to_use = simple_chat_settings
     settings_to_use["config"]["model"] = google
     # settings_to_use["debug"] = True
 

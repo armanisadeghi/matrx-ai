@@ -1,10 +1,13 @@
 from typing import Literal
-from config.finish_reason import FinishReason
+
 from matrx_utils import vcprint
+
 from client.unified_client import AIMatrixRequest
+from config.finish_reason import FinishReason
 from config.unified_config import (
     UnifiedResponse,
 )
+
 
 def handle_finish_reason(
     response: UnifiedResponse,
