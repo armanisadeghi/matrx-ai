@@ -13,19 +13,23 @@ jobs:
     name: Deploy to development
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      COOLIFY_URL: ${{ secrets.COOLIFY_API_URL }}
+      COOLIFY_TOKEN: ${{ secrets.COOLIFY_API_TOKEN }}
+      APP_UUID: ${{ secrets.COOLIFY_APP_UUID_DEV }}
 
     steps:
       - name: Trigger Coolify deployment
         run: |
-          response=$(curl -s -f -w "\n%{http_code}" -X POST \
-            "${{ secrets.COOLIFY_API_URL }}/applications/${{ secrets.COOLIFY_APP_UUID_DEV }}/restart" \
-            -H "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}" \
+          http_code=$(curl -s -o /tmp/response.txt -w "%{http_code}" -X POST \
+            "${COOLIFY_URL}/applications/${APP_UUID}/restart" \
+            -H "Authorization: Bearer ${COOLIFY_TOKEN}" \
             -H "Content-Type: application/json" \
             --max-time 30)
-          http_code=$(echo "$response" | tail -1)
-          body=$(echo "$response" | head -1)
-          echo "HTTP $http_code: $body"
-          if [ "$http_code" -ge 400 ]; then
-            echo "Deployment trigger failed"
+          body=$(cat /tmp/response.txt)
+          echo "HTTP ${http_code}"
+          if [ "$http_code" -ge 400 ] || [ "$http_code" = "000" ]; then
+            echo "::error::Deployment trigger failed with HTTP ${http_code}"
             exit 1
           fi
+          echo "Deployment triggered successfully"
