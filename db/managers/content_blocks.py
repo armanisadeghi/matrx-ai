@@ -1,4 +1,5 @@
 # File: db/managers/content_blocks.py
+from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Any
@@ -34,9 +35,9 @@ class ContentBlocksView(ModelView):
             return model.name.title()
     """
 
-    prefetch: list = []
-    exclude: list = []
-    inline_fk: dict = {}
+    prefetch: list[str] = []
+    exclude: list[str] = []
+    inline_fk: dict[str, str] = {}
 
     # ------------------------------------------------------------------ #
     # Computed fields — add async methods below.                          #
@@ -57,7 +58,7 @@ class ContentBlocksView(ModelView):
 class ContentBlocksDTO(BaseDTO):
     id: str
 
-    async def _initialize_dto(self, model):
+    async def _initialize_dto(self, model: ContentBlocks) -> None:
         '''Override to populate DTO fields from the model.'''
         self.id = str(model.id)
         await self._process_core_data(model)
@@ -65,25 +66,25 @@ class ContentBlocksDTO(BaseDTO):
         await self._initial_validation(model)
         self.initialized = True
 
-    async def _process_core_data(self, model):
+    async def _process_core_data(self, model: ContentBlocks) -> None:
         '''Process core data from the model item.'''
         pass
 
-    async def _process_metadata(self, model):
+    async def _process_metadata(self, model: ContentBlocks) -> None:
         '''Process metadata from the model item.'''
         pass
 
-    async def _initial_validation(self, model):
+    async def _initial_validation(self, model: ContentBlocks) -> None:
         '''Validate fields from the model item.'''
         pass
 
-    async def _final_validation(self):
+    async def _final_validation(self) -> bool:
         '''Final validation of the model item.'''
         return True
 
-    async def get_validated_dict(self):
+    async def get_validated_dict(self) -> dict[str, Any]:
         '''Get the validated dictionary.'''
-        validated = await self._final_validation()
+        await self._final_validation()
         return self.to_dict()
 
 
@@ -101,80 +102,80 @@ class ContentBlocksBase(BaseManager[ContentBlocks]):
         self,
         dto_class: type[Any] | None = None,
         view_class: type[Any] | None = None,
-    ):
+    ) -> None:
         if view_class is not None:
             self.view_class = view_class
         super().__init__(ContentBlocks, dto_class=dto_class or ContentBlocksDTO)
 
-    def _initialize_manager(self):
+    def _initialize_manager(self) -> None:
         super()._initialize_manager()
 
     async def _initialize_runtime_data(self, item: ContentBlocks) -> None:
         pass
 
-    async def create_content_blocks(self, **data):
+    async def create_content_blocks(self, **data: Any) -> ContentBlocks:
         return await self.create_item(**data)
 
-    async def delete_content_blocks(self, id):
+    async def delete_content_blocks(self, id: Any) -> bool:
         return await self.delete_item(id)
 
-    async def get_content_blocks_with_all_related(self, id):
+    async def get_content_blocks_with_all_related(self, id: Any) -> tuple[ContentBlocks, Any]:
         return await self.get_item_with_all_related(id)
 
-    async def load_content_blocks_by_id(self, id):
+    async def load_content_blocks_by_id(self, id: Any) -> ContentBlocks:
         return await self.load_by_id(id)
 
-    async def load_content_blocks(self, use_cache=True, **kwargs):
+    async def load_content_blocks(self, use_cache: bool = True, **kwargs: Any) -> ContentBlocks:
         return await self.load_item(use_cache, **kwargs)
 
-    async def update_content_blocks(self, id, **updates):
+    async def update_content_blocks(self, id: Any, **updates: Any) -> ContentBlocks:
         return await self.update_item(id, **updates)
 
-    async def load_content_block(self, **kwargs):
+    async def load_content_block(self, **kwargs: Any) -> list[ContentBlocks]:
         return await self.load_items(**kwargs)
 
-    async def filter_content_block(self, **kwargs):
+    async def filter_content_block(self, **kwargs: Any) -> list[ContentBlocks]:
         return await self.filter_items(**kwargs)
 
-    async def get_or_create(self, defaults=None, **kwargs):
+    async def get_or_create_content_blocks(self, defaults: dict[str, Any] | None = None, **kwargs: Any) -> ContentBlocks | None:
         return await self.get_or_create(defaults, **kwargs)
 
-    async def get_content_blocks_with_shortcut_categories(self, id):
+    async def get_content_blocks_with_shortcut_categories(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'shortcut_categories')
 
-    async def get_content_block_with_shortcut_categories(self):
+    async def get_content_block_with_shortcut_categories(self) -> list[Any]:
         return await self.get_items_with_related('shortcut_categories')
 
-    async def load_content_block_by_category_id(self, category_id):
+    async def load_content_block_by_category_id(self, category_id: Any) -> list[Any]:
         return await self.load_items(category_id=category_id)
 
-    async def filter_content_block_by_category_id(self, category_id):
+    async def filter_content_block_by_category_id(self, category_id: Any) -> list[Any]:
         return await self.filter_items(category_id=category_id)
 
-    async def load_content_block_by_ids(self, ids):
+    async def load_content_block_by_ids(self, ids: list[Any]) -> list[Any]:
         return await self.load_items_by_ids(ids)
 
-    def add_computed_field(self, field):
-        self.add_computed_field(field)
+    def add_computed_field(self, field: str) -> None:
+        super().add_computed_field(field)
 
-    def add_relation_field(self, field):
-        self.add_relation_field(field)
+    def add_relation_field(self, field: str) -> None:
+        super().add_relation_field(field)
 
     @property
-    def active_content_blocks_ids(self):
+    def active_content_blocks_ids(self) -> set[Any]:
         return self.active_item_ids
 
 
 
 class ContentBlocksManager(ContentBlocksBase):
-    _instance = None
+    _instance: ContentBlocksManager | None = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: Any, **kwargs: Any) -> ContentBlocksManager:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     async def _initialize_runtime_data(self, item: ContentBlocks) -> None:

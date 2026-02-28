@@ -1,4 +1,5 @@
 # File: db/managers/ai_model.py
+from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Any
@@ -33,9 +34,9 @@ class AiModelView(ModelView):
             return model.name.title()
     """
 
-    prefetch: list = []
-    exclude: list = []
-    inline_fk: dict = {}
+    prefetch: list[str] = []
+    exclude: list[str] = []
+    inline_fk: dict[str, str] = {}
 
     # ------------------------------------------------------------------ #
     # Computed fields — add async methods below.                          #
@@ -56,7 +57,7 @@ class AiModelView(ModelView):
 class AiModelDTO(BaseDTO):
     id: str
 
-    async def _initialize_dto(self, model):
+    async def _initialize_dto(self, model: AiModel) -> None:
         '''Override to populate DTO fields from the model.'''
         self.id = str(model.id)
         await self._process_core_data(model)
@@ -64,25 +65,25 @@ class AiModelDTO(BaseDTO):
         await self._initial_validation(model)
         self.initialized = True
 
-    async def _process_core_data(self, model):
+    async def _process_core_data(self, model: AiModel) -> None:
         '''Process core data from the model item.'''
         pass
 
-    async def _process_metadata(self, model):
+    async def _process_metadata(self, model: AiModel) -> None:
         '''Process metadata from the model item.'''
         pass
 
-    async def _initial_validation(self, model):
+    async def _initial_validation(self, model: AiModel) -> None:
         '''Validate fields from the model item.'''
         pass
 
-    async def _final_validation(self):
+    async def _final_validation(self) -> bool:
         '''Final validation of the model item.'''
         return True
 
-    async def get_validated_dict(self):
+    async def get_validated_dict(self) -> dict[str, Any]:
         '''Get the validated dictionary.'''
-        validated = await self._final_validation()
+        await self._final_validation()
         return self.to_dict()
 
 
@@ -100,122 +101,122 @@ class AiModelBase(BaseManager[AiModel]):
         self,
         dto_class: type[Any] | None = None,
         view_class: type[Any] | None = None,
-    ):
+    ) -> None:
         if view_class is not None:
             self.view_class = view_class
         super().__init__(AiModel, dto_class=dto_class or AiModelDTO)
 
-    def _initialize_manager(self):
+    def _initialize_manager(self) -> None:
         super()._initialize_manager()
 
     async def _initialize_runtime_data(self, item: AiModel) -> None:
         pass
 
-    async def create_ai_model(self, **data):
+    async def create_ai_model(self, **data: Any) -> AiModel:
         return await self.create_item(**data)
 
-    async def delete_ai_model(self, id):
+    async def delete_ai_model(self, id: Any) -> bool:
         return await self.delete_item(id)
 
-    async def get_ai_model_with_all_related(self, id):
+    async def get_ai_model_with_all_related(self, id: Any) -> tuple[AiModel, Any]:
         return await self.get_item_with_all_related(id)
 
-    async def load_ai_model_by_id(self, id):
+    async def load_ai_model_by_id(self, id: Any) -> AiModel:
         return await self.load_by_id(id)
 
-    async def load_ai_model(self, use_cache=True, **kwargs):
+    async def load_ai_model(self, use_cache: bool = True, **kwargs: Any) -> AiModel:
         return await self.load_item(use_cache, **kwargs)
 
-    async def update_ai_model(self, id, **updates):
+    async def update_ai_model(self, id: Any, **updates: Any) -> AiModel:
         return await self.update_item(id, **updates)
 
-    async def load_ai_models(self, **kwargs):
+    async def load_ai_models(self, **kwargs: Any) -> list[AiModel]:
         return await self.load_items(**kwargs)
 
-    async def filter_ai_models(self, **kwargs):
+    async def filter_ai_models(self, **kwargs: Any) -> list[AiModel]:
         return await self.filter_items(**kwargs)
 
-    async def get_or_create(self, defaults=None, **kwargs):
+    async def get_or_create_ai_model(self, defaults: dict[str, Any] | None = None, **kwargs: Any) -> AiModel | None:
         return await self.get_or_create(defaults, **kwargs)
 
-    async def get_ai_model_with_ai_provider(self, id):
+    async def get_ai_model_with_ai_provider(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'ai_provider')
 
-    async def get_ai_models_with_ai_provider(self):
+    async def get_ai_models_with_ai_provider(self) -> list[Any]:
         return await self.get_items_with_related('ai_provider')
 
-    async def get_ai_model_with_ai_model_endpoint(self, id):
+    async def get_ai_model_with_ai_model_endpoint(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'ai_model_endpoint')
 
-    async def get_ai_models_with_ai_model_endpoint(self):
+    async def get_ai_models_with_ai_model_endpoint(self) -> list[Any]:
         return await self.get_items_with_related('ai_model_endpoint')
 
-    async def get_ai_model_with_ai_settings(self, id):
+    async def get_ai_model_with_ai_settings(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'ai_settings')
 
-    async def get_ai_models_with_ai_settings(self):
+    async def get_ai_models_with_ai_settings(self) -> list[Any]:
         return await self.get_items_with_related('ai_settings')
 
-    async def get_ai_model_with_recipe_model(self, id):
+    async def get_ai_model_with_recipe_model(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'recipe_model')
 
-    async def get_ai_models_with_recipe_model(self):
+    async def get_ai_models_with_recipe_model(self) -> list[Any]:
         return await self.get_items_with_related('recipe_model')
 
-    async def load_ai_models_by_name(self, name):
+    async def load_ai_models_by_name(self, name: Any) -> list[Any]:
         return await self.load_items(name=name)
 
-    async def filter_ai_models_by_name(self, name):
+    async def filter_ai_models_by_name(self, name: Any) -> list[Any]:
         return await self.filter_items(name=name)
 
-    async def load_ai_models_by_common_name(self, common_name):
+    async def load_ai_models_by_common_name(self, common_name: Any) -> list[Any]:
         return await self.load_items(common_name=common_name)
 
-    async def filter_ai_models_by_common_name(self, common_name):
+    async def filter_ai_models_by_common_name(self, common_name: Any) -> list[Any]:
         return await self.filter_items(common_name=common_name)
 
-    async def load_ai_models_by_provider(self, provider):
+    async def load_ai_models_by_provider(self, provider: Any) -> list[Any]:
         return await self.load_items(provider=provider)
 
-    async def filter_ai_models_by_provider(self, provider):
+    async def filter_ai_models_by_provider(self, provider: Any) -> list[Any]:
         return await self.filter_items(provider=provider)
 
-    async def load_ai_models_by_model_class(self, model_class):
+    async def load_ai_models_by_model_class(self, model_class: Any) -> list[Any]:
         return await self.load_items(model_class=model_class)
 
-    async def filter_ai_models_by_model_class(self, model_class):
+    async def filter_ai_models_by_model_class(self, model_class: Any) -> list[Any]:
         return await self.filter_items(model_class=model_class)
 
-    async def load_ai_models_by_model_provider(self, model_provider):
+    async def load_ai_models_by_model_provider(self, model_provider: Any) -> list[Any]:
         return await self.load_items(model_provider=model_provider)
 
-    async def filter_ai_models_by_model_provider(self, model_provider):
+    async def filter_ai_models_by_model_provider(self, model_provider: Any) -> list[Any]:
         return await self.filter_items(model_provider=model_provider)
 
-    async def load_ai_models_by_ids(self, ids):
+    async def load_ai_models_by_ids(self, ids: list[Any]) -> list[Any]:
         return await self.load_items_by_ids(ids)
 
-    def add_computed_field(self, field):
-        self.add_computed_field(field)
+    def add_computed_field(self, field: str) -> None:
+        super().add_computed_field(field)
 
-    def add_relation_field(self, field):
-        self.add_relation_field(field)
+    def add_relation_field(self, field: str) -> None:
+        super().add_relation_field(field)
 
     @property
-    def active_ai_model_ids(self):
+    def active_ai_model_ids(self) -> set[Any]:
         return self.active_item_ids
 
 
 
 class AiModelManager(AiModelBase):
-    _instance = None
+    _instance: AiModelManager | None = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: Any, **kwargs: Any) -> AiModelManager:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     async def _initialize_runtime_data(self, item: AiModel) -> None:

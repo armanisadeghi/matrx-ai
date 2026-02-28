@@ -1,4 +1,5 @@
 # File: db/managers/prompts.py
+from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Any
@@ -34,9 +35,9 @@ class PromptsView(ModelView):
             return model.name.title()
     """
 
-    prefetch: list = []
-    exclude: list = []
-    inline_fk: dict = {}
+    prefetch: list[str] = []
+    exclude: list[str] = []
+    inline_fk: dict[str, str] = {}
 
     # ------------------------------------------------------------------ #
     # Computed fields — add async methods below.                          #
@@ -57,7 +58,7 @@ class PromptsView(ModelView):
 class PromptsDTO(BaseDTO):
     id: str
 
-    async def _initialize_dto(self, model):
+    async def _initialize_dto(self, model: Prompts) -> None:
         '''Override to populate DTO fields from the model.'''
         self.id = str(model.id)
         await self._process_core_data(model)
@@ -65,25 +66,25 @@ class PromptsDTO(BaseDTO):
         await self._initial_validation(model)
         self.initialized = True
 
-    async def _process_core_data(self, model):
+    async def _process_core_data(self, model: Prompts) -> None:
         '''Process core data from the model item.'''
         pass
 
-    async def _process_metadata(self, model):
+    async def _process_metadata(self, model: Prompts) -> None:
         '''Process metadata from the model item.'''
         pass
 
-    async def _initial_validation(self, model):
+    async def _initial_validation(self, model: Prompts) -> None:
         '''Validate fields from the model item.'''
         pass
 
-    async def _final_validation(self):
+    async def _final_validation(self) -> bool:
         '''Final validation of the model item.'''
         return True
 
-    async def get_validated_dict(self):
+    async def get_validated_dict(self) -> dict[str, Any]:
         '''Get the validated dictionary.'''
-        validated = await self._final_validation()
+        await self._final_validation()
         return self.to_dict()
 
 
@@ -101,104 +102,104 @@ class PromptsBase(BaseManager[Prompts]):
         self,
         dto_class: type[Any] | None = None,
         view_class: type[Any] | None = None,
-    ):
+    ) -> None:
         if view_class is not None:
             self.view_class = view_class
         super().__init__(Prompts, dto_class=dto_class or PromptsDTO)
 
-    def _initialize_manager(self):
+    def _initialize_manager(self) -> None:
         super()._initialize_manager()
 
     async def _initialize_runtime_data(self, item: Prompts) -> None:
         pass
 
-    async def create_prompts(self, **data):
+    async def create_prompts(self, **data: Any) -> Prompts:
         return await self.create_item(**data)
 
-    async def delete_prompts(self, id):
+    async def delete_prompts(self, id: Any) -> bool:
         return await self.delete_item(id)
 
-    async def get_prompts_with_all_related(self, id):
+    async def get_prompts_with_all_related(self, id: Any) -> tuple[Prompts, Any]:
         return await self.get_item_with_all_related(id)
 
-    async def load_prompts_by_id(self, id):
+    async def load_prompts_by_id(self, id: Any) -> Prompts:
         return await self.load_by_id(id)
 
-    async def load_prompts(self, use_cache=True, **kwargs):
+    async def load_prompts(self, use_cache: bool = True, **kwargs: Any) -> Prompts:
         return await self.load_item(use_cache, **kwargs)
 
-    async def update_prompts(self, id, **updates):
+    async def update_prompts(self, id: Any, **updates: Any) -> Prompts:
         return await self.update_item(id, **updates)
 
-    async def load_prompt(self, **kwargs):
+    async def load_prompt(self, **kwargs: Any) -> list[Prompts]:
         return await self.load_items(**kwargs)
 
-    async def filter_prompt(self, **kwargs):
+    async def filter_prompt(self, **kwargs: Any) -> list[Prompts]:
         return await self.filter_items(**kwargs)
 
-    async def get_or_create(self, defaults=None, **kwargs):
+    async def get_or_create_prompts(self, defaults: dict[str, Any] | None = None, **kwargs: Any) -> Prompts | None:
         return await self.get_or_create(defaults, **kwargs)
 
-    async def get_prompts_with_prompt_apps(self, id):
+    async def get_prompts_with_prompt_apps(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'prompt_apps')
 
-    async def get_prompt_with_prompt_apps(self):
+    async def get_prompt_with_prompt_apps(self) -> list[Any]:
         return await self.get_items_with_related('prompt_apps')
 
-    async def get_prompts_with_system_prompts_new(self, id):
+    async def get_prompts_with_system_prompts_new(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'system_prompts_new')
 
-    async def get_prompt_with_system_prompts_new(self):
+    async def get_prompt_with_system_prompts_new(self) -> list[Any]:
         return await self.get_items_with_related('system_prompts_new')
 
-    async def get_prompts_with_prompt_builtins(self, id):
+    async def get_prompts_with_prompt_builtins(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'prompt_builtins')
 
-    async def get_prompt_with_prompt_builtins(self):
+    async def get_prompt_with_prompt_builtins(self) -> list[Any]:
         return await self.get_items_with_related('prompt_builtins')
 
-    async def get_prompts_with_prompt_actions(self, id):
+    async def get_prompts_with_prompt_actions(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'prompt_actions')
 
-    async def get_prompt_with_prompt_actions(self):
+    async def get_prompt_with_prompt_actions(self) -> list[Any]:
         return await self.get_items_with_related('prompt_actions')
 
-    async def get_prompts_with_system_prompts(self, id):
+    async def get_prompts_with_system_prompts(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'system_prompts')
 
-    async def get_prompt_with_system_prompts(self):
+    async def get_prompt_with_system_prompts(self) -> list[Any]:
         return await self.get_items_with_related('system_prompts')
 
-    async def load_prompt_by_user_id(self, user_id):
+    async def load_prompt_by_user_id(self, user_id: Any) -> list[Any]:
         return await self.load_items(user_id=user_id)
 
-    async def filter_prompt_by_user_id(self, user_id):
+    async def filter_prompt_by_user_id(self, user_id: Any) -> list[Any]:
         return await self.filter_items(user_id=user_id)
 
-    async def load_prompt_by_ids(self, ids):
+    async def load_prompt_by_ids(self, ids: list[Any]) -> list[Any]:
         return await self.load_items_by_ids(ids)
 
-    def add_computed_field(self, field):
-        self.add_computed_field(field)
+    def add_computed_field(self, field: str) -> None:
+        super().add_computed_field(field)
 
-    def add_relation_field(self, field):
-        self.add_relation_field(field)
+    def add_relation_field(self, field: str) -> None:
+        super().add_relation_field(field)
 
     @property
-    def active_prompts_ids(self):
+    def active_prompts_ids(self) -> set[Any]:
         return self.active_item_ids
 
 
 
 class PromptsManager(PromptsBase):
-    _instance = None
+    _instance: PromptsManager | None = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: Any, **kwargs: Any) -> PromptsManager:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     async def _initialize_runtime_data(self, item: Prompts) -> None:
