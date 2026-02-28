@@ -34,14 +34,14 @@ class AiModelManager(AiModelBase):
             await self.update_data_in_code(models, "all_active_ai_models")
         return models
 
-    async def load_model(self, id_or_name: str):
+    async def load_model(self, id_or_name: str) -> AiModel | None:
         return await self.load_model_by_id(id_or_name)
 
-    async def load_model_get_string_uuid(self, id_or_name: str):
-        model: AiModel = await self.load_model_by_id(id_or_name)        
+    async def load_model_get_string_uuid(self, id_or_name: str) -> str | None:
+        model: AiModel | None = await self.load_model_by_id(id_or_name)        
         return model.id if model else None
 
-    async def load_model_by_id(self, model_id: str):
+    async def load_model_by_id(self, model_id: str) -> AiModel | None:
         """
         Load a model by ID or name.
 
@@ -63,16 +63,16 @@ class AiModelManager(AiModelBase):
             # Not a valid UUID, try to find by name in the cache
             # Since all models are already fetched and cached on init,
             # we can search through the cache efficiently
-            models = await self.load_items(name=model_id)
-            if models:
-                return models[0]  # Return the first match
-            return None
+            models: list[AiModel] = await self.load_items(name=model_id)
+            return models[0] if models else None
 
-    async def load_models_by_name(self, model_name: str):
-        return await self.load_ai_models_by_name(model_name)
+    async def load_models_by_name(self, model_name: str) -> list[AiModel]:
+        models: list[AiModel] = await self.load_items(name=model_name)
+        return models
 
-    async def load_models_by_provider(self, provider: str):
-        return await self.load_ai_models_by_provider(provider)
+    async def load_models_by_provider(self, provider: str) -> list[AiModel]:
+        models: list[AiModel] = await self.load_items(provider=provider)
+        return models
 
 
 # To get the single instance of AiModelManager

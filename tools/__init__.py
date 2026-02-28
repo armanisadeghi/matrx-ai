@@ -15,6 +15,12 @@ Public API:
     ToolExecutionLogger  — DB logging (two-phase: INSERT on start, UPDATE on finish)
 """
 
+from .agent_tool import execute_agent_tool, register_agent_as_tool
+from .executor import ToolExecutor
+from .external_mcp import ExternalMCPClient
+from .guardrails import GuardrailEngine
+from .lifecycle import ToolLifecycleManager
+from .logger import ToolExecutionLogger
 from .models import (
     CxToolCallRecord,
     CxToolCallStatus,
@@ -26,13 +32,7 @@ from .models import (
     ToolType,
 )
 from .registry import ToolRegistryV2
-from .executor import ToolExecutor
-from .guardrails import GuardrailEngine
 from .streaming import ToolStreamEvent, ToolStreamManager
-from .logger import ToolExecutionLogger
-from .lifecycle import ToolLifecycleManager
-from .external_mcp import ExternalMCPClient
-from .agent_tool import execute_agent_tool, register_agent_as_tool
 
 __all__ = [
     "ToolExecutor",

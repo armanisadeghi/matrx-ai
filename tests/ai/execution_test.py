@@ -26,8 +26,20 @@ LOCAL_USER_ID = os.getenv("LOCAL_USER_ID")
 _ctx_token = create_test_execution_context(debug=False)
 
 
+async def register_all_tools():
+    from tools.registry import ToolRegistryV2
+    tool_registry = ToolRegistryV2.get_instance()
+    await tool_registry.load_from_database()
+    vcprint(tool_registry.count, title="[EXECUTION TEST] register_tools Tools Loaded", color="blue", inline=True)
+
+
+
 async def test_autonomous_execution(config: dict, conversation_id: str, debug: bool = False):
     """Test autonomous execution that handles all tool calls automatically"""
+    
+    if config.get("tools") and isinstance(config.get("tools"), list) and len(config.get("tools")) > 0:
+        await register_all_tools()
+    
     settings_to_use = {
         "conversation_id": conversation_id,
         "debug": debug,
@@ -234,7 +246,7 @@ if __name__ == "__main__":
             "reasoning_effort": "low",
             "reasoning_summary": "detailed",
             "tools": [
-                "get_news_headlines",
+                "news_get_headlines",
             ],
             "tool_choice": "auto",
             "parallel_tool_calls": True,
@@ -276,7 +288,7 @@ if __name__ == "__main__":
                 "include_date": True,
             },
             "tools": [
-                "get_news_headlines",
+                "news_get_headlines",
             ],
             "tool_choice": "auto",
             "parallel_tool_calls": True,
@@ -441,7 +453,7 @@ if __name__ == "__main__":
 
     # options: simple_chat_settings, single_tool_settings_v2, image_generation_settings, complex_settings,
     # document_input_settings, youtube_url_settings, audio_transcription_test_settings, audio_direct_google_settings
-    settings_to_use = simple_chat_settings
+    settings_to_use = single_tool_settings_v2
     settings_to_use["config"]["model"] = google
     # settings_to_use["debug"] = True
 

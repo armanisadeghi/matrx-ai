@@ -2,9 +2,8 @@ from typing import Any
 
 from matrx_orm import BaseManager
 
+from db.custom.ai_models.ai_model_dto import AiModelDTO
 from db.models import AiModel
-
-from .ai_model_dto import AiModelDTO
 
 
 class AiModelBase(BaseManager[AiModel]):
@@ -32,38 +31,38 @@ class AiModelBase(BaseManager[AiModel]):
     async def _initialize_runtime_data(self, item: AiModel) -> None:
         pass
 
-    async def create_ai_model(self, **data):
+    async def create_ai_model(self, **data) -> AiModel:
         return await self.create_item(**data)
 
-    async def delete_ai_model(self, id):
+    async def delete_ai_model(self, id) -> None:
         return await self.delete_item(id)
 
-    async def get_ai_model_with_all_related(self, id):
+    async def get_ai_model_with_all_related(self, id) -> AiModel:
         return await self.get_item_with_all_related(id)
 
-    async def load_ai_model_by_id(self, id):
+    async def load_ai_model_by_id(self, id) -> AiModel | None:
         return await self.load_by_id(id)
 
-    async def load_ai_model(self, use_cache=True, **kwargs):
+    async def load_ai_model(self, use_cache=True, **kwargs) -> AiModel | None:
         return await self.load_item(use_cache, **kwargs)
 
-    async def update_ai_model(self, id, **updates):
+    async def update_ai_model(self, id, **updates) -> AiModel:
         return await self.update_item(id, **updates)
 
-    async def load_ai_models(self, **kwargs):
+    async def load_ai_models(self, **kwargs) -> list[AiModel]:
         return await self.load_items(**kwargs)
 
-    async def filter_ai_models(self, **kwargs):
+    async def filter_ai_models(self, **kwargs) -> list[AiModel]:
         return await self.filter_items(**kwargs)
 
-    async def get_or_create(self, defaults=None, **kwargs):
+    async def get_or_create(self, defaults=None, **kwargs) -> AiModel:
         return await self.get_or_create(defaults, **kwargs)
 
     async def get_ai_model_with_ai_provider(self, id):
-        return await self.get_item_with_related(id, "ai_provider")
+        return await self.get_item_with_related(id, "model_provider")
 
     async def get_ai_models_with_ai_provider(self):
-        return await self.get_items_with_related("ai_provider")
+        return await self.get_items_with_related("model_provider")
 
     async def get_ai_model_with_ai_model_endpoint(self, id):
         return await self.get_item_with_related(id, "ai_model_endpoint")
@@ -125,3 +124,15 @@ class AiModelBase(BaseManager[AiModel]):
     @property
     def active_ai_model_ids(self):
         return self.active_item_ids
+
+
+if __name__ == "__main__":
+    from matrx_utils import clear_terminal, vcprint
+    clear_terminal()
+    async def main():
+        ai_model_base = AiModelBase()
+        data = await ai_model_base.get_ai_model_with_ai_provider("548126f2-714a-4562-9001-0c31cbeea375")
+        vcprint(data, title="AI Model", color="blue")
+
+    import asyncio
+    asyncio.run(main())

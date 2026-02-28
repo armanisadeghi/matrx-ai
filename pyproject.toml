@@ -40,7 +40,7 @@ dependencies = [
     "tiktoken",
     "aiofiles",
     "pip>=26.0.1",
-    "matrx-orm>=2.0.33",
+    "matrx-orm>=2.0.34",
 ]
 
 [project.optional-dependencies]

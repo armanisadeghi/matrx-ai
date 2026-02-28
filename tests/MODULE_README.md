@@ -1,0 +1,294 @@
+# `tests` — Module Overview
+
+> This document is partially auto-generated. Sections tagged `<!-- AUTO:id -->` are refreshed by the generator.
+> Everything else is yours to edit freely and will never be overwritten.
+
+<!-- AUTO:meta -->
+## About This Document
+
+This file is **partially auto-generated**. Sections wrapped in `<!-- AUTO:id -->` tags
+are overwritten each time the generator runs. Everything else is yours to edit freely.
+
+| Field | Value |
+|-------|-------|
+| Module | `tests` |
+| Last generated | 2026-02-28 13:39 |
+| Output file | `tests/MODULE_README.md` |
+| Signature mode | `signatures` |
+
+**To refresh auto-sections:**
+```bash
+python utils/code_context/generate_module_readme.py tests --mode signatures \
+        --call-graph-scope handle_tool_calls,executor,registry,guardrails
+```
+
+**To add permanent notes:** Write anywhere outside the `<!-- AUTO:... -->` blocks.
+<!-- /AUTO:meta -->
+
+<!-- HUMAN-EDITABLE: This section is yours. Agents & Humans can edit this section freely — it will not be overwritten. -->
+
+## Architecture
+
+> **Fill this in.** Describe the execution flow and layer map for this module.
+> See `utils/code_context/MODULE_README_SPEC.md` for the recommended format.
+>
+> Suggested structure:
+>
+> ### Layers
+> | File | Role |
+> |------|------|
+> | `entry.py` | Public entry point — receives requests, returns results |
+> | `engine.py` | Core dispatch logic |
+> | `models.py` | Shared data types |
+>
+> ### Call Flow (happy path)
+> ```
+> entry_function() → engine.dispatch() → implementation()
+> ```
+
+
+<!-- AUTO:tree -->
+## Directory Tree
+
+> Auto-generated. 22 files across 6 directories.
+
+```
+tests/
+├── MODULE_README.md
+├── __init__.py
+├── ai/
+│   ├── __init__.py
+│   ├── execution_test.py
+│   ├── groq_transcription_test.py
+│   ├── small_test.py
+│   ├── test_context.py
+│   ├── test_error_handling.py
+│   ├── test_translations.py
+├── db-pull-push/
+│   ├── message-rebuild.py
+├── openai/
+│   ├── __init__.py
+│   ├── background_stream_async.py
+│   ├── conversation_id_test.py
+│   ├── openai_function_test.py
+│   ├── openai_image_input.py
+│   ├── openai_small_tests.py
+│   ├── openai_translation_test.py
+├── prompts/
+│   ├── __init__.py
+│   ├── agent_comparison.py
+│   ├── prompt_to_config.py
+│   ├── test_basic_prompts.py
+├── random/
+│   ├── print_test.py
+# excluded: 5 .json, 1 .md
+```
+<!-- /AUTO:tree -->
+
+<!-- AUTO:signatures -->
+## API Signatures
+
+> Auto-generated via `output_mode="signatures"`. ~5-10% token cost vs full source.
+> For full source, open the individual files directly.
+
+```
+---
+Filepath: tests/__init__.py  [python]
+
+
+
+---
+Filepath: tests/openai/__init__.py  [python]
+
+
+
+---
+Filepath: tests/openai/openai_small_tests.py  [python]
+
+
+
+---
+Filepath: tests/openai/conversation_id_test.py  [python]
+
+  def test_conversation_id()
+  def retreive_by_id(id: str)
+  def test_with_hard_coded_id(id: str)
+
+
+---
+Filepath: tests/openai/openai_image_input.py  [python]
+
+
+
+---
+Filepath: tests/openai/background_stream_async.py  [python]
+
+  class Step(BaseModel):
+      # fields: explanation: str, output: str
+  class MathResponse(BaseModel):
+      # fields: steps: List[Step], final_answer: str
+  async def main() -> None
+
+
+---
+Filepath: tests/openai/openai_translation_test.py  [python]
+
+
+
+---
+Filepath: tests/openai/openai_function_test.py  [python]
+
+  def get_horoscope(sign)
+
+
+---
+Filepath: tests/random/print_test.py  [python]
+
+
+
+---
+Filepath: tests/db-pull-push/message-rebuild.py  [python]
+
+
+
+---
+Filepath: tests/prompts/__init__.py  [python]
+
+
+
+---
+Filepath: tests/prompts/agent_comparison.py  [python]
+
+  async def test_autonomous_execution(settings_to_use)
+  async def create_conversation_with_agent(prompt_id: str, variables: dict, debug: bool = False)
+  async def create_conversation_simple(prompt_id: str, variables: dict, debug: bool = False)
+  async def main()
+
+
+---
+Filepath: tests/prompts/test_basic_prompts.py  [python]
+
+  async def load_prompt_by_id(prompt_id: str)
+  async def load_prompt_by_name(prompt_name: str)
+  async def load_prompt_by_user_id(user_id: str)
+
+
+---
+Filepath: tests/prompts/prompt_to_config.py  [python]
+
+  async def test_autonomous_execution(settings_to_use)
+  def replace_variables(prompt: Prompts, variables: dict)
+  async def load_and_convert_prompt(prompt_id: str, variables: Optional[dict] = None)
+  async def create_conversation_from_prompt(prompt_id: str, variables: Optional[dict] = None, debug: bool = False)
+
+
+---
+Filepath: tests/ai/__init__.py  [python]
+
+
+
+---
+Filepath: tests/ai/test_error_handling.py  [python]
+
+  def test_google_503_high_demand()
+  def test_google_429_rate_limit()
+  def test_google_500_server_error()
+  def test_google_network_error()
+  def test_google_non_retryable()
+  def test_openai_rate_limit()
+  def test_openai_server_error()
+  def test_anthropic_overloaded()
+  def test_backoff_calculation()
+  def test_custom_retry_after()
+  def test_provider_classification()
+  def run_all_tests()
+
+
+---
+Filepath: tests/ai/groq_transcription_test.py  [python]
+
+  def test_basic_transcription()
+  def test_translation()
+  def test_audio_content_integration()
+  def test_unified_message_with_audio()
+  def test_url_transcription()
+  def test_quality_metrics_analysis()
+  def test_model_comparison()
+
+
+---
+Filepath: tests/ai/test_context.py  [python]
+
+  def _require_env(key: str, validator: callable | None = None, hint: str = '') -> str
+  def _optional_env(key: str) -> str | None
+  def _is_valid_uuid(val: str) -> bool
+  def _is_valid_email(val: str) -> bool
+  def get_developer_user_id() -> str
+  def get_test_email() -> str
+  def get_test_conversation_id() -> str
+  def get_test_project_id() -> str | None
+  def get_test_organization_id() -> str | None
+  def create_test_app_context(*, conversation_id: str | None = None, project_id: str | None = None, organization_id: str | None = None, emitter: Emitter | None = None, label: str = 'test', debug: bool = True, is_admin: bool = False, new_conversation: bool = False) -> Token
+  def create_test_tool_context(tool_name: str, *, call_id: str | None = None, iteration: int = 0, user_role: str = 'user', cost_budget_remaining: float | None = None) -> ToolContext
+
+
+---
+Filepath: tests/ai/execution_test.py  [python]
+
+  LOCAL_USER_ID = os.getenv('LOCAL_USER_ID')
+  async def register_all_tools()
+  async def test_autonomous_execution(config: dict, conversation_id: str, debug: bool = False)
+  def clean_up_response(response)
+
+
+---
+Filepath: tests/ai/small_test.py  [python]
+
+  DEBUG_OVERRIDE = False
+  def test_debug_override(debug: bool = False)
+
+
+---
+Filepath: tests/ai/test_translations.py  [python]
+
+  async def test_translation(settings_to_use)
+  async def test_execution(settings_to_use)
+```
+<!-- /AUTO:signatures -->
+
+<!-- AUTO:dependencies -->
+## Dependencies
+
+**External packages:** client, dotenv, initialize_systems, matrx_utils, openai, prompts, pydantic, rich
+**Internal modules:** config.unified_config, context.app_context, context.console_emitter, context.emitter_protocol, db.models, media.audio, orchestrator.executor, providers.unified_client, shared.json_utils, tools.models, tools.registry
+<!-- /AUTO:dependencies -->
+
+<!-- AUTO:config -->
+## Generation Config
+
+> Auto-managed. Contains the exact parameters used to generate this README.
+> Used by parent modules to auto-refresh this file when it is stale.
+> Do not edit manually — changes will be overwritten on the next run.
+
+```json
+{
+  "subdirectory": "tests",
+  "mode": "signatures",
+  "scope": [
+    "handle_tool_calls",
+    "executor",
+    "registry",
+    "guardrails"
+  ],
+  "project_noise": null,
+  "include_call_graph": true,
+  "entry_points": [
+    "handle_tool_calls_v2",
+    "initialize_tool_system",
+    "initialize_tool_system_sync",
+    "cleanup_conversation"
+  ],
+  "call_graph_exclude": null
+}
+```
+<!-- /AUTO:config -->
