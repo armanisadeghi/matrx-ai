@@ -10,8 +10,11 @@ from db.models import PromptBuiltins
 
 
 # ---------------------------------------------------------------------------
-# ModelView (new) — preferred projection layer.
+# ModelView (new) — opt-in projection layer.
 # Stores results flat on the model instance; no duplication, no nesting.
+# To activate: set view_class = PromptBuiltinsView on your manager subclass,
+# or pass view_class=PromptBuiltinsView to super().__init__().
+# When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
 class PromptBuiltinsView(ModelView):
@@ -31,7 +34,7 @@ class PromptBuiltinsView(ModelView):
             return model.name.title()
     """
 
-    prefetch: list = ['prompts', 'prompt_shortcuts', 'prompt_actions']
+    prefetch: list = []
     exclude: list = []
     inline_fk: dict = {}
 
@@ -44,9 +47,10 @@ class PromptBuiltinsView(ModelView):
 
 
 # ---------------------------------------------------------------------------
-# BaseDTO (legacy) — kept for backward compatibility.
-# Existing imports of PromptBuiltinsDTO from this file continue to work.
-# Migrate business logic to PromptBuiltinsView when ready.
+# BaseDTO (default) — active by default, fully backward compatible.
+# Extend _process_core_data / _process_metadata with your business logic.
+# When you are ready to migrate to the View above, set view_class on your
+# manager subclass and this DTO will be bypassed automatically.
 # ---------------------------------------------------------------------------
 
 @dataclass
@@ -84,19 +88,23 @@ class PromptBuiltinsDTO(BaseDTO):
 
 
 # ---------------------------------------------------------------------------
-# Manager — uses ModelView by default.
-# To revert to the legacy DTO path:
-#   view_class = None
-#   super().__init__(PromptBuiltins, dto_class=PromptBuiltinsDTO)
+# Manager — DTO is active by default for full backward compatibility.
+# To switch to the View (opt-in):
+#   1. Quick: set view_class = PromptBuiltinsView  (replaces DTO automatically)
+#   2. Explicit: super().__init__(PromptBuiltins, view_class=PromptBuiltinsView)
 # ---------------------------------------------------------------------------
 
 class PromptBuiltinsBase(BaseManager[PromptBuiltins]):
-    view_class = PromptBuiltinsView
+    view_class = None  # DTO is used by default; set to PromptBuiltinsView to opt in
 
-    def __init__(self, view_class: type[Any] | None = None):
+    def __init__(
+        self,
+        dto_class: type[Any] | None = None,
+        view_class: type[Any] | None = None,
+    ):
         if view_class is not None:
             self.view_class = view_class
-        super().__init__(PromptBuiltins)
+        super().__init__(PromptBuiltins, dto_class=dto_class or PromptBuiltinsDTO)
 
     def _initialize_manager(self):
         super()._initialize_manager()

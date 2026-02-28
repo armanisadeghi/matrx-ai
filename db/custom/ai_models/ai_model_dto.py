@@ -1,9 +1,12 @@
 # File Location: /matrix/ai_models/ai_model_dto.py
 
+import json
 from dataclasses import dataclass
+
 from matrx_orm import BaseDTO
 from matrx_utils import vcprint
-import json
+
+from db.models import AiModel
 
 info = True
 debug = False
@@ -23,15 +26,15 @@ DEFAULT_MAX_TOKENS = 4096
 @dataclass
 class AiModelDTO(BaseDTO):
     id: str
-    default_endpoint: str = None
-    default_max_tokens: int = None
+    default_endpoint: str | None = None
+    default_max_tokens: int | None = None
 
-    async def _initialize_dto(self, ai_model_item):
+    async def _initialize_dto(self, model):
         """Initialize the DTO with the model data and compute runtime properties."""
-        self.id = str(ai_model_item.id)
-        await self._process_core_data(ai_model_item)
-        await self._process_metadata(ai_model_item)
-        await self._initial_validation(ai_model_item)
+        self.id = str(model.id)
+        await self._process_core_data(model)
+        await self._process_metadata(model)
+        await self._initial_validation(model)
         self.initialized = True
         vcprint(
             f"[Ai Model DTO] {self.name} initialized---", verbose=verbose, color="green"

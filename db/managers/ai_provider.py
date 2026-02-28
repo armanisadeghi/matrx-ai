@@ -10,8 +10,11 @@ from db.models import AiProvider
 
 
 # ---------------------------------------------------------------------------
-# ModelView (new) — preferred projection layer.
+# ModelView (new) — opt-in projection layer.
 # Stores results flat on the model instance; no duplication, no nesting.
+# To activate: set view_class = AiProviderView on your manager subclass,
+# or pass view_class=AiProviderView to super().__init__().
+# When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
 class AiProviderView(ModelView):
@@ -31,7 +34,7 @@ class AiProviderView(ModelView):
             return model.name.title()
     """
 
-    prefetch: list = ['ai_settings', 'ai_model']
+    prefetch: list = []
     exclude: list = []
     inline_fk: dict = {}
 
@@ -44,9 +47,10 @@ class AiProviderView(ModelView):
 
 
 # ---------------------------------------------------------------------------
-# BaseDTO (legacy) — kept for backward compatibility.
-# Existing imports of AiProviderDTO from this file continue to work.
-# Migrate business logic to AiProviderView when ready.
+# BaseDTO (default) — active by default, fully backward compatible.
+# Extend _process_core_data / _process_metadata with your business logic.
+# When you are ready to migrate to the View above, set view_class on your
+# manager subclass and this DTO will be bypassed automatically.
 # ---------------------------------------------------------------------------
 
 @dataclass
@@ -84,19 +88,23 @@ class AiProviderDTO(BaseDTO):
 
 
 # ---------------------------------------------------------------------------
-# Manager — uses ModelView by default.
-# To revert to the legacy DTO path:
-#   view_class = None
-#   super().__init__(AiProvider, dto_class=AiProviderDTO)
+# Manager — DTO is active by default for full backward compatibility.
+# To switch to the View (opt-in):
+#   1. Quick: set view_class = AiProviderView  (replaces DTO automatically)
+#   2. Explicit: super().__init__(AiProvider, view_class=AiProviderView)
 # ---------------------------------------------------------------------------
 
 class AiProviderBase(BaseManager[AiProvider]):
-    view_class = AiProviderView
+    view_class = None  # DTO is used by default; set to AiProviderView to opt in
 
-    def __init__(self, view_class: type[Any] | None = None):
+    def __init__(
+        self,
+        dto_class: type[Any] | None = None,
+        view_class: type[Any] | None = None,
+    ):
         if view_class is not None:
             self.view_class = view_class
-        super().__init__(AiProvider)
+        super().__init__(AiProvider, dto_class=dto_class or AiProviderDTO)
 
     def _initialize_manager(self):
         super()._initialize_manager()

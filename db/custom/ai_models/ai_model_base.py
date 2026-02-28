@@ -1,7 +1,9 @@
 from typing import Any
+
 from matrx_orm import BaseManager
-from db.managers.ai_model import AiModelView
+
 from db.models import AiModel
+
 from .ai_model_dto import AiModelDTO
 
 
