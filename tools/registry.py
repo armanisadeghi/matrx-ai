@@ -346,6 +346,8 @@ class ToolRegistryV2:
             or function_path.startswith("mcp:")
         ):
             raise ValueError(f"Cannot resolve non-local function_path: {function_path}")
+        if function_path.startswith("ai."):
+            function_path = function_path[3:]
         module_path, func_name = function_path.rsplit(".", 1)
         module = importlib.import_module(module_path)
         func = getattr(module, func_name)

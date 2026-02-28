@@ -1,6 +1,8 @@
 import uuid
 
-from db.managers.ai_model import AiModelBase
+from db.models import AiModel
+
+from .ai_model_base import AiModelBase
 
 info = True
 debug = False
@@ -35,6 +37,10 @@ class AiModelManager(AiModelBase):
     async def load_model(self, id_or_name: str):
         return await self.load_model_by_id(id_or_name)
 
+    async def load_model_get_string_uuid(self, id_or_name: str):
+        model: AiModel = await self.load_model_by_id(id_or_name)        
+        return model.id if model else None
+
     async def load_model_by_id(self, model_id: str):
         """
         Load a model by ID or name.
@@ -67,26 +73,6 @@ class AiModelManager(AiModelBase):
 
     async def load_models_by_provider(self, provider: str):
         return await self.load_ai_models_by_provider(provider)
-
-    async def list_unique_model_providers(self, update_data_in_code: bool = False):
-        models = await self.load_all_models()
-        providers = list({model.provider for model in models})
-        if update_data_in_code:
-            await self.update_data_in_code(providers, "model_providers")
-        return providers
-
-    async def update_data_in_code(self, data, variable_name):
-        # If data is a list of models, convert to clean dictionaries
-        if isinstance(data, list) and data and hasattr(data[0], "to_dict"):
-            # Filter models to clean dictionaries without runtime and dto
-            filtered_data = []
-            for model in data:
-                model_dict = model.to_dict()
-                # Filter out runtime and dto data
-                filtered_model = {
-                    k: v for k, v in model_dict.items() if k not in ["runtime", "dto"]
-                }
-                filtered_data.append(filtered_model)
 
 
 # To get the single instance of AiModelManager
