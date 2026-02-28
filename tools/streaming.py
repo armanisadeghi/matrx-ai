@@ -7,7 +7,6 @@ from typing import TYPE_CHECKING, Any, Literal
 from pydantic import BaseModel, Field
 
 from context.emitter_protocol import Emitter
-from matrx_utils import vcprint
 
 if TYPE_CHECKING:
     from tools.models import ToolResult
@@ -27,6 +26,7 @@ class ToolStreamEvent(BaseModel):
       - Individual tools may only call ``progress()`` and ``step()`` for
         intermediate UI updates during long-running operations.
     """
+
     event: Literal[
         "tool_started",
         "tool_progress",
@@ -84,13 +84,15 @@ class ToolStreamManager:
         message: str = "Starting...",
         arguments: dict[str, Any] | None = None,
     ) -> None:
-        await self.emit(ToolStreamEvent(
-            event="tool_started",
-            call_id=self.call_id,
-            tool_name=self.tool_name,
-            message=message,
-            data={"arguments": arguments} if arguments else {},
-        ))
+        await self.emit(
+            ToolStreamEvent(
+                event="tool_started",
+                call_id=self.call_id,
+                tool_name=self.tool_name,
+                message=message,
+                data={"arguments": arguments} if arguments else {},
+            )
+        )
 
     async def completed(
         self,
@@ -110,26 +112,29 @@ class ToolStreamManager:
             elif output is not None:
                 data["result"] = output
 
-        vcprint(result, "Tool Result", color="green")
-        await self.emit(ToolStreamEvent(
-            event="tool_completed",
-            call_id=self.call_id,
-            tool_name=self.tool_name,
-            message=message,
-            show_spinner=False,
-            data=data,
-        ))
+        # vcprint(result, "Tool Result", color="green")
+        await self.emit(
+            ToolStreamEvent(
+                event="tool_completed",
+                call_id=self.call_id,
+                tool_name=self.tool_name,
+                message=message,
+                show_spinner=False,
+                data=data,
+            )
+        )
 
     async def error(self, message: str, error_type: str = "execution") -> None:
-        
-        await self.emit(ToolStreamEvent(
-            event="tool_error",
-            call_id=self.call_id,
-            tool_name=self.tool_name,
-            message=message,
-            show_spinner=False,
-            data={"error_type": error_type},
-        ))
+        await self.emit(
+            ToolStreamEvent(
+                event="tool_error",
+                call_id=self.call_id,
+                tool_name=self.tool_name,
+                message=message,
+                show_spinner=False,
+                data={"error_type": error_type},
+            )
+        )
 
     # ------------------------------------------------------------------
     # TOOL-CALLABLE: progress / step / result_preview
@@ -137,31 +142,39 @@ class ToolStreamManager:
     # ------------------------------------------------------------------
 
     async def progress(self, message: str, data: dict[str, Any] | None = None) -> None:
-        await self.emit(ToolStreamEvent(
-            event="tool_progress",
-            call_id=self.call_id,
-            tool_name=self.tool_name,
-            message=message,
-            data=data or {},
-        ))
+        await self.emit(
+            ToolStreamEvent(
+                event="tool_progress",
+                call_id=self.call_id,
+                tool_name=self.tool_name,
+                message=message,
+                data=data or {},
+            )
+        )
 
-    async def step(self, step_name: str, message: str, data: dict[str, Any] | None = None) -> None:
-        await self.emit(ToolStreamEvent(
-            event="tool_step",
-            call_id=self.call_id,
-            tool_name=self.tool_name,
-            message=message,
-            data={"step": step_name, **(data or {})},
-        ))
+    async def step(
+        self, step_name: str, message: str, data: dict[str, Any] | None = None
+    ) -> None:
+        await self.emit(
+            ToolStreamEvent(
+                event="tool_step",
+                call_id=self.call_id,
+                tool_name=self.tool_name,
+                message=message,
+                data={"step": step_name, **(data or {})},
+            )
+        )
 
     async def result_preview(self, preview: str) -> None:
-        await self.emit(ToolStreamEvent(
-            event="tool_result_preview",
-            call_id=self.call_id,
-            tool_name=self.tool_name,
-            message="Preview available",
-            data={"preview": preview[:500]},
-        ))
+        await self.emit(
+            ToolStreamEvent(
+                event="tool_result_preview",
+                call_id=self.call_id,
+                tool_name=self.tool_name,
+                message="Preview available",
+                data={"preview": preview[:500]},
+            )
+        )
 
     # ------------------------------------------------------------------
 

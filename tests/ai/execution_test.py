@@ -10,8 +10,8 @@ import dotenv
 import rich
 from matrx_utils import cleanup_async_resources, clear_terminal, vcprint
 
-from client.ai_requests import execute_until_complete
-from client.unified_client import (
+from orchestrator.executor import execute_until_complete
+from providers.unified_client import (
     AIMatrixRequest,
     UnifiedAIClient,
 )
@@ -33,7 +33,7 @@ async def test_autonomous_execution(config: dict, conversation_id: str, debug: b
         "debug": debug,
         "config": config,
     }
-    
+
     client = UnifiedAIClient()
     request = AIMatrixRequest.from_dict(settings_to_use)
     rich.print(request)
@@ -65,7 +65,6 @@ def clean_up_response(response):
     }
     rich.print(clean_response)
     return clean_response
-
 
 
 # ============================================================================
@@ -326,7 +325,7 @@ if __name__ == "__main__":
             "stream": True,
         },
     }
-    
+
     document_input_settings = {
         "debug": True,
         "config": {
@@ -376,10 +375,10 @@ if __name__ == "__main__":
             "stream": True,
         },
     }
-    
+
     # Audio URL for testing
     audio_url = "https://txzxabzwovsujtloxrus.supabase.co/storage/v1/object/public/Audio/Audio%20Files/My%20Recordings/small_sample_audio.m4a"
-    
+
     # Test 1: Use Groq transcription to convert audio to text, then send to Google
     audio_transcription_test_settings = {
         "debug": True,
@@ -410,7 +409,7 @@ if __name__ == "__main__":
             "stream": True,
         },
     }
-    
+
     # Test 2: Send audio directly to Google (Google can handle audio natively)
     audio_direct_google_settings = {
         "debug": True,
@@ -439,8 +438,8 @@ if __name__ == "__main__":
             "stream": True,
         },
     }
-    
-    # options: simple_chat_settings, single_tool_settings_v2, image_generation_settings, complex_settings, 
+
+    # options: simple_chat_settings, single_tool_settings_v2, image_generation_settings, complex_settings,
     # document_input_settings, youtube_url_settings, audio_transcription_test_settings, audio_direct_google_settings
     settings_to_use = simple_chat_settings
     settings_to_use["config"]["model"] = google
@@ -452,6 +451,7 @@ if __name__ == "__main__":
     # )
 
     from tests.ai.test_context import get_test_conversation_id
+
     conversation_id = get_test_conversation_id()
     final_result = asyncio.run(
         test_autonomous_execution(settings_to_use["config"], conversation_id, debug=False)

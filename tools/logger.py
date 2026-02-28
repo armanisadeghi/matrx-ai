@@ -8,8 +8,8 @@ from uuid import uuid4
 
 from matrx_utils import vcprint
 
+from db.custom import cxm
 from tools.models import ToolContext, ToolDefinition, ToolResult
-from conversation import cxm
 
 
 class ToolExecutionLogger:
@@ -90,7 +90,11 @@ class ToolExecutionLogger:
             "output": output_str,
             "output_type": output_type,
             "duration_ms": result.duration_ms,
-            "completed_at": datetime.fromtimestamp(result.completed_at, tz=timezone.utc).isoformat() if result.completed_at else datetime.now(timezone.utc).isoformat(),
+            "completed_at": datetime.fromtimestamp(
+                result.completed_at, tz=timezone.utc
+            ).isoformat()
+            if result.completed_at
+            else datetime.now(timezone.utc).isoformat(),
             "input_tokens": input_tokens,
             "output_tokens": output_tokens,
             "total_tokens": total_tokens,
@@ -122,7 +126,11 @@ class ToolExecutionLogger:
             "error_type": result.error.error_type if result.error else "unknown",
             "error_message": result.error.message if result.error else "Unknown error",
             "duration_ms": result.duration_ms,
-            "completed_at": datetime.fromtimestamp(result.completed_at, tz=timezone.utc).isoformat() if result.completed_at else datetime.now(timezone.utc).isoformat(),
+            "completed_at": datetime.fromtimestamp(
+                result.completed_at, tz=timezone.utc
+            ).isoformat()
+            if result.completed_at
+            else datetime.now(timezone.utc).isoformat(),
             "input_tokens": input_tokens,
             "output_tokens": output_tokens,
             "total_tokens": total_tokens,
@@ -145,14 +153,20 @@ class ToolExecutionLogger:
     # ------------------------------------------------------------------
 
     async def backfill_message_id(
-        self, call_id: str, conversation_id: str, message_id: str,
+        self,
+        call_id: str,
+        conversation_id: str,
+        message_id: str,
     ) -> None:
         try:
             matches = await cxm.tool_call.filter_cx_tool_calls(
-                call_id=call_id, conversation_id=conversation_id,
+                call_id=call_id,
+                conversation_id=conversation_id,
             )
             for item in matches:
-                await cxm.tool_call.update_cx_tool_call(str(item.id), message_id=message_id)
+                await cxm.tool_call.update_cx_tool_call(
+                    str(item.id), message_id=message_id
+                )
         except Exception as exc:
             vcprint(
                 f"Failed to backfill message_id for call_id={call_id}: {exc}\n{traceback.format_exc()}",

@@ -5,7 +5,12 @@ import re
 import time
 from typing import Any
 
-from tools.arg_models.db_args import DbInsertArgs, DbQueryArgs, DbSchemaArgs, DbUpdateArgs
+from tools.arg_models.db_args import (
+    DbInsertArgs,
+    DbQueryArgs,
+    DbSchemaArgs,
+    DbUpdateArgs,
+)
 from tools.models import ToolContext, ToolError, ToolResult
 
 logger = logging.getLogger(__name__)
@@ -13,9 +18,17 @@ logger = logging.getLogger(__name__)
 
 def _get_async_supabase():
     from common.supabase.supabase_client import get_async_supabase_client
+
     return get_async_supabase_client()
 
-BLOCKED_TABLES = {"auth", "cx_conversation", "cx_message", "cx_user_request", "cx_request"}
+
+BLOCKED_TABLES = {
+    "auth",
+    "cx_conversation",
+    "cx_message",
+    "cx_user_request",
+    "cx_request",
+}
 READ_ONLY_TABLES = {"ai_models", "tools", "prompt_builtins"}
 
 DANGEROUS_KEYWORDS = {"DROP", "TRUNCATE", "ALTER", "CREATE", "GRANT", "REVOKE"}
@@ -40,7 +53,7 @@ def _is_safe_select(query: str) -> bool:
     if not upper.startswith("SELECT"):
         return False
     for kw in DANGEROUS_KEYWORDS:
-        if re.search(rf'\b{kw}\b', upper):
+        if re.search(rf"\b{kw}\b", upper):
             return False
     return True
 
@@ -75,9 +88,13 @@ async def db_query(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         ).execute()
 
         raw = response.data
-        rows = raw if isinstance(raw, list) else (raw.get("result", []) if isinstance(raw, dict) else [])
+        rows = (
+            raw
+            if isinstance(raw, list)
+            else (raw.get("result", []) if isinstance(raw, dict) else [])
+        )
         if len(rows) > parsed.limit:
-            rows = rows[:parsed.limit]
+            rows = rows[: parsed.limit]
 
         return ToolResult(
             success=True,
@@ -141,7 +158,10 @@ async def db_insert(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         response = await client.table(parsed.table).insert(data).execute()
         return ToolResult(
             success=True,
-            output={"inserted": len(response.data) if response.data else 0, "data": response.data},
+            output={
+                "inserted": len(response.data) if response.data else 0,
+                "data": response.data,
+            },
             started_at=started_at,
             completed_at=time.time(),
             tool_name="db_insert",
@@ -165,7 +185,9 @@ async def db_update(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     if _is_blocked_table(parsed.table):
         return ToolResult(
             success=False,
-            error=ToolError(error_type="permission", message=f"Table '{parsed.table}' is blocked."),
+            error=ToolError(
+                error_type="permission", message=f"Table '{parsed.table}' is blocked."
+            ),
             started_at=started_at,
             completed_at=time.time(),
             tool_name="db_update",
@@ -175,7 +197,9 @@ async def db_update(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     if _is_read_only(parsed.table):
         return ToolResult(
             success=False,
-            error=ToolError(error_type="permission", message=f"Table '{parsed.table}' is read-only."),
+            error=ToolError(
+                error_type="permission", message=f"Table '{parsed.table}' is read-only."
+            ),
             started_at=started_at,
             completed_at=time.time(),
             tool_name="db_update",
@@ -191,7 +215,10 @@ async def db_update(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
 
         return ToolResult(
             success=True,
-            output={"updated": len(response.data) if response.data else 0, "data": response.data},
+            output={
+                "updated": len(response.data) if response.data else 0,
+                "data": response.data,
+            },
             started_at=started_at,
             completed_at=time.time(),
             tool_name="db_update",
@@ -229,7 +256,11 @@ async def db_schema(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
             ).execute()
 
             raw = response.data
-            columns = raw if isinstance(raw, list) else (raw.get("result", []) if isinstance(raw, dict) else [])
+            columns = (
+                raw
+                if isinstance(raw, list)
+                else (raw.get("result", []) if isinstance(raw, dict) else [])
+            )
 
             return ToolResult(
                 success=True,
@@ -251,7 +282,11 @@ async def db_schema(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
             ).execute()
 
             raw = response.data
-            rows = raw if isinstance(raw, list) else (raw.get("result", []) if isinstance(raw, dict) else [])
+            rows = (
+                raw
+                if isinstance(raw, list)
+                else (raw.get("result", []) if isinstance(raw, dict) else [])
+            )
             tables = [r.get("table_name", r) for r in rows]
 
             return ToolResult(
@@ -265,7 +300,9 @@ async def db_schema(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     except Exception as exc:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="database", message=f"Schema query failed: {exc}"),
+            error=ToolError(
+                error_type="database", message=f"Schema query failed: {exc}"
+            ),
             started_at=started_at,
             completed_at=time.time(),
             tool_name="db_schema",

@@ -1,6 +1,7 @@
 import json
-from typing import Any, Literal, Optional
 from dataclasses import dataclass, field
+from typing import Any, Literal
+
 from google.genai.types import Part
 
 
@@ -20,12 +21,12 @@ class CodeExecutionContent:
             }
         }
 
-    def to_openai(self) -> Optional[dict[str, Any]]:
+    def to_openai(self) -> dict[str, Any] | None:
         """Convert to OpenAI format - not supported"""
         # OpenAI doesn't support code execution
         return None
 
-    def to_anthropic(self) -> Optional[dict[str, Any]]:
+    def to_anthropic(self) -> dict[str, Any] | None:
         """Convert to Anthropic format - not supported"""
         # Anthropic doesn't support code execution
         return None
@@ -40,7 +41,7 @@ class CodeExecutionContent:
         return result
 
     @classmethod
-    def from_google(cls, part: Part) -> Optional["CodeExecutionContent"]:
+    def from_google(cls, part: Part) -> "CodeExecutionContent | None":
         """Create CodeExecutionContent from Google Part object"""
         if hasattr(part, "executable_code") and part.executable_code:
             return cls(
@@ -66,12 +67,12 @@ class CodeExecutionResultContent:
             }
         }
 
-    def to_openai(self) -> Optional[dict[str, Any]]:
+    def to_openai(self) -> dict[str, Any] | None:
         """Convert to OpenAI format - not supported"""
         # OpenAI doesn't support code execution
         return None
 
-    def to_anthropic(self) -> Optional[dict[str, Any]]:
+    def to_anthropic(self) -> dict[str, Any] | None:
         """Convert to Anthropic format - not supported"""
         # Anthropic doesn't support code execution
         return None
@@ -86,7 +87,7 @@ class CodeExecutionResultContent:
         return result
 
     @classmethod
-    def from_google(cls, part: Part) -> Optional["CodeExecutionResultContent"]:
+    def from_google(cls, part: Part) -> "CodeExecutionResultContent | None":
         """Create CodeExecutionResultContent from Google Part object"""
         if hasattr(part, "code_execution_result") and part.code_execution_result:
             return cls(
@@ -108,13 +109,13 @@ class WebSearchCallContent:
         ResponseFunctionWebSearch as OpenAIResponseFunctionWebSearch,
     )
 
-    def get_output(self) -> Optional[str]:
+    def get_output(self) -> str | None:
         return json.dumps(self.action)
 
     @classmethod
     def from_openai(
         cls, content_item: OpenAIResponseFunctionWebSearch
-    ) -> Optional["WebSearchCallContent"]:
+    ) -> "WebSearchCallContent | None":
         id = content_item.id
         status = content_item.status
         action = content_item.action

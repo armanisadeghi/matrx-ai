@@ -1,16 +1,15 @@
 from __future__ import annotations
 
 import importlib
-import logging
 import traceback
-from typing import Any, Awaitable, Callable
+from collections.abc import Awaitable, Callable
+from typing import Any
 
 from matrx_utils import vcprint
 from pydantic import BaseModel
 
 from tools.models import ToolDefinition, ToolType
-
-logger = logging.getLogger(__name__)
+from tools.tools_db import tools_manager_instance as tools_manager
 
 
 class ToolRegistryV2:
@@ -81,11 +80,11 @@ class ToolRegistryV2:
                         "tool": tool_name,
                         "function_path": row.get("function_path", ""),
                         "error": str(exc),
+                        "traceback": traceback.format_exc(),
                     },
                     f"[ToolRegistryV2] Failed to load tool: {tool_name}",
                     color="red",
                 )
-                print(traceback.format_exc())
 
         if failed:
             vcprint(
@@ -105,7 +104,11 @@ class ToolRegistryV2:
                 try:
                     tool_def._callable = self._resolve_callable(tool_def.function_path)
                 except Exception as exc:
-                    logger.warning("Could not resolve callable for '%s': %s", tool_def.name, exc)
+                    vcprint(
+                        f"Could not resolve callable for '{tool_def.name}': {exc}\n{traceback.format_exc()}",
+                        "[ToolRegistry] Callable resolution failed",
+                        color="red",
+                    )
                     continue
             self._tools[tool_def.name] = tool_def
             count += 1
@@ -141,7 +144,9 @@ class ToolRegistryV2:
             annotation = first_param.annotation
             if annotation is not inspect.Parameter.empty:
                 try:
-                    if isinstance(annotation, type) and issubclass(annotation, BaseModel):
+                    if isinstance(annotation, type) and issubclass(
+                        annotation, BaseModel
+                    ):
                         parameters = self._pydantic_to_param_dict(annotation)
                 except TypeError:
                     pass
@@ -174,7 +179,9 @@ class ToolRegistryV2:
     def get(self, name: str) -> ToolDefinition | None:
         return self._tools.get(name)
 
-    def get_provider_tools(self, tool_names: list[str], provider: str) -> list[dict[str, Any]]:
+    def get_provider_tools(
+        self, tool_names: list[str], provider: str
+    ) -> list[dict[str, Any]]:
         if not self._loaded:
             vcprint(
                 {
@@ -245,58 +252,43 @@ class ToolRegistryV2:
     @staticmethod
     async def _fetch_tools_async() -> list[dict[str, Any]]:
         try:
-            from conversation import tools_manager
             items = await tools_manager.filter_tool(is_active=True)
             return [item.to_dict() for item in items]
         except Exception as exc:
             vcprint(
-                str(exc),
-                "[ToolRegistryV2] Failed to fetch tools from database. No tools will be available",
+                {
+                    "error": str(exc),
+                    "traceback": traceback.format_exc(),
+                },
+                "[ToolRegistryV2] Failed to fetch tools from database. No tools will be available.",
                 color="red",
             )
-            print(traceback.format_exc())
             return []
 
     @staticmethod
     def _fetch_tools_via_orm_sync() -> list[dict[str, Any]]:
         try:
-            from conversation import tools_manager
             items = tools_manager.filter_items_sync(is_active=True)
-            return [item.to_dict() if hasattr(item, "to_dict") else item for item in items]
+            return [
+                item.to_dict() if hasattr(item, "to_dict") else item for item in items
+            ]
         except Exception as exc:
             vcprint(
-                str(exc),
-                "[ToolRegistryV2] Failed to fetch tools from database (sync). No tools will be available",
+                {
+                    "error": str(exc),
+                    "traceback": traceback.format_exc(),
+                },
+                "[ToolRegistryV2] Failed to fetch tools from database (sync). No tools will be available.",
                 color="red",
             )
-            print(traceback.format_exc())
             return []
-
-    @staticmethod
-    def _normalize_function_path(function_path: str) -> str:
-        """Remap legacy ``ai.tool_system.*`` paths from the database to ``tools.*``.
-
-        The DB ``tools`` table stores function_path values like
-        ``ai.tool_system.implementations.code.code_fetch_tree``.  In the
-        matrx-ai project the equivalent module lives under ``tools/``, so we
-        strip the ``ai.tool_system.`` prefix and replace it with ``tools.``.
-
-        TODO: Remove this once all DB rows are updated to use ``tools.*``
-              paths directly across all projects.
-        """
-        if function_path.startswith("ai.tool_system."):
-            return "tools." + function_path[len("ai.tool_system."):]
-        return function_path
 
     @staticmethod
     def _row_to_definition(row: dict[str, Any]) -> ToolDefinition:
         tool_type = ToolType.LOCAL
         function_path = row.get("function_path", "")
-
-        # Normalize legacy paths before anything else
-        function_path = ToolRegistryV2._normalize_function_path(function_path)
-
         prompt_id: str | None = None
+
         if function_path.startswith("agent:"):
             tool_type = ToolType.AGENT
             prompt_id = function_path.split(":", 1)[1]
@@ -311,7 +303,11 @@ class ToolRegistryV2:
                     guardrail_config.update(ann)
 
         raw_params = row.get("parameters") or {}
-        if isinstance(raw_params, dict) and raw_params.get("type") == "object" and "properties" in raw_params:
+        if (
+            isinstance(raw_params, dict)
+            and raw_params.get("type") == "object"
+            and "properties" in raw_params
+        ):
             params = raw_params["properties"]
             db_required = set(raw_params.get("required", []))
             for pname, pschema in params.items():
@@ -334,7 +330,9 @@ class ToolRegistryV2:
             is_active=row.get("is_active", True),
             version=row.get("version", "1.0.0"),
             prompt_id=prompt_id,
-            max_calls_per_conversation=guardrail_config.get("max_calls_per_conversation"),
+            max_calls_per_conversation=guardrail_config.get(
+                "max_calls_per_conversation"
+            ),
             max_calls_per_minute=guardrail_config.get("max_calls_per_minute"),
             cost_cap_per_call=guardrail_config.get("cost_cap_per_call"),
             timeout_seconds=guardrail_config.get("timeout_seconds", 120.0),
@@ -342,10 +340,12 @@ class ToolRegistryV2:
 
     @staticmethod
     def _resolve_callable(function_path: str) -> Callable[..., Awaitable[Any]]:
-        if not function_path or function_path.startswith("agent:") or function_path.startswith("mcp:"):
+        if (
+            not function_path
+            or function_path.startswith("agent:")
+            or function_path.startswith("mcp:")
+        ):
             raise ValueError(f"Cannot resolve non-local function_path: {function_path}")
-        # Normalize legacy paths in case _row_to_definition was bypassed
-        function_path = ToolRegistryV2._normalize_function_path(function_path)
         module_path, func_name = function_path.rsplit(".", 1)
         module = importlib.import_module(module_path)
         func = getattr(module, func_name)
@@ -365,7 +365,16 @@ class ToolRegistryV2:
                 "description": field_schema.get("description", ""),
                 "required": field_name in required_fields,
             }
-            for prop in ("items", "enum", "default", "minimum", "maximum", "minItems", "maxItems", "properties"):
+            for prop in (
+                "items",
+                "enum",
+                "default",
+                "minimum",
+                "maximum",
+                "minItems",
+                "maxItems",
+                "properties",
+            ):
                 if prop in field_schema:
                     param[prop] = field_schema[prop]
             params[field_name] = param
@@ -384,6 +393,7 @@ class ToolRegistryV2:
         """Connect to a remote MCP server, discover tools, register them."""
         if mcp_client is None:
             from tools.external_mcp import ExternalMCPClient
+
             mcp_client = ExternalMCPClient()
 
         remote_tools = await mcp_client.discover_tools(server_url)

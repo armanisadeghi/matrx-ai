@@ -5,6 +5,8 @@ import time
 import traceback
 from typing import Any
 
+from matrx_utils import vcprint
+
 from tools.arg_models.web_args import (
     RESEARCH_DEPTH_CONFIG,
     WebReadArgs,
@@ -12,8 +14,6 @@ from tools.arg_models.web_args import (
     WebSearchArgs,
 )
 from tools.models import ToolContext, ToolError, ToolResult
-from matrx_utils import vcprint
-
 from tools.streaming import ToolStreamManager
 
 
@@ -59,7 +59,9 @@ async def web_search(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
                 call_id=ctx.call_id,
             )
 
-        query_label = f"{len(parsed.queries)} quer{'ies' if len(parsed.queries) != 1 else 'y'}"
+        query_label = (
+            f"{len(parsed.queries)} quer{'ies' if len(parsed.queries) != 1 else 'y'}"
+        )
         await stream.progress(f"Search complete — {query_label} finished")
 
         return ToolResult(
@@ -287,8 +289,12 @@ async def research_web(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         )
 
         good_scrapes = [s for s in all_scraped_pages if s.get("is_good_scrape", False)]
-        thin_scrapes = [s for s in all_scraped_pages if not s.get("is_good_scrape", False)]
-        limited_good_scrapes = good_scrapes[: target_good_per_query * len(parsed.queries)]
+        thin_scrapes = [
+            s for s in all_scraped_pages if not s.get("is_good_scrape", False)
+        ]
+        limited_good_scrapes = good_scrapes[
+            : target_good_per_query * len(parsed.queries)
+        ]
 
         total_attempted = len(seen_urls)
         failed_count = total_attempted - len(all_scraped_pages)
@@ -302,13 +308,12 @@ async def research_web(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         # Phase 3: Format context for the condensation agent
         # ------------------------------------------------------------------
         scraped_pages_content = format_scraped_pages_section(
-            limited_good_scrapes=limited_good_scrapes, thin_scrapes=thin_scrapes,
+            limited_good_scrapes=limited_good_scrapes,
+            thin_scrapes=thin_scrapes,
         )
 
         search_previews_raw = generate_search_text_summary(queries_with_results)
-        search_previews_content = (
-            f"=== SEARCH RESULT PREVIEWS (Not Fully Scraped) ===\n\n{search_previews_raw}"
-        )
+        search_previews_content = f"=== SEARCH RESULT PREVIEWS (Not Fully Scraped) ===\n\n{search_previews_raw}"
 
         full_context_for_agent = scraped_pages_content + "\n" + search_previews_content
 
@@ -319,9 +324,11 @@ async def research_web(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         agent_child_usages: list = []
 
         if full_context_for_agent.strip():
-            await stream.step("condensing", "Conducting in-depth research analysis on scraped content")
+            await stream.step(
+                "condensing", "Conducting in-depth research analysis on scraped content"
+            )
 
-            from client.system_agents import scrape_research_condenser_agent_1
+            from .agent_runners.research import scrape_research_condenser_agent_1
 
             queries_str = ", ".join(parsed.queries)
 
@@ -351,7 +358,9 @@ async def research_web(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         # ------------------------------------------------------------------
         # Phase 5: Assemble final output
         # ------------------------------------------------------------------
-        all_search_results_text = f"\n# All Search Results:\n\n{search_previews_raw}\n---\n"
+        all_search_results_text = (
+            f"\n# All Search Results:\n\n{search_previews_raw}\n---\n"
+        )
 
         next_steps = (
             "\n## Next steps:\n\n"
@@ -372,7 +381,10 @@ async def research_web(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
 
         end_time = time.perf_counter()
         timing["condensation_time"] = round(end_time - search_and_scrape_end, 2)
-        timing["total_execution_time"] = round(end_time - (started_at if isinstance(started_at, float) else search_start), 2)
+        timing["total_execution_time"] = round(
+            end_time - (started_at if isinstance(started_at, float) else search_start),
+            2,
+        )
         timing["queries_count"] = len(parsed.queries)
         timing["urls_attempted"] = total_attempted
         timing["urls_scraped"] = len(all_scraped_pages)
@@ -403,7 +415,11 @@ async def research_web(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         )
 
     except Exception as exc:
-        vcprint(f"web_research failed: {exc}\n{traceback.format_exc()}", "[web_research] Unhandled exception", color="red")
+        vcprint(
+            f"web_research failed: {exc}\n{traceback.format_exc()}",
+            "[web_research] Unhandled exception",
+            color="red",
+        )
         return ToolResult(
             success=False,
             error=ToolError(

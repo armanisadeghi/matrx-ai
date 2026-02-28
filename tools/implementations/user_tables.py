@@ -14,22 +14,33 @@ async def usertable_create(args: dict[str, Any], ctx: ToolContext) -> ToolResult
     data = args.get("data")
 
     if not table_name:
-        return ToolResult(success=False, error=ToolError(error_type="validation", message="table_name is required."))
+        return ToolResult(
+            success=False,
+            error=ToolError(error_type="validation", message="table_name is required."),
+        )
     if not data or not isinstance(data, list):
-        return ToolResult(success=False, error=ToolError(
-            error_type="validation",
-            message="data must be a non-empty list of dictionaries, each representing a row.",
-        ))
+        return ToolResult(
+            success=False,
+            error=ToolError(
+                error_type="validation",
+                message="data must be a non-empty list of dictionaries, each representing a row.",
+            ),
+        )
 
     try:
         creator = UserTableCreator(user_id=ctx.user_id)
-        table_id = creator.create_table_from_data(data=data, table_name=table_name, description=description)
-        return ToolResult(success=True, output={
-            "table_id": str(table_id),
-            "table_name": table_name,
-            "description": description,
-            "row_count": len(data),
-        })
+        table_id = creator.create_table_from_data(
+            data=data, table_name=table_name, description=description
+        )
+        return ToolResult(
+            success=True,
+            output={
+                "table_id": str(table_id),
+                "table_name": table_name,
+                "description": description,
+                "row_count": len(data),
+            },
+        )
     except Exception as e:
         return ToolResult(
             success=False,

@@ -1,6 +1,7 @@
 import json
 from dataclasses import dataclass, field
-from typing import Any, Literal, Optional
+from typing import Any, Literal
+
 from google.genai.types import Part
 
 
@@ -132,7 +133,7 @@ class ToolCallContent:
         )
 
     @classmethod
-    def from_google(cls, part: Part) -> Optional["ToolCallContent"]:
+    def from_google(cls, part: Part) -> "ToolCallContent | None":
         """Create ToolCallContent from Google Part object"""
         if hasattr(part, "function_call") and part.function_call:
             metadata = {}
@@ -150,7 +151,7 @@ class ToolCallContent:
     @classmethod
     def from_openai(
         cls, item: OpenAIResponseFunctionToolCall
-    ) -> Optional["ToolCallContent"]:
+    ) -> "ToolCallContent | None":
         """Create ToolCallContent from OpenAI item"""
         # Ensure arguments is always a dict, not a JSON string
         args = item.arguments
@@ -168,7 +169,7 @@ class ToolCallContent:
     @classmethod
     def from_anthropic(
         cls, content_block: dict[str, Any]
-    ) -> Optional["ToolCallContent"]:
+    ) -> "ToolCallContent | None":
         """Create ToolCallContent from Anthropic content block"""
         return cls(
             id=content_block["id"],
@@ -265,7 +266,7 @@ class ToolResultContent:
         return result
 
     @classmethod
-    def from_google(cls, part: Part) -> Optional["ToolResultContent"]:
+    def from_google(cls, part: Part) -> "ToolResultContent | None":
         """Create ToolResultContent from Google Part object"""
         if hasattr(part, "function_response") and part.function_response:
             return cls(

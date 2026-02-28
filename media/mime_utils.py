@@ -7,9 +7,8 @@ Provides auto-detection of MIME types from various sources:
 - Magic bytes (file signatures)
 """
 
-import mimetypes
 import base64
-from typing import Optional
+import mimetypes
 
 # Fallback extension-to-MIME mappings for types that may not be in system database
 EXTENSION_MIME_MAP: dict[str, str] = {
@@ -46,10 +45,10 @@ EXTENSION_MIME_MAP: dict[str, str] = {
 
 
 def detect_mime_type(
-    url: Optional[str] = None,
-    base64_data: Optional[str] = None,
-    file_uri: Optional[str] = None,
-) -> Optional[str]:
+    url: str | None = None,
+    base64_data: str | None = None,
+    file_uri: str | None = None,
+) -> str | None:
     """
     Auto-detect MIME type from available sources.
     
@@ -85,7 +84,7 @@ def detect_mime_type(
     return None
 
 
-def _detect_mime_from_path(path: str) -> Optional[str]:
+def _detect_mime_from_path(path: str) -> str | None:
     """Detect MIME type from file path or URL"""
     # Remove query parameters and fragments for better detection
     clean_path = path.split('?')[0].split('#')[0]
@@ -103,7 +102,7 @@ def _detect_mime_from_path(path: str) -> Optional[str]:
     return None
 
 
-def _detect_mime_from_base64(data: str) -> Optional[str]:
+def _detect_mime_from_base64(data: str) -> str | None:
     """Detect MIME type from base64 data (data URI or raw base64)"""
     # Check if it's a data URI: data:image/png;base64,iVBORw0KG...
     if data.startswith('data:'):
@@ -123,7 +122,7 @@ def _detect_mime_from_base64(data: str) -> Optional[str]:
     return None
 
 
-def _detect_mime_from_magic_bytes(data: bytes) -> Optional[str]:
+def _detect_mime_from_magic_bytes(data: bytes) -> str | None:
     """
     Detect MIME type from magic bytes (file signature).
     

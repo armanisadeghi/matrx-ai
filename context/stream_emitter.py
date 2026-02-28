@@ -6,7 +6,7 @@ import datetime
 import enum
 import json
 import uuid
-from typing import Any, Optional
+from typing import Any
 
 from matrx_utils import vcprint
 
@@ -37,8 +37,8 @@ class StreamEmitter:
         self.debug = debug
         self._ended = False
         self.cancelled = False
-        self._task: Optional[asyncio.Task[None]] = None
-        self._heartbeat_task: Optional[asyncio.Task[None]] = None
+        self._task: asyncio.Task[None] | None = None
+        self._heartbeat_task: asyncio.Task[None] | None = None
         self._heartbeat_interval = heartbeat_interval
 
     # ------------------------------------------------------------------

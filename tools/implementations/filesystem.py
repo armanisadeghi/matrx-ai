@@ -7,7 +7,13 @@ import time
 from pathlib import Path
 from typing import Any
 
-from tools.arg_models.fs_args import FsListArgs, FsMkdirArgs, FsReadArgs, FsSearchArgs, FsWriteArgs
+from tools.arg_models.fs_args import (
+    FsListArgs,
+    FsMkdirArgs,
+    FsReadArgs,
+    FsSearchArgs,
+    FsWriteArgs,
+)
 from tools.models import ToolContext, ToolError, ToolResult
 
 logger = logging.getLogger(__name__)
@@ -35,7 +41,9 @@ async def fs_read(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         if not filepath.exists():
             return ToolResult(
                 success=False,
-                error=ToolError(error_type="not_found", message=f"File not found: {parsed.path}"),
+                error=ToolError(
+                    error_type="not_found", message=f"File not found: {parsed.path}"
+                ),
                 started_at=started_at,
                 completed_at=time.time(),
                 tool_name="fs_read",
@@ -99,7 +107,11 @@ async def fs_write(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
 
         return ToolResult(
             success=True,
-            output={"path": parsed.path, "bytes_written": len(parsed.content.encode()), "mode": "append" if parsed.append else "write"},
+            output={
+                "path": parsed.path,
+                "bytes_written": len(parsed.content.encode()),
+                "mode": "append" if parsed.append else "write",
+            },
             started_at=started_at,
             completed_at=time.time(),
             tool_name="fs_write",
@@ -134,7 +146,10 @@ async def fs_list(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         if not dirpath.is_dir():
             return ToolResult(
                 success=False,
-                error=ToolError(error_type="not_found", message=f"Directory not found: {parsed.path}"),
+                error=ToolError(
+                    error_type="not_found",
+                    message=f"Directory not found: {parsed.path}",
+                ),
                 started_at=started_at,
                 completed_at=time.time(),
                 tool_name="fs_list",
@@ -146,12 +161,14 @@ async def fs_list(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         for entry in iterator:
             if parsed.pattern and not fnmatch.fnmatch(entry.name, parsed.pattern):
                 continue
-            entries.append({
-                "name": entry.name,
-                "path": str(entry.relative_to(dirpath)),
-                "is_dir": entry.is_dir(),
-                "size": entry.stat().st_size if entry.is_file() else 0,
-            })
+            entries.append(
+                {
+                    "name": entry.name,
+                    "path": str(entry.relative_to(dirpath)),
+                    "is_dir": entry.is_dir(),
+                    "size": entry.stat().st_size if entry.is_file() else 0,
+                }
+            )
             if len(entries) >= 500:
                 break
 
@@ -192,7 +209,10 @@ async def fs_search(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         if not basepath.is_dir():
             return ToolResult(
                 success=False,
-                error=ToolError(error_type="not_found", message=f"Directory not found: {parsed.path}"),
+                error=ToolError(
+                    error_type="not_found",
+                    message=f"Directory not found: {parsed.path}",
+                ),
                 started_at=started_at,
                 completed_at=time.time(),
                 tool_name="fs_search",
@@ -213,18 +233,22 @@ async def fs_search(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
                     content = entry.read_text(errors="replace")[:50000]
                     matches = [m.group() for m in re.finditer(parsed.pattern, content)]
                     if matches:
-                        results.append({
-                            "path": str(entry.relative_to(basepath)),
-                            "matches": matches[:10],
-                        })
+                        results.append(
+                            {
+                                "path": str(entry.relative_to(basepath)),
+                                "matches": matches[:10],
+                            }
+                        )
                 except Exception:
                     continue
             else:
                 if fnmatch.fnmatch(entry.name, parsed.pattern):
-                    results.append({
-                        "path": str(entry.relative_to(basepath)),
-                        "size": entry.stat().st_size,
-                    })
+                    results.append(
+                        {
+                            "path": str(entry.relative_to(basepath)),
+                            "size": entry.stat().st_size,
+                        }
+                    )
 
         return ToolResult(
             success=True,

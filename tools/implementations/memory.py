@@ -5,6 +5,7 @@ import time
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
+from db.custom import cxm
 from tools.arg_models.memory_args import (
     MemoryForgetArgs,
     MemoryRecallArgs,
@@ -31,18 +32,17 @@ def _scope_id(ctx: ToolContext, scope: str) -> str | None:
     return None
 
 
-def _get_memory_manager():
-    from conversation import cxm
-    return cxm.agent_memory
-
-
 async def memory_store(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     started_at = time.time()
     parsed = MemoryStoreArgs(**args)
 
     try:
         expires_delta = EXPIRY_MAP.get(parsed.memory_type)
-        expires_at = (datetime.now(timezone.utc) + expires_delta).isoformat() if expires_delta else None
+        expires_at = (
+            (datetime.now(timezone.utc) + expires_delta).isoformat()
+            if expires_delta
+            else None
+        )
 
         data = {
             "user_id": ctx.user_id,
@@ -55,8 +55,7 @@ async def memory_store(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
             "expires_at": expires_at,
         }
 
-        mgr = _get_memory_manager()
-        await mgr.upsert(data)
+        await cxm.agent_memory.upsert(data)
 
         return ToolResult(
             success=True,
@@ -69,7 +68,9 @@ async def memory_store(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     except Exception as exc:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="database", message=f"Memory store failed: {exc}"),
+            error=ToolError(
+                error_type="database", message=f"Memory store failed: {exc}"
+            ),
             started_at=started_at,
             completed_at=time.time(),
             tool_name="memory_store",
@@ -82,8 +83,7 @@ async def memory_recall(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     parsed = MemoryRecallArgs(**args)
 
     try:
-        mgr = _get_memory_manager()
-        memories = await mgr.recall(
+        memories = await cxm.agent_memory.recall(
             user_id=ctx.user_id,
             scope=parsed.scope,
             key=parsed.key,
@@ -92,7 +92,9 @@ async def memory_recall(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         )
 
         for mem in memories:
-            await mgr.update_access_count(mem["id"], mem.get("access_count", 0) or 0)
+            await cxm.agent_memory.update_access_count(
+                mem["id"], mem.get("access_count", 0) or 0
+            )
 
         return ToolResult(
             success=True,
@@ -105,7 +107,9 @@ async def memory_recall(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     except Exception as exc:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="database", message=f"Memory recall failed: {exc}"),
+            error=ToolError(
+                error_type="database", message=f"Memory recall failed: {exc}"
+            ),
             started_at=started_at,
             completed_at=time.time(),
             tool_name="memory_recall",
@@ -118,8 +122,7 @@ async def memory_search(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     parsed = MemorySearchArgs(**args)
 
     try:
-        mgr = _get_memory_manager()
-        results = await mgr.search_by_content(
+        results = await cxm.agent_memory.search_by_content(
             user_id=ctx.user_id,
             scope=parsed.scope,
             query=parsed.query,
@@ -138,7 +141,9 @@ async def memory_search(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     except Exception as exc:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="database", message=f"Memory search failed: {exc}"),
+            error=ToolError(
+                error_type="database", message=f"Memory search failed: {exc}"
+            ),
             started_at=started_at,
             completed_at=time.time(),
             tool_name="memory_search",
@@ -158,8 +163,7 @@ async def memory_update(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         if parsed.importance is not None:
             update_data["importance"] = parsed.importance
 
-        mgr = _get_memory_manager()
-        updated = await mgr.update_by_key(
+        updated = await cxm.agent_memory.update_by_key(
             user_id=ctx.user_id,
             scope=parsed.scope,
             key=parsed.key,
@@ -169,7 +173,12 @@ async def memory_update(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         return ToolResult(
             success=updated > 0,
             output={"updated": updated},
-            error=ToolError(error_type="not_found", message=f"Memory with key '{parsed.key}' not found.") if updated == 0 else None,
+            error=ToolError(
+                error_type="not_found",
+                message=f"Memory with key '{parsed.key}' not found.",
+            )
+            if updated == 0
+            else None,
             started_at=started_at,
             completed_at=time.time(),
             tool_name="memory_update",
@@ -178,7 +187,9 @@ async def memory_update(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     except Exception as exc:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="database", message=f"Memory update failed: {exc}"),
+            error=ToolError(
+                error_type="database", message=f"Memory update failed: {exc}"
+            ),
             started_at=started_at,
             completed_at=time.time(),
             tool_name="memory_update",
@@ -191,8 +202,7 @@ async def memory_forget(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     parsed = MemoryForgetArgs(**args)
 
     try:
-        mgr = _get_memory_manager()
-        deleted = await mgr.delete_by_key(
+        deleted = await cxm.agent_memory.delete_by_key(
             user_id=ctx.user_id,
             scope=parsed.scope,
             key=parsed.key,
@@ -208,7 +218,9 @@ async def memory_forget(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     except Exception as exc:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="database", message=f"Memory forget failed: {exc}"),
+            error=ToolError(
+                error_type="database", message=f"Memory forget failed: {exc}"
+            ),
             started_at=started_at,
             completed_at=time.time(),
             tool_name="memory_forget",

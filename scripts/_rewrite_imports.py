@@ -36,7 +36,7 @@ TARGET_DIRS = [
 REPLACEMENTS = [
     # ── aidream → context ──
     ("from aidream.api.utils.console_emitter import", "from context.console_emitter import"),
-    ("from aidream.api.emitter_protocol import", "from context.emitter_protocol import"),
+    ("from context.emitter_protocol import", "from context.emitter_protocol import"),
     ("from aidream.api.context import", "from context.app_context import"),
     ("from aidream.api.events import", "from context.events import"),
 
@@ -93,12 +93,12 @@ REPLACEMENTS = [
     ("from ai.tool_system.models import", "from tools.models import"),
 
     # ── ai.instructions → prompts.instructions ──
-    ("from ai.instructions.tests.variable_recognition_test import", "from prompts.instructions.tests.variable_recognition_test import"),
-    ("from ai.instructions.tests.integration_test import", "from prompts.instructions.tests.integration_test import"),
-    ("from ai.instructions.content_blocks_manager import", "from prompts.instructions.content_blocks_manager import"),
-    ("from ai.instructions.system_instructions import", "from prompts.instructions.system_instructions import"),
-    ("from ai.instructions.pattern_parser import", "from prompts.instructions.pattern_parser import"),
-    ("from ai.instructions.matrx_fetcher import", "from prompts.instructions.matrx_fetcher import"),
+    ("from instructions.tests.variable_recognition_test import", "from prompts.instructions.tests.variable_recognition_test import"),
+    ("from instructions.tests.integration_test import", "from prompts.instructions.tests.integration_test import"),
+    ("from instructions.content_blocks_manager import", "from prompts.instructions.content_blocks_manager import"),
+    ("from instructions.system_instructions import", "from prompts.instructions.system_instructions import"),
+    ("from instructions.pattern_parser import", "from prompts.instructions.pattern_parser import"),
+    ("from instructions.matrx_fetcher import", "from prompts.instructions.matrx_fetcher import"),
 
     # ── ai.prompts.tests → prompts.tests ──
     ("from ai.prompts.tests.agent_old import", "from prompts.tests.agent_old import"),
@@ -113,34 +113,34 @@ REPLACEMENTS = [
     ("from ai.prompts.types import", "from prompts.types import"),
 
     # ── ai.config → config ──
-    ("from ai.config.unified_config import", "from config.unified_config import"),
-    ("from ai.config.finish_reason import", "from config.finish_reason import"),
-    ("from ai.config.tools_config import", "from config.tools_config import"),
-    ("from ai.config.media_config import", "from config.media_config import"),
-    ("from ai.config.extra_config import", "from config.extra_config import"),
-    ("from ai.config.config_utils import", "from config.config_utils import"),
-    ("from ai.config.enums import", "from config.enums import"),
+    ("from config.unified_config import", "from config.unified_config import"),
+    ("from config.finish_reason import", "from config.finish_reason import"),
+    ("from config.tools_config import", "from config.tools_config import"),
+    ("from config.media_config import", "from config.media_config import"),
+    ("from config.extra_config import", "from config.extra_config import"),
+    ("from config.config_utils import", "from config.config_utils import"),
+    ("from config.enums import", "from config.enums import"),
 
     # ── ai.db → conversation ──
-    ("from ai.db.conversation_gate import", "from conversation.gate import"),
-    ("from ai.db.conversation_rebuild import", "from conversation.rebuild import"),
-    ("from ai.db.cx_conversation import", "from conversation.cx_conversation import"),
-    ("from ai.db.cx_agent_memory import", "from conversation.cx_agent_memory import"),
-    ("from ai.db.cx_user_request import", "from conversation.cx_user_request import"),
-    ("from ai.db.cx_message import", "from conversation.cx_message import"),
-    ("from ai.db.cx_request import", "from conversation.cx_request import"),
-    ("from ai.db.cx_media import", "from conversation.cx_media import"),
-    ("from ai.db.persistence import", "from conversation.persistence import"),
-    ("from ai.db import", "from conversation import"),
+    ("from db.custom.conversation_gate import", "from conversation.gate import"),
+    ("from db.custom.conversation_rebuild import", "from conversation.rebuild import"),
+    ("from db.custom.cx_conversation import", "from conversation.cx_conversation import"),
+    ("from db.custom.cx_agent_memory import", "from conversation.cx_agent_memory import"),
+    ("from db.custom.cx_user_request import", "from conversation.cx_user_request import"),
+    ("from db.custom.cx_message import", "from conversation.cx_message import"),
+    ("from db.custom.cx_request import", "from conversation.cx_request import"),
+    ("from db.custom.cx_media import", "from conversation.cx_media import"),
+    ("from db.custom.persistence import", "from conversation.persistence import"),
+    ("from db.custom import", "from conversation import"),
 
     # ── ai.providers → providers ──
-    ("from ai.providers.anthropic_api import", "from providers.anthropic_api import"),
-    ("from ai.providers.cerebras_api import", "from providers.cerebras_api import"),
-    ("from ai.providers.google_api import", "from providers.google_api import"),
-    ("from ai.providers.groq_api import", "from providers.groq_api import"),
-    ("from ai.providers.openai_api import", "from providers.openai_api import"),
-    ("from ai.providers.together_api import", "from providers.together_api import"),
-    ("from ai.providers.xai_api import", "from providers.xai_api import"),
+    ("from providers.anthropic_api import", "from providers.anthropic_api import"),
+    ("from providers.cerebras_api import", "from providers.cerebras_api import"),
+    ("from providers.google_api import", "from providers.google_api import"),
+    ("from providers.groq_api import", "from providers.groq_api import"),
+    ("from providers.openai_api import", "from providers.openai_api import"),
+    ("from providers.together_api import", "from providers.together_api import"),
+    ("from providers.xai_api import", "from providers.xai_api import"),
 
     # ── ai.audio → media.audio ──
     ("from ai.audio.audio_preprocessing import", "from media.audio.audio_preprocessing import"),
@@ -149,8 +149,8 @@ REPLACEMENTS = [
     ("from ai.audio.transcription_cache import", "from media.audio.transcription_cache import"),
 
     # ── ai.media → media ──
-    ("from ai.media.media_persistence import", "from media.persistence import"),
-    ("from ai.media.mime_utils import", "from media.mime_utils import"),
+    ("from media.media_persistence import", "from media.persistence import"),
+    ("from media.mime_utils import", "from media.mime_utils import"),
 
     # ── ai.tests → tests.ai ──
     ("from ai.tests.test_context import", "from tests.ai.test_context import"),
@@ -178,9 +178,9 @@ REPLACEMENTS = [
 
 # Also handle comment/docstring references
 COMMENT_REPLACEMENTS = [
-    ("from ai.db import cx_conversation_manager, cx_message_manager, ...",
+    ("from db.custom import cx_conversation_manager, cx_message_manager, ...",
      "from conversation import cx_conversation_manager, cx_message_manager, ..."),
-    ("from ai.config.unified_config import UnifiedConfig",
+    ("from config.unified_config import UnifiedConfig",
      "from config.unified_config import UnifiedConfig"),
     ("from ai.unified_client import UnifiedAIClient",
      "from client.unified_client import UnifiedAIClient"),
@@ -188,9 +188,9 @@ COMMENT_REPLACEMENTS = [
      "from prompts.agent import Agent"),
     ("from ai.prompts.manager import pm",
      "from prompts.manager import pm"),
-    ("from ai.db.conversation_rebuild import rebuild_conversation_messages",
+    ("from db.custom.conversation_rebuild import rebuild_conversation_messages",
      "from conversation.rebuild import rebuild_conversation_messages"),
-    ("from ai.db.persistence import persist_completed_request",
+    ("from db.custom.persistence import persist_completed_request",
      "from conversation.persistence import persist_completed_request"),
     ("from ai.cache import TTLCache",
      "from client.cache import TTLCache"),

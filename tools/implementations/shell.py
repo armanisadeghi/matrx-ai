@@ -16,8 +16,17 @@ WORKSPACE_BASE = os.environ.get("TOOL_WORKSPACE_BASE", "/tmp/workspaces")
 MAX_OUTPUT_SIZE = 10_240  # 10 KB
 
 BLOCKED_COMMANDS = {
-    "rm -rf /", "rm -rf /*", "mkfs", "dd if=/dev/zero", ":(){ :|:& };:",
-    "format", "fdisk", "shutdown", "reboot", "halt", "poweroff",
+    "rm -rf /",
+    "rm -rf /*",
+    "mkfs",
+    "dd if=/dev/zero",
+    ":(){ :|:& };:",
+    "format",
+    "fdisk",
+    "shutdown",
+    "reboot",
+    "halt",
+    "poweroff",
 }
 
 
@@ -103,7 +112,9 @@ async def shell_execute(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
             error=ToolError(
                 error_type="exit_code",
                 message=f"Command exited with code {process.returncode}: {stderr_str[:500]}",
-            ) if process.returncode != 0 else None,
+            )
+            if process.returncode != 0
+            else None,
             started_at=started_at,
             completed_at=time.time(),
             tool_name="shell_execute",
@@ -113,7 +124,9 @@ async def shell_execute(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     except Exception as exc:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="execution", message=f"Shell execution failed: {exc}"),
+            error=ToolError(
+                error_type="execution", message=f"Shell execution failed: {exc}"
+            ),
             started_at=started_at,
             completed_at=time.time(),
             tool_name="shell_execute",
@@ -132,7 +145,8 @@ async def shell_python(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         script_path.write_text(parsed.code)
 
         process = await asyncio.create_subprocess_exec(
-            "python3", str(script_path),
+            "python3",
+            str(script_path),
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
             cwd=cwd,
@@ -176,7 +190,9 @@ async def shell_python(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
             error=ToolError(
                 error_type="python_error",
                 message=f"Python exited with code {process.returncode}: {stderr_str[:500]}",
-            ) if process.returncode != 0 else None,
+            )
+            if process.returncode != 0
+            else None,
             started_at=started_at,
             completed_at=time.time(),
             tool_name="shell_python",
@@ -186,7 +202,9 @@ async def shell_python(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     except Exception as exc:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="execution", message=f"Python execution failed: {exc}"),
+            error=ToolError(
+                error_type="execution", message=f"Python execution failed: {exc}"
+            ),
             started_at=started_at,
             completed_at=time.time(),
             tool_name="shell_python",

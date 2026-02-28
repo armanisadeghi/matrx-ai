@@ -2,14 +2,15 @@ from __future__ import annotations
 
 import json
 import re
+from collections.abc import Awaitable, Callable
 from datetime import datetime, timezone
 from enum import StrEnum
-from typing import Any, Awaitable, Callable, Literal
+from typing import Any, Literal
 from uuid import uuid4
 
 from pydantic import BaseModel, Field, PrivateAttr
 
-from config.unified_config import TokenUsage
+from config import TokenUsage
 from context.emitter_protocol import Emitter
 
 
@@ -64,7 +65,7 @@ class ToolResult(BaseModel):
         """Return a dict that can construct an existing ToolResultContent dataclass.
 
         Keys match the ToolResultContent.__init__ signature defined in
-        config.tools_config so the caller can do:
+        ai.config.tools_config so the caller can do:
             ToolResultContent(**result.to_tool_result_content())
         """
         if self.success:
@@ -91,8 +92,12 @@ class GuardrailResult(BaseModel):
     error_type: str = "guardrail"
     suggested_action: str | None = None
 
-    def to_tool_result_content(self, call_id: str = "", tool_name: str = "") -> dict[str, Any]:
-        error_msg = f"TOOL BLOCKED [{self.error_type}]: {self.reason or 'Guardrail triggered'}"
+    def to_tool_result_content(
+        self, call_id: str = "", tool_name: str = ""
+    ) -> dict[str, Any]:
+        error_msg = (
+            f"TOOL BLOCKED [{self.error_type}]: {self.reason or 'Guardrail triggered'}"
+        )
         if self.suggested_action:
             error_msg += f"\nSuggested action: {self.suggested_action}"
         return {
@@ -119,39 +124,46 @@ class ToolContext(BaseModel):
     @property
     def user_id(self) -> str:
         from context.app_context import get_app_context
+
         return get_app_context().user_id
 
     @property
     def conversation_id(self) -> str:
         from context.app_context import get_app_context
+
         return get_app_context().conversation_id
 
     @property
     def request_id(self) -> str:
         from context.app_context import get_app_context
+
         return get_app_context().request_id
 
     @property
     def emitter(self) -> Emitter | None:
         from context.app_context import try_get_app_context
+
         ctx = try_get_app_context()
         return ctx.emitter if ctx else None
 
     @property
     def api_keys(self) -> dict[str, str]:
         from context.app_context import try_get_app_context
+
         ctx = try_get_app_context()
         return ctx.api_keys if ctx else {}
 
     @property
     def project_id(self) -> str | None:
         from context.app_context import try_get_app_context
+
         ctx = try_get_app_context()
         return ctx.project_id if ctx else None
 
     @property
     def organization_id(self) -> str | None:
         from context.app_context import try_get_app_context
+
         ctx = try_get_app_context()
         return ctx.organization_id if ctx else None
 
@@ -167,7 +179,9 @@ class ToolDefinition(BaseModel):
     annotations: list[dict[str, Any]] = Field(default_factory=list)
 
     tool_type: ToolType = ToolType.LOCAL
-    function_path: str = Field(default="", description="Dotted import path or 'agent:<prompt_id>'")
+    function_path: str = Field(
+        default="", description="Dotted import path or 'agent:<prompt_id>'"
+    )
 
     category: str | None = None
     tags: list[str] = Field(default_factory=list)
@@ -195,7 +209,9 @@ class ToolDefinition(BaseModel):
     # JSON Schema helpers (ported from mcp_server/core/definitions.py)
     # ------------------------------------------------------------------
 
-    def _build_json_schema(self, *, strip_openai_unsupported: bool = False) -> dict[str, Any]:
+    def _build_json_schema(
+        self, *, strip_openai_unsupported: bool = False
+    ) -> dict[str, Any]:
         properties: dict[str, Any] = {}
         required: list[str] = []
 
@@ -211,8 +227,17 @@ class ToolDefinition(BaseModel):
                 "description": param.get("description", ""),
             }
             if raw_type == "array" and "items" in param:
-                prop["items"] = self._process_nested(param["items"], strip_openai_unsupported)
-            for f in ("minItems", "maxItems", "uniqueItems", "minimum", "maximum", "pattern"):
+                prop["items"] = self._process_nested(
+                    param["items"], strip_openai_unsupported
+                )
+            for f in (
+                "minItems",
+                "maxItems",
+                "uniqueItems",
+                "minimum",
+                "maximum",
+                "pattern",
+            ):
                 if f in param and not strip_openai_unsupported:
                     prop[f] = param[f]
             if "default" in param:
@@ -239,12 +264,21 @@ class ToolDefinition(BaseModel):
         }
 
     @staticmethod
-    def _process_nested(schema: dict[str, Any] | str, strip_unsupported: bool) -> dict[str, Any]:
+    def _process_nested(
+        schema: dict[str, Any] | str, strip_unsupported: bool
+    ) -> dict[str, Any]:
         if isinstance(schema, str):
             return {"type": schema}
         processed = schema.copy()
         if strip_unsupported:
-            for f in ("minItems", "maxItems", "uniqueItems", "minimum", "maximum", "pattern"):
+            for f in (
+                "minItems",
+                "maxItems",
+                "uniqueItems",
+                "minimum",
+                "maximum",
+                "pattern",
+            ):
                 processed.pop(f, None)
         if processed.get("type") == "object" and "properties" in processed:
             processed["additionalProperties"] = False
@@ -254,7 +288,9 @@ class ToolDefinition(BaseModel):
                 for k, v in processed["properties"].items()
             }
         elif processed.get("type") == "array" and "items" in processed:
-            processed["items"] = ToolDefinition._process_nested(processed["items"], strip_unsupported)
+            processed["items"] = ToolDefinition._process_nested(
+                processed["items"], strip_unsupported
+            )
         return processed
 
     # ------------------------------------------------------------------
@@ -305,7 +341,9 @@ class ToolDefinition(BaseModel):
             if ptype == "array" and "items" in param_dict:
                 s["items"] = _build(param_dict["items"])
             if ptype == "object" and "properties" in param_dict:
-                s["properties"] = {k: _build(v) for k, v in param_dict["properties"].items()}
+                s["properties"] = {
+                    k: _build(v) for k, v in param_dict["properties"].items()
+                }
                 if "required" in param_dict:
                     s["required"] = param_dict["required"]
             return s
@@ -320,7 +358,11 @@ class ToolDefinition(BaseModel):
         params_schema: dict[str, Any] = {"type": "object", "properties": properties}
         if required:
             params_schema["required"] = required
-        return {"name": self.name, "description": self.description, "parameters": params_schema}
+        return {
+            "name": self.name,
+            "description": self.description,
+            "parameters": params_schema,
+        }
 
     def to_anthropic_format(self) -> dict[str, Any]:
         return {
@@ -353,7 +395,11 @@ class ToolDefinition(BaseModel):
         for placeholder in re.findall(r"\{\{(\w+)\}\}", message):
             if placeholder in arguments:
                 val = arguments[placeholder]
-                replacement = ", ".join(str(i) for i in val) if isinstance(val, list) else str(val)
+                replacement = (
+                    ", ".join(str(i) for i in val)
+                    if isinstance(val, list)
+                    else str(val)
+                )
                 message = message.replace(f"{{{{{placeholder}}}}}", replacement)
         return message
 
@@ -371,6 +417,7 @@ class CxToolCallRecord(BaseModel):
     cx_message rows with role='tool' are lightweight positional markers;
     the full data lives here.
     """
+
     id: str = Field(default_factory=lambda: str(uuid4()))
 
     # Relationships

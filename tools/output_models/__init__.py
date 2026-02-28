@@ -1,4 +1,4 @@
-from tools.output_models.seo import (
+from .seo import (
     SeoKeywordDataItem,
     SeoKeywordDataOutput,
 )

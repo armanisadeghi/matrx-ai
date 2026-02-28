@@ -5,7 +5,13 @@ import time
 from typing import Any
 from uuid import uuid4
 
-from tools.models import ToolContext, ToolDefinition, ToolError, ToolResult, ToolType
+from tools.models import (
+    ToolContext,
+    ToolDefinition,
+    ToolError,
+    ToolResult,
+    ToolType,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -36,8 +42,14 @@ async def execute_agent_tool(
         )
 
     try:
-        from context.app_context import get_app_context, set_app_context as set_execution_context, clear_app_context as clear_execution_context
-        from prompts.agent import Agent
+        from agents.definition import Agent
+        from context.app_context import (
+            clear_app_context as clear_execution_context,
+        )
+        from context.app_context import get_app_context
+        from context.app_context import (
+            set_app_context as set_execution_context,
+        )
     except ImportError as exc:
         return ToolResult(
             success=False,
@@ -82,6 +94,7 @@ async def execute_agent_tool(
 
     except Exception as exc:
         import traceback as tb
+
         return ToolResult(
             success=False,
             error=ToolError(

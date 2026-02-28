@@ -19,10 +19,10 @@ import traceback
 
 from matrx_utils import vcprint
 
+from config.unified_config import UnifiedConfig
 from context.events import CompletionPayload
 from context.stream_emitter import StreamEmitter
-from config.unified_config import UnifiedConfig
-from client.unified_client import CompletedRequest
+from orchestrator.requests import CompletedRequest
 
 
 async def run_ai_task(
@@ -42,7 +42,7 @@ async def run_ai_task(
     This function is passed as task_fn to create_streaming_response().
     The emitter argument is injected by the streaming infrastructure.
     """
-    from client.ai_requests import execute_ai_request
+    from orchestrator import execute_ai_request
 
     await emitter.send_status_update(status="processing", system_message="Starting execution")
 
@@ -61,8 +61,8 @@ async def run_ai_task(
 def _update_cache(completed: CompletedRequest) -> None:
     """Write the completed conversation config into AgentCache."""
     try:
-        from prompts.agent import Agent
-        from prompts.cache import AgentCache
+        from agents.cache import AgentCache
+        from agents.definition import Agent
         from context.app_context import get_app_context
 
         ctx = get_app_context()

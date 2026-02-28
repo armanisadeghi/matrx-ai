@@ -1,8 +1,7 @@
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict, field_validator
-
 from matrx_utils import vcprint
+from pydantic import BaseModel, ConfigDict, field_validator
 
 
 class ChatRequest(BaseModel):

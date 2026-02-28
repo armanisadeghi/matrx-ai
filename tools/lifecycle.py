@@ -3,10 +3,10 @@ from __future__ import annotations
 import asyncio
 import time
 from collections import defaultdict
-from typing import Any, Callable, Coroutine
+from collections.abc import Callable, Coroutine
+from typing import Any
 
 from matrx_utils import vcprint
-
 
 CleanupFn = Callable[[], Coroutine[Any, Any, None]]
 

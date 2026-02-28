@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 
 def _mgr():
     from tools.browser_sessions import get_browser_session_manager
+
     return get_browser_session_manager()
 
 
@@ -51,7 +52,11 @@ async def browser_navigate(args: dict[str, Any], ctx: ToolContext) -> ToolResult
         else:
             session = await manager.create()
 
-        wait_until = parsed.wait_for if parsed.wait_for in ("load", "domcontentloaded", "networkidle") else "load"
+        wait_until = (
+            parsed.wait_for
+            if parsed.wait_for in ("load", "domcontentloaded", "networkidle")
+            else "load"
+        )
         await session.page.goto(parsed.url, wait_until=wait_until, timeout=30000)
 
         result_data: dict[str, Any] = {
@@ -233,11 +238,17 @@ async def browser_screenshot(args: dict[str, Any], ctx: ToolContext) -> ToolResu
         )
 
     try:
-        await session.page.set_viewport_size({"width": parsed.width, "height": parsed.height})
+        await session.page.set_viewport_size(
+            {"width": parsed.width, "height": parsed.height}
+        )
 
         if parsed.selector:
             element = await session.page.query_selector(parsed.selector)
-            screenshot_bytes = await element.screenshot(type="png") if element else await session.page.screenshot(type="png", full_page=True)
+            screenshot_bytes = (
+                await element.screenshot(type="png")
+                if element
+                else await session.page.screenshot(type="png", full_page=True)
+            )
         else:
             screenshot_bytes = await session.page.screenshot(type="png", full_page=True)
 
@@ -321,9 +332,13 @@ async def browser_select_option(args: dict[str, Any], ctx: ToolContext) -> ToolR
 
     try:
         if parsed.value:
-            selected = await session.page.select_option(parsed.selector, value=parsed.value, timeout=10000)
+            selected = await session.page.select_option(
+                parsed.selector, value=parsed.value, timeout=10000
+            )
         else:
-            selected = await session.page.select_option(parsed.selector, label=parsed.label, timeout=10000)
+            selected = await session.page.select_option(
+                parsed.selector, label=parsed.label, timeout=10000
+            )
 
         return ToolResult(
             success=True,
@@ -387,7 +402,9 @@ async def browser_wait_for(args: dict[str, Any], ctx: ToolContext) -> ToolResult
         if parsed.selector:
             valid_states = {"visible", "attached", "detached", "hidden"}
             state = parsed.state if parsed.state in valid_states else "visible"
-            await session.page.wait_for_selector(parsed.selector, state=state, timeout=parsed.timeout_ms)
+            await session.page.wait_for_selector(
+                parsed.selector, state=state, timeout=parsed.timeout_ms
+            )
             waited_for = f"selector '{parsed.selector}' ({state})"
         else:
             await session.page.wait_for_function(
@@ -545,7 +562,9 @@ async def browser_scroll(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
             if parsed.direction == "top":
                 await session.page.evaluate("window.scrollTo(0, 0)")
             elif parsed.direction == "bottom":
-                await session.page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+                await session.page.evaluate(
+                    "window.scrollTo(0, document.body.scrollHeight)"
+                )
             elif parsed.direction == "up":
                 await session.page.evaluate(f"window.scrollBy(0, -{parsed.amount_px})")
             else:

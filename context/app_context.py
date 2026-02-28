@@ -3,7 +3,7 @@ from __future__ import annotations
 import dataclasses
 from contextvars import ContextVar, Token
 from dataclasses import dataclass, field
-from typing import Any, Literal, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Literal
 
 from fastapi import HTTPException, Request, status
 
@@ -13,37 +13,37 @@ if TYPE_CHECKING:
 
 @dataclass
 class AppContext:
+    emitter: Emitter
+
     user_id: str = ""
-    email: Optional[str] = None
+    email: str | None = None
     auth_type: Literal["token", "fingerprint", "anonymous"] = "anonymous"
     is_authenticated: bool = False
     is_admin: bool = False
 
-    fingerprint_id: Optional[str] = None
-    ip_address: Optional[str] = None
-    user_agent: Optional[str] = None
-    token: Optional[str] = None
+    fingerprint_id: str | None = None
+    ip_address: str | None = None
+    user_agent: str | None = None
+    token: str | None = None
 
     request_id: str = ""
 
-    organization_id: Optional[str] = None
-    project_id: Optional[str] = None
+    organization_id: str | None = None
+    project_id: str | None = None
 
     api_keys: dict[str, str] = field(default_factory=dict)
     metadata: dict[str, Any] = field(default_factory=dict)
     debug: bool = False
 
-    emitter: Optional["Emitter"] = None
-
     conversation_id: str = ""
-    parent_conversation_id: Optional[str] = None
-    parent_request_id: Optional[str] = None
+    parent_conversation_id: str | None = None
+    parent_request_id: str | None = None
     is_internal_agent: bool = False
 
     initial_variables: dict[str, Any] = field(default_factory=dict)
     initial_overrides: dict[str, Any] = field(default_factory=dict)
 
-    def extend(self, **kwargs: Any) -> "AppContext":
+    def extend(self, **kwargs: Any) -> AppContext:
         valid = {f.name for f in dataclasses.fields(self)}
         for key, value in kwargs.items():
             if key not in valid:
@@ -54,7 +54,7 @@ class AppContext:
             setattr(self, key, value)
         return self
 
-    def fork_for_child_agent(self, new_conversation_id: str) -> "AppContext":
+    def fork_for_child_agent(self, new_conversation_id: str) -> AppContext:
         return dataclasses.replace(
             self,
             conversation_id=new_conversation_id,

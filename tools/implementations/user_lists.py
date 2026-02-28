@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 from typing import Any
-from tools.models import ToolContext, ToolError, ToolResult
+
 from matrx_utils import vcprint
+
+from tools.models import ToolContext, ToolError, ToolResult
 
 
 async def userlist_create(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
@@ -48,7 +50,7 @@ async def userlist_create(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
             },
         )
     except Exception as e:
-        error_mesage=str(e)
+        error_mesage = str(e)
         vcprint(error_mesage, "error_mesage", color="red")
         return ToolResult(
             success=False, error=ToolError(error_type="execution", message=str(e))
@@ -100,7 +102,7 @@ async def userlist_create_simple(args: dict[str, Any], ctx: ToolContext) -> Tool
             },
         )
     except Exception as e:
-        error_mesage=str(e)
+        error_mesage = str(e)
         vcprint(error_mesage, "error_mesage", color="red")
         return ToolResult(
             success=False, error=ToolError(error_type="execution", message=str(e))
@@ -166,7 +168,7 @@ async def userlist_get_all(args: dict[str, Any], ctx: ToolContext) -> ToolResult
             },
         )
     except Exception as e:
-        error_mesage=str(e)
+        error_mesage = str(e)
         vcprint(error_mesage, "error_mesage", color="red")
         return ToolResult(
             success=False, error=ToolError(error_type="execution", message=error_mesage)
@@ -213,7 +215,7 @@ async def userlist_get_details(args: dict[str, Any], ctx: ToolContext) -> ToolRe
             ),
         )
     except Exception as e:
-        error_mesage=str(e)
+        error_mesage = str(e)
         vcprint(error_mesage, "error_mesage", color="red")
         return ToolResult(
             success=False, error=ToolError(error_type="execution", message=str(e))
@@ -232,7 +234,16 @@ async def userlist_update_item(args: dict[str, Any], ctx: ToolContext) -> ToolRe
 
     update_fields = {
         k: args[k]
-        for k in ("label", "description", "help_text", "group_name", "is_public", "authenticated_read", "public_read", "icon_name")
+        for k in (
+            "label",
+            "description",
+            "help_text",
+            "group_name",
+            "is_public",
+            "authenticated_read",
+            "public_read",
+            "icon_name",
+        )
         if k in args
     }
     if not update_fields:
@@ -265,7 +276,7 @@ async def userlist_update_item(args: dict[str, Any], ctx: ToolContext) -> ToolRe
             output={"item_id": item_id, "message": "Item updated successfully."},
         )
     except Exception as e:
-        error_mesage=str(e)
+        error_mesage = str(e)
         vcprint(error_mesage, "error_mesage", color="red")
         return ToolResult(
             success=False, error=ToolError(error_type="execution", message=str(e))
@@ -317,7 +328,7 @@ async def userlist_batch_update(args: dict[str, Any], ctx: ToolContext) -> ToolR
             )
             success_count += 1
         except Exception as e:
-            error_mesage=str(e)
+            error_mesage = str(e)
             vcprint(error_mesage, "error_mesage", color="red")
             failed_items.append({"item_id": item_id, "error": error_mesage})
 

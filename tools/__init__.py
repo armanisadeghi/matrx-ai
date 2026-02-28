@@ -1,4 +1,4 @@
-"""tools — Unified tool execution system.
+"""ai.tools — Unified tool execution system.
 
 Public API:
     ToolExecutor        — The single entry point for all tool executions
@@ -15,7 +15,7 @@ Public API:
     ToolExecutionLogger  — DB logging (two-phase: INSERT on start, UPDATE on finish)
 """
 
-from tools.models import (
+from .models import (
     CxToolCallRecord,
     CxToolCallStatus,
     GuardrailResult,
@@ -25,14 +25,14 @@ from tools.models import (
     ToolResult,
     ToolType,
 )
-from tools.registry import ToolRegistryV2
-from tools.executor import ToolExecutor
-from tools.guardrails import GuardrailEngine
-from tools.streaming import ToolStreamEvent, ToolStreamManager
-from tools.logger import ToolExecutionLogger
-from tools.lifecycle import ToolLifecycleManager
-from tools.external_mcp import ExternalMCPClient
-from tools.agent_tool import execute_agent_tool, register_agent_as_tool
+from .registry import ToolRegistryV2
+from .executor import ToolExecutor
+from .guardrails import GuardrailEngine
+from .streaming import ToolStreamEvent, ToolStreamManager
+from .logger import ToolExecutionLogger
+from .lifecycle import ToolLifecycleManager
+from .external_mcp import ExternalMCPClient
+from .agent_tool import execute_agent_tool, register_agent_as_tool
 
 __all__ = [
     "ToolExecutor",

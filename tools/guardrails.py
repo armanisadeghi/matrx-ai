@@ -5,7 +5,7 @@ import json
 import logging
 import time
 from collections import defaultdict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from tools.models import GuardrailResult, ToolContext, ToolDefinition, ToolType
 
@@ -60,12 +60,14 @@ class GuardrailEngine:
         return GuardrailResult(blocked=False)
 
     def record_call(self, tool_name: str, arguments: dict, ctx: ToolContext) -> None:
-        self._history[ctx.conversation_id].append(_CallRecord(
-            tool_name=tool_name,
-            args_hash=self._hash_args(arguments),
-            timestamp=time.time(),
-            iteration=ctx.iteration,
-        ))
+        self._history[ctx.conversation_id].append(
+            _CallRecord(
+                tool_name=tool_name,
+                args_hash=self._hash_args(arguments),
+                timestamp=time.time(),
+                iteration=ctx.iteration,
+            )
+        )
 
     def clear_conversation(self, conversation_id: str) -> None:
         self._history.pop(conversation_id, None)
@@ -104,7 +106,11 @@ class GuardrailEngine:
 
         window_start = time.time() - 60
         records = self._history.get(ctx.conversation_id, [])
-        recent = [r for r in records if r.tool_name == tool_name and r.timestamp >= window_start]
+        recent = [
+            r
+            for r in records
+            if r.tool_name == tool_name and r.timestamp >= window_start
+        ]
 
         if len(recent) >= tool_def.max_calls_per_minute:
             return GuardrailResult(
@@ -150,7 +156,10 @@ class GuardrailEngine:
             )
 
         if tool_def.cost_cap_per_call is not None:
-            if ctx.cost_budget_remaining is not None and tool_def.cost_cap_per_call > ctx.cost_budget_remaining:
+            if (
+                ctx.cost_budget_remaining is not None
+                and tool_def.cost_cap_per_call > ctx.cost_budget_remaining
+            ):
                 return GuardrailResult(
                     blocked=True,
                     reason=(
@@ -176,8 +185,7 @@ class GuardrailEngine:
 
         current_hash = self._hash_args(arguments)
         similar_count = sum(
-            1 for r in recent_same
-            if self._similarity(r.args_hash, current_hash) > 0.8
+            1 for r in recent_same if self._similarity(r.args_hash, current_hash) > 0.8
         )
 
         if similar_count >= 3:

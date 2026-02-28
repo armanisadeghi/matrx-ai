@@ -27,7 +27,9 @@ class ExternalMCPClient:
     # Discovery
     # ------------------------------------------------------------------
 
-    async def discover_tools(self, server_url: str, auth: dict[str, Any] | None = None) -> list[ToolDefinition]:
+    async def discover_tools(
+        self, server_url: str, auth: dict[str, Any] | None = None
+    ) -> list[ToolDefinition]:
         """Call ``tools/list`` on a remote MCP server and parse into ToolDefinitions."""
         request_payload = self._build_request("tools/list", {})
         raw = await self._send(server_url, request_payload, auth)
@@ -37,8 +39,11 @@ class ExternalMCPClient:
             td = ToolDefinition(
                 name=tool_data.get("name", ""),
                 description=tool_data.get("description", ""),
-                parameters=self._schema_to_params(tool_data.get("inputSchema") or tool_data.get("input_schema", {})),
-                output_schema=tool_data.get("outputSchema") or tool_data.get("output_schema"),
+                parameters=self._schema_to_params(
+                    tool_data.get("inputSchema") or tool_data.get("input_schema", {})
+                ),
+                output_schema=tool_data.get("outputSchema")
+                or tool_data.get("output_schema"),
                 tool_type=ToolType.EXTERNAL_MCP,
             )
             tools.append(td)
@@ -71,13 +76,18 @@ class ExternalMCPClient:
                 call_id=ctx.call_id,
             )
 
-        request_payload = self._build_request("tools/call", {
-            "name": self._strip_namespace(tool_def.name),
-            "arguments": args,
-        })
+        request_payload = self._build_request(
+            "tools/call",
+            {
+                "name": self._strip_namespace(tool_def.name),
+                "arguments": args,
+            },
+        )
 
         try:
-            raw = await self._send(server_url, request_payload, tool_def.mcp_server_auth)
+            raw = await self._send(
+                server_url, request_payload, tool_def.mcp_server_auth
+            )
             result_data = raw.get("result", {})
 
             content_list = result_data.get("content", [])
@@ -92,7 +102,9 @@ class ExternalMCPClient:
             return ToolResult(
                 success=not is_error,
                 output=output,
-                error=ToolError(error_type="mcp_remote", message=output) if is_error else None,
+                error=ToolError(error_type="mcp_remote", message=output)
+                if is_error
+                else None,
                 started_at=started_at,
                 completed_at=time.time(),
                 tool_name=tool_def.name,
@@ -152,7 +164,9 @@ class ExternalMCPClient:
 
         if "error" in data:
             err = data["error"]
-            raise RuntimeError(f"MCP error {err.get('code', '?')}: {err.get('message', 'Unknown')}")
+            raise RuntimeError(
+                f"MCP error {err.get('code', '?')}: {err.get('message', 'Unknown')}"
+            )
 
         return data
 

@@ -7,19 +7,20 @@ from typing import Any
 from tools.arg_models.math_args import CalculateArgs
 from tools.models import ToolContext, ToolError, ToolResult
 
-
 SAFE_MATH_NAMES: dict[str, Any] = {
     k: getattr(math, k) for k in dir(math) if not k.startswith("_")
 }
-SAFE_MATH_NAMES.update({
-    "abs": abs,
-    "round": round,
-    "min": min,
-    "max": max,
-    "sum": sum,
-    "int": int,
-    "float": float,
-})
+SAFE_MATH_NAMES.update(
+    {
+        "abs": abs,
+        "round": round,
+        "min": min,
+        "max": max,
+        "sum": sum,
+        "int": int,
+        "float": float,
+    }
+)
 
 
 async def math_calculate(args: dict[str, Any], ctx: ToolContext) -> ToolResult:

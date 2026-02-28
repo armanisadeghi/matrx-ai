@@ -1,14 +1,12 @@
 from __future__ import annotations
 
-from typing import Optional
-
 import jwt
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.requests import Request
 from starlette.responses import Response
 
 from app.config import get_settings
-from context.app_context import AppContext, set_app_context, clear_app_context
+from context.app_context import AppContext, clear_app_context, set_app_context
 
 
 class AuthMiddleware(BaseHTTPMiddleware):
@@ -36,8 +34,8 @@ def _build_context(request: Request) -> AppContext:
         emitter=StreamEmitter(debug=False),
     )
 
-    authorization: Optional[str] = request.headers.get("authorization")
-    fingerprint_id: Optional[str] = request.headers.get("x-fingerprint-id")
+    authorization: str | None = request.headers.get("authorization")
+    fingerprint_id: str | None = request.headers.get("x-fingerprint-id")
 
     if authorization:
         enriched = _validate_token(authorization, fingerprint_id, ctx)
@@ -55,9 +53,9 @@ def _build_context(request: Request) -> AppContext:
 
 def _validate_token(
     authorization: str,
-    fingerprint_id: Optional[str],
+    fingerprint_id: str | None,
     ctx: AppContext,
-) -> Optional[AppContext]:
+) -> AppContext | None:
     try:
         scheme, token = authorization.split(None, 1)
         if scheme.lower() != "bearer":

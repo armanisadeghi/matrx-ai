@@ -1,10 +1,11 @@
 import dataclasses
 from dataclasses import dataclass, field
-from typing import Any, Literal, Optional, Union
+from typing import Any, Literal
+
 from google.genai.types import Part
 from matrx_utils import vcprint
-from media.mime_utils import detect_mime_type
 
+from media import detect_mime_type
 
 # Unified storage kind discriminator for all media types
 MediaKind = Literal["image", "audio", "video", "document", "youtube"]
@@ -13,12 +14,12 @@ MediaKind = Literal["image", "audio", "video", "document", "youtube"]
 @dataclass
 class ImageContent:
     type: Literal["image", "input_image"] = "image"
-    url: Optional[str] = None
-    base64_data: Optional[str] = None
-    file_uri: Optional[str] = None
-    mime_type: Optional[str] = None
-    media_resolution: Optional[str] = None
-    alt: Optional[str] = None
+    url: str | None = None
+    base64_data: str | None = None
+    file_uri: str | None = None
+    mime_type: str | None = None
+    media_resolution: str | None = None
+    alt: str | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
@@ -34,7 +35,7 @@ class ImageContent:
 
         vcprint(f"--> ImageContent MIME Type: {self.mime_type}")
 
-    def get_output(self) -> Optional[str]:
+    def get_output(self) -> str | None:
         if self.url:
             return self.url
         elif self.base64_data:
@@ -43,9 +44,9 @@ class ImageContent:
             return self.file_uri
         return None
 
-    def to_google(self) -> Optional[dict[str, Any]]:
+    def to_google(self) -> dict[str, Any] | None:
         """Convert to Google Gemini format"""
-        from media.persistence import fetch_media
+        from media import fetch_media
 
         # Google prefers file_uri, then inline_data
         if self.file_uri:
@@ -78,7 +79,7 @@ class ImageContent:
             part["mediaResolution"] = {"level": self.media_resolution}
         return part
 
-    def to_openai(self) -> Optional[dict[str, Any]]:
+    def to_openai(self) -> dict[str, Any] | None:
         """Convert to OpenAI format"""
         if self.url:
             return {"type": "input_image", "image_url": self.url}
@@ -92,7 +93,7 @@ class ImageContent:
             }
         return None
 
-    def to_anthropic(self) -> Optional[dict[str, Any]]:
+    def to_anthropic(self) -> dict[str, Any] | None:
         """Convert to Anthropic format"""
         if self.url:
             return {"type": "image", "source": {"type": "url", "url": self.url}}
@@ -108,9 +109,9 @@ class ImageContent:
         return None
 
     @classmethod
-    def from_google(cls, part: Part) -> Optional["ImageContent"]:
+    def from_google(cls, part: Part) -> "ImageContent | None":
         """Create ImageContent from Google Part object"""
-        from media.persistence import save_media
+        from media import save_media
 
         # Google can return images via inline_data or file_data
         if part.inline_data:
@@ -176,10 +177,10 @@ class ImageContent:
 @dataclass
 class AudioContent:
     type: Literal["audio", "input_audio"] = "audio"
-    url: Optional[str] = None
-    base64_data: Optional[str] = None
-    file_uri: Optional[str] = None
-    mime_type: Optional[str] = None
+    url: str | None = None
+    base64_data: str | None = None
+    file_uri: str | None = None
+    mime_type: str | None = None
 
     # Transcription settings
     auto_transcribe: bool = False
@@ -188,10 +189,10 @@ class AudioContent:
     transcription_model: str = "whisper-large-v3-turbo"
     """Whisper model to use for transcription"""
 
-    transcription_language: Optional[str] = None
+    transcription_language: str | None = None
     """Language of the audio (ISO-639-1 format like 'en', 'es'). Auto-detected if None."""
 
-    transcription_result: Optional[str] = None
+    transcription_result: str | None = None
     """Cached transcription result (set after transcription)"""
 
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -203,7 +204,7 @@ class AudioContent:
                 url=self.url, base64_data=self.base64_data, file_uri=self.file_uri
             )
 
-    def get_output(self) -> Optional[str]:
+    def get_output(self) -> str | None:
         """Get the output of the audio."""
         if self.transcription_result:
             return self.transcription_result
@@ -215,7 +216,7 @@ class AudioContent:
             return self.file_uri
         return None
 
-    def get_transcription(self, force_refresh: bool = False) -> Optional[str]:
+    def get_transcription(self, force_refresh: bool = False) -> str | None:
         """
         Get transcription of the audio content using Groq Whisper API.
 
@@ -240,7 +241,7 @@ class AudioContent:
 
         # Check global cache (unless forcing refresh)
         if not force_refresh:
-            from media.audio.transcription_cache import get_cache
+            from processing.audio.transcription_cache import get_cache
 
             cache = get_cache()
             cached = cache.get(
@@ -264,8 +265,8 @@ class AudioContent:
 
         # Perform transcription
         try:
-            from media.audio.groq_transcription import GroqTranscription
-            from media.audio.transcription_cache import get_cache
+            from processing.audio.groq_transcription import GroqTranscription
+            from processing.audio.transcription_cache import get_cache
 
             transcriber = GroqTranscription(default_model=self.transcription_model)
 
@@ -364,9 +365,9 @@ class AudioContent:
             f"metadata={self.metadata!r})"
         )
 
-    def to_google(self) -> Optional[dict[str, Any]]:
+    def to_google(self) -> dict[str, Any] | None:
         """Convert to Google Gemini format"""
-        from media.persistence import fetch_media
+        from media import fetch_media
 
         if self.file_uri:
             return {
@@ -393,20 +394,20 @@ class AudioContent:
             }
         return None
 
-    def to_openai(self) -> Optional[dict[str, Any]]:
+    def to_openai(self) -> dict[str, Any] | None:
         """Convert to OpenAI format - not yet supported"""
         # OpenAI doesn't have audio input in Responses API yet
         return None
 
-    def to_anthropic(self) -> Optional[dict[str, Any]]:
+    def to_anthropic(self) -> dict[str, Any] | None:
         """Convert to Anthropic format - not yet supported"""
         # Anthropic doesn't support audio input yet
         return None
 
     @classmethod
-    def from_google(cls, part: Part) -> Optional["AudioContent"]:
+    def from_google(cls, part: Part) -> "AudioContent | None":
         """Create AudioContent from Google Part object"""
-        from media.persistence import save_media
+        from media import save_media
 
         if hasattr(part, "inline_data") and part.inline_data:
             # Save to Supabase to prevent data loss
@@ -424,11 +425,11 @@ class AudioContent:
 @dataclass
 class VideoContent:
     type: Literal["video", "input_video"] = "video"
-    url: Optional[str] = None
-    base64_data: Optional[str] = None
-    file_uri: Optional[str] = None
-    mime_type: Optional[str] = None
-    video_metadata: Optional[dict[str, Any]] = None
+    url: str | None = None
+    base64_data: str | None = None
+    file_uri: str | None = None
+    mime_type: str | None = None
+    video_metadata: dict[str, Any] | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
@@ -438,7 +439,7 @@ class VideoContent:
                 url=self.url, base64_data=self.base64_data, file_uri=self.file_uri
             )
 
-    def get_output(self) -> Optional[str]:
+    def get_output(self) -> str | None:
         """Get the output of the video."""
         if self.url:
             return self.url
@@ -493,9 +494,9 @@ class VideoContent:
             f"metadata={self.metadata!r})"
         )
 
-    def to_google(self) -> Optional[dict[str, Any]]:
+    def to_google(self) -> dict[str, Any] | None:
         """Convert to Google Gemini format"""
-        from media.persistence import fetch_media
+        from media import fetch_media
 
         if self.file_uri:
             part = {
@@ -527,20 +528,20 @@ class VideoContent:
             part["videoMetadata"] = self.video_metadata
         return part
 
-    def to_openai(self) -> Optional[dict[str, Any]]:
+    def to_openai(self) -> dict[str, Any] | None:
         """Convert to OpenAI format - not yet supported"""
         # OpenAI doesn't support video input yet
         return None
 
-    def to_anthropic(self) -> Optional[dict[str, Any]]:
+    def to_anthropic(self) -> dict[str, Any] | None:
         """Convert to Anthropic format - not yet supported"""
         # Anthropic doesn't support video input yet
         return None
 
     @classmethod
-    def from_google(cls, part: Part) -> Optional["VideoContent"]:
+    def from_google(cls, part: Part) -> "VideoContent | None":
         """Create VideoContent from Google Part object"""
-        from media.persistence import save_media
+        from media import save_media
 
         video_metadata = None
         if hasattr(part, "video_metadata") and part.video_metadata:
@@ -585,7 +586,7 @@ class YouTubeVideoContent:
 
     type: Literal["youtube_video"] = "youtube_video"
     url: str = ""
-    video_metadata: Optional[dict[str, Any]] = None
+    video_metadata: dict[str, Any] | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
 
     def get_output(self) -> str:
@@ -607,7 +608,7 @@ class YouTubeVideoContent:
             result["metadata"] = storage_metadata
         return result
 
-    def to_google(self) -> Optional[dict[str, Any]]:
+    def to_google(self) -> dict[str, Any] | None:
         """Convert to Google Gemini format - YouTube URLs supported via fileData"""
         if not self.url:
             return None
@@ -624,7 +625,7 @@ class YouTubeVideoContent:
 
         return part
 
-    def to_openai(self) -> Optional[dict[str, Any]]:
+    def to_openai(self) -> dict[str, Any] | None:
         """OpenAI doesn't support YouTube URLs - skip with warning"""
         from matrx_utils import vcprint
 
@@ -635,7 +636,7 @@ class YouTubeVideoContent:
         )
         return None
 
-    def to_anthropic(self) -> Optional[dict[str, Any]]:
+    def to_anthropic(self) -> dict[str, Any] | None:
         """Anthropic doesn't support YouTube URLs - skip with warning"""
         from matrx_utils import vcprint
 
@@ -647,7 +648,7 @@ class YouTubeVideoContent:
         return None
 
     @classmethod
-    def from_google(cls, part: Part) -> Optional["YouTubeVideoContent"]:
+    def from_google(cls, part: Part) -> "YouTubeVideoContent | None":
         """
         Create YouTubeVideoContent from Google Part object.
 
@@ -679,10 +680,10 @@ class YouTubeVideoContent:
 @dataclass
 class DocumentContent:
     type: Literal["document", "input_document"] = "document"
-    url: Optional[str] = None
-    base64_data: Optional[str] = None
-    file_uri: Optional[str] = None
-    mime_type: Optional[str] = None
+    url: str | None = None
+    base64_data: str | None = None
+    file_uri: str | None = None
+    mime_type: str | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
@@ -692,7 +693,7 @@ class DocumentContent:
                 url=self.url, base64_data=self.base64_data, file_uri=self.file_uri
             )
 
-    def get_output(self) -> Optional[str]:
+    def get_output(self) -> str | None:
         """Get the output of the document."""
         if self.url:
             return self.url
@@ -742,9 +743,9 @@ class DocumentContent:
             f"metadata={self.metadata!r})"
         )
 
-    def to_google(self) -> Optional[dict[str, Any]]:
+    def to_google(self) -> dict[str, Any] | None:
         """Convert to Google Gemini format"""
-        from media.persistence import fetch_media
+        from media import fetch_media
 
         if self.file_uri:
             return {
@@ -771,7 +772,7 @@ class DocumentContent:
             }
         return None
 
-    def to_openai(self) -> Optional[dict[str, Any]]:
+    def to_openai(self) -> dict[str, Any] | None:
         """Convert to OpenAI format"""
         # file_url
         return {
@@ -779,7 +780,7 @@ class DocumentContent:
             "file_url": self.url,
         }
 
-    def to_anthropic(self) -> Optional[dict[str, Any]]:
+    def to_anthropic(self) -> dict[str, Any] | None:
         """Convert to Anthropic format"""
         if self.base64_data:
             return {
@@ -795,9 +796,9 @@ class DocumentContent:
         return None
 
     @classmethod
-    def from_google(cls, part: Part) -> Optional["DocumentContent"]:
+    def from_google(cls, part: Part) -> "DocumentContent | None":
         """Create DocumentContent from Google Part object"""
-        from media.persistence import save_media
+        from media import save_media
 
         if hasattr(part, "inline_data") and part.inline_data:
             # Save to Supabase to prevent data loss
@@ -818,12 +819,12 @@ class DocumentContent:
 # ============================================================================
 
 # Union of all media content types
-MediaContent = Union[ImageContent, AudioContent, VideoContent, YouTubeVideoContent, DocumentContent]
+MediaContent = ImageContent | AudioContent | VideoContent | YouTubeVideoContent | DocumentContent
 
 
 def reconstruct_media_content(
     block: dict[str, Any],
-) -> Optional[MediaContent]:
+) -> MediaContent | None:
     """
     Reconstruct the correct media content class from a unified storage dict.
 

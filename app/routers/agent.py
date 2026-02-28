@@ -14,12 +14,12 @@ from typing import Any
 from fastapi import APIRouter, Depends
 from matrx_utils import vcprint
 
+from agents.resolver import AgentConfigResolver
+from app.core.ai_task import run_ai_task
 from app.core.cancellation import CancellationRegistry
 from app.core.response import create_streaming_response
-from app.core.ai_task import run_ai_task
 from app.models.agent import AgentStartRequest
 from context.app_context import AppContext, context_dep
-from conversation.conversation_resolver import AgentConfigResolver
 
 # Protected endpoints (require guest auth or above)
 router = APIRouter(prefix="/api/ai/agents", tags=["agent"])

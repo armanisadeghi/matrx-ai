@@ -6,6 +6,7 @@ import re
 import traceback
 from pathlib import Path
 from typing import Any
+
 import requests
 
 from tools.models import ToolContext, ToolError, ToolResult
@@ -39,7 +40,10 @@ async def code_execute_python(args: dict[str, Any], ctx: ToolContext) -> ToolRes
     if not code:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="validation", message="No Python code found after stripping markdown markers."),
+            error=ToolError(
+                error_type="validation",
+                message="No Python code found after stripping markdown markers.",
+            ),
         )
 
     workspace = _workspace_dir(ctx)
@@ -49,14 +53,17 @@ async def code_execute_python(args: dict[str, Any], ctx: ToolContext) -> ToolRes
         script_path.write_text(code)
 
         process = await asyncio.create_subprocess_exec(
-            "python3", str(script_path),
+            "python3",
+            str(script_path),
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
             cwd=str(workspace),
         )
 
         try:
-            stdout, stderr = await asyncio.wait_for(process.communicate(), timeout=timeout)
+            stdout, stderr = await asyncio.wait_for(
+                process.communicate(), timeout=timeout
+            )
         except asyncio.TimeoutError:
             process.kill()
             return ToolResult(
@@ -80,24 +87,35 @@ async def code_execute_python(args: dict[str, Any], ctx: ToolContext) -> ToolRes
 
         return ToolResult(
             success=success,
-            output={"stdout": stdout_str, "stderr": stderr_str, "exit_code": process.returncode},
+            output={
+                "stdout": stdout_str,
+                "stderr": stderr_str,
+                "exit_code": process.returncode,
+            },
             error=ToolError(
                 error_type="python_error",
                 message=f"Python exited with code {process.returncode}: {stderr_str[:500]}",
-            ) if not success else None,
+            )
+            if not success
+            else None,
         )
 
     except Exception as e:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="execution", message=str(e), traceback=traceback.format_exc()),
+            error=ToolError(
+                error_type="execution", message=str(e), traceback=traceback.format_exc()
+            ),
         )
 
 
 async def code_store_html(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     html_input = args.get("html_input", "")
     if not html_input:
-        return ToolResult(success=False, error=ToolError(error_type="validation", message="html_input is required."))
+        return ToolResult(
+            success=False,
+            error=ToolError(error_type="validation", message="html_input is required."),
+        )
 
     api_url = "http://d88ooscwwggkcwswg8gks4s8.matrxserver.com:3000/store-html"
     try:
@@ -105,7 +123,12 @@ async def code_store_html(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         response.raise_for_status()
         return ToolResult(success=True, output={"id": response.json().get("id")})
     except requests.RequestException as e:
-        return ToolResult(success=False, error=ToolError(error_type="execution", message=f"Failed to store HTML: {e}"))
+        return ToolResult(
+            success=False,
+            error=ToolError(
+                error_type="execution", message=f"Failed to store HTML: {e}"
+            ),
+        )
 
 
 def _resolve_project_root(project_root: str) -> str | None:
@@ -191,7 +214,9 @@ async def code_fetch_code(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     except Exception as e:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="execution", message=str(e), traceback=traceback.format_exc()),
+            error=ToolError(
+                error_type="execution", message=str(e), traceback=traceback.format_exc()
+            ),
         )
 
 
@@ -252,5 +277,7 @@ async def code_fetch_tree(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     except Exception as e:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="execution", message=str(e), traceback=traceback.format_exc()),
+            error=ToolError(
+                error_type="execution", message=str(e), traceback=traceback.format_exc()
+            ),
         )

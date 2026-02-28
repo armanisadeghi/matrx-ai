@@ -18,6 +18,7 @@ import uvloop
 from fastapi import APIRouter, Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
+from matrx_utils import vcprint
 
 from app.config import get_settings
 from app.core.exceptions import MatrxException, matrx_exception_handler, unhandled_exception_handler
@@ -26,7 +27,6 @@ from app.core.sentry import init_sentry
 from app.dependencies.auth import require_admin, require_authenticated, require_guest_or_above
 from app.middleware.auth import AuthMiddleware
 from app.routers import agent, chat, conversation, health, tool
-from matrx_utils import vcprint
 
 # Sentry must be initialised before the app is created so that import-time
 # errors and startup exceptions are captured.

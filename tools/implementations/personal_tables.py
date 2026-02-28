@@ -6,6 +6,7 @@ Provides full CRUD access to a user's personal data tables
 These tables are user-owned structured datasets created by the AI on behalf
 of the user. All operations are scoped to ctx.user_id automatically.
 """
+
 from __future__ import annotations
 
 import asyncio
@@ -15,19 +16,23 @@ from typing import Any
 
 from tools.models import ToolContext, ToolError, ToolResult
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _run_query(query_name: str, params: dict[str, Any]) -> list[dict]:
     from matrx_orm.sql_executor import execute_query
+
     result = execute_query(query_name, params)
     return result if isinstance(result, list) else []
 
 
-def _run_batch(query_name: str, batch_params: list[dict], batch_size: int = 50) -> list[dict]:
+def _run_batch(
+    query_name: str, batch_params: list[dict], batch_size: int = 50
+) -> list[dict]:
     from matrx_orm.sql_executor import execute_query
+
     result = execute_query(query_name, batch_params=batch_params, batch_size=batch_size)
     return result if isinstance(result, list) else []
 
@@ -35,6 +40,7 @@ def _run_batch(query_name: str, batch_params: list[dict], batch_size: int = 50) 
 # ---------------------------------------------------------------------------
 # get_personal_tables
 # ---------------------------------------------------------------------------
+
 
 async def usertable_get_all(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     try:
@@ -57,7 +63,9 @@ async def usertable_get_all(args: dict[str, Any], ctx: ToolContext) -> ToolResul
     except Exception as e:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="database", message=str(e), traceback=traceback.format_exc()),
+            error=ToolError(
+                error_type="database", message=str(e), traceback=traceback.format_exc()
+            ),
         )
 
 
@@ -65,10 +73,14 @@ async def usertable_get_all(args: dict[str, Any], ctx: ToolContext) -> ToolResul
 # get_personal_table_metadata
 # ---------------------------------------------------------------------------
 
+
 async def usertable_get_metadata(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     table_id = args.get("table_id", "").strip()
     if not table_id:
-        return ToolResult(success=False, error=ToolError(error_type="validation", message="table_id is required."))
+        return ToolResult(
+            success=False,
+            error=ToolError(error_type="validation", message="table_id is required."),
+        )
 
     try:
         rows = await asyncio.to_thread(
@@ -79,24 +91,32 @@ async def usertable_get_metadata(args: dict[str, Any], ctx: ToolContext) -> Tool
         if not rows:
             return ToolResult(
                 success=False,
-                error=ToolError(error_type="not_found", message=f"No table found with id '{table_id}'."),
+                error=ToolError(
+                    error_type="not_found",
+                    message=f"No table found with id '{table_id}'.",
+                ),
             )
         r = rows[0]
-        return ToolResult(success=True, output={
-            "table_id": str(r.get("id", "")),
-            "table_name": r.get("table_name", ""),
-            "description": r.get("description", ""),
-            "version": r.get("version", 1),
-            "is_public": r.get("is_public", False),
-            "authenticated_read": r.get("authenticated_read", False),
-            "row_count": r.get("row_count", 0),
-            "created_at": str(r.get("created_at", "")),
-            "updated_at": str(r.get("updated_at", "")),
-        })
+        return ToolResult(
+            success=True,
+            output={
+                "table_id": str(r.get("id", "")),
+                "table_name": r.get("table_name", ""),
+                "description": r.get("description", ""),
+                "version": r.get("version", 1),
+                "is_public": r.get("is_public", False),
+                "authenticated_read": r.get("authenticated_read", False),
+                "row_count": r.get("row_count", 0),
+                "created_at": str(r.get("created_at", "")),
+                "updated_at": str(r.get("updated_at", "")),
+            },
+        )
     except Exception as e:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="database", message=str(e), traceback=traceback.format_exc()),
+            error=ToolError(
+                error_type="database", message=str(e), traceback=traceback.format_exc()
+            ),
         )
 
 
@@ -104,10 +124,14 @@ async def usertable_get_metadata(args: dict[str, Any], ctx: ToolContext) -> Tool
 # get_personal_table_fields
 # ---------------------------------------------------------------------------
 
+
 async def usertable_get_fields(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     table_id = args.get("table_id", "").strip()
     if not table_id:
-        return ToolResult(success=False, error=ToolError(error_type="validation", message="table_id is required."))
+        return ToolResult(
+            success=False,
+            error=ToolError(error_type="validation", message="table_id is required."),
+        )
 
     try:
         rows = await asyncio.to_thread(
@@ -130,7 +154,9 @@ async def usertable_get_fields(args: dict[str, Any], ctx: ToolContext) -> ToolRe
     except Exception as e:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="database", message=str(e), traceback=traceback.format_exc()),
+            error=ToolError(
+                error_type="database", message=str(e), traceback=traceback.format_exc()
+            ),
         )
 
 
@@ -138,10 +164,14 @@ async def usertable_get_fields(args: dict[str, Any], ctx: ToolContext) -> ToolRe
 # get_personal_table_data
 # ---------------------------------------------------------------------------
 
+
 async def usertable_get_data(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     table_id = args.get("table_id", "").strip()
     if not table_id:
-        return ToolResult(success=False, error=ToolError(error_type="validation", message="table_id is required."))
+        return ToolResult(
+            success=False,
+            error=ToolError(error_type="validation", message="table_id is required."),
+        )
 
     limit = int(args.get("limit", 50))
     offset = int(args.get("offset", 0))
@@ -154,7 +184,12 @@ async def usertable_get_data(args: dict[str, Any], ctx: ToolContext) -> ToolResu
             if sort_direction != "desc"
             else "user_tables_get_table_data_sorted_desc"
         )
-        params: dict[str, Any] = {"table_id": table_id, "limit": limit, "offset": offset, "sort_field": sort_field}
+        params: dict[str, Any] = {
+            "table_id": table_id,
+            "limit": limit,
+            "offset": offset,
+            "sort_field": sort_field,
+        }
     else:
         query_name = "user_tables_get_table_data"
         params = {"table_id": table_id, "limit": limit, "offset": offset}
@@ -173,11 +208,16 @@ async def usertable_get_data(args: dict[str, Any], ctx: ToolContext) -> ToolResu
             }
             for r in rows
         ]
-        return ToolResult(success=True, output={"rows": data, "count": len(data), "offset": offset, "limit": limit})
+        return ToolResult(
+            success=True,
+            output={"rows": data, "count": len(data), "offset": offset, "limit": limit},
+        )
     except Exception as e:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="database", message=str(e), traceback=traceback.format_exc()),
+            error=ToolError(
+                error_type="database", message=str(e), traceback=traceback.format_exc()
+            ),
         )
 
 
@@ -185,13 +225,22 @@ async def usertable_get_data(args: dict[str, Any], ctx: ToolContext) -> ToolResu
 # search_personal_table_data
 # ---------------------------------------------------------------------------
 
+
 async def usertable_search_data(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     table_id = args.get("table_id", "").strip()
     search_term = args.get("search_term", "").strip()
     if not table_id:
-        return ToolResult(success=False, error=ToolError(error_type="validation", message="table_id is required."))
+        return ToolResult(
+            success=False,
+            error=ToolError(error_type="validation", message="table_id is required."),
+        )
     if not search_term:
-        return ToolResult(success=False, error=ToolError(error_type="validation", message="search_term is required."))
+        return ToolResult(
+            success=False,
+            error=ToolError(
+                error_type="validation", message="search_term is required."
+            ),
+        )
 
     limit = int(args.get("limit", 50))
     offset = int(args.get("offset", 0))
@@ -202,7 +251,12 @@ async def usertable_search_data(args: dict[str, Any], ctx: ToolContext) -> ToolR
         rows = await asyncio.to_thread(
             _run_query,
             "user_tables_search_table_data",
-            {"table_id": table_id, "search_term": wildcard_term, "limit": limit, "offset": offset},
+            {
+                "table_id": table_id,
+                "search_term": wildcard_term,
+                "limit": limit,
+                "offset": offset,
+            },
         )
         data = [
             {
@@ -212,15 +266,20 @@ async def usertable_search_data(args: dict[str, Any], ctx: ToolContext) -> ToolR
             }
             for r in rows
         ]
-        return ToolResult(success=True, output={
-            "rows": data,
-            "count": len(data),
-            "search_term": search_term,
-        })
+        return ToolResult(
+            success=True,
+            output={
+                "rows": data,
+                "count": len(data),
+                "search_term": search_term,
+            },
+        )
     except Exception as e:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="database", message=str(e), traceback=traceback.format_exc()),
+            error=ToolError(
+                error_type="database", message=str(e), traceback=traceback.format_exc()
+            ),
         )
 
 
@@ -228,15 +287,22 @@ async def usertable_search_data(args: dict[str, Any], ctx: ToolContext) -> ToolR
 # add_personal_table_rows
 # ---------------------------------------------------------------------------
 
+
 async def usertable_add_rows(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     table_id = args.get("table_id", "").strip()
     rows_input = args.get("rows")
     if not table_id:
-        return ToolResult(success=False, error=ToolError(error_type="validation", message="table_id is required."))
+        return ToolResult(
+            success=False,
+            error=ToolError(error_type="validation", message="table_id is required."),
+        )
     if not rows_input or not isinstance(rows_input, list):
         return ToolResult(
             success=False,
-            error=ToolError(error_type="validation", message="rows must be a non-empty list of dicts."),
+            error=ToolError(
+                error_type="validation",
+                message="rows must be a non-empty list of dicts.",
+            ),
         )
 
     batch_params = [
@@ -250,15 +316,20 @@ async def usertable_add_rows(args: dict[str, Any], ctx: ToolContext) -> ToolResu
             "user_tables_add_table_data_batch",
             batch_params,
         )
-        return ToolResult(success=True, output={
-            "inserted": len(inserted),
-            "table_id": table_id,
-            "row_ids": [str(r.get("id", "")) for r in inserted],
-        })
+        return ToolResult(
+            success=True,
+            output={
+                "inserted": len(inserted),
+                "table_id": table_id,
+                "row_ids": [str(r.get("id", "")) for r in inserted],
+            },
+        )
     except Exception as e:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="database", message=str(e), traceback=traceback.format_exc()),
+            error=ToolError(
+                error_type="database", message=str(e), traceback=traceback.format_exc()
+            ),
         )
 
 
@@ -266,22 +337,39 @@ async def usertable_add_rows(args: dict[str, Any], ctx: ToolContext) -> ToolResu
 # update_personal_table_row
 # ---------------------------------------------------------------------------
 
+
 async def usertable_update_row(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     row_id = args.get("row_id", "").strip()
     table_id = args.get("table_id", "").strip()
     data = args.get("data")
     if not row_id:
-        return ToolResult(success=False, error=ToolError(error_type="validation", message="row_id is required."))
+        return ToolResult(
+            success=False,
+            error=ToolError(error_type="validation", message="row_id is required."),
+        )
     if not table_id:
-        return ToolResult(success=False, error=ToolError(error_type="validation", message="table_id is required."))
+        return ToolResult(
+            success=False,
+            error=ToolError(error_type="validation", message="table_id is required."),
+        )
     if not data or not isinstance(data, dict):
-        return ToolResult(success=False, error=ToolError(error_type="validation", message="data must be a dict of field values."))
+        return ToolResult(
+            success=False,
+            error=ToolError(
+                error_type="validation", message="data must be a dict of field values."
+            ),
+        )
 
     try:
         result = await asyncio.to_thread(
             _run_query,
             "user_tables_update_table_data",
-            {"id": row_id, "table_id": table_id, "data": json.dumps(data), "user_id": ctx.user_id},
+            {
+                "id": row_id,
+                "table_id": table_id,
+                "data": json.dumps(data),
+                "user_id": ctx.user_id,
+            },
         )
         if not result:
             return ToolResult(
@@ -291,11 +379,15 @@ async def usertable_update_row(args: dict[str, Any], ctx: ToolContext) -> ToolRe
                     message=f"Row '{row_id}' not found in table '{table_id}' or you do not own it.",
                 ),
             )
-        return ToolResult(success=True, output={"updated_row_id": str(result[0].get("id", row_id))})
+        return ToolResult(
+            success=True, output={"updated_row_id": str(result[0].get("id", row_id))}
+        )
     except Exception as e:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="database", message=str(e), traceback=traceback.format_exc()),
+            error=ToolError(
+                error_type="database", message=str(e), traceback=traceback.format_exc()
+            ),
         )
 
 
@@ -303,16 +395,24 @@ async def usertable_update_row(args: dict[str, Any], ctx: ToolContext) -> ToolRe
 # delete_personal_table_row
 # ---------------------------------------------------------------------------
 
+
 async def usertable_delete_row(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     row_id = args.get("row_id", "").strip()
     table_id = args.get("table_id", "").strip()
     if not row_id:
-        return ToolResult(success=False, error=ToolError(error_type="validation", message="row_id is required."))
+        return ToolResult(
+            success=False,
+            error=ToolError(error_type="validation", message="row_id is required."),
+        )
     if not table_id:
-        return ToolResult(success=False, error=ToolError(error_type="validation", message="table_id is required."))
+        return ToolResult(
+            success=False,
+            error=ToolError(error_type="validation", message="table_id is required."),
+        )
 
     try:
         from common.supabase.supabase_client import get_async_supabase_client
+
         client = get_async_supabase_client()
         response = await (
             client.table("table_data")
@@ -335,7 +435,9 @@ async def usertable_delete_row(args: dict[str, Any], ctx: ToolContext) -> ToolRe
     except Exception as e:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="database", message=str(e), traceback=traceback.format_exc()),
+            error=ToolError(
+                error_type="database", message=str(e), traceback=traceback.format_exc()
+            ),
         )
 
 
@@ -343,7 +445,10 @@ async def usertable_delete_row(args: dict[str, Any], ctx: ToolContext) -> ToolRe
 # create_personal_table  (alias of old create_user_generated_table)
 # ---------------------------------------------------------------------------
 
-async def usertable_create_advanced(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+
+async def usertable_create_advanced(
+    args: dict[str, Any], ctx: ToolContext
+) -> ToolResult:
     from user_data.table_creator import UserTableCreator
 
     table_name = args.get("table_name", "").strip()
@@ -351,7 +456,10 @@ async def usertable_create_advanced(args: dict[str, Any], ctx: ToolContext) -> T
     data = args.get("data")
 
     if not table_name:
-        return ToolResult(success=False, error=ToolError(error_type="validation", message="table_name is required."))
+        return ToolResult(
+            success=False,
+            error=ToolError(error_type="validation", message="table_name is required."),
+        )
     if not data or not isinstance(data, list):
         return ToolResult(
             success=False,
@@ -372,18 +480,26 @@ async def usertable_create_advanced(args: dict[str, Any], ctx: ToolContext) -> T
         if not result.get("success"):
             return ToolResult(
                 success=False,
-                error=ToolError(error_type="execution", message=result.get("error", "Unknown error.")),
+                error=ToolError(
+                    error_type="execution",
+                    message=result.get("error", "Unknown error."),
+                ),
             )
-        return ToolResult(success=True, output={
-            "table_id": str(result.get("table_id", "")),
-            "table_name": result.get("table_name", table_name),
-            "description": description,
-            "row_count": result.get("row_count", len(data)),
-            "field_count": result.get("field_count", 0),
-            "already_existed": result.get("existing", False),
-        })
+        return ToolResult(
+            success=True,
+            output={
+                "table_id": str(result.get("table_id", "")),
+                "table_name": result.get("table_name", table_name),
+                "description": description,
+                "row_count": result.get("row_count", len(data)),
+                "field_count": result.get("field_count", 0),
+                "already_existed": result.get("existing", False),
+            },
+        )
     except Exception as e:
         return ToolResult(
             success=False,
-            error=ToolError(error_type="execution", message=str(e), traceback=traceback.format_exc()),
+            error=ToolError(
+                error_type="execution", message=str(e), traceback=traceback.format_exc()
+            ),
         )

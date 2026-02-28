@@ -1,15 +1,16 @@
 """Replicated handle_tool_calls integration point.
 
 This module shows exactly how the new tool system plugs into the existing
-``execute_until_complete`` loop in ``ai/ai_requests.py``.
+``execute_until_complete`` loop in ``ai/executor.py``.
 
-When rolling out, the single change needed in ``ai/ai_requests.py`` is to:
+When rolling out, the single change needed in ``ai/executor.py`` is to:
   1. Import from this module
   2. Replace the current ``handle_tool_calls`` call with ``handle_tool_calls_v2``
   3. Feature-flag it for gradual rollout
 
 This file is self-contained — it can be tested independently.
 """
+
 from __future__ import annotations
 
 import logging
@@ -17,13 +18,13 @@ from typing import Any
 
 from matrx_utils import vcprint
 
-from tools.executor import ToolExecutor
-from tools.guardrails import GuardrailEngine
-from tools.lifecycle import ToolLifecycleManager
-from tools.logger import ToolExecutionLogger
-from tools.models import ToolContext
-from tools.registry import ToolRegistryV2
-from client.usage import TokenUsage
+from config.usage_config import TokenUsage
+from .guardrails import GuardrailEngine
+from .lifecycle import ToolLifecycleManager
+from .logger import ToolExecutionLogger
+from .models import ToolContext
+from .registry import ToolRegistryV2
+from .executor import ToolExecutor
 
 logger = logging.getLogger(__name__)
 
@@ -96,7 +97,9 @@ def initialize_tool_system_sync() -> int:
             color="red",
         )
     else:
-        vcprint(f"[Tool System] Initialized (sync): {count} tools loaded", color="green")
+        vcprint(
+            f"[Tool System] Initialized (sync): {count} tools loaded", color="green"
+        )
 
     get_executor()
 

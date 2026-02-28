@@ -21,27 +21,54 @@ async def text_analyze(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         words = text.split()
         output["word_count"] = len(words)
         output["char_count"] = len(text)
-        output["sentence_count"] = len(re.split(r'[.!?]+', text.strip()))
+        output["sentence_count"] = len(re.split(r"[.!?]+", text.strip()))
         output["paragraph_count"] = len([p for p in text.split("\n\n") if p.strip()])
 
     elif analysis_type == "keywords":
-        words = re.findall(r'\b[a-zA-Z]{3,}\b', text.lower())
+        words = re.findall(r"\b[a-zA-Z]{3,}\b", text.lower())
         stop_words = {
-            "the", "and", "for", "are", "but", "not", "you", "all",
-            "can", "her", "was", "one", "our", "out", "has", "have",
-            "with", "this", "that", "from", "they", "been", "said",
-            "each", "which", "their", "will", "other", "about",
+            "the",
+            "and",
+            "for",
+            "are",
+            "but",
+            "not",
+            "you",
+            "all",
+            "can",
+            "her",
+            "was",
+            "one",
+            "our",
+            "out",
+            "has",
+            "have",
+            "with",
+            "this",
+            "that",
+            "from",
+            "they",
+            "been",
+            "said",
+            "each",
+            "which",
+            "their",
+            "will",
+            "other",
+            "about",
         }
         filtered = [w for w in words if w not in stop_words]
         counter = Counter(filtered)
-        output["keywords"] = [{"word": w, "count": c} for w, c in counter.most_common(20)]
+        output["keywords"] = [
+            {"word": w, "count": c} for w, c in counter.most_common(20)
+        ]
 
     elif analysis_type == "entities":
         patterns = {
-            "emails": r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b',
-            "urls": r'https?://[^\s<>\"]+',
-            "phones": r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b',
-            "dates": r'\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b',
+            "emails": r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",
+            "urls": r"https?://[^\s<>\"]+",
+            "phones": r"\b\d{3}[-.]?\d{3}[-.]?\d{4}\b",
+            "dates": r"\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b",
         }
         for entity_type, pattern in patterns.items():
             output[entity_type] = list(set(re.findall(pattern, text)))
@@ -54,7 +81,9 @@ async def text_analyze(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
             sum(len(w) for w in text.split()) / max(len(text.split()), 1), 1
         )
     else:
-        output["message"] = f"Unknown analysis type '{analysis_type}'. Supported: summary, keywords, entities, language."
+        output["message"] = (
+            f"Unknown analysis type '{analysis_type}'. Supported: summary, keywords, entities, language."
+        )
 
     return ToolResult(
         success=True,
@@ -86,7 +115,10 @@ async def text_regex_extract(args: dict[str, Any], ctx: ToolContext) -> ToolResu
             if match:
                 return ToolResult(
                     success=True,
-                    output={"match": match.group(parsed.group), "span": list(match.span())},
+                    output={
+                        "match": match.group(parsed.group),
+                        "span": list(match.span()),
+                    },
                     started_at=started_at,
                     completed_at=time.time(),
                     tool_name="regex_extract",

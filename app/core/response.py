@@ -2,14 +2,14 @@ from __future__ import annotations
 
 import asyncio
 import json
-from typing import Any, Awaitable, Callable
+from collections.abc import Awaitable, Callable
+from typing import Any
 
 from fastapi.responses import StreamingResponse
-
 from matrx_utils import vcprint
 
 from context.app_context import AppContext
-from context.stream_emitter import StreamEmitter
+from context.emitter_protocol import Emitter
 
 
 def create_streaming_response(
@@ -33,7 +33,9 @@ def create_streaming_response(
     initial_message First status_update event sent to the client.
     debug_label     Used in error log messages.
     """
-    emitter: StreamEmitter = ctx.emitter
+    if ctx.emitter is None:
+        raise RuntimeError("AppContext.emitter must be set before create_streaming_response()")
+    emitter: Emitter = ctx.emitter
 
     async def _stream():
         yield json.dumps({
@@ -58,7 +60,7 @@ def create_streaming_response(
             try:
                 await task_fn(emitter, *task_args)
             except asyncio.CancelledError:
-                vcprint(f"Task cancelled (client disconnected)", f"[{debug_label}]", color="yellow")
+                vcprint("Task cancelled (client disconnected)", f"[{debug_label}]", color="yellow")
             except Exception as e:
                 import traceback
                 tb_str = traceback.format_exc()

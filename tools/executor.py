@@ -9,18 +9,12 @@ from uuid import uuid4
 
 from matrx_utils import vcprint
 
-from tools.guardrails import GuardrailEngine
-from tools.lifecycle import ToolLifecycleManager
-from tools.logger import ToolExecutionLogger
-from tools.models import (
-    ToolContext,
-    ToolDefinition,
-    ToolError,
-    ToolResult,
-    ToolType,
-)
-from tools.registry import ToolRegistryV2
-from tools.streaming import ToolStreamManager
+from .models import ToolContext, ToolDefinition, ToolError, ToolResult, ToolType
+from .registry import ToolRegistryV2
+from .streaming import ToolStreamManager
+from .logger import ToolExecutionLogger
+from .guardrails import GuardrailEngine
+from .lifecycle import ToolLifecycleManager
 
 logger = logging.getLogger(__name__)
 
@@ -124,7 +118,9 @@ class ToolExecutor:
         stream = ToolStreamManager(ctx.emitter, ctx.call_id, tool_name)
 
         # --- Guardrails ---
-        guardrail_result = await self.guardrails.check(tool_name, arguments, ctx, tool_def)
+        guardrail_result = await self.guardrails.check(
+            tool_name, arguments, ctx, tool_def
+        )
         if guardrail_result.blocked:
             error_result = ToolResult(
                 success=False,
@@ -139,9 +135,13 @@ class ToolExecutor:
                 call_id=ctx.call_id,
             )
             error_result.compute_duration()
-            await stream.error(guardrail_result.reason or "Blocked", guardrail_result.error_type)
+            await stream.error(
+                guardrail_result.reason or "Blocked", guardrail_result.error_type
+            )
             events = stream.get_events_for_persistence()
-            asyncio.create_task(self.execution_logger.log_error(row_id, error_result, events))
+            asyncio.create_task(
+                self.execution_logger.log_error(row_id, error_result, events)
+            )
             return error_result.to_tool_result_content(), error_result
 
         self.guardrails.record_call(tool_name, arguments, ctx)
@@ -196,12 +196,16 @@ class ToolExecutor:
             await stream.completed("Done", result=result)
         else:
             msg = result.error.message if result.error else "Unknown error"
-            await stream.error(msg, result.error.error_type if result.error else "execution")
+            await stream.error(
+                msg, result.error.error_type if result.error else "execution"
+            )
 
         # --- Phase 2: log result (fire-and-forget UPDATE) ---
         events = stream.get_events_for_persistence()
         if result.success:
-            asyncio.create_task(self.execution_logger.log_completed(row_id, result, events))
+            asyncio.create_task(
+                self.execution_logger.log_completed(row_id, result, events)
+            )
         else:
             asyncio.create_task(self.execution_logger.log_error(row_id, result, events))
 
@@ -229,10 +233,12 @@ class ToolExecutor:
             arguments = tc.get("arguments", {})
             call_id = tc.get("call_id") or tc.get("id") or str(uuid4())
 
-            child_ctx = ctx_base.model_copy(update={
-                "call_id": call_id,
-                "tool_name": name,
-            })
+            child_ctx = ctx_base.model_copy(
+                update={
+                    "call_id": call_id,
+                    "tool_name": name,
+                }
+            )
             tasks.append(self.execute(name, arguments, child_ctx))
 
         raw_results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -340,7 +346,9 @@ class ToolExecutor:
                 error=ToolError(
                     error_type="execution",
                     message=str(raw_result.get("error", raw_result.get("result", ""))),
-                ) if is_error else None,
+                )
+                if is_error
+                else None,
                 started_at=started_at,
                 completed_at=time.time(),
                 tool_name=tool_def.name,
@@ -362,7 +370,8 @@ class ToolExecutor:
         args: dict[str, Any],
         ctx: ToolContext,
     ) -> ToolResult:
-        from tools.external_mcp import ExternalMCPClient
+        from .external_mcp import ExternalMCPClient
+
         client = ExternalMCPClient(timeout=tool_def.timeout_seconds)
         return await client.call_tool(tool_def, args, ctx)
 
@@ -372,11 +381,13 @@ class ToolExecutor:
         args: dict[str, Any],
         ctx: ToolContext,
     ) -> ToolResult:
-        from tools.agent_tool import execute_agent_tool
+        from .agent_tool import execute_agent_tool
 
-        child_ctx = ctx.model_copy(update={
-            "recursion_depth": ctx.recursion_depth + 1,
-        })
+        child_ctx = ctx.model_copy(
+            update={
+                "recursion_depth": ctx.recursion_depth + 1,
+            }
+        )
         return await execute_agent_tool(tool_def, args, child_ctx)
 
     # ------------------------------------------------------------------
@@ -384,7 +395,9 @@ class ToolExecutor:
     # ------------------------------------------------------------------
 
     @staticmethod
-    def _unknown_tool_result(tool_name: str, call_id: str, started_at: float) -> ToolResult:
+    def _unknown_tool_result(
+        tool_name: str, call_id: str, started_at: float
+    ) -> ToolResult:
         return ToolResult(
             success=False,
             error=ToolError(

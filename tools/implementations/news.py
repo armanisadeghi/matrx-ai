@@ -73,12 +73,15 @@ async def news_get_headlines(args: dict[str, Any], ctx: ToolContext) -> ToolResu
             for a in articles
         ]
 
-        return ToolResult(success=True, output={
-            "intro": intro,
-            "date": today,
-            "total_results": total,
-            "articles": clean_articles,
-        })
+        return ToolResult(
+            success=True,
+            output={
+                "intro": intro,
+                "date": today,
+                "total_results": total,
+                "articles": clean_articles,
+            },
+        )
 
     except Exception as e:
         return ToolResult(
