@@ -1,37 +1,72 @@
 # matrx-ai
 
-Matrx AI Engine — core FastAPI backend for AI orchestration.
+Matrx AI Engine — unified AI orchestration backend with multi-provider LLM support, streaming, tool execution, and conversation persistence.
 
-## Setup
+## Installation
 
 ```bash
-uv sync          # installs all dependencies + the project itself (editable)
-cp .env.example .env  # then fill in your keys
-make dev         # start dev server on :8000
+# Core library only (AI providers, tools, conversation management)
+pip install matrx-ai
+
+# With the FastAPI server layer
+pip install "matrx-ai[server]"
+
+# Or with uv
+uv add matrx-ai
+uv add "matrx-ai[server]"
 ```
 
-`uv sync` is all that's needed. It installs the project as an editable package, which puts the project root on `sys.path` automatically — so all imports (`client`, `config`, `db`, `conversation`, etc.) resolve from any working directory, including VS Code's Run button and pytest.
+## Quick Start (library)
 
-## Environment variables
+```python
+import matrx_ai
 
-Copy `.env.example` to `.env` and fill in the required keys (AI provider keys, Supabase credentials). The `.env` file is never committed.
+# Initialize once at startup (registers the database connection)
+matrx_ai.initialize()
 
-**If you have a `PYTHONPATH` set globally** (e.g. from another project in your shell config or another workspace's `.env`), it can shadow this project's packages. The `.vscode/settings.json` in this repo points VS Code at `.env` directly, which ensures the correct path is used when running files from the editor.
-
-## Running tests
-
-```bash
-make test           # all tests via pytest
-# or run a single file via VS Code's play button — works after uv sync
+# Use the AI engine directly
+from matrx_ai.orchestrator import execute_ai_request
+from matrx_ai.config.unified_config import UnifiedConfig
 ```
 
-## Common commands
+## Quick Start (server)
 
 ```bash
-make dev        # dev server with reload
-make run        # production mode
+uv sync --extra server   # install with server deps
+cp .env.example .env     # fill in your API keys
+make dev                 # start dev server on :8000
+```
+
+## Environment Variables
+
+Copy `.env.example` to `.env` and fill in the required keys:
+
+- AI provider keys: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`, `GROQ_API_KEY`, etc.
+- Supabase: `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_MATRIX_*`
+
+## Common Commands
+
+```bash
+make dev        # dev server with reload on :8000
+make run        # production mode (matrx-ai-server)
 make lint       # ruff check
 make fmt        # ruff format
 make typecheck  # pyright
 make test       # pytest -v
 ```
+
+## Publishing a New Release
+
+```bash
+./scripts/publish.sh              # patch bump  0.1.0 → 0.1.1
+./scripts/publish.sh --minor      # minor bump  0.1.0 → 0.2.0
+./scripts/publish.sh --major      # major bump  0.1.0 → 1.0.0
+./scripts/publish.sh --message "feat: add new provider"
+./scripts/publish.sh --dry-run    # preview without committing
+```
+
+## Version History
+
+| Version | Highlights |
+|---|---|
+| **v0.1.0** | Initial release — multi-provider AI orchestration, streaming, tool system, conversation persistence |
