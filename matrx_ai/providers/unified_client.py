@@ -162,6 +162,10 @@ class UnifiedAIClient:
         model_data = await self.model_manager.load_model(model_id_or_name)
 
         if not model_data:
+            vcprint(request, "Request", color="blue")
+            vcprint(config, "Config", color="blue")
+            vcprint(f"Model not found: {model_id_or_name}", "Unified Client", color="red")
+            vcprint(model_data, "Model Data", color="red")
             raise ValueError(f"Model not found: {model_id_or_name}")
 
         model_name = model_data.name

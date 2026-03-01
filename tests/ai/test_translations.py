@@ -1,13 +1,19 @@
+import dotenv
 from matrx_utils import clear_terminal, vcprint
 
+import matrx_ai
 from matrx_ai.orchestrator.requests import AIMatrixRequest
 from matrx_ai.providers.unified_client import UnifiedAIClient
 from tests.ai.test_context import create_test_execution_context
+
+dotenv.load_dotenv()
+matrx_ai.initialize()
 
 
 async def test_translation(settings_to_use):
     client = UnifiedAIClient()
     request = AIMatrixRequest.from_dict(settings_to_use)
+    vcprint(request, "Request", color="blue")
     formatted_request = await client.translate_request(request)
     vcprint(formatted_request, "Formatted Request", color="blue")
 
@@ -33,7 +39,7 @@ if __name__ == "__main__":
 
         matrx_ai.initialize()
 
-    _ctx_token = create_test_execution_context()
+    _ctx_token = create_test_execution_context(new_conversation=True)
 
     clear_terminal()
 
@@ -44,11 +50,11 @@ if __name__ == "__main__":
     model_5 = "gpt-5-mini"
 
     minimal_settings = {
-        "ai_model_id": model_2,
         "conversation_id": "12345678-1234-1234-1234-123456789012",
         "user_id": "12345678-1234-1234-1234-123456789012",
         "debug": True,
         "config": {
+            "model": model_2,
             "max_output_tokens": 4444,
             "reasoning_effort": "high",
             "reasoning_summary": "always",
@@ -75,11 +81,11 @@ if __name__ == "__main__":
     }
 
     complex_settings = {
-        "ai_model_id": model_2,
         "conversation_id": "12345678-1234-1234-1234-123456789012",
         "user_id": "12345678-1234-1234-1234-123456789012",
         "debug": True,
         "config": {
+            "model": model_2,
             "system_instruction": "You're a helpful assistant.",
             "messages": [
                 {

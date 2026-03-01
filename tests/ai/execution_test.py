@@ -65,14 +65,14 @@ def clean_up_response(response):
 
 
 def save_results(final_result: CompletedRequest):
-    output_file = Path(__file__).parent / "final_response.json"
+    output_file = Path(__file__).parent / "test_data" / "final_response.json"
     serializable_result = to_matrx_json(final_result)
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(serializable_result, f, indent=4)
     vcprint(f"\nFinal result saved to: {output_file}", color="blue")
 
     clean_response = clean_up_response(final_result)
-    output_file = Path(__file__).parent / "clean_response.json"
+    output_file = Path(__file__).parent / "test_data" / "clean_response.json"
     serializable_result = to_matrx_json(clean_response)
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(serializable_result, f, indent=4)
@@ -80,7 +80,7 @@ def save_results(final_result: CompletedRequest):
 
     storage_data = final_result.to_storage_dict()
     storage_serializable = to_matrx_json(storage_data)
-    output_file = Path(__file__).parent / "cx_storage_response.json"
+    output_file = Path(__file__).parent / "test_data" / "cx_storage_response.json"
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(storage_serializable, f, indent=4)
     vcprint(f"\nCX storage format saved to: {output_file}", color="blue")
