@@ -12,7 +12,7 @@ are overwritten each time the generator runs. Everything else is yours to edit f
 | Field | Value |
 |-------|-------|
 | Module | `` |
-| Last generated | 2026-02-28 13:39 |
+| Last generated | 2026-03-01 00:14 |
 | Output file | `MODULE_README.md` |
 | Signature mode | `signatures` |
 
@@ -22,20 +22,19 @@ are overwritten each time the generator runs. Everything else is yours to edit f
 | README | |
 |--------|---|
 | [`agent_runners/MODULE_README.md`](agent_runners/MODULE_README.md) | last generated 2026-02-28 13:39 |
-| [`agents/MODULE_README.md`](agents/MODULE_README.md) | last generated 2026-02-28 13:39 |
-| [`app/MODULE_README.md`](app/MODULE_README.md) | last generated 2026-02-28 13:39 |
-| [`config/MODULE_README.md`](config/MODULE_README.md) | last generated 2026-02-28 13:39 |
-| [`context/MODULE_README.md`](context/MODULE_README.md) | last generated 2026-02-28 13:39 |
-| [`db/MODULE_README.md`](db/MODULE_README.md) | last generated 2026-02-28 12:20 |
-| [`instructions/MODULE_README.md`](instructions/MODULE_README.md) | last generated 2026-02-28 13:39 |
+| [`agents/MODULE_README.md`](agents/MODULE_README.md) | last generated 2026-03-01 00:09 |
+| [`app/MODULE_README.md`](app/MODULE_README.md) | last generated 2026-03-01 00:10 |
+| [`config/MODULE_README.md`](config/MODULE_README.md) | last generated 2026-03-01 00:10 |
+| [`context/MODULE_README.md`](context/MODULE_README.md) | last generated 2026-03-01 00:10 |
+| [`db/MODULE_README.md`](db/MODULE_README.md) | last generated 2026-03-01 00:10 |
+| [`instructions/MODULE_README.md`](instructions/MODULE_README.md) | last generated 2026-03-01 00:10 |
 | [`media/MODULE_README.md`](media/MODULE_README.md) | last generated 2026-02-28 13:39 |
-| [`orchestrator/MODULE_README.md`](orchestrator/MODULE_README.md) | last generated 2026-02-28 13:39 |
-| [`processing/MODULE_README.md`](processing/MODULE_README.md) | last generated 2026-02-28 13:39 |
-| [`providers/MODULE_README.md`](providers/MODULE_README.md) | last generated 2026-02-28 13:39 |
+| [`orchestrator/MODULE_README.md`](orchestrator/MODULE_README.md) | last generated 2026-03-01 00:10 |
+| [`processing/MODULE_README.md`](processing/MODULE_README.md) | last generated 2026-03-01 00:10 |
+| [`providers/MODULE_README.md`](providers/MODULE_README.md) | last generated 2026-03-01 00:10 |
 | [`scripts/MODULE_README.md`](scripts/MODULE_README.md) | last generated 2026-02-28 13:39 |
-| [`shared/MODULE_README.md`](shared/MODULE_README.md) | last generated 2026-02-28 13:39 |
-| [`tests/MODULE_README.md`](tests/MODULE_README.md) | last generated 2026-02-28 13:39 |
-| [`tools/MODULE_README.md`](tools/MODULE_README.md) | last generated 2026-02-28 13:39 |
+| [`tests/MODULE_README.md`](tests/MODULE_README.md) | last generated 2026-03-01 00:14 |
+| [`tools/MODULE_README.md`](tools/MODULE_README.md) | last generated 2026-03-01 00:10 |
 | [`utils/MODULE_README.md`](utils/MODULE_README.md) | last generated 2026-02-28 13:39 |
 **To refresh auto-sections:**
 ```bash
@@ -70,18 +69,12 @@ python utils/code_context/generate_module_readme.py  --mode signatures
 <!-- AUTO:tree -->
 ## Directory Tree
 
-> Auto-generated. 236 files across 48 directories.
+> Auto-generated. 229 files across 47 directories.
 
 ```
 ./
 ├── .dockerignore
 ├── .python-version
-├── .ruff_cache/
-│   ├── 0.15.2/
-│   │   ├── 5920952501122745669
-│   │   ├── 6394884443655615524
-│   │   ├── 7870213283556952684
-│   ├── CACHEDIR.TAG
 ├── MODULE_README.md
 ├── agent_runners/
 │   ├── MODULE_README.md
@@ -169,11 +162,13 @@ python utils/code_context/generate_module_readme.py  --mode signatures
 │   │   │   ├── ai_model_dto.py
 │   │   │   ├── ai_model_manager.py
 │   │   │   ├── ai_model_validator.py
-│   │   │   ├── tests.py
 │   │   ├── conversation_gate.py
 │   │   ├── conversation_rebuild.py
 │   │   ├── cx_managers.py
 │   │   ├── persistence.py
+│   │   ├── tests/
+│   │   │   ├── ai_model_tests.py
+│   │   │   ├── cx_manager_tests.py
 │   ├── generate.py
 │   ├── helpers/
 │   │   ├── auto_config.py
@@ -270,12 +265,6 @@ python utils/code_context/generate_module_readme.py  --mode signatures
 │   ├── MODULE_README.md
 │   ├── _rewrite_imports.py
 │   ├── _test_new_imports.py
-├── shared/
-│   ├── MODULE_README.md
-│   ├── __init__.py
-│   ├── file_handler.py
-│   ├── json_utils.py
-│   ├── supabase_client.py
 ├── tests/
 │   ├── MODULE_README.md
 │   ├── __init__.py
@@ -304,6 +293,8 @@ python utils/code_context/generate_module_readme.py  --mode signatures
 │   │   ├── test_basic_prompts.py
 │   ├── random/
 │   │   ├── print_test.py
+│   ├── util_tests/
+│   │   ├── readme_updates.py
 ├── tools/
 │   ├── MODULE_README.md
 │   ├── __init__.py
@@ -357,7 +348,7 @@ python utils/code_context/generate_module_readme.py  --mode signatures
 │   ├── MODULE_README.md
 │   ├── __init__.py
 │   ├── cache.py
-# excluded: 26 .md, 6 .json, 5 (no ext), 4 .txt, 1 .example, 1 .toml, 1 .lock, 1 .yaml
+# excluded: 35 .md, 7 .json, 4 (no ext), 4 .txt, 1 .example, 1 .toml, 1 .lock, 1 .yaml
 ```
 <!-- /AUTO:tree -->
 
@@ -398,7 +389,7 @@ Filepath: matrx_ai.egg-info/PKG-INFO  [unknown ()]
 
 
 ---
-Submodule: tests/  [21 files — full detail in tests/MODULE_README.md]
+Submodule: tests/  [22 files — full detail in tests/MODULE_README.md]
 
 ---
 Submodule: scripts/  [2 files — full detail in scripts/MODULE_README.md]
@@ -416,38 +407,7 @@ Submodule: context/  [6 files — full detail in context/MODULE_README.md]
 Submodule: providers/  [24 files — full detail in providers/MODULE_README.md]
 
 ---
-Submodule: shared/  [4 files — full detail in shared/MODULE_README.md]
-
----
 Submodule: utils/  [2 files — full detail in utils/MODULE_README.md]
-
----
-Filepath: .ruff_cache/CACHEDIR.TAG  [unknown (.TAG)]
-
-  # signature extraction not supported for this language
-
-
-
----
-Filepath: .ruff_cache/0.15.2/7870213283556952684  [unknown ()]
-
-  # signature extraction not supported for this language
-
-
-
----
-Filepath: .ruff_cache/0.15.2/5920952501122745669  [unknown ()]
-
-  # signature extraction not supported for this language
-
-
-
----
-Filepath: .ruff_cache/0.15.2/6394884443655615524  [unknown ()]
-
-  # signature extraction not supported for this language
-
-
 
 ---
 Submodule: config/  [12 files — full detail in config/MODULE_README.md]
@@ -459,7 +419,7 @@ Submodule: orchestrator/  [5 files — full detail in orchestrator/MODULE_README
 Submodule: agent_runners/  [2 files — full detail in agent_runners/MODULE_README.md]
 
 ---
-Submodule: db/  [34 files — full detail in db/MODULE_README.md]
+Submodule: db/  [35 files — full detail in db/MODULE_README.md]
 
 ---
 Submodule: tools/  [43 files — full detail in tools/MODULE_README.md]
@@ -477,7 +437,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 ## Call Graph
 
 > Auto-generated. All Python files
-> Covered submodules shown as stubs — see child READMEs for full detail: `agent_runners`, `agents`, `app`, `config`, `context`, `db`, `instructions`, `media`, `orchestrator`, `processing`, `providers`, `scripts`, `shared`, `tests`, `tools`, `utils`
+> Covered submodules shown as stubs — see child READMEs for full detail: `agent_runners`, `agents`, `app`, `config`, `context`, `db`, `instructions`, `media`, `orchestrator`, `processing`, `providers`, `scripts`, `tests`, `tools`, `utils`
 > Excluded from call graph: `tests`.
 > Shows which functions call which. `async` prefix = caller is an async function.
 > Method calls shown as `receiver.method()`. Private methods (`_`) excluded by default.
@@ -543,7 +503,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`agents/MODULE_README.md`](agents/MODULE_README.md)
 
 ```
-`async agents.resolver.from_conversation_id → AgentCache.get(conversation_id) (line 70)` → ... → `Agent.from_id(agent_id) (line 193)`
+`async agents.resolver.from_conversation_id → AgentCache.get(conversation_id) (line 70)` → ... → `Agent.from_id(agent_id) (line 195)`
 ```
 
 ### Call graph: agents.manager
@@ -615,7 +575,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`providers/MODULE_README.md`](providers/MODULE_README.md)
 
 ```
-`Global Scope → providers.unified_client.get_ai_model_manager() (line 41)` → ... → `providers.unified_client.CerebrasTranslator() (line 232)`
+`providers.unified_client.__init__ → providers.unified_client.GoogleChat() (line 58)` → ... → `providers.unified_client.CerebrasTranslator() (line 236)`
 ```
 
 ### Call graph: providers.together.together_api
@@ -639,7 +599,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`providers/MODULE_README.md`](providers/MODULE_README.md)
 
 ```
-`providers.openai.translator.to_openai → messages.append({'role': 'developer', 'content': [{'type': 'input_text', 'text': config.system_instruction}]}) (line 39)` → ... → `providers.openai.translator.UnifiedResponse() (line 173)`
+`providers.openai.translator.to_openai → messages.append({'role': 'developer', 'content': [{'type': 'input_text', 'text': config.system_instruction}]}) (line 39)` → ... → `providers.openai.translator.UnifiedResponse() (line 174)`
 ```
 
 ### Call graph: providers.openai.openai_api
@@ -730,22 +690,6 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 `providers.xai.translator.to_xai → messages.append({'role': 'system', 'content': config.system_instruction}) (line 37)` → ... → `providers.xai.translator.UnifiedResponse() (line 191)`
 ```
 
-### Call graph: shared.json_utils
-
-> Full detail in [`shared/MODULE_README.md`](shared/MODULE_README.md)
-
-```
-`shared.json_utils.to_matrx_json → json.dumps(data) (line 7)`
-```
-
-### Call graph: shared.supabase_client
-
-> Full detail in [`shared/MODULE_README.md`](shared/MODULE_README.md)
-
-```
-`shared.supabase_client.get_supabase_client → ...get('SUPABASE_URL', '') (line 16)` → ... → `shared.supabase_client.create_client(url, key) (line 19)`
-```
-
 ### Call graph: utils.cache
 
 > Full detail in [`utils/MODULE_README.md`](utils/MODULE_README.md)
@@ -807,7 +751,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`config/MODULE_README.md`](config/MODULE_README.md)
 
 ```
-`Global Scope → config.message_config.field() (line 39)` → ... → `message.replace_variables(variables) (line 639)`
+`Global Scope → config.message_config.field() (line 39)` → ... → `message.replace_variables(variables) (line 656)`
 ```
 
 ### Call graph: config.config_utils
@@ -831,7 +775,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`config/MODULE_README.md`](config/MODULE_README.md)
 
 ```
-`Global Scope → config.unified_content.field() (line 40)` → ... → `config.unified_content.TextContent() (line 482)`
+`Global Scope → config.unified_content.field() (line 40)` → ... → `config.unified_content.TextContent() (line 488)`
 ```
 
 ### Call graph: orchestrator.recovery_logic
@@ -847,7 +791,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`orchestrator/MODULE_README.md`](orchestrator/MODULE_README.md)
 
 ```
-`async orchestrator.executor.execute_ai_request → orchestrator.executor.get_app_context() (line 67)` → ... → `orchestrator.executor.UnifiedResponse() (line 634)`
+`async orchestrator.executor.execute_ai_request → orchestrator.executor.get_app_context() (line 67)` → ... → `orchestrator.executor.UnifiedResponse() (line 637)`
 ```
 
 ### Call graph: orchestrator.requests
@@ -903,7 +847,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`Global Scope → db.models.UUIDField() (line 7)` → ... → `db.models.cls() (line 651)`
+`Global Scope → db.models.UUIDField() (line 26)` → ... → `db.models.cls() (line 916)`
 ```
 
 ### Call graph: db.managers.content_blocks
@@ -911,7 +855,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.managers.content_blocks.get_validated_dict → self.to_dict() (line 87)` → ... → `db.managers.content_blocks.ContentBlocksManager() (line 183)`
+`async db.managers.content_blocks.get_validated_dict → self.to_dict() (line 88)` → ... → `db.managers.content_blocks.ContentBlocksManager() (line 184)`
 ```
 
 ### Call graph: db.managers.cx_message
@@ -919,7 +863,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.managers.cx_message.get_validated_dict → self.to_dict() (line 87)` → ... → `db.managers.cx_message.CxMessageManager() (line 189)`
+`async db.managers.cx_message.get_validated_dict → self.to_dict() (line 88)` → ... → `db.managers.cx_message.CxMessageManager() (line 190)`
 ```
 
 ### Call graph: db.managers.table_data
@@ -927,7 +871,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.managers.table_data.get_validated_dict → self.to_dict() (line 87)` → ... → `db.managers.table_data.TableDataManager() (line 189)`
+`async db.managers.table_data.get_validated_dict → self.to_dict() (line 88)` → ... → `db.managers.table_data.TableDataManager() (line 190)`
 ```
 
 ### Call graph: db.managers.tools
@@ -935,7 +879,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.managers.tools.get_validated_dict → self.to_dict() (line 87)` → ... → `db.managers.tools.ToolsManager() (line 189)`
+`async db.managers.tools.get_validated_dict → self.to_dict() (line 88)` → ... → `db.managers.tools.ToolsManager() (line 190)`
 ```
 
 ### Call graph: db.managers.cx_user_request
@@ -943,7 +887,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.managers.cx_user_request.get_validated_dict → self.to_dict() (line 87)` → ... → `db.managers.cx_user_request.CxUserRequestManager() (line 213)`
+`async db.managers.cx_user_request.get_validated_dict → self.to_dict() (line 88)` → ... → `db.managers.cx_user_request.CxUserRequestManager() (line 214)`
 ```
 
 ### Call graph: db.managers.ai_model
@@ -951,7 +895,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.managers.ai_model.get_validated_dict → self.to_dict() (line 86)` → ... → `db.managers.ai_model.AiModelManager() (line 224)`
+`async db.managers.ai_model.get_validated_dict → self.to_dict() (line 88)` → ... → `db.managers.ai_model.AiModelManager() (line 226)`
 ```
 
 ### Call graph: db.managers.cx_media
@@ -959,7 +903,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.managers.cx_media.get_validated_dict → self.to_dict() (line 87)` → ... → `db.managers.cx_media.CxMediaManager() (line 189)`
+`async db.managers.cx_media.get_validated_dict → self.to_dict() (line 88)` → ... → `db.managers.cx_media.CxMediaManager() (line 190)`
 ```
 
 ### Call graph: db.managers.shortcut_categories
@@ -967,7 +911,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.managers.shortcut_categories.get_validated_dict → self.to_dict() (line 87)` → ... → `db.managers.shortcut_categories.ShortcutCategoriesManager() (line 201)`
+`async db.managers.shortcut_categories.get_validated_dict → self.to_dict() (line 88)` → ... → `db.managers.shortcut_categories.ShortcutCategoriesManager() (line 202)`
 ```
 
 ### Call graph: db.managers.cx_request
@@ -975,7 +919,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.managers.cx_request.get_validated_dict → self.to_dict() (line 87)` → ... → `db.managers.cx_request.CxRequestManager() (line 207)`
+`async db.managers.cx_request.get_validated_dict → self.to_dict() (line 88)` → ... → `db.managers.cx_request.CxRequestManager() (line 208)`
 ```
 
 ### Call graph: db.managers.cx_tool_call
@@ -983,7 +927,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.managers.cx_tool_call.get_validated_dict → self.to_dict() (line 87)` → ... → `db.managers.cx_tool_call.CxToolCallManager() (line 225)`
+`async db.managers.cx_tool_call.get_validated_dict → self.to_dict() (line 88)` → ... → `db.managers.cx_tool_call.CxToolCallManager() (line 226)`
 ```
 
 ### Call graph: db.managers.cx_agent_memory
@@ -991,7 +935,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.managers.cx_agent_memory.get_validated_dict → self.to_dict() (line 87)` → ... → `db.managers.cx_agent_memory.CxAgentMemoryManager() (line 177)`
+`async db.managers.cx_agent_memory.get_validated_dict → self.to_dict() (line 88)` → ... → `db.managers.cx_agent_memory.CxAgentMemoryManager() (line 178)`
 ```
 
 ### Call graph: db.managers.user_tables
@@ -999,7 +943,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.managers.user_tables.get_validated_dict → self.to_dict() (line 87)` → ... → `db.managers.user_tables.UserTablesManager() (line 189)`
+`async db.managers.user_tables.get_validated_dict → self.to_dict() (line 88)` → ... → `db.managers.user_tables.UserTablesManager() (line 190)`
 ```
 
 ### Call graph: db.managers.cx_conversation
@@ -1007,7 +951,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.managers.cx_conversation.get_validated_dict → self.to_dict() (line 87)` → ... → `db.managers.cx_conversation.CxConversationManager() (line 237)`
+`async db.managers.cx_conversation.get_validated_dict → self.to_dict() (line 88)` → ... → `db.managers.cx_conversation.CxConversationManager() (line 238)`
 ```
 
 ### Call graph: db.managers.ai_provider
@@ -1015,7 +959,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.managers.ai_provider.get_validated_dict → self.to_dict() (line 87)` → ... → `db.managers.ai_provider.AiProviderManager() (line 183)`
+`async db.managers.ai_provider.get_validated_dict → self.to_dict() (line 88)` → ... → `db.managers.ai_provider.AiProviderManager() (line 184)`
 ```
 
 ### Call graph: db.managers.prompt_builtins
@@ -1023,7 +967,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.managers.prompt_builtins.get_validated_dict → self.to_dict() (line 87)` → ... → `db.managers.prompt_builtins.PromptBuiltinsManager() (line 201)`
+`async db.managers.prompt_builtins.get_validated_dict → self.to_dict() (line 88)` → ... → `db.managers.prompt_builtins.PromptBuiltinsManager() (line 202)`
 ```
 
 ### Call graph: db.managers.prompts
@@ -1031,7 +975,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.managers.prompts.get_validated_dict → self.to_dict() (line 87)` → ... → `db.managers.prompts.PromptsManager() (line 207)`
+`async db.managers.prompts.get_validated_dict → self.to_dict() (line 88)` → ... → `db.managers.prompts.PromptsManager() (line 208)`
 ```
 
 ### Call graph: db.custom.cx_managers
@@ -1039,7 +983,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`Global Scope → db.custom.cx_managers.CxConversationManager() (line 128)` → ... → `db.custom.cx_managers.CxManagers() (line 244)`
+`Global Scope → db.custom.cx_managers.CxConversationManager() (line 133)` → ... → `db.custom.cx_managers.CxManagers() (line 252)`
 ```
 
 ### Call graph: db.custom.conversation_gate
@@ -1063,7 +1007,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`Global Scope → db.custom.persistence.get_ai_model_manager() (line 30)` → ... → `traceback.print_exc() (line 376)`
+`db.custom.persistence._is_valid_uuid → db.custom.persistence.UUID(value) (line 35)` → ... → `traceback.print_exc() (line 374)`
 ```
 
 ### Call graph: db.custom.conversation_rebuild
@@ -1087,7 +1031,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.custom.ai_models.ai_model_base.create_ai_model → self.create_item() (line 35)` → ... → `db.custom.ai_models.ai_model_base.main() (line 138)`
+`async db.custom.ai_models.ai_model_base.create_ai_model → self.create_item() (line 42)` → ... → `db.custom.ai_models.ai_model_base.main() (line 152)`
 ```
 
 ### Call graph: db.custom.ai_models.ai_model_dto
@@ -1095,7 +1039,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.custom.ai_models.ai_model_dto._process_core_data → json.loads(endpoints) (line 49)` → ... → `self.to_dict() (line 100)`
+`async db.custom.ai_models.ai_model_dto._initialize_dto → ...startswith('claude-sonnet-4-6') (line 35)` → ... → `self.to_dict() (line 101)`
 ```
 
 ### Call graph: db.custom.ai_models.ai_model_manager
@@ -1103,7 +1047,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`db/MODULE_README.md`](db/MODULE_README.md)
 
 ```
-`async db.custom.ai_models.ai_model_manager.load_all_models → self.load_items() (line 32)` → ... → `db.custom.ai_models.ai_model_manager.AiModelManager() (line 88)`
+`async db.custom.ai_models.ai_model_manager.load_all_models → self.load_items() (line 37)` → ... → `db.custom.ai_models.ai_model_manager.AiModelManager() (line 83)`
 ```
 
 ### Call graph: tools.agent_tool
@@ -1391,7 +1335,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`app/MODULE_README.md`](app/MODULE_README.md)
 
 ```
-`Global Scope → app.main.init_sentry() (line 33)` → ... → `uvicorn.run('app.main:app') (line 201)`
+`Global Scope → ...reconfigure() (line 24)` → ... → `uvicorn.run('app.main:app') (line 237)`
 ```
 
 ### Call graph: app.dependencies.auth
@@ -1407,7 +1351,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`app/MODULE_README.md`](app/MODULE_README.md)
 
 ```
-`async app.middleware.auth.dispatch → app.middleware.auth._build_context(request) (line 15)` → ... → `decoded.get('email') (line 96)`
+`async app.middleware.auth.__call__ → self.app(scope, receive, send) (line 25)` → ... → `decoded.get('email') (line 137)`
 ```
 
 ### Call graph: app.routers.health
@@ -1463,7 +1407,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`app/MODULE_README.md`](app/MODULE_README.md)
 
 ```
-`async app.core.exceptions.matrx_exception_handler → app.core.exceptions.ORJSONResponse() (line 46)` → ... → `app.core.exceptions.ORJSONResponse() (line 57)`
+`async app.core.exceptions.matrx_exception_handler → app.core.exceptions.ORJSONResponse() (line 64)` → ... → `app.core.exceptions.ORJSONResponse() (line 89)`
 ```
 
 ### Call graph: app.core.cancellation
@@ -1479,7 +1423,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`app/MODULE_README.md`](app/MODULE_README.md)
 
 ```
-`async app.core.response._stream → json.dumps({'event': 'status_update', 'data': {'status': 'connected', 'system_message': 'Stream established', 'user_message': initial_message}}) (line 41)` → ... → `app.core.response._stream() (line 88)`
+`async app.core.response._stream → json.dumps({'event': 'status_update', 'data': {'status': 'connected', 'system_message': 'Stream established', 'user_message': initial_message}}) (line 43)` → ... → `app.core.response._stream() (line 98)`
 ```
 
 ### Call graph: app.core.sentry
@@ -1503,7 +1447,7 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 > Full detail in [`app/MODULE_README.md`](app/MODULE_README.md)
 
 ```
-`Global Scope → logging.getLogger(__name__) (line 9)` → ... → `logger.info('%s %s %s %.2fms id=%s', request.method, request.url.path, response.status_code, elapsed_ms, request_id) (line 28)`
+`Global Scope → logging.getLogger(__name__) (line 8)` → ... → `logger.info('%s %s %s %.2fms id=%s', method, path, status_code, elapsed_ms, request_id) (line 51)`
 ```
 
 ### Call graph: app.core.ai_task
@@ -1518,8 +1462,8 @@ Submodule: app/  [27 files — full detail in app/MODULE_README.md]
 <!-- AUTO:dependencies -->
 ## Dependencies
 
-**External packages:** ConfigParser, HTMLParser, IPython, OpenSSL, PIL, PyQt6, PySide6, Queue, StringIO, UnleashClient, __builtin__, __main__, __pypy__, _abcoll, _cffi_backend, _dummy_thread, _manylinux, _pytest, _ruamel_yaml, _typeshed, _winreg, a2wsgi, adlfs, aidream, aiocontextvars, aiodns, aiohappyeyeballs, aiohttp, aioquic, aiosignal, android, annotated_doc, annotated_types, annotationlib, anthropic, anyio, apache_beam, api_management, argcomplete, ariadne, arq, asttokens, async_timeout, asyncpg, attr, azure, backports, bcrypt, billiard, blinker, blobfile, bodo, boto3, botocore, bottle, brotli, brotlicffi, bson, cStringIO, cachetools, celery, cerebras, certifi, cffi, cgi, chalice, channels, chardet, charset_normalizer, click, clickhouse_driver, client, cohere, colorama, common, compression, configobj, copy_reg, cron_converter, cryptography, ctags, curio, cython, daft, dask, dateutil, defusedxml, deprecation, distributed, distro, distutils, django, dns, docstring_parser, docutils, dotenv, dramatiq, duckdb, dummy_thread, dummy_threading, email_validator, eval_type_backport, eventlet, exceptiongroup, executing, falcon, fastapi, fastapi_cli, fastapi_cloud_cli, fastapi_new, fastar, fastmcp, fastparquet, fb303, filelock, flask, flask_login, frozenlist, fsspec, fuse, gcsfs, gevent, git, gitdb, gitdb_speedups, google, gql, graphene, graphql, greenlet, groq, grpc, grpc_health, grpc_reflection, grpc_tools, gunicorn, h11, h2, hive_metastore, hpack, htmlentitydefs, httpcore, httplib, httptools, httpx, httpx_aiohttp, huey, huggingface_hub, hyperframe, hypothesis, idna, imp, importlib_metadata, importlib_resources, inflect, iniconfig, initialize_systems, ipywidgets, isal, itsdangerous, java, jinja2, jiter, jnius, js, jwt, keras, kerchunk, keyring, kombu, langchain, langchain_aws, langchain_classic, langchain_cohere, langchain_core, langchain_google_vertexai, langchain_huggingface, langchain_mistralai, langchain_ollama, langchain_openai, langgraph, ldclient, libarchive, linkify_it, litellm, litestar, loguru, lz4, lzmaffi, markdown_it, markupsafe, matplotlib, matrix, matrx_orm, matrx_utils, mcp, mdurl, mmh3, more_itertools, multidict, multipart, mypy, mypy_boto3_dynamodb, mypy_boto3_glue, mypy_boto3_secretsmanager, nodejs_wheel, ntlm, numpy, oauth2client, olefile, openai, openfeature, opentelemetry, ordereddict, orjson, outcome, packaging, pandas, panel, paramiko, pendulum, pexpect, phonenumbers, pip, pipes, pkg_resources, playwright, pluggy, polars, postgrest, prompts, propcache, psutil, psycopg, psycopg2, psycopg_binary, psycopg_c, psycopg_pool, pure_eval, py, py4j, pyarrow, pyasn1, pyasn1_modules, pycountry, pycparser, pydantic, pydantic_ai, pydantic_core, pydantic_settings, pydoctor, pygit2, pygments, pyiceberg, pyiceberg_core, pymongo, pyodide, pyparsing, pyramid, pyroaring, pyspark, pytest, python_multipart, python_socks, pythoncom, pytz, pyu2f, quart, quart_auth, railroad, ray, rb, realtime, redbeat, redis, rediscluster, regex, requests, requests_kerberos, rest_framework, rich, rich_toolkit, rignore, rq, rsa, ruamel, s3fs, sanic, scraper, semver, sentencepiece, sentry_sdk, seo, setuptools, sha, shapely, shellingham, simplejson, six, slack_sdk, smbclient, smbprotocol, smmap, snappy, sniffio, socks, socksio, sounddevice, sphinx, sqlalchemy, src, sse_starlette, starlette, starlite, statsig, storage3, strawberry, strenum, strictyaml, supabase, supabase_auth, supabase_functions, tabulate, tenacity, tensorflow, thread, thrift, tiktoken, tiktoken_ext, together, toml, tomli, tornado, tqdm, trio, trytond, twisted, typeguard, typer, typeshed, typing_extensions, typing_inspection, ujson, ulid, urllib2, urllib3, urllib3_secure_extra, urlparse, user_data, uvicorn, uvloop, uwsgi, watchfiles, wcwidth, webob, websockets, werkzeug, winloop, wmi, wsproto, xai_sdk, xmlrpclib, yaml, yarl, zipp, zope, zstandard
-**Internal modules:** agent_runners.research, agents, agents._utils, agents.cache, agents.definition, agents.exceptions, agents.manager, agents.resolver, agents.run, agents.run_internal, agents.tool, agents.types, agents.util, agents.variables, agents.version, app.config, app.core, app.dependencies, app.middleware, app.models, app.routers, config, config.extra_config, config.finish_reason, config.media_config, config.unified_config, config.usage_config, context.app_context, context.console_emitter, context.emitter_protocol, context.events, context.stream_emitter, db.custom, db.managers, db.models, instructions.core, instructions.matrx_fetcher, instructions.pattern_parser, instructions.tests, media, media.audio, orchestrator, orchestrator.executor, orchestrator.requests, orchestrator.tracking, processing.audio, providers, providers.anthropic, providers.cerebras, providers.errors, providers.google, providers.groq, providers.openai, providers.together, providers.unified_client, providers.xai, shared.json_utils, shared.supabase_client, tests.ai, tools, tools.arg_models, tools.browser_sessions, tools.external_mcp, tools.handle_tool_calls, tools.implementations, tools.models, tools.output_models, tools.registry, tools.streaming, tools.tools_db, utils.cache, utils.code_context
+**External packages:** AppKit, BeautifulSoup, ConfigParser, Cython, Foundation, HTMLParser, IPython, MySQLdb, OpenSSL, PIL, PyInstaller, PyQt4, PyQt5, PyQt6, PySide6, Queue, StringIO, UnleashClient, UserDict, __builtin__, __main__, __pypy__, _abcoll, _cffi_backend, _dummy_thread, _manylinux, _pytest, _registry, _ruamel_yaml, _testbuffer, _typeshed, _winreg, a2wsgi, acres, adbc_driver_manager, adbc_driver_postgresql, adbc_driver_sqlite, adlfs, aidream, aiocontextvars, aiodns, aiohappyeyeballs, aiohttp, aioquic, aiosignal, android, annotated_doc, annotated_types, annotationlib, anthropic, anyio, apache_beam, api_management, argcomplete, ariadne, arq, array_api_compat, array_api_strict, array_interface_testing, asttokens, async_timeout, asyncpg, attr, awscrt, azure, backports, bcrypt, berkeleydb, bids, billiard, blinker, blobfile, bodo, boto, boto3, botocore, bottle, brotli, brotlicffi, bs4, bson, cStringIO, ca_certs_locater, cachetools, celery, cerebras, certifi, cffi, cfflib, cgi, chalice, channels, chardet, charset_normalizer, checks, ci, ci_info, click, clickhouse_driver, client, cmp, code_generators, cohere, colorama, commandline, common, compiler, compression, configobj, copy_reg, cron_converter, cryptography, cssselect, ctags, cupy, cupyx, curio, cviewer, cycler, cython, daft, dask, datalad, dateutil, dcmstack, defusedxml, deprecation, dipy, distributed, distro, distutils, django, dns, docstring_parser, docutils, dotenv, dramatiq, duckdb, duecredit, dummy_thread, dummy_threading, email_validator, etelemetry, eval_type_backport, eventlet, exceptiongroup, executing, falcon, fastapi, fastapi_cli, fastapi_cloud_cli, fastapi_new, fastar, fastmcp, fastparquet, fb303, filelock, fitz, flask, flask_login, frontend, frozenlist, fsspec, fuse, gcsfs, gevent, git, gitdb, gitdb_speedups, google, gql, graph_tool, graphene, graphql, graphutils, greenlet, groq, grpc, grpc_health, grpc_reflection, grpc_tools, gunicorn, h11, h2, h5py, hive_metastore, hpack, html5lib, html5rdf, htmlentitydefs, httpcore, httplib, httplib2, httptools, httpx, httpx_aiohttp, huey, huggingface_hub, hyperframe, hypothesis, idna, imp, importlib_metadata, importlib_resources, indexed_gzip, inflect, iniconfig, initialize_systems, ipyparallel, ipywidgets, isal, isodate, itsdangerous, java, jax, jinja, jinja2, jiter, jmespath, jnius, js, jwt, keras, kerchunk, keyring, kombu, langchain, langchain_aws, langchain_classic, langchain_cohere, langchain_core, langchain_google_vertexai, langchain_huggingface, langchain_mistralai, langchain_ollama, langchain_openai, langgraph, ldclient, libarchive, limited_api1, limited_api2, limited_api_latest, linkify_it, litellm, litestar, loguru, looseversion, lxml, lxml_html_clean, lz4, lzmaffi, markdown_it, markupsafe, matplotlib, matrix, matrx_orm, matrx_utils, mcp, mdurl, mem_policy, memory_profiler, mmh3, more_itertools, mpl_toolkits, mpmath, multidict, multipart, mypy, mypy_boto3_dynamodb, mypy_boto3_glue, mypy_boto3_s3, mypy_boto3_secretsmanager, ndonnx, networkx, nibabel, niflow, nilearn, nipy, nipype, nitime, nodejs_wheel, ntlm, numba, numexpr, numpy, numpy_distutils, oauth2client, odf, olefile, openai, openfeature, openpyxl, opentelemetry, ordereddict, orjson, outcome, packaging, pandas, panel, paramiko, pendulum, pexpect, phonenumbers, pip, pipes, pkg_resources, platformdirs, playwright, pluggy, polars, pooch, postgrest, pptx, prompts, propcache, prov, psutil, psycopg, psycopg_binary, psycopg_c, psycopg_pool, pure_eval, puremagic, py, py4j, pyarrow, pyasn1, pyasn1_modules, pycountry, pycparser, pydantic, pydantic_ai, pydantic_core, pydantic_settings, pydicom, pydoctor, pydot, pygit2, pygments, pygraphviz, pyiceberg, pyiceberg_core, pylab, pymongo, pyodide, pyparsing, pyramid, pyroaring, pyspark, pytesseract, pytest, pytest_fail_slow, pytest_run_parallel, pytest_timeout, python_calamine, python_multipart, python_socks, pythoncom, pytz, pyu2f, pyxlsb, pyxnat, pyzstd, qtpy, quart, quart_auth, railroad, ray, rb, rdflib, realtime, redbeat, redis, rediscluster, regex, requests, requests_kerberos, rest_framework, rich, rich_toolkit, rignore, roistats, rq, rsa, ruamel, s3fs, s3transfer, sanic, scikits, scipy, scipy_doctest, scraper, seaborn, semver, sentencepiece, sentry_sdk, seo, sessionmirror, setup_project, setuptools, sha, shapely, shellingham, simplejson, six, sklearn, sksparse, slack_sdk, smbclient, smbprotocol, smmap, snappy, sniffio, socks, socksio, soma, sounddevice, sparse, sphinx, sqlalchemy, src, sse_starlette, starlette, starlite, statsig, storage3, strawberry, strenum, strictyaml, supabase, supabase_auth, supabase_functions, sympy, tables, tabula, tabulate, tenacity, tensorflow, test, thread, threadpoolctl, thrift, tiktoken, tiktoken_ext, together, toml, tomli, torch, tornado, tqdm, traitlets, traits, traitsui, trio, trytond, tvtk, twisted, typeguard, typer, typeshed, typing_extensions, typing_inspection, uarray, ujson, ulid, urllib2, urllib3, urllib3_secure_extra, urlparse, user_data, uvicorn, uvloop, uwsgi, vtk, watchfiles, wcwidth, webob, websockets, werkzeug, win32com, win32pdh, winloop, wmi, wsproto, xai_sdk, xdist, xlrd, xlsxwriter, xmlrpclib, xvfbwrapper, yaml, yarl, zipp, zope, zstandard
+**Internal modules:** agent_runners.research, agents, agents._utils, agents.cache, agents.definition, agents.exceptions, agents.manager, agents.resolver, agents.run, agents.run_internal, agents.tool, agents.types, agents.util, agents.variables, agents.version, app.config, app.core, app.dependencies, app.middleware, app.models, app.routers, config, config.extra_config, config.finish_reason, config.media_config, config.message_config, config.unified_config, config.usage_config, context.app_context, context.console_emitter, context.emitter_protocol, context.events, context.stream_emitter, db.custom, db.managers, db.models, instructions.core, instructions.matrx_fetcher, instructions.pattern_parser, instructions.tests, media, media.audio, orchestrator, orchestrator.executor, orchestrator.requests, orchestrator.tracking, processing.audio, providers, providers.anthropic, providers.cerebras, providers.errors, providers.google, providers.groq, providers.openai, providers.together, providers.unified_client, providers.xai, tests.ai, tools, tools.arg_models, tools.browser_sessions, tools.external_mcp, tools.handle_tool_calls, tools.implementations, tools.models, tools.output_models, tools.registry, tools.streaming, tools.tools_db, utils.cache, utils.code_context
 <!-- /AUTO:dependencies -->
 
 <!-- AUTO:config -->

@@ -10,6 +10,8 @@ import dotenv
 import rich
 from matrx_utils import cleanup_async_resources, clear_terminal, to_matrx_json, vcprint
 
+from orchestrator import CompletedRequest
+
 dotenv.load_dotenv()
 
 LOCAL_USER_ID = os.getenv("LOCAL_USER_ID")
@@ -62,6 +64,29 @@ def clean_up_response(response):
     return clean_response
 
 
+def save_results(final_result: CompletedRequest):
+    output_file = Path(__file__).parent / "final_response.json"
+    serializable_result = to_matrx_json(final_result)
+    with open(output_file, "w", encoding="utf-8") as f:
+        json.dump(serializable_result, f, indent=4)
+    vcprint(f"\nFinal result saved to: {output_file}", color="blue")
+
+    clean_response = clean_up_response(final_result)
+    output_file = Path(__file__).parent / "clean_response.json"
+    serializable_result = to_matrx_json(clean_response)
+    with open(output_file, "w", encoding="utf-8") as f:
+        json.dump(serializable_result, f, indent=4)
+    vcprint(f"\nClean response saved to: {output_file}", color="blue")
+
+    storage_data = final_result.to_storage_dict()
+    storage_serializable = to_matrx_json(storage_data)
+    output_file = Path(__file__).parent / "cx_storage_response.json"
+    with open(output_file, "w", encoding="utf-8") as f:
+        json.dump(storage_serializable, f, indent=4)
+    vcprint(f"\nCX storage format saved to: {output_file}", color="blue")
+
+
+
 # ============================================================================
 # EXAMPLE USAGE
 # ============================================================================
@@ -69,6 +94,7 @@ def clean_up_response(response):
 
 if __name__ == "__main__":
     clear_terminal()
+    from tests.ai.test_context import get_test_conversation_id
 
     # test_user_id = get_test_user_id()
     # test_conversation_id = str(uuid.uuid4())
@@ -441,36 +467,11 @@ if __name__ == "__main__":
     new_conversation = True
     # settings_to_use["debug"] = True
 
-    # Run autonomous execution that handles all tool calls automatically
-    # final_result = asyncio.run(
-    #     test_autonomous_execution(settings_to_use, emitter)
-    # )
-
-    from tests.ai.test_context import get_test_conversation_id
 
     async def run():
         conversation_id = get_test_conversation_id()
-        final_result = await test_autonomous_execution(settings_to_use["config"], conversation_id, new_conversation=new_conversation, debug=False)
-
-        output_file = Path(__file__).parent / "final_response.json"
-        serializable_result = to_matrx_json(final_result)
-        with open(output_file, "w") as f:  # noqa: ASYNC230
-            json.dump(serializable_result, f, indent=4)
-        vcprint(f"\nFinal result saved to: {output_file}", color="blue")
-
-        clean_response = clean_up_response(final_result)
-        output_file = Path(__file__).parent / "clean_response.json"
-        serializable_result = to_matrx_json(clean_response)
-        with open(output_file, "w") as f:  # noqa: ASYNC230
-            json.dump(serializable_result, f, indent=4)
-        vcprint(f"\nClean response saved to: {output_file}", color="blue")
-
-        storage_data = final_result.to_storage_dict()
-        storage_serializable = to_matrx_json(storage_data)
-        output_file = Path(__file__).parent / "cx_storage_response.json"
-        with open(output_file, "w") as f:  # noqa: ASYNC230
-            json.dump(storage_serializable, f, indent=4)
-        vcprint(f"\nCX storage format saved to: {output_file}", color="blue")
-
+        final_result: CompletedRequest = await test_autonomous_execution(settings_to_use["config"], conversation_id, new_conversation=new_conversation, debug=False)
+        save_results(final_result)
+        
     asyncio.run(run())
     cleanup_async_resources()

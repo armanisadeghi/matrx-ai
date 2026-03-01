@@ -40,10 +40,9 @@ from contextvars import Token
 from uuid import uuid4
 
 from context.app_context import AppContext, set_app_context
-from context.emitter_protocol import Emitter
 from context.console_emitter import ConsoleEmitter
+from context.emitter_protocol import Emitter
 from tools.models import ToolContext
-
 
 # ---------------------------------------------------------------------------
 # Environment helpers — always raise on missing or invalid values

@@ -4,6 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["."]
+include = ["matrx_ai*"]
 exclude = [".venv*", "*.egg-info*"]
 
 [project]
@@ -13,15 +14,10 @@ description = "Matrx AI — core FastAPI backend for AI integrations"
 requires-python = ">=3.13"
 
 dependencies = [
-    # --- Web framework & server ---
-    "fastapi[standard]>=0.115.0",
-    "uvicorn[standard]>=0.34.0",
-    "uvloop>=0.21.0",
+    # --- Core HTTP & validation ---
     "pydantic>=2.10.0",
     "pydantic-settings>=2.7.0",
-    "sse-starlette>=2.2.0",
     "httpx>=0.28.0",
-    "orjson>=3.10.0",
     "python-dotenv>=1.0.0",
     # --- AI providers ---
     "anthropic",
@@ -36,7 +32,7 @@ dependencies = [
     # --- Matrx ecosystem ---
     "matrx-utils>=1.0.9",
     "matrx-orm>=2.0.37",
-    # --- Utilities used by ai module ---
+    # --- Utilities ---
     "rich",
     "tiktoken",
     "aiofiles",
@@ -44,6 +40,13 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+server = [
+    "fastapi[standard]>=0.115.0",
+    "uvicorn[standard]>=0.34.0",
+    "uvloop>=0.21.0",
+    "sse-starlette>=2.2.0",
+    "orjson>=3.10.0",
+]
 dev = [
     "ruff>=0.9.0",
     "pyright>=1.1.0",
@@ -51,6 +54,9 @@ dev = [
     "pytest-asyncio>=0.25.0",
     "httpx>=0.28.0",
 ]
+
+[project.scripts]
+matrx-ai-server = "matrx_ai.app.main:start"
 
 [dependency-groups]
 dev = [

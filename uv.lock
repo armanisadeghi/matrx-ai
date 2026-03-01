@@ -1283,25 +1283,20 @@ dependencies = [
     { name = "aiofiles" },
     { name = "anthropic" },
     { name = "cerebras-cloud-sdk" },
-    { name = "fastapi", extra = ["standard"] },
     { name = "google-genai" },
     { name = "groq" },
     { name = "httpx" },
     { name = "matrx-orm" },
     { name = "matrx-utils" },
     { name = "openai" },
-    { name = "orjson" },
     { name = "pip" },
     { name = "pydantic" },
     { name = "pydantic-settings" },
     { name = "python-dotenv" },
     { name = "rich" },
-    { name = "sse-starlette" },
     { name = "supabase" },
     { name = "tiktoken" },
     { name = "together" },
-    { name = "uvicorn", extra = ["standard"] },
-    { name = "uvloop" },
     { name = "xai-sdk" },
 ]
 
@@ -1312,6 +1307,13 @@ dev = [
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "ruff" },
+]
+server = [
+    { name = "fastapi", extra = ["standard"] },
+    { name = "orjson" },
+    { name = "sse-starlette" },
+    { name = "uvicorn", extra = ["standard"] },
+    { name = "uvloop" },
 ]
 
 [package.dev-dependencies]
@@ -1327,7 +1329,7 @@ requires-dist = [
     { name = "aiofiles" },
     { name = "anthropic" },
     { name = "cerebras-cloud-sdk" },
-    { name = "fastapi", extras = ["standard"], specifier = ">=0.115.0" },
+    { name = "fastapi", extras = ["standard"], marker = "extra == 'server'", specifier = ">=0.115.0" },
     { name = "google-genai" },
     { name = "groq" },
     { name = "httpx", specifier = ">=0.28.0" },
@@ -1335,7 +1337,7 @@ requires-dist = [
     { name = "matrx-orm", specifier = ">=2.0.37" },
     { name = "matrx-utils", specifier = ">=1.0.9" },
     { name = "openai" },
-    { name = "orjson", specifier = ">=3.10.0" },
+    { name = "orjson", marker = "extra == 'server'", specifier = ">=3.10.0" },
     { name = "pip", specifier = ">=26.0.1" },
     { name = "pydantic", specifier = ">=2.10.0" },
     { name = "pydantic-settings", specifier = ">=2.7.0" },
@@ -1345,15 +1347,15 @@ requires-dist = [
     { name = "python-dotenv", specifier = ">=1.0.0" },
     { name = "rich" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.9.0" },
-    { name = "sse-starlette", specifier = ">=2.2.0" },
+    { name = "sse-starlette", marker = "extra == 'server'", specifier = ">=2.2.0" },
     { name = "supabase" },
     { name = "tiktoken" },
     { name = "together" },
-    { name = "uvicorn", extras = ["standard"], specifier = ">=0.34.0" },
-    { name = "uvloop", specifier = ">=0.21.0" },
+    { name = "uvicorn", extras = ["standard"], marker = "extra == 'server'", specifier = ">=0.34.0" },
+    { name = "uvloop", marker = "extra == 'server'", specifier = ">=0.21.0" },
     { name = "xai-sdk" },
 ]
-provides-extras = ["dev"]
+provides-extras = ["server", "dev"]
 
 [package.metadata.requires-dev]
 dev = [
