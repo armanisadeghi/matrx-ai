@@ -4,7 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from matrx_orm import BaseDTO, BaseManager, ModelView
+from matrx_orm import AllRelatedResults, BaseDTO, BaseManager, ModelView
 from matrx_utils import vcprint
 
 from db.models import CxConversation
@@ -118,7 +118,7 @@ class CxConversationBase(BaseManager[CxConversation]):
     async def delete_cx_conversation(self, id: Any) -> bool:
         return await self.delete_item(id)
 
-    async def get_cx_conversation_with_all_related(self, id: Any) -> tuple[CxConversation, Any]:
+    async def get_cx_conversation_with_all_related(self, id: Any) -> tuple[CxConversation, AllRelatedResults]:
         return await self.get_item_with_all_related(id)
 
     async def load_cx_conversation_by_id(self, id: Any) -> CxConversation:

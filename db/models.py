@@ -511,7 +511,7 @@ class PromptBuiltinsManager(BaseManager):
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, prompt_builtins):
+    async def _initialize_runtime_data(self, item: PromptBuiltins) -> None:
         pass
     
 
@@ -532,7 +532,7 @@ class TableDataManager(BaseManager):
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, table_data):
+    async def _initialize_runtime_data(self, item: TableData) -> None:
         pass
     
 
@@ -553,7 +553,7 @@ class CxConversationManager(BaseManager):
     def _initialize_manager(self):
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, cx_conversation):
+    async def _initialize_runtime_data(self, item: CxConversation) -> None:
         pass
     
 

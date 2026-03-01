@@ -1,34 +1,39 @@
+from __future__ import annotations
+
 from typing import Any
+
+from matrx_utils import vcprint
+
+from config.unified_config import UnifiedConfig
 from db.managers.cx_agent_memory import CxAgentMemoryBase
+from db.managers.cx_conversation import CxConversationBase
+from db.managers.cx_media import CxMediaBase
+from db.managers.cx_message import CxMessageBase
 from db.managers.cx_request import CxRequestBase
 from db.managers.cx_tool_call import CxToolCallBase
 from db.managers.cx_user_request import CxUserRequestBase
-from db.managers.cx_message import CxMessageBase
-from db.managers.cx_media import CxMediaBase
-from db.managers.cx_conversation import CxConversationBase
-from config.unified_config import UnifiedConfig
-from matrx_utils import vcprint
 from db.models import (
-    CxMessage,
-    CxToolCall,
-    CxMedia,
-    CxUserRequest,
-    CxRequest,
     CxAgentMemory,
     CxConversation,
+    CxMedia,
+    CxMessage,
+    CxRequest,
+    CxToolCall,
+    CxUserRequest,
 )
+
 from .conversation_rebuild import rebuild_conversation_messages
 
 
 class CxToolCallManager(CxToolCallBase):
-    _instance = None
+    _instance: CxToolCallManager | None = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: Any, **kwargs: Any) -> CxToolCallManager:
         if cls._instance is None:
-            cls._instance = super(CxToolCallManager, cls).__new__(cls)
+            cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     async def _initialize_runtime_data(self, item: CxToolCall) -> None:
@@ -36,14 +41,14 @@ class CxToolCallManager(CxToolCallBase):
 
 
 class CxConversationManager(CxConversationBase):
-    _instance = None
+    _instance: CxConversationManager | None = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: Any, **kwargs: Any) -> CxConversationManager:
         if cls._instance is None:
-            cls._instance = super(CxConversationManager, cls).__new__(cls)
+            cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     async def _initialize_runtime_data(self, item: CxConversation) -> None:
@@ -51,14 +56,14 @@ class CxConversationManager(CxConversationBase):
 
 
 class CxMediaManager(CxMediaBase):
-    _instance = None
+    _instance: CxMediaManager | None = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: Any, **kwargs: Any) -> CxMediaManager:
         if cls._instance is None:
-            cls._instance = super(CxMediaManager, cls).__new__(cls)
+            cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     async def _initialize_runtime_data(self, item: CxMedia) -> None:
@@ -66,14 +71,14 @@ class CxMediaManager(CxMediaBase):
 
 
 class CxMessageManager(CxMessageBase):
-    _instance = None
+    _instance: CxMessageManager | None = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: Any, **kwargs: Any) -> CxMessageManager:
         if cls._instance is None:
-            cls._instance = super(CxMessageManager, cls).__new__(cls)
+            cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     async def _initialize_runtime_data(self, item: CxMessage) -> None:
@@ -81,14 +86,14 @@ class CxMessageManager(CxMessageBase):
 
 
 class CxUserRequestManager(CxUserRequestBase):
-    _instance = None
+    _instance: CxUserRequestManager | None = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: Any, **kwargs: Any) -> CxUserRequestManager:
         if cls._instance is None:
-            cls._instance = super(CxUserRequestManager, cls).__new__(cls)
+            cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     async def _initialize_runtime_data(self, item: CxUserRequest) -> None:
@@ -96,14 +101,14 @@ class CxUserRequestManager(CxUserRequestBase):
 
 
 class CxRequestManager(CxRequestBase):
-    _instance = None
+    _instance: CxRequestManager | None = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: Any, **kwargs: Any) -> CxRequestManager:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     async def _initialize_runtime_data(self, item: CxRequest) -> None:
@@ -111,14 +116,14 @@ class CxRequestManager(CxRequestBase):
 
 
 class CxAgentMemoryManager(CxAgentMemoryBase):
-    _instance = None
+    _instance: CxAgentMemoryManager | None = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: Any, **kwargs: Any) -> CxAgentMemoryManager:
         if cls._instance is None:
-            cls._instance = super(CxAgentMemoryManager, cls).__new__(cls)
+            cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     async def _initialize_runtime_data(self, item: CxAgentMemory) -> None:
@@ -135,14 +140,14 @@ cx_tool_call_manager_instance = CxToolCallManager()
 
 
 class CxManagers:
-    _instance = None
+    _instance: CxManagers | None = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: Any, **kwargs: Any) -> CxManagers:
         if cls._instance is None:
-            cls._instance = super(CxManagers, cls).__new__(cls)
+            cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.conversation: CxConversationManager = cx_conversation_manager_instance
         self.message: CxMessageManager = cx_message_manager_instance
         self.tool_call: CxToolCallManager = cx_tool_call_manager_instance
@@ -152,18 +157,20 @@ class CxManagers:
         self.agent_memory: CxAgentMemoryManager = cx_agent_memory_manager_instance
 
     async def get_conversation_data(self, conversation_id: str) -> dict[str, Any]:
-        all_data = await self.conversation.get_cx_conversation_with_all_related(
+        item, all_related = await self.conversation.get_cx_conversation_with_all_related(
             conversation_id
         )
-        vcprint(all_data, "[CX MANAGERS] All Data", color="cyan")
-        conversation = all_data[0]
-        foreign_keys = all_data[1]["foreign_keys"]
-        inverse_fks = all_data[1]["inverse_foreign_keys"]
-        user_requests = inverse_fks["cx_user_request"]
-        requests = inverse_fks["cx_request"]
-        messages = inverse_fks["cx_message"]
-        tool_calls = inverse_fks["cx_tool_call"]
-        media = inverse_fks["cx_media"]
+        # vcprint(item, "[CX MANAGERS] Item", color="green")
+        # vcprint(all_related, "[CX MANAGERS] All Related", color="cyan")
+        conversation = item
+        foreign_keys = all_related.foreign_keys
+        inverse_fks = all_related.inverse_foreign_keys
+        
+        user_requests = inverse_fks.get("cx_user_request", [])
+        requests = inverse_fks.get("cx_request", [])
+        messages = inverse_fks.get("cx_message", [])
+        tool_calls = inverse_fks.get("cx_tool_call", [])
+        media = inverse_fks.get("cx_media", [])
 
         return {
             "conversation": conversation,
@@ -184,13 +191,13 @@ class CxManagers:
         messages_rebuilt = await rebuild_conversation_messages(
             messages, tool_calls, media
         )
-        vcprint(messages_rebuilt, "[CX MANAGERS] Messages Rebuilt", color="green")
+        # vcprint(messages_rebuilt, "[CX MANAGERS] Messages Rebuilt", color="green")
 
         config_dict = {
             "model": conversation.ai_model_id,
             "system_instruction": conversation.system_instruction,
             "messages": messages_rebuilt,
-            **conversation.config,
+            **(conversation.config or {}),
         }
 
         unified_config = UnifiedConfig.from_dict(config_dict)
@@ -203,7 +210,7 @@ class CxManagers:
     ) -> UnifiedConfig:
         conversation_data = await self.get_conversation_data(conversation_id)
 
-        vcprint(conversation_data, "[CX MANAGERS] Conversation Data", color="cyan")
+        # vcprint(conversation_data, "[CX MANAGERS] Conversation Data", color="cyan")
         conversation: CxConversation = conversation_data["conversation"]
         messages: list[CxMessage] = conversation_data["messages"]
         tool_calls: list[CxToolCall] = conversation_data["tool_calls"]
@@ -217,7 +224,7 @@ class CxManagers:
             "model": conversation.ai_model_id,
             "system_instruction": conversation.system_instruction,
             "messages": messages_rebuilt,
-            **conversation.config,
+            **(conversation.config or {}),
         }
 
         return UnifiedConfig.from_dict(config_dict)

@@ -5,7 +5,7 @@ content (when saved by the new tool system). This module joins cx_tool_call
 rows to rebuild the full ToolResultContent objects.
 
 Usage:
-    from db.custom import rebuild_conversation_messages
+    from ai.db import rebuild_conversation_messages
 
     messages = await rebuild_conversation_messages(conversation_id)
 """
@@ -14,11 +14,11 @@ from __future__ import annotations
 
 from typing import Any
 
-from config.unified_config import UnifiedMessage
+from config.message_config import UnifiedMessage
 from db.models import (
+    CxMedia,
     CxMessage,
     CxToolCall,
-    CxMedia,
 )
 
 
@@ -70,7 +70,7 @@ async def rebuild_conversation_messages(
 ) -> list[CxMessage]:
     ordered_messages = sorted(raw_messages, key=lambda x: x.position)
 
-    tool_call_map: dict[str, list[CxToolCall]] = await _map_tool_calls_to_messages(
+    tool_call_map: dict[str, list[dict[str, Any]]] = await _map_tool_calls_to_messages(
         ordered_messages,
         tool_calls,
     )

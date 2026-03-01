@@ -34,13 +34,13 @@ dependencies = [
     # --- Supabase & database ---
     "supabase",
     # --- Matrx ecosystem ---
-    "matrx-utils>=1.0.5",
+    "matrx-utils>=1.0.9",
+    "matrx-orm>=2.0.37",
     # --- Utilities used by ai module ---
     "rich",
     "tiktoken",
     "aiofiles",
     "pip>=26.0.1",
-    "matrx-orm>=2.0.35",
 ]
 
 [project.optional-dependencies]
