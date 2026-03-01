@@ -11,8 +11,19 @@ Key design decisions:
 
 import logging
 import logging.config
+import sys
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
+
+# ---------------------------------------------------------------------------
+# Unbuffered I/O — must happen before anything else, including uvicorn.
+# Forces every print() and sys.stderr.write() to flush immediately, even
+# through uvicorn's reloader subprocess, Docker log drivers, and WSL pipes.
+# ---------------------------------------------------------------------------
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(line_buffering=True)  # type: ignore[attr-defined]
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(line_buffering=True)  # type: ignore[attr-defined]
 
 import uvloop
 from fastapi import APIRouter, Depends, FastAPI
@@ -24,7 +35,7 @@ from app.config import get_settings
 from app.core.exceptions import MatrxException, matrx_exception_handler, unhandled_exception_handler
 from app.core.middleware import RequestContextMiddleware
 from app.core.sentry import init_sentry
-from app.dependencies.auth import require_admin, require_authenticated, require_guest_or_above
+from app.dependencies.auth import require_authenticated, require_guest_or_above
 from app.middleware.auth import AuthMiddleware
 from app.routers import agent, chat, conversation, health, tool
 
@@ -33,13 +44,20 @@ from app.routers import agent, chat, conversation, health, tool
 init_sentry()
 
 # ---------------------------------------------------------------------------
-# Logging
+# Logging — full takeover.
+#
+# uvicorn CLI installs its own handlers before our code runs. We must:
+#   1. disable_existing_loggers=True  — kill every handler uvicorn already set
+#   2. Re-add our StreamHandler to root so everything propagates to it
+#   3. Explicitly re-configure uvicorn's loggers so they don't duplicate
+#   4. Write directly to sys.stderr (not stdout) so it is never buffered
+#      by a pipe that only flushes on newlines
 # ---------------------------------------------------------------------------
 
 logging.config.dictConfig(
     {
         "version": 1,
-        "disable_existing_loggers": False,
+        "disable_existing_loggers": True,
         "formatters": {
             "default": {
                 "format": "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
@@ -47,15 +65,19 @@ logging.config.dictConfig(
             }
         },
         "handlers": {
-            "console": {
+            "stderr": {
                 "class": "logging.StreamHandler",
+                "stream": "ext://sys.stderr",
                 "formatter": "default",
             }
         },
-        "root": {"level": "INFO", "handlers": ["console"]},
+        "root": {"level": "DEBUG", "handlers": ["stderr"]},
         "loggers": {
-            "uvicorn": {"propagate": True},
-            "app": {"level": "DEBUG", "propagate": True},
+            "uvicorn": {"level": "WARNING", "propagate": True, "handlers": []},
+            "uvicorn.error": {"level": "WARNING", "propagate": True, "handlers": []},
+            "uvicorn.access": {"level": "WARNING", "propagate": True, "handlers": []},
+            "app": {"level": "DEBUG", "propagate": True, "handlers": []},
+            "fastapi": {"level": "DEBUG", "propagate": True, "handlers": []},
         },
     }
 )
@@ -138,14 +160,28 @@ def create_app() -> FastAPI:
     app.openapi = custom_openapi
 
     # --- Middleware ---
-    # Last added = outermost (runs first on request).
-    # Execution order: CORS → RequestContext → Auth → handler
+    # Starlette wraps in reverse add order: last added = outermost = first to run.
+    # Required execution order (outermost → innermost):
+    #   CORS → RequestContext → Auth → handler
+    # So we add them in reverse: Auth first, CORS last.
+    #
+    # CORS MUST be outermost. If any inner middleware (Auth) runs before CORS,
+    # OPTIONS preflight requests (which carry no auth headers) are rejected
+    # before CORS can respond with the required preflight headers.
+
     app.add_middleware(AuthMiddleware)
     app.add_middleware(RequestContextMiddleware)
+
+    # In development, allow all origins so preflight requests from any
+    # localhost port or dev tool are never blocked.
+    cors_origins = (
+        ["*"] if settings.environment in ("development", "dev", "local")
+        else settings.allowed_origins
+    )
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.allowed_origins,
-        allow_credentials=True,
+        allow_origins=cors_origins,
+        allow_credentials=cors_origins != ["*"],  # credentials forbidden with wildcard
         allow_methods=["*"],
         allow_headers=["*"],
         expose_headers=["X-Request-ID", "X-Conversation-ID"],

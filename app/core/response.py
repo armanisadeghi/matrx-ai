@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import asyncio
 import json
+import sys
+import traceback
 from collections.abc import Awaitable, Callable
 from typing import Any
 
@@ -60,12 +62,20 @@ def create_streaming_response(
             try:
                 await task_fn(emitter, *task_args)
             except asyncio.CancelledError:
+                print(
+                    f"\n[{debug_label}] Task cancelled (client disconnected)",
+                    file=sys.stderr, flush=True,
+                )
                 vcprint("Task cancelled (client disconnected)", f"[{debug_label}]", color="yellow")
             except Exception as e:
-                import traceback
-                tb_str = traceback.format_exc()
-                vcprint(str(e), f"[{debug_label}] Task error", color="red")
-                print(tb_str)
+                tb = traceback.format_exc()
+                # Write directly to stderr — bypasses all logging infrastructure,
+                # never silenced by uvicorn log config or level filters.
+                print(
+                    f"\n[{debug_label}] TASK CRASHED — {type(e).__name__}: {e}\n{tb}",
+                    file=sys.stderr, flush=True,
+                )
+                vcprint(e, f"[{debug_label}] TASK CRASHED — {type(e).__name__}", color="red")
                 await emitter.fatal_error(
                     error_type=f"{debug_label.lower()}_error",
                     message=str(e),

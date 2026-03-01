@@ -34,7 +34,7 @@ dependencies = [
     # --- Supabase & database ---
     "supabase",
     # --- Matrx ecosystem ---
-    "matrx-utils>=1.0.4",
+    "matrx-utils>=1.0.5",
     # --- Utilities used by ai module ---
     "rich",
     "tiktoken",

@@ -1,17 +1,58 @@
 from __future__ import annotations
 
 import jwt
-from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
+from matrx_utils import vcprint
 from starlette.requests import Request
-from starlette.responses import Response
+from starlette.types import ASGIApp, Receive, Scope, Send
 
 from app.config import get_settings
 from context.app_context import AppContext, clear_app_context, set_app_context
 
 
-class AuthMiddleware(BaseHTTPMiddleware):
+class AuthMiddleware:
+    """Pure ASGI auth middleware.
 
-    async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
+    BaseHTTPMiddleware buffers the full response body and silently swallows
+    exceptions raised inside streaming async generators. Pure ASGI middleware
+    does neither — it passes scope/receive/send straight through.
+    """
+
+    def __init__(self, app: ASGIApp) -> None:
+        self.app = app
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if scope["type"] not in ("http", "websocket"):
+            await self.app(scope, receive, send)
+            return
+
+        request = Request(scope, receive)
+
+        raw_auth: str | None = request.headers.get("authorization")
+        redacted_auth: str | None = None
+        if raw_auth:
+            parts = raw_auth.split(None, 1)
+            if len(parts) == 2:
+                scheme, tok = parts
+                redacted_auth = f"{scheme} {tok[:6]}…{tok[-4:]}" if len(tok) > 10 else f"{scheme} [redacted]"
+            else:
+                redacted_auth = "[redacted]"
+
+        vcprint(
+            {
+                "method": request.method,
+                "path": request.url.path,
+                "query": str(request.url.query) or None,
+                "client": request.client.host if request.client else None,
+                "user_agent": request.headers.get("user-agent"),
+                "authorization": redacted_auth,
+                "fingerprint_id": request.headers.get("x-fingerprint-id"),
+                "content_type": request.headers.get("content-type"),
+                "content_length": request.headers.get("content-length"),
+            },
+            "[AuthMiddleware] __call__ Request Received",
+            color="blue",
+        )
+
         ctx = _build_context(request)
 
         # For router handlers — context_dep reads this
@@ -20,7 +61,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
         # For service / AI / tool code — get_app_context() reads this
         token = set_app_context(ctx)
         try:
-            return await call_next(request)
+            await self.app(scope, receive, send)
         finally:
             clear_app_context(token)
 

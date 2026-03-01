@@ -4,10 +4,15 @@ install:
 	uv sync
 
 dev:
-	uv run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --loop uvloop
+	PYTHONUNBUFFERED=1 PYTHONUTF8=1 uv run uvicorn app.main:app \
+		--host 0.0.0.0 --port 8000 \
+		--reload \
+		--loop uvloop \
+		--no-access-log \
+		--log-level warning
 
 run:
-	uv run python -m app.main
+	PYTHONUNBUFFERED=1 PYTHONUTF8=1 uv run python -m app.main
 
 lint:
 	uv run ruff check app tests

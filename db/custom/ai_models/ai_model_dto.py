@@ -2,6 +2,7 @@
 
 import json
 from dataclasses import dataclass
+from smtplib import SMTPConnectError
 
 from matrx_orm import BaseDTO
 from matrx_utils import vcprint
@@ -31,15 +32,14 @@ class AiModelDTO(BaseDTO):
 
     async def _initialize_dto(self, model: AiModel) -> None:
         '''Override to populate DTO fields from the model.'''
-        vcprint(f"[Ai Model DTO] {model.name} initializing...", verbose=verbose, color="green")
+        if model.name and model.name.startswith("claude-sonnet-4-6"):
+            vcprint(model, "[Ai Model DTO] Showing one sample model", color="blue")
+        
         self.id = str(model.id)
         await self._process_core_data(model)
         await self._process_metadata(model)
         await self._initial_validation(model)
         self.initialized = True
-        vcprint(
-            f"[Ai Model DTO] {self.name} initialized---", verbose=verbose, color="green"
-        )
 
     async def _process_core_data(self, ai_model_item: AiModel) -> None:
         """Process core data and compute runtime properties."""

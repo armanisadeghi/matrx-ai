@@ -1,5 +1,9 @@
+import sys
+import traceback
+
 from fastapi import Request
 from fastapi.responses import ORJSONResponse
+from matrx_utils import vcprint
 
 
 class MatrxException(Exception):
@@ -43,6 +47,20 @@ class StreamingError(MatrxException):
 
 
 async def matrx_exception_handler(request: Request, exc: MatrxException) -> ORJSONResponse:
+    # Print directly to stderr — bypasses all logging infrastructure so this
+    # is never silenced by uvicorn log config, log level filters, or handlers.
+    print(
+        f"\n[MatrxException] {request.method} {request.url.path}"
+        f"\n  status={exc.status_code}  message={exc.message}"
+        f"\n  detail={exc.detail}",
+        file=sys.stderr,
+        flush=True,
+    )
+    vcprint(
+        {"status_code": exc.status_code, "message": exc.message, "detail": exc.detail, "path": str(request.url.path)},
+        f"[Exception] {request.method} {request.url.path}",
+        color="red",
+    )
     return ORJSONResponse(
         status_code=exc.status_code,
         content={
@@ -54,11 +72,25 @@ async def matrx_exception_handler(request: Request, exc: MatrxException) -> ORJS
 
 
 async def unhandled_exception_handler(request: Request, exc: Exception) -> ORJSONResponse:
+    tb = traceback.format_exc()
+    # Print directly to stderr — bypasses all logging infrastructure.
+    print(
+        f"\n[UNHANDLED EXCEPTION] {request.method} {request.url.path}"
+        f"\n  {type(exc).__name__}: {exc}"
+        f"\n{tb}",
+        file=sys.stderr,
+        flush=True,
+    )
+    vcprint(
+        tb,
+        f"[Unhandled Exception] {request.method} {request.url.path} | {type(exc).__name__}: {exc}",
+        color="red",
+    )
     return ORJSONResponse(
         status_code=500,
         content={
             "error": "Internal server error",
-            "detail": {"type": type(exc).__name__},
+            "detail": {"type": type(exc).__name__, "message": str(exc)},
             "path": str(request.url.path),
         },
     )

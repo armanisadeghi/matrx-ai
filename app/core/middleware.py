@@ -1,36 +1,58 @@
 import logging
 import time
 import uuid
-from collections.abc import Awaitable, Callable
+from typing import Any
 
-from fastapi import Request, Response
-from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.types import ASGIApp, Receive, Scope, Send
 
 logger = logging.getLogger(__name__)
 
 
-class RequestContextMiddleware(BaseHTTPMiddleware):
-    """Attaches a unique request ID and logs request/response metadata."""
+class RequestContextMiddleware:
+    """Attaches a unique request ID and logs request/response metadata.
 
-    async def dispatch(
-        self, request: Request, call_next: Callable[[Request], Awaitable[Response]]
-    ) -> Response:
+    Implemented as a pure ASGI middleware (not BaseHTTPMiddleware) so that
+    streaming responses are never buffered and exceptions inside async
+    generators are never swallowed.
+    """
+
+    def __init__(self, app: ASGIApp) -> None:
+        self.app = app
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if scope["type"] not in ("http", "websocket"):
+            await self.app(scope, receive, send)
+            return
+
         request_id = str(uuid.uuid4())
-        request.state.request_id = request_id
+        scope.setdefault("state", {})
+        # Starlette stores request.state as scope["state"]
+        if hasattr(scope.get("state"), "__dict__"):
+            scope["state"].request_id = request_id  # type: ignore[union-attr]
+        else:
+            scope["state"]["request_id"] = request_id  # type: ignore[index]
 
         start = time.perf_counter()
-        response = await call_next(request)
-        elapsed_ms = (time.perf_counter() - start) * 1000
+        status_code: int = 0
 
-        response.headers["X-Request-ID"] = request_id
-        response.headers["X-Response-Time-Ms"] = f"{elapsed_ms:.2f}"
+        async def send_with_capture(message: Any) -> None:
+            nonlocal status_code
+            if message["type"] == "http.response.start":
+                status_code = message["status"]
+            await send(message)
 
-        logger.info(
-            "%s %s %s %.2fms id=%s",
-            request.method,
-            request.url.path,
-            response.status_code,
-            elapsed_ms,
-            request_id,
-        )
-        return response
+        try:
+            await self.app(scope, receive, send_with_capture)
+        finally:
+            if scope["type"] == "http":
+                elapsed_ms = (time.perf_counter() - start) * 1000
+                method = scope.get("method", "")
+                path = scope.get("path", "")
+                logger.info(
+                    "%s %s %s %.2fms id=%s",
+                    method,
+                    path,
+                    status_code,
+                    elapsed_ms,
+                    request_id,
+                )

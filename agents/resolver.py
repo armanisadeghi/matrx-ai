@@ -80,13 +80,15 @@ class ConversationResolver:
             )
             try:
                 config = await cxm.get_conversation_unified_config(conversation_id)
+                vcprint(config, "[ConversationResolver] Config loaded", color="green")
             except Exception as exc:
+                traceback.print_exc()
                 tb_str = traceback.format_exc()
                 vcprint(
                     f"[ConversationResolver] DB load FAILED for {conversation_id}\n"
-                    f"  Exception type : {type(exc).__name__}\n"
-                    f"  Exception      : {exc}\n"
-                    f"  Traceback:\n{tb_str}",
+                    f"  - Exception type : {type(exc).__name__}\n"
+                    f"  - Exception      : {exc}\n"
+                    f"  - Traceback:\n{tb_str}",
                     color="red",
                 )
                 raise HTTPException(
