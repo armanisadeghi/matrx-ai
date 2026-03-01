@@ -7,8 +7,8 @@ the prompts and agent modules to avoid circular imports.
 
 from dataclasses import dataclass
 
-from agents.variables import AgentVariable
-from config.unified_config import UnifiedConfig
+from matrx_ai.agents.variables import AgentVariable
+from matrx_ai.config.unified_config import UnifiedConfig
 
 
 @dataclass

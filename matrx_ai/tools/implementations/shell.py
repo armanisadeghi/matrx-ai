@@ -7,8 +7,8 @@ import time
 from pathlib import Path
 from typing import Any
 
-from tools.arg_models.shell_args import ShellExecuteArgs, ShellPythonArgs
-from tools.models import ToolContext, ToolError, ToolResult
+from matrx_ai.tools.arg_models.shell_args import ShellExecuteArgs, ShellPythonArgs
+from matrx_ai.tools.models import ToolContext, ToolError, ToolResult
 
 logger = logging.getLogger(__name__)
 
@@ -83,7 +83,7 @@ async def shell_execute(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
                 process.communicate(),
                 timeout=parsed.timeout_seconds,
             )
-        except asyncio.TimeoutError:
+        except TimeoutError:
             process.kill()
             return ToolResult(
                 success=False,
@@ -157,7 +157,7 @@ async def shell_python(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
                 process.communicate(),
                 timeout=parsed.timeout_seconds,
             )
-        except asyncio.TimeoutError:
+        except TimeoutError:
             process.kill()
             return ToolResult(
                 success=False,

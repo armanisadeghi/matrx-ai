@@ -2,8 +2,8 @@
 AI Media — MIME detection and persistence for AI-generated content.
 
 Usage:
-    from media import detect_mime_type, save_media, fetch_media
-    from media import AIMediaHandler, EXTENSION_MIME_MAP
+    from matrx_ai.media import detect_mime_type, save_media, fetch_media
+    from matrx_ai.media import AIMediaHandler, EXTENSION_MIME_MAP
 """
 
 from .media_persistence import AIMediaHandler, fetch_media, save_media

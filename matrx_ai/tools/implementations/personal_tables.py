@@ -14,7 +14,7 @@ import json
 import traceback
 from typing import Any
 
-from tools.models import ToolContext, ToolError, ToolResult
+from matrx_ai.tools.models import ToolContext, ToolError, ToolResult
 
 # ---------------------------------------------------------------------------
 # Helpers

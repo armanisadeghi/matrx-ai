@@ -1,6 +1,8 @@
 import uuid
-from db.models import ContentBlocks
-from matrx_utils import vcprint, clear_terminal
+
+from matrx_utils import clear_terminal, vcprint
+
+from matrx_ai.db.models import ContentBlocks
 
 
 def is_valid_uuid(value):

@@ -5,10 +5,10 @@ from contextvars import ContextVar, Token
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any, Literal
 
-from fastapi import HTTPException, Request, status
+from fastapi import Request
 
 if TYPE_CHECKING:
-    from context.emitter_protocol import Emitter
+    from matrx_ai.context.emitter_protocol import Emitter
 
 
 @dataclass
@@ -91,6 +91,8 @@ def clear_app_context(token: Token) -> None:
 
 
 def context_dep(request: Request) -> AppContext:
+    from fastapi import HTTPException, status
+
     ctx = getattr(request.state, "context", None)
     if ctx is None:
         raise HTTPException(

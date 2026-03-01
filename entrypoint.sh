@@ -13,4 +13,4 @@ else
 fi
 
 echo "Starting Matrx AI..."
-exec uvicorn app.main:app --host "${HOST:-0.0.0.0}" --port "${PORT:-8000}" --loop uvloop --no-access-log
+exec uvicorn matrx_ai.app.main:app --host "${HOST:-0.0.0.0}" --port "${PORT:-8000}" --loop uvloop --no-access-log

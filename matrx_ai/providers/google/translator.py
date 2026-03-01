@@ -9,7 +9,7 @@ from google.genai.types import (
 )
 from matrx_utils import vcprint
 
-from config import (
+from matrx_ai.config import (
     AudioContent,
     CodeExecutionContent,
     CodeExecutionResultContent,
@@ -28,7 +28,7 @@ from config import (
     VideoContent,
     YouTubeVideoContent,
 )
-from tools.registry import ToolRegistryV2
+from matrx_ai.tools.registry import ToolRegistryV2
 
 # ============================================================================
 # GEMINI TRANSLATOR

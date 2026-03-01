@@ -1,7 +1,8 @@
-from openai import OpenAI
 import json
+
 from dotenv import load_dotenv
-from matrx_utils import vcprint, clear_terminal
+from matrx_utils import clear_terminal, vcprint
+from openai import OpenAI
 
 load_dotenv()
 

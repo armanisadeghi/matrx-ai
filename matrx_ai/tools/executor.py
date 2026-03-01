@@ -9,12 +9,12 @@ from uuid import uuid4
 
 from matrx_utils import vcprint
 
+from .guardrails import GuardrailEngine
+from .lifecycle import ToolLifecycleManager
+from .logger import ToolExecutionLogger
 from .models import ToolContext, ToolDefinition, ToolError, ToolResult, ToolType
 from .registry import ToolRegistryV2
 from .streaming import ToolStreamManager
-from .logger import ToolExecutionLogger
-from .guardrails import GuardrailEngine
-from .lifecycle import ToolLifecycleManager
 
 logger = logging.getLogger(__name__)
 
@@ -159,7 +159,7 @@ class ToolExecutor:
                 self._dispatch(tool_def, arguments, ctx, stream),
                 timeout=tool_def.timeout_seconds,
             )
-        except asyncio.TimeoutError:
+        except TimeoutError:
             result = ToolResult(
                 success=False,
                 error=ToolError(

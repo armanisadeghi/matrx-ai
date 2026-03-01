@@ -1,7 +1,5 @@
 from matrx_utils import clear_terminal, vcprint
 
-
-
 my_object = {
     "name": "my_object",
     "value": 1

@@ -19,7 +19,7 @@ from sentry_sdk.integrations.fastapi import FastApiIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.starlette import StarletteIntegration
 
-from app.config import get_settings
+from matrx_ai.app.config import get_settings
 
 logger = logging.getLogger(__name__)
 

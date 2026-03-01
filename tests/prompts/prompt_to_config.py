@@ -1,19 +1,17 @@
 import asyncio
-from client.unified_client import (
-    UnifiedAIClient,
-    AIMatrixRequest,
-)
 import uuid
-from context.console_emitter import ConsoleEmitter
-from client.ai_requests import execute_until_complete
-from tests.ai.test_context import create_test_execution_context
-from initialize_systems import initialize
-from matrx_utils import vcprint, clear_terminal
-from prompts.manager import pm
-from db.models import Prompts
-from typing import Optional
 
-initialize()
+from matrx_utils import clear_terminal, vcprint
+
+import matrx_ai
+from matrx_ai.agents.manager import pm
+from matrx_ai.db.models import Prompts
+from matrx_ai.orchestrator.executor import execute_until_complete
+from matrx_ai.orchestrator.requests import AIMatrixRequest
+from matrx_ai.providers.unified_client import UnifiedAIClient
+from tests.ai.test_context import create_test_execution_context
+
+matrx_ai.initialize()
 _ctx_token = create_test_execution_context()
 
 
@@ -74,7 +72,7 @@ def replace_variables(prompt: Prompts, variables: dict):
     return updated_messages
 
 
-async def load_and_convert_prompt(prompt_id: str, variables: Optional[dict] = None):
+async def load_and_convert_prompt(prompt_id: str, variables: dict | None = None):
     prompt = await pm.load_prompt(prompt_id)
     vcprint(prompt, "Prompt", color="blue")
     vcprint(variables, "Variables", color="yellow")
@@ -90,7 +88,7 @@ async def load_and_convert_prompt(prompt_id: str, variables: Optional[dict] = No
 
 async def create_conversation_from_prompt(
     prompt_id: str,
-    variables: Optional[dict] = None,
+    variables: dict | None = None,
     debug: bool = False,
 ):
     config = await load_and_convert_prompt(prompt_id, variables)

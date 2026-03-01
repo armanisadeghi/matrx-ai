@@ -18,7 +18,7 @@ from typing import Any
 
 from matrx_utils import vcprint
 
-from config.usage_config import TokenUsage
+from matrx_ai.config.usage_config import TokenUsage
 
 from .executor import ToolExecutor
 from .guardrails import GuardrailEngine
@@ -113,7 +113,7 @@ async def handle_tool_calls_v2(
     iteration: int,
     recursion_depth: int = 0,
     cost_budget_remaining: float | None = None,
-) -> tuple[list[dict[str, Any]], list["TokenUsage"]]:
+) -> tuple[list[dict[str, Any]], list[TokenUsage]]:
     """Execute tool calls using the current ExecutionContext.
 
     All user/emitter/project context is read from the ContextVar.

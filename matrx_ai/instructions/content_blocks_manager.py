@@ -1,8 +1,10 @@
 import uuid
-from matrx_orm import BaseManager
-from db.models import ContentBlocks
-from db.managers.content_blocks import ContentBlocksDTO
 from typing import Any
+
+from matrx_orm import BaseManager
+
+from matrx_ai.db.managers.content_blocks import ContentBlocksDTO
+from matrx_ai.db.models import ContentBlocks
 
 
 def is_valid_uuid(value):
@@ -138,6 +140,7 @@ def get_content_blocks_manager():
 
 if __name__ == "__main__":
     import asyncio
+
     from matrx_utils import clear_terminal
 
     clear_terminal()

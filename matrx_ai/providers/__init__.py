@@ -11,23 +11,31 @@ Provider-specific API implementations for different AI services:
 - CerebrasChat: Cerebras API
 - UnifiedAIClient: Unified client that routes to the appropriate provider
 - RetryableError, classify_provider_error: Error handling for provider APIs
+
+Imports are lazy so that importing individual providers (e.g. errors) does not
+trigger the DB singleton instantiation inside unified_client.
 """
 
-from .anthropic import AnthropicChat, AnthropicTranslator
-from .cerebras import CerebrasChat, CerebrasTranslator
-from .errors import (
-    RetryableError,
-    classify_anthropic_error,
-    classify_google_error,
-    classify_openai_error,
-    classify_provider_error,
-)
-from .google import GoogleChat, GoogleProviderConfig, GoogleTranslator
-from .groq import GroqChat, GroqTranslator
-from .openai import OpenAIChat, OpenAITranslator
-from .together import TogetherChat, TogetherTranslator
-from .unified_client import UnifiedAIClient
-from .xai import XAIChat, XAITranslator
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .anthropic import AnthropicChat, AnthropicTranslator
+    from .cerebras import CerebrasChat, CerebrasTranslator
+    from .errors import (
+        RetryableError,
+        classify_anthropic_error,
+        classify_google_error,
+        classify_openai_error,
+        classify_provider_error,
+    )
+    from .google import GoogleChat, GoogleProviderConfig, GoogleTranslator
+    from .groq import GroqChat, GroqTranslator
+    from .openai import OpenAIChat, OpenAITranslator
+    from .together import TogetherChat, TogetherTranslator
+    from .unified_client import UnifiedAIClient
+    from .xai import XAIChat, XAITranslator
 
 __all__ = [
     "AnthropicChat",
@@ -52,3 +60,36 @@ __all__ = [
     "classify_openai_error",
     "classify_provider_error",
 ]
+
+_module_map: dict[str, str] = {
+    "AnthropicChat": ".anthropic",
+    "AnthropicTranslator": ".anthropic",
+    "CerebrasChat": ".cerebras",
+    "CerebrasTranslator": ".cerebras",
+    "RetryableError": ".errors",
+    "classify_anthropic_error": ".errors",
+    "classify_google_error": ".errors",
+    "classify_openai_error": ".errors",
+    "classify_provider_error": ".errors",
+    "GoogleChat": ".google",
+    "GoogleProviderConfig": ".google",
+    "GoogleTranslator": ".google",
+    "GroqChat": ".groq",
+    "GroqTranslator": ".groq",
+    "OpenAIChat": ".openai",
+    "OpenAITranslator": ".openai",
+    "TogetherChat": ".together",
+    "TogetherTranslator": ".together",
+    "UnifiedAIClient": ".unified_client",
+    "XAIChat": ".xai",
+    "XAITranslator": ".xai",
+}
+
+
+def __getattr__(name: str) -> object:
+    if name in _module_map:
+        import importlib
+
+        mod = importlib.import_module(_module_map[name], package=__name__)
+        return getattr(mod, name)
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

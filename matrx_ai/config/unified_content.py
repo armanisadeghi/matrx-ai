@@ -10,12 +10,12 @@ from openai.types.responses import (
     ResponseReasoningItem as OpenAIResponseReasoningItem,
 )
 
-from config.extra_config import (
+from matrx_ai.config.extra_config import (
     CodeExecutionContent,
     CodeExecutionResultContent,
     WebSearchCallContent,
 )
-from config.media_config import (
+from matrx_ai.config.media_config import (
     AudioContent,
     DocumentContent,
     ImageContent,

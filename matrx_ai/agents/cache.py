@@ -9,8 +9,8 @@ set()      → always writes to active (full 30-min TTL).
 set_warm() → writes to warm only if not already in active (10-min TTL).
 """
 
-from agents.definition import Agent
-from utils.cache import TTLCache
+from matrx_ai.agents.definition import Agent
+from matrx_ai.utils.cache import TTLCache
 
 _active_cache: TTLCache[Agent] = TTLCache(ttl_seconds=1800, max_size=200)
 _warm_cache: TTLCache[Agent] = TTLCache(ttl_seconds=600, max_size=200)

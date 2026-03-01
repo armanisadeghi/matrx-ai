@@ -6,13 +6,13 @@ This demonstrates all the key patterns and usage scenarios.
 
 import asyncio
 
+from aidream.api.utils.console_emitter import ConsoleEmitter
 from matrx_utils import clear_terminal, vcprint
 
-from agents.definition import Agent
-from aidream.api.utils.console_emitter import ConsoleEmitter
-from initialize_systems import initialize
+import matrx_ai
+from matrx_ai.agents.definition import Agent
 
-initialize()
+matrx_ai.initialize()
 
 # Create global stream handler for all tests
 emitter = ConsoleEmitter("agent_test_suite")

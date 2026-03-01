@@ -4,7 +4,7 @@ from typing import Any
 
 from matrx_utils import vcprint
 
-from tools.models import ToolContext, ToolError, ToolResult
+from matrx_ai.tools.models import ToolContext, ToolError, ToolResult
 
 
 async def userlist_create(args: dict[str, Any], ctx: ToolContext) -> ToolResult:

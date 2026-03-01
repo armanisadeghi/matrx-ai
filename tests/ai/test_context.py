@@ -30,7 +30,7 @@ Usage:
     from tests.ai.test_context import create_test_tool_context
     ctx = create_test_tool_context("web_search")
 
-    from context.app_context import clear_app_context
+    from matrx_ai.context.app_context import clear_app_context
     clear_app_context(token)
 """
 from __future__ import annotations
@@ -39,10 +39,10 @@ import os
 from contextvars import Token
 from uuid import uuid4
 
-from context.app_context import AppContext, set_app_context
-from context.console_emitter import ConsoleEmitter
-from context.emitter_protocol import Emitter
-from tools.models import ToolContext
+from matrx_ai.context.app_context import AppContext, set_app_context
+from matrx_ai.context.console_emitter import ConsoleEmitter
+from matrx_ai.context.emitter_protocol import Emitter
+from matrx_ai.tools.models import ToolContext
 
 # ---------------------------------------------------------------------------
 # Environment helpers — always raise on missing or invalid values
@@ -51,13 +51,13 @@ from tools.models import ToolContext
 def _require_env(key: str, validator: callable | None = None, hint: str = "") -> str:
     val = os.environ.get(key, "").strip()
     if not val:
-        raise EnvironmentError(
+        raise OSError(
             f"[test_context] Required env var '{key}' is not set. "
             f"Add it to your .env file before running tests."
             + (f" Hint: {hint}" if hint else "")
         )
     if validator and not validator(val):
-        raise EnvironmentError(
+        raise OSError(
             f"[test_context] Env var '{key}' has an invalid value: {val!r}. "
             + (f"Hint: {hint}" if hint else "")
         )
@@ -108,7 +108,7 @@ def get_test_conversation_id() -> str:
 def get_test_project_id() -> str | None:
     val = _optional_env("TEST_PROJECT_ID")
     if val and not _is_valid_uuid(val):
-        raise EnvironmentError(
+        raise OSError(
             f"[test_context] TEST_PROJECT_ID is set but is not a valid UUID: {val!r}"
         )
     return val
@@ -117,7 +117,7 @@ def get_test_project_id() -> str | None:
 def get_test_organization_id() -> str | None:
     val = _optional_env("TEST_ORGANIZATION_ID")
     if val and not _is_valid_uuid(val):
-        raise EnvironmentError(
+        raise OSError(
             f"[test_context] TEST_ORGANIZATION_ID is set but is not a valid UUID: {val!r}"
         )
     return val
@@ -147,7 +147,7 @@ def create_test_app_context(
 
         token = create_test_app_context()
         # ... run test ...
-        from context.app_context import clear_app_context
+        from matrx_ai.context.app_context import clear_app_context
         clear_app_context(token)
     """
     conv_id = str(uuid4()) if new_conversation else (conversation_id or get_test_conversation_id())

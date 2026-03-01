@@ -1,4 +1,4 @@
-from agent_runners.research import (
+from matrx_ai.agent_runners.research import (
     AgentResult,
     scrape_research_condenser_agent_1,
     scrape_research_condenser_agent_2,

@@ -2,12 +2,11 @@
 
 import json
 from dataclasses import dataclass
-from smtplib import SMTPConnectError
 
 from matrx_orm import BaseDTO
 from matrx_utils import vcprint
 
-from db.models import AiModel
+from matrx_ai.db.models import AiModel
 
 info = True
 debug = False

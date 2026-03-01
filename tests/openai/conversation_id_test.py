@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
-from openai import OpenAI
 from matrx_utils import clear_terminal, vcprint
+from openai import OpenAI
 
 load_dotenv()
 client = OpenAI()

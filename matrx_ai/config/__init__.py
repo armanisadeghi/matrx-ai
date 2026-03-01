@@ -17,26 +17,14 @@
 # ============================================================================
 
 # --- Tier 1: Pure enums / constants / utilities ---
-from .enums import ContentType, Provider, Role
-from .finish_reason import FinishReason
 from .config_utils import truncate_base64_in_dict
-
-# --- Tier 2: Config dataclasses (external SDK deps only) ---
-from .usage_config import (
-    AggregatedUsage,
-    ModelPricing,
-    ModelUsageSummary,
-    PricingTier,
-    TokenUsage,
-    UsageTotals,
-    MODEL_PRICING,
-)
-from .thinking_config import ThinkingConfig
+from .enums import ContentType, Provider, Role
 from .extra_config import (
     CodeExecutionContent,
     CodeExecutionResultContent,
     WebSearchCallContent,
 )
+from .finish_reason import FinishReason
 
 # --- Tier 3: Media + unified config (heavy — loads db.models, ai.instructions, etc.) ---
 # These are intentionally last. Anything that only needs Tier 1/2 types
@@ -52,9 +40,21 @@ from .media_config import (
     reconstruct_media_content,
 )
 from .message_config import MessageList, UnifiedMessage
-from .unified_config import UnifiedConfig, UnifiedResponse
+from .thinking_config import ThinkingConfig
 from .tools_config import ToolCallContent, ToolResultContent
+from .unified_config import UnifiedConfig, UnifiedResponse
 from .unified_content import TextContent, ThinkingContent, UnifiedContent, reconstruct_content
+
+# --- Tier 2: Config dataclasses (external SDK deps only) ---
+from .usage_config import (
+    MODEL_PRICING,
+    AggregatedUsage,
+    ModelPricing,
+    ModelUsageSummary,
+    PricingTier,
+    TokenUsage,
+    UsageTotals,
+)
 
 __all__ = [
     # Tier 1

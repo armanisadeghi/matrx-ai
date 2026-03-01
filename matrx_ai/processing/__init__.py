@@ -1,4 +1,4 @@
-from processing.audio import (
+from matrx_ai.processing.audio import (
     CachedTranscription,
     GroqTranscription,
     TranscriptionCache,

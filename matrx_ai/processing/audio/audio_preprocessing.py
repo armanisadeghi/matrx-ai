@@ -7,7 +7,7 @@ OR when the target API doesn't support native audio input (automatic fallback).
 
 from matrx_utils import vcprint
 
-from config import (
+from matrx_ai.config import (
     AudioContent,
     MessageList,
     TextContent,

@@ -10,7 +10,7 @@ from typing import Any
 
 from matrx_utils import vcprint
 
-from context.events import (
+from matrx_ai.context.events import (
     BrokerPayload,
     ChunkPayload,
     CompletionPayload,
@@ -72,7 +72,7 @@ class StreamEmitter:
             while True:
                 try:
                     item = await asyncio.wait_for(self.queue.get(), timeout=1.0)
-                except asyncio.TimeoutError:
+                except TimeoutError:
                     if self._task and self._task.done():
                         break
                     continue

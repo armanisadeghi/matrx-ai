@@ -1,6 +1,8 @@
 import asyncio
+
 from matrx_utils import clear_terminal
-from instructions.core import SystemInstruction
+
+from matrx_ai.instructions.core import SystemInstruction
 
 clear_terminal()
 

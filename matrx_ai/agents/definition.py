@@ -13,13 +13,13 @@ from copy import deepcopy
 from dataclasses import dataclass, field
 from typing import Any
 
-from agents.manager import pm
-from agents.types import AgentConfig
-from agents.variables import AgentVariable
-from config.unified_config import UnifiedConfig, UnifiedMessage
-from config.usage_config import AggregatedUsage, TokenUsage
-from orchestrator.executor import execute_ai_request
-from orchestrator.requests import CompletedRequest
+from matrx_ai.agents.manager import pm
+from matrx_ai.agents.types import AgentConfig
+from matrx_ai.agents.variables import AgentVariable
+from matrx_ai.config.unified_config import UnifiedConfig, UnifiedMessage
+from matrx_ai.config.usage_config import AggregatedUsage, TokenUsage
+from matrx_ai.orchestrator.executor import execute_ai_request
+from matrx_ai.orchestrator.requests import CompletedRequest
 
 # ============================================================================
 # AGENT EXECUTE RESULT

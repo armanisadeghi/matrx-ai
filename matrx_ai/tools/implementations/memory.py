@@ -2,18 +2,18 @@ from __future__ import annotations
 
 import logging
 import time
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
-from db.custom import cxm
-from tools.arg_models.memory_args import (
+from matrx_ai.db.custom import cxm
+from matrx_ai.tools.arg_models.memory_args import (
     MemoryForgetArgs,
     MemoryRecallArgs,
     MemorySearchArgs,
     MemoryStoreArgs,
     MemoryUpdateArgs,
 )
-from tools.models import ToolContext, ToolError, ToolResult
+from matrx_ai.tools.models import ToolContext, ToolError, ToolResult
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +39,7 @@ async def memory_store(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     try:
         expires_delta = EXPIRY_MAP.get(parsed.memory_type)
         expires_at = (
-            (datetime.now(timezone.utc) + expires_delta).isoformat()
+            (datetime.now(UTC) + expires_delta).isoformat()
             if expires_delta
             else None
         )
@@ -158,7 +158,7 @@ async def memory_update(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     try:
         update_data: dict[str, Any] = {
             "content": parsed.content,
-            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(UTC).isoformat(),
         }
         if parsed.importance is not None:
             update_data["importance"] = parsed.importance

@@ -25,13 +25,12 @@ import traceback
 from copy import deepcopy
 from typing import Any
 
-from fastapi import HTTPException, status
 from matrx_utils import vcprint
 
-from agents.cache import AgentCache
-from agents.definition import Agent
-from config import UnifiedConfig
-from db.custom import cxm
+from matrx_ai.agents.cache import AgentCache
+from matrx_ai.agents.definition import Agent
+from matrx_ai.config import UnifiedConfig
+from matrx_ai.db.custom import cxm
 
 # ---------------------------------------------------------------------------
 # Conversation resolver
@@ -91,6 +90,8 @@ class ConversationResolver:
                     f"  - Traceback:\n{tb_str}",
                     color="red",
                 )
+                from fastapi import HTTPException, status
+
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
                     detail=f"Conversation not found: {conversation_id}",
@@ -117,9 +118,9 @@ class ConversationResolver:
         Called by the warm endpoint. Fire-and-forget safe — errors are logged
         but never raised.
         """
-        from agents.cache import AgentCache
-        from agents.definition import Agent
-        from db.custom import cxm
+        from matrx_ai.agents.cache import AgentCache
+        from matrx_ai.agents.definition import Agent
+        from matrx_ai.db.custom import cxm
 
         if AgentCache.exists(conversation_id):
             vcprint(
@@ -163,7 +164,7 @@ class AgentConfigResolver:
 
         Raises HTTPException(404) if the agent cannot be found.
         """
-        from agents.definition import Agent
+        from matrx_ai.agents.definition import Agent
 
         try:
             agent = await Agent.from_id(agent_id, variables=variables, config_overrides=overrides)
@@ -172,6 +173,8 @@ class AgentConfigResolver:
                 f"[AgentConfigResolver] Load failed for {agent_id!r}: {exc}",
                 color="red",
             )
+            from fastapi import HTTPException, status
+
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Agent not found: {agent_id}",
@@ -189,7 +192,7 @@ class AgentConfigResolver:
 
         Fire-and-forget safe — errors are logged but never raised.
         """
-        from agents.definition import Agent
+        from matrx_ai.agents.definition import Agent
 
         try:
             await Agent.from_id(agent_id)

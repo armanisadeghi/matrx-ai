@@ -4,7 +4,7 @@ import traceback
 from datetime import datetime
 from typing import Any
 
-from tools.models import ToolContext, ToolError, ToolResult
+from matrx_ai.tools.models import ToolContext, ToolError, ToolResult
 
 
 async def news_get_headlines(args: dict[str, Any], ctx: ToolContext) -> ToolResult:

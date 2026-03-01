@@ -1,8 +1,8 @@
 import os
 
-from openai import OpenAI
-from matrx_utils import vcprint, clear_terminal
 from dotenv import load_dotenv
+from matrx_utils import clear_terminal, vcprint
+from openai import OpenAI
 
 load_dotenv()
 clear_terminal()

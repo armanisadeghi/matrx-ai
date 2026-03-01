@@ -5,8 +5,8 @@ import time
 from collections import Counter
 from typing import Any
 
-from tools.arg_models.text_args import RegexExtractArgs, TextAnalyzeArgs
-from tools.models import ToolContext, ToolError, ToolResult
+from matrx_ai.tools.arg_models.text_args import RegexExtractArgs, TextAnalyzeArgs
+from matrx_ai.tools.models import ToolContext, ToolError, ToolResult
 
 
 async def text_analyze(args: dict[str, Any], ctx: ToolContext) -> ToolResult:

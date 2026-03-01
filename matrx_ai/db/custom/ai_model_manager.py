@@ -1,6 +1,6 @@
 import uuid
 
-from db.managers.ai_model import AiModelBase
+from matrx_ai.db.managers.ai_model import AiModelBase
 
 info = True
 debug = False

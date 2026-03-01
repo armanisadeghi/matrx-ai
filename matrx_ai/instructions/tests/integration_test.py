@@ -7,9 +7,10 @@ This demonstrates the complete workflow:
 3. Replace patterns with fetched content
 """
 
-from instructions.tests.variable_recognition_test import MatrxPatternParser
-from instructions.matrx_fetcher import MatrxFetcher
-from matrx_utils import vcprint, clear_terminal
+from matrx_utils import clear_terminal, vcprint
+
+from matrx_ai.instructions.matrx_fetcher import MatrxFetcher
+from matrx_ai.instructions.tests.variable_recognition_test import MatrxPatternParser
 
 
 def process_text_with_matrx(text: str, verbose: bool = True) -> str:
@@ -135,7 +136,7 @@ All interactive blocks available:
     print(f"Parsed {len(patterns)} pattern(s)")
     
     for pattern in patterns:
-        print(f"\nPattern details:")
+        print("\nPattern details:")
         print(f"  Table:  {pattern.table}")
         print(f"  Column: {pattern.column}")
         print(f"  Value:  {pattern.value}")

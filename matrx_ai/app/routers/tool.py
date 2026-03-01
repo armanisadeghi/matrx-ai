@@ -13,8 +13,8 @@ from typing import Any
 from fastapi import APIRouter, Path
 from fastapi.responses import ORJSONResponse
 
-from app.core.exceptions import ToolNotFoundError
-from app.models.tool import ToolCallRequest, ToolCallResult, ToolDefinition, ToolParameter
+from matrx_ai.app.core.exceptions import ToolNotFoundError
+from matrx_ai.app.models.tool import ToolCallRequest, ToolCallResult, ToolDefinition, ToolParameter
 
 router = APIRouter(prefix="/api/tools/test", tags=["tool"])
 

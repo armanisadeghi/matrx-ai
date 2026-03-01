@@ -1,17 +1,18 @@
 # File Location: /matrix/ai_models/ai_model_validator.py
 
 import asyncio
-import re
 import json
-from typing import List, Dict, Any
-from matrx_utils import vcprint
+import re
+from typing import Any
+
 from matrix.ai_models.ai_model_manager import AiModelManager
+from matrx_utils import vcprint
 
 
 class AiModelValidator(AiModelManager):
     """Validates and fixes the integrity of AI model data entries."""
 
-    async def validate_data_integrity(self) -> Dict[str, List[str]]:
+    async def validate_data_integrity(self) -> dict[str, list[str]]:
         """
         Orchestrates the validation of all AI model entries and returns a report of issues.
         """
@@ -68,7 +69,7 @@ class AiModelValidator(AiModelManager):
         self._print_validation_summary(validation_report)
         return validation_report
 
-    async def fix_malformed_endpoints(self) -> Dict[str, List[str]]:
+    async def fix_malformed_endpoints(self) -> dict[str, list[str]]:
         """
         Checks all models for malformed endpoints (strings that should be lists) and fixes them.
         Returns a report of fixes applied.
@@ -214,7 +215,7 @@ class AiModelValidator(AiModelManager):
             return "capabilities is empty"
         return ""
 
-    def _print_validation_summary(self, report: Dict[str, List[str]]) -> None:
+    def _print_validation_summary(self, report: dict[str, list[str]]) -> None:
         """Prints a summary of all validation issues found."""
         total_issues = sum(len(issues) for issues in report.values())
         if total_issues == 0:
@@ -233,7 +234,7 @@ class AiModelValidator(AiModelManager):
                 for issue in issues:
                     vcprint(f"- {issue}", color="yellow")
 
-    def _print_fix_summary(self, report: Dict[str, List[str]]) -> None:
+    def _print_fix_summary(self, report: dict[str, list[str]]) -> None:
         """Prints a summary of all endpoint fixes applied."""
         total_fixed = len(report["fixed"])
         total_skipped = len(report["skipped"])

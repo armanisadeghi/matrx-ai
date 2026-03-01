@@ -8,8 +8,8 @@ from typing import Any
 from matrx_utils import vcprint
 from pydantic import BaseModel
 
-from tools.models import ToolDefinition, ToolType
-from tools.tools_db import tools_manager_instance as tools_manager
+from matrx_ai.tools.models import ToolDefinition, ToolType
+from matrx_ai.tools.tools_db import tools_manager_instance as tools_manager
 
 
 class ToolRegistryV2:
@@ -348,6 +348,13 @@ class ToolRegistryV2:
             raise ValueError(f"Cannot resolve non-local function_path: {function_path}")
         if function_path.startswith("ai."):
             function_path = function_path[3:]
+        _LEGACY_FLAT_PREFIXES = (
+            "tools.", "agents.", "config.", "context.", "db.", "instructions.",
+            "media.", "orchestrator.", "processing.", "providers.", "utils.",
+            "agent_runners.",
+        )
+        if any(function_path.startswith(p) for p in _LEGACY_FLAT_PREFIXES):
+            function_path = f"matrx_ai.{function_path}"
         module_path, func_name = function_path.rsplit(".", 1)
         module = importlib.import_module(module_path)
         func = getattr(module, func_name)
@@ -394,7 +401,7 @@ class ToolRegistryV2:
     ) -> list[str]:
         """Connect to a remote MCP server, discover tools, register them."""
         if mcp_client is None:
-            from tools.external_mcp import ExternalMCPClient
+            from matrx_ai.tools.external_mcp import ExternalMCPClient
 
             mcp_client = ExternalMCPClient()
 

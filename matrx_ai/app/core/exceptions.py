@@ -1,7 +1,7 @@
 import sys
 import traceback
 
-from fastapi import Request
+from fastapi import HTTPException, Request
 from fastapi.responses import ORJSONResponse
 from matrx_utils import vcprint
 
@@ -68,6 +68,27 @@ async def matrx_exception_handler(request: Request, exc: MatrxException) -> ORJS
             "detail": exc.detail,
             "path": str(request.url.path),
         },
+    )
+
+
+async def http_exception_handler(request: Request, exc: HTTPException) -> ORJSONResponse:
+    """Log every HTTPException to stderr so 401/403/404 are never silent."""
+    detail = exc.detail
+    print(
+        f"\n[HTTPException] {request.method} {request.url.path}"
+        f"\n  status={exc.status_code}  detail={detail}",
+        file=sys.stderr,
+        flush=True,
+    )
+    vcprint(
+        {"status_code": exc.status_code, "detail": detail, "path": str(request.url.path)},
+        f"[HTTPException] {request.method} {request.url.path}",
+        color="yellow",
+    )
+    return ORJSONResponse(
+        status_code=exc.status_code,
+        content={"error": detail, "path": str(request.url.path)},
+        headers=dict(exc.headers) if exc.headers else {},
     )
 
 

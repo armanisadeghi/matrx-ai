@@ -17,7 +17,7 @@ RUN pip install --no-cache-dir uv
 
 COPY pyproject.toml uv.lock* ./
 
-RUN uv sync --frozen --no-dev
+RUN uv sync --frozen --no-dev --extra server
 
 COPY . /app/
 

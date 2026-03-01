@@ -11,21 +11,21 @@ it is created by ``ensure_conversation_exists()`` at the start of
 **updates** the conversation; it never creates one.
 
 Usage:
-    from db.custom import persist_completed_request
+    from matrx_ai.db.custom import persist_completed_request
 
     completed = await execute_until_complete(...)
     await persist_completed_request(completed)
 """
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 from uuid import UUID
 
 from matrx_utils import vcprint
 
-from db.custom.ai_models.ai_model_manager import ai_model_manager_instance as model_manager
-from db.custom.cx_managers import cxm
-from orchestrator.requests import CompletedRequest
+from matrx_ai.db.custom.ai_models.ai_model_manager import get_ai_model_manager as _get_model_manager
+from matrx_ai.db.custom.cx_managers import cxm
+from matrx_ai.orchestrator.requests import CompletedRequest
 
 
 def _is_valid_uuid(value: str | None) -> bool:
@@ -48,7 +48,7 @@ async def _backfill_tool_call_message_id(
     Matches on call_id (from the original ToolResultContent) + conversation_id.
     This is fire-and-forget — failures are logged, never fatal.
     """
-    from tools.handle_tool_calls import get_executor
+    from matrx_ai.tools.handle_tool_calls import get_executor
 
     original_content = msg.get("_original_content", msg.get("content", []))
     if not isinstance(original_content, list):
@@ -125,7 +125,7 @@ async def persist_completed_request(
     ai_model_name = conv_data.get("ai_model")
     # vcprint(ai_model_name, "[CX Persistence] AI Model Name", color="pink")
 
-    primary_ai_model_id = await model_manager.load_model_get_string_uuid(ai_model_name)
+    primary_ai_model_id = await _get_model_manager().load_model_get_string_uuid(ai_model_name)
     # vcprint(primary_ai_model_id, "[CX Persistence] Primary AI Model ID", color="pink")
 
     user_id = conv_data.get("user_id")
@@ -262,7 +262,7 @@ async def persist_completed_request(
         #    execute_until_complete).  The PK is the request_id from
         #    AIMatrixRequest.
         # ============================================================
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         user_request_id = ur_data.get("request_id") or completed.request.request_id
 
         if user_request_id and _is_valid_uuid(user_request_id):
@@ -322,7 +322,7 @@ async def persist_completed_request(
         # 4. REQUEST ROWS — one per iteration
         # ============================================================
         for req in req_list:
-            iter_ai_model_id = await model_manager.load_model_get_string_uuid(
+            iter_ai_model_id = await _get_model_manager().load_model_get_string_uuid(
                 req.get("ai_model")
             )
 

@@ -1,8 +1,9 @@
-from client.unified_client import AIMatrixRequest
-from client.unified_client import UnifiedAIClient
-from matrx_utils import vcprint, clear_terminal
-from context.console_emitter import ConsoleEmitter
+from matrx_utils import clear_terminal, vcprint
+
+from matrx_ai.orchestrator.requests import AIMatrixRequest
+from matrx_ai.providers.unified_client import UnifiedAIClient
 from tests.ai.test_context import create_test_execution_context
+
 
 async def test_translation(settings_to_use):
     client = UnifiedAIClient()
@@ -28,9 +29,9 @@ if __name__ == "__main__":
     initialize_for_tools = False
 
     if initialize_for_tools:
-        from initialize_systems import initialize
+        import matrx_ai
 
-        initialize()
+        matrx_ai.initialize()
 
     _ctx_token = create_test_execution_context()
 

@@ -3,15 +3,15 @@ from __future__ import annotations
 import json
 import re
 from collections.abc import Awaitable, Callable
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from enum import StrEnum
 from typing import Any, Literal
 from uuid import uuid4
 
 from pydantic import BaseModel, Field, PrivateAttr
 
-from config import TokenUsage
-from context.emitter_protocol import Emitter
+from matrx_ai.config import TokenUsage
+from matrx_ai.context.emitter_protocol import Emitter
 
 
 class ToolType(StrEnum):
@@ -123,46 +123,46 @@ class ToolContext(BaseModel):
 
     @property
     def user_id(self) -> str:
-        from context.app_context import get_app_context
+        from matrx_ai.context.app_context import get_app_context
 
         return get_app_context().user_id
 
     @property
     def conversation_id(self) -> str:
-        from context.app_context import get_app_context
+        from matrx_ai.context.app_context import get_app_context
 
         return get_app_context().conversation_id
 
     @property
     def request_id(self) -> str:
-        from context.app_context import get_app_context
+        from matrx_ai.context.app_context import get_app_context
 
         return get_app_context().request_id
 
     @property
     def emitter(self) -> Emitter | None:
-        from context.app_context import try_get_app_context
+        from matrx_ai.context.app_context import try_get_app_context
 
         ctx = try_get_app_context()
         return ctx.emitter if ctx else None
 
     @property
     def api_keys(self) -> dict[str, str]:
-        from context.app_context import try_get_app_context
+        from matrx_ai.context.app_context import try_get_app_context
 
         ctx = try_get_app_context()
         return ctx.api_keys if ctx else {}
 
     @property
     def project_id(self) -> str | None:
-        from context.app_context import try_get_app_context
+        from matrx_ai.context.app_context import try_get_app_context
 
         ctx = try_get_app_context()
         return ctx.project_id if ctx else None
 
     @property
     def organization_id(self) -> str | None:
-        from context.app_context import try_get_app_context
+        from matrx_ai.context.app_context import try_get_app_context
 
         ctx = try_get_app_context()
         return ctx.organization_id if ctx else None
@@ -447,8 +447,8 @@ class CxToolCallRecord(BaseModel):
 
     # Performance
     duration_ms: int = 0
-    started_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    completed_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    started_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
+    completed_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
 
     # Cost / usage
     input_tokens: int = 0
@@ -470,5 +470,5 @@ class CxToolCallRecord(BaseModel):
 
     # Standard cx_ fields
     metadata: dict[str, Any] = Field(default_factory=dict)
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
     deleted_at: datetime | None = None

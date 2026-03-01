@@ -5,19 +5,19 @@ Preserves ALL content types and metadata from all providers
 
 import uuid
 from dataclasses import asdict, dataclass, field, replace
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
-from config import (
+from matrx_ai.config import (
     MessageList,
     ToolResultContent,
     UnifiedConfig,
     UnifiedMessage,
     UnifiedResponse,
 )
-from config.usage_config import AggregatedUsage, TokenUsage
-from context.emitter_protocol import Emitter
-from orchestrator.tracking import TimingUsage
+from matrx_ai.config.usage_config import AggregatedUsage, TokenUsage
+from matrx_ai.context.emitter_protocol import Emitter
+from matrx_ai.orchestrator.tracking import TimingUsage
 
 from .tracking import ToolCallUsage
 
@@ -35,7 +35,7 @@ class AIMatrixRequest:
     debug: bool | None = False
 
     request_id: str | None = None
-    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
     created_by: str | None = None  # API key ID or session ID
     status: str | None = None
 
@@ -61,13 +61,13 @@ class AIMatrixRequest:
 
     @property
     def user_id(self) -> str:
-        from context.app_context import get_app_context
+        from matrx_ai.context.app_context import get_app_context
 
         return get_app_context().user_id
 
     @property
     def emitter(self) -> Emitter | None:
-        from context.app_context import try_get_app_context
+        from matrx_ai.context.app_context import try_get_app_context
 
         ctx = try_get_app_context()
         return ctx.emitter if ctx else None
@@ -120,7 +120,7 @@ class AIMatrixRequest:
         if isinstance(created_at, str):
             created_at = datetime.fromisoformat(created_at)
         elif created_at is None:
-            created_at = datetime.now(timezone.utc)
+            created_at = datetime.now(UTC)
 
         return cls(
             conversation_id=data.get("conversation_id", ""),

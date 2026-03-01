@@ -6,7 +6,7 @@ from uuid import uuid4
 
 from matrx_utils import vcprint
 
-from config import (
+from matrx_ai.config import (
     TokenUsage,
     ToolCallContent,
     ToolResultContent,
@@ -14,19 +14,19 @@ from config import (
     UnifiedMessage,
     UnifiedResponse,
 )
-from context.app_context import get_app_context
-from db.custom import (
+from matrx_ai.context.app_context import get_app_context
+from matrx_ai.db.custom import (
     create_pending_user_request,
     ensure_conversation_exists,
     update_conversation_status,
     update_user_request_status,
 )
-from db.custom.persistence import persist_completed_request
-from orchestrator.requests import AIMatrixRequest, CompletedRequest
-from orchestrator.tracking import TimingUsage, ToolCallUsage
-from providers.errors import RetryableError, classify_provider_error
-from providers.unified_client import UnifiedAIClient
-from tools.handle_tool_calls import handle_tool_calls_v2
+from matrx_ai.db.custom.persistence import persist_completed_request
+from matrx_ai.orchestrator.requests import AIMatrixRequest, CompletedRequest
+from matrx_ai.orchestrator.tracking import TimingUsage, ToolCallUsage
+from matrx_ai.providers.errors import RetryableError, classify_provider_error
+from matrx_ai.providers.unified_client import UnifiedAIClient
+from matrx_ai.tools.handle_tool_calls import handle_tool_calls_v2
 
 from .recovery_logic import handle_finish_reason
 

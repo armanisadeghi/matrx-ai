@@ -45,7 +45,7 @@ class AIMediaHandler:
 
         Reads ``user_id`` from the current ``ExecutionContext``.
         """
-        from context.app_context import get_app_context
+        from matrx_ai.context.app_context import get_app_context
         exec_ctx = get_app_context()
 
         if isinstance(content, str):

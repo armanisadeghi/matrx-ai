@@ -14,8 +14,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from config.message_config import UnifiedMessage
-from db.models import (
+from matrx_ai.config.message_config import UnifiedMessage
+from matrx_ai.db.models import (
     CxMedia,
     CxMessage,
     CxToolCall,

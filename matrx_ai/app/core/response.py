@@ -10,8 +10,8 @@ from typing import Any
 from fastapi.responses import StreamingResponse
 from matrx_utils import vcprint
 
-from context.app_context import AppContext
-from context.emitter_protocol import Emitter
+from matrx_ai.context.app_context import AppContext
+from matrx_ai.context.emitter_protocol import Emitter
 
 
 def create_streaming_response(
@@ -87,6 +87,19 @@ def create_streaming_response(
 
         async for item in emitter.generate():
             yield item
+
+        # After the generator exits: if the task raised an unhandled exception
+        # (shouldn't happen — _run_with_error_handling catches everything — but
+        # belt-and-suspenders: log it so it's never silent).
+        if task.done() and not task.cancelled():
+            exc = task.exception()
+            if exc is not None:
+                tb = "".join(traceback.format_exception(type(exc), exc, exc.__traceback__))
+                print(
+                    f"\n[{debug_label}] TASK EXCEPTION ESCAPED HANDLER — "
+                    f"{type(exc).__name__}: {exc}\n{tb}",
+                    file=sys.stderr, flush=True,
+                )
 
     headers: dict[str, str] = {}
     if ctx.request_id:

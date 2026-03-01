@@ -3,7 +3,7 @@ from __future__ import annotations
 import traceback
 from typing import Any
 
-from tools.models import ToolContext, ToolError, ToolResult
+from matrx_ai.tools.models import ToolContext, ToolError, ToolResult
 
 
 async def usertable_create(args: dict[str, Any], ctx: ToolContext) -> ToolResult:

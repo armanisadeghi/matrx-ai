@@ -5,7 +5,7 @@ import time
 from typing import Any
 from uuid import uuid4
 
-from tools.models import (
+from matrx_ai.tools.models import (
     ToolContext,
     ToolDefinition,
     ToolError,
@@ -42,12 +42,12 @@ async def execute_agent_tool(
         )
 
     try:
-        from agents.definition import Agent
-        from context.app_context import (
+        from matrx_ai.agents.definition import Agent
+        from matrx_ai.context.app_context import (
             clear_app_context as clear_execution_context,
         )
-        from context.app_context import get_app_context
-        from context.app_context import (
+        from matrx_ai.context.app_context import get_app_context
+        from matrx_ai.context.app_context import (
             set_app_context as set_execution_context,
         )
     except ImportError as exc:

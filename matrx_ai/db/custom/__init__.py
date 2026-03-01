@@ -2,8 +2,8 @@
 CX_ Database Layer — Singleton manager instances for conversation exchange tables.
 
 Usage:
-    from db.custom import cxm, rebuild_conversation_messages, persist_completed_request
-    from db.custom import ensure_conversation_exists, create_pending_user_request
+    from matrx_ai.db.custom import cxm, rebuild_conversation_messages, persist_completed_request
+    from matrx_ai.db.custom import ensure_conversation_exists, create_pending_user_request
 """
 
 from .conversation_gate import (

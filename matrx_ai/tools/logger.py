@@ -2,14 +2,14 @@ from __future__ import annotations
 
 import json
 import traceback
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 from uuid import uuid4
 
 from matrx_utils import vcprint
 
-from db.custom import cxm
-from tools.models import ToolContext, ToolDefinition, ToolResult
+from matrx_ai.db.custom import cxm
+from matrx_ai.tools.models import ToolContext, ToolDefinition, ToolResult
 
 
 class ToolExecutionLogger:
@@ -36,7 +36,7 @@ class ToolExecutionLogger:
         arguments: dict[str, Any],
     ) -> str:
         row_id = str(uuid4())
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
 
         safe_arguments = self._truncate_arguments(arguments)
 
@@ -91,10 +91,10 @@ class ToolExecutionLogger:
             "output_type": output_type,
             "duration_ms": result.duration_ms,
             "completed_at": datetime.fromtimestamp(
-                result.completed_at, tz=timezone.utc
+                result.completed_at, tz=UTC
             ).isoformat()
             if result.completed_at
-            else datetime.now(timezone.utc).isoformat(),
+            else datetime.now(UTC).isoformat(),
             "input_tokens": input_tokens,
             "output_tokens": output_tokens,
             "total_tokens": total_tokens,
@@ -127,10 +127,10 @@ class ToolExecutionLogger:
             "error_message": result.error.message if result.error else "Unknown error",
             "duration_ms": result.duration_ms,
             "completed_at": datetime.fromtimestamp(
-                result.completed_at, tz=timezone.utc
+                result.completed_at, tz=UTC
             ).isoformat()
             if result.completed_at
-            else datetime.now(timezone.utc).isoformat(),
+            else datetime.now(UTC).isoformat(),
             "input_tokens": input_tokens,
             "output_tokens": output_tokens,
             "total_tokens": total_tokens,

@@ -2,7 +2,7 @@ from typing import Any
 
 from matrx_utils import vcprint
 
-from config import (
+from matrx_ai.config import (
     FinishReason,
     ThinkingConfig,
     TokenUsage,
@@ -10,7 +10,7 @@ from config import (
     UnifiedMessage,
     UnifiedResponse,
 )
-from tools.registry import ToolRegistryV2
+from matrx_ai.tools.registry import ToolRegistryV2
 
 # ============================================================================
 # ANTHROPIC TRANSLATOR

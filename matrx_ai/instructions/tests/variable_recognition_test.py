@@ -1,5 +1,4 @@
-from instructions.pattern_parser import MatrxPatternParser
-from instructions.pattern_parser import MatrxPattern
+from matrx_ai.instructions.pattern_parser import MatrxPattern, MatrxPatternParser
 
 if __name__ == "__main__":
     print("=" * 80)

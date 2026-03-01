@@ -8,7 +8,7 @@ Each table has its own method with appropriate defaults and post-processing.
 import uuid
 from typing import Any
 
-from db.models import ContentBlocks
+from matrx_ai.db.models import ContentBlocks
 
 
 def is_valid_uuid(value: str) -> bool:
@@ -207,8 +207,9 @@ class MatrxFetcher:
 
 
 if __name__ == "__main__":
-    from matrx_utils import vcprint, clear_terminal
-    from instructions.tests.variable_recognition_test import MatrxPatternParser
+    from matrx_utils import clear_terminal, vcprint
+
+    from matrx_ai.instructions.tests.variable_recognition_test import MatrxPatternParser
     
     clear_terminal()
     

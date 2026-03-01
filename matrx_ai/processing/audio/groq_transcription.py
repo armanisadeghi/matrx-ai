@@ -307,7 +307,7 @@ class GroqTranscription:
             # Could be file path or URL
             if audio_source.startswith(("http://", "https://")):
                 # It's a URL - download it first
-                from media import fetch_media
+                from matrx_ai.media import fetch_media
                 audio_data = fetch_media(audio_source, target_format="bytes")
                 file_tuple = ("audio.wav", audio_data)
                 file_size_mb = len(audio_data) / (1024 * 1024)

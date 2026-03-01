@@ -9,7 +9,7 @@ from __future__ import annotations
 import random
 from typing import Any
 
-from tools.models import ToolContext, ToolResult
+from matrx_ai.tools.models import ToolContext, ToolResult
 
 
 async def travel_get_location(args: dict[str, Any], ctx: ToolContext) -> ToolResult:

@@ -5,7 +5,7 @@ Run this to test the new parse_simple_variables() method.
 
 from matrx_utils import clear_terminal, vcprint
 
-from instructions.pattern_parser import MatrxPatternParser
+from matrx_ai.instructions.pattern_parser import MatrxPatternParser
 
 clear_terminal()
 

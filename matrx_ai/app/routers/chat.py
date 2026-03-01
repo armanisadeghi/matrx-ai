@@ -15,11 +15,11 @@ from typing import Any
 from fastapi import APIRouter, Depends
 from matrx_utils import vcprint
 
-from app.core.ai_task import run_ai_task
-from app.core.response import create_streaming_response
-from app.models.chat import ChatRequest
-from config.unified_config import UnifiedConfig
-from context.app_context import AppContext, context_dep
+from matrx_ai.app.core.ai_task import run_ai_task
+from matrx_ai.app.core.response import create_streaming_response
+from matrx_ai.app.models.chat import ChatRequest
+from matrx_ai.config.unified_config import UnifiedConfig
+from matrx_ai.context.app_context import AppContext, context_dep
 
 router = APIRouter(prefix="/api/ai", tags=["chat"])
 

@@ -6,7 +6,7 @@ from openai.types.responses import (
     ResponseOutputItem as OpenAIResponseOutputItem,
 )
 
-from db.models import CxMessage
+from matrx_ai.db.models import CxMessage
 
 from .enums import Role
 from .extra_config import (

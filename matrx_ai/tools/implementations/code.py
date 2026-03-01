@@ -9,7 +9,7 @@ from typing import Any
 
 import requests
 
-from tools.models import ToolContext, ToolError, ToolResult
+from matrx_ai.tools.models import ToolContext, ToolError, ToolResult
 
 _WORKSPACE_BASE = os.environ.get("TOOL_WORKSPACE_BASE", "/tmp/workspaces")
 _MAX_OUTPUT = 10_240
@@ -64,7 +64,7 @@ async def code_execute_python(args: dict[str, Any], ctx: ToolContext) -> ToolRes
             stdout, stderr = await asyncio.wait_for(
                 process.communicate(), timeout=timeout
             )
-        except asyncio.TimeoutError:
+        except TimeoutError:
             process.kill()
             return ToolResult(
                 success=False,
@@ -153,7 +153,7 @@ async def code_fetch_code(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     Use "signatures" for large modules where you just need the API surface.
     Use "clean" or "original" for focused editing or review of small modules.
     """
-    from utils.code_context.code_context import CodeContextBuilder
+    from matrx_ai.utils.code_context.code_context import CodeContextBuilder
 
     project_root_raw = args.get("project_root", "")
     subdirectory = args.get("subdirectory", "") or None
@@ -227,7 +227,7 @@ async def code_fetch_tree(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     with no file content (~1% of full token cost). Ideal for orientation before deciding
     which subdirectory to fetch in full with code_fetch_code.
     """
-    from utils.code_context.code_context import CodeContextBuilder
+    from matrx_ai.utils.code_context.code_context import CodeContextBuilder
 
     project_root_raw = args.get("project_root", "")
     subdirectory = args.get("subdirectory", "") or None

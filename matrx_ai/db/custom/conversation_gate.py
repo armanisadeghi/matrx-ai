@@ -91,7 +91,7 @@ async def create_new_conversation(
 
     safe_user_id = _require_valid_user_id(user_id, "create_new_conversation")
 
-    from context.app_context import try_get_app_context
+    from matrx_ai.context.app_context import try_get_app_context
 
     ctx = try_get_app_context()
 
@@ -153,7 +153,7 @@ async def ensure_conversation_exists(
         return
 
     # Read write-once creation data from context (may be empty for non-agent calls)
-    from context.app_context import try_get_app_context
+    from matrx_ai.context.app_context import try_get_app_context
 
     ctx = try_get_app_context()
 
@@ -359,7 +359,7 @@ def launch_conversation_gate(
     if not is_new_conversation:
         return None
 
-    from context.app_context import get_app_context
+    from matrx_ai.context.app_context import get_app_context
 
     exec_ctx = get_app_context()
     user_id = exec_ctx.user_id

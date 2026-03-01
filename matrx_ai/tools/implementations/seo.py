@@ -4,8 +4,8 @@ import traceback
 from datetime import date, timedelta
 from typing import Any
 
-from tools.models import ToolContext, ToolError, ToolResult
-from tools.output_models.seo import (
+from matrx_ai.tools.models import ToolContext, ToolError, ToolResult
+from matrx_ai.tools.output_models.seo import (
     SeoKeywordDataOutput,
     normalize_keyword_item,
 )

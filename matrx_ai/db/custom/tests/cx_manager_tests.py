@@ -4,8 +4,8 @@ import asyncio
 
 from matrx_utils import clear_terminal, vcprint
 
-from db.custom import cxm
-from providers.openai.translator import OpenAITranslator
+from matrx_ai.db.custom import cxm
+from matrx_ai.providers.openai.translator import OpenAITranslator
 
 
 async def test_load_conversation():

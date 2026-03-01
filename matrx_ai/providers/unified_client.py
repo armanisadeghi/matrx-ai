@@ -9,12 +9,12 @@ from typing import TYPE_CHECKING, Any, Literal
 
 from matrx_utils import vcprint
 
-from config import UnifiedResponse
-from db.custom.ai_models.ai_model_manager import ai_model_manager_instance
-from db.models import AiModel
+from matrx_ai.config import UnifiedResponse
+from matrx_ai.db.custom.ai_models.ai_model_manager import get_ai_model_manager
+from matrx_ai.db.models import AiModel
 
 if TYPE_CHECKING:
-    from orchestrator.requests import AIMatrixRequest
+    from matrx_ai.orchestrator.requests import AIMatrixRequest
 
 # ============================================================================
 # UNIFIED CLIENT
@@ -44,7 +44,7 @@ class UnifiedAIClient:
     """Unified client for all AI providers"""
 
     def __init__(self):
-        from providers import (
+        from matrx_ai.providers import (
             AnthropicChat,
             CerebrasChat,
             GoogleChat,
@@ -54,7 +54,7 @@ class UnifiedAIClient:
             XAIChat,
         )
 
-        self.model_manager = ai_model_manager_instance
+        self.model_manager = get_ai_model_manager()
         self.google_chat = GoogleChat()
         self.openai_chat = OpenAIChat()
         self.anthropic_chat = AnthropicChat()
@@ -67,11 +67,11 @@ class UnifiedAIClient:
         self,
         request: AIMatrixRequest,
     ) -> UnifiedResponse:
-        from processing.audio.audio_preprocessing import (
+        from matrx_ai.processing.audio.audio_preprocessing import (
             preprocess_audio_in_messages,
             should_preprocess_audio,
         )
-        from processing.audio.audio_support import api_class_supports_audio
+        from matrx_ai.processing.audio.audio_support import api_class_supports_audio
 
         config = request.config
         model_id_or_name = config.model
@@ -145,7 +145,7 @@ class UnifiedAIClient:
         request: AIMatrixRequest,
     ) -> dict[str, Any]:
         """Translate unified request to provider-specific format"""
-        from providers import (
+        from matrx_ai.providers import (
             AnthropicTranslator,
             CerebrasTranslator,
             GoogleTranslator,
@@ -210,7 +210,7 @@ class UnifiedAIClient:
         response: dict[str, Any],
     ) -> UnifiedResponse:
         """Translate provider-specific response to unified format"""
-        from providers import (
+        from matrx_ai.providers import (
             AnthropicTranslator,
             CerebrasTranslator,
             GoogleTranslator,

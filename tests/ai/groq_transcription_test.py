@@ -4,14 +4,15 @@ Test Groq Speech-to-Text Transcription
 Tests the Groq Whisper API transcription functionality.
 """
 
-import asyncio
 from pathlib import Path
-from media.audio.groq_transcription import GroqTranscription, TranscriptionResult
-from config.unified_config import UnifiedMessage, AudioContent, TextContent
-from matrx_utils import vcprint, clear_terminal
-from initialize_systems import initialize
 
-initialize()
+from matrx_utils import clear_terminal, vcprint
+
+import matrx_ai
+from matrx_ai.config.unified_config import AudioContent, TextContent, UnifiedMessage
+from matrx_ai.processing.audio.groq_transcription import GroqTranscription
+
+matrx_ai.initialize()
 clear_terminal()
 
 

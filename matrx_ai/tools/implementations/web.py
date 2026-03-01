@@ -7,14 +7,14 @@ from typing import Any
 
 from matrx_utils import vcprint
 
-from tools.arg_models.web_args import (
+from matrx_ai.tools.arg_models.web_args import (
     RESEARCH_DEPTH_CONFIG,
     WebReadArgs,
     WebResearchArgs,
     WebSearchArgs,
 )
-from tools.models import ToolContext, ToolError, ToolResult
-from tools.streaming import ToolStreamManager
+from matrx_ai.tools.models import ToolContext, ToolError, ToolResult
+from matrx_ai.tools.streaming import ToolStreamManager
 
 
 async def web_search(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
@@ -133,7 +133,7 @@ async def web_read(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
 
         if parsed.summarize and parsed.instructions:
             await stream.step("summarize", "Summarizing page content...")
-            from tools.implementations._summarize_helper import (
+            from matrx_ai.tools.implementations._summarize_helper import (
                 summarize_content,
             )
 

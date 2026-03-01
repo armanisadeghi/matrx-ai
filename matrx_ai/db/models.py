@@ -1,6 +1,5 @@
 # File: db/models.py
 from dataclasses import dataclass
-from enum import Enum
 
 from matrx_orm import (
     BaseDTO,

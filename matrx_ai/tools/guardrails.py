@@ -7,7 +7,7 @@ import time
 from collections import defaultdict
 from dataclasses import dataclass
 
-from tools.models import GuardrailResult, ToolContext, ToolDefinition, ToolType
+from matrx_ai.tools.models import GuardrailResult, ToolContext, ToolDefinition, ToolType
 
 logger = logging.getLogger(__name__)
 

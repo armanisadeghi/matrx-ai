@@ -31,13 +31,26 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
 from matrx_utils import vcprint
 
-from app.config import get_settings
-from app.core.exceptions import MatrxException, matrx_exception_handler, unhandled_exception_handler
-from app.core.middleware import RequestContextMiddleware
-from app.core.sentry import init_sentry
-from app.dependencies.auth import require_authenticated, require_guest_or_above
-from app.middleware.auth import AuthMiddleware
-from app.routers import agent, chat, conversation, health, tool
+import matrx_ai
+
+matrx_ai.initialize()
+
+# ruff: noqa: E402 — intentional: DB must be registered before router modules are imported
+from matrx_ai.app.config import get_settings  # noqa: E402
+from matrx_ai.app.core.exceptions import (  # noqa: E402
+    MatrxException,
+    http_exception_handler,
+    matrx_exception_handler,
+    unhandled_exception_handler,
+)
+from matrx_ai.app.core.middleware import RequestContextMiddleware  # noqa: E402
+from matrx_ai.app.core.sentry import init_sentry  # noqa: E402
+from matrx_ai.app.dependencies.auth import (  # noqa: E402
+    require_authenticated,
+    require_guest_or_above,
+)
+from matrx_ai.app.middleware.auth import AuthMiddleware  # noqa: E402
+from matrx_ai.app.routers import agent, chat, conversation, health, tool  # noqa: E402
 
 # Sentry must be initialised before the app is created so that import-time
 # errors and startup exceptions are captured.
@@ -99,7 +112,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
 
     # Initialize tool system
     try:
-        from tools.handle_tool_calls import initialize_tool_system
+        from matrx_ai.tools.handle_tool_calls import initialize_tool_system
         tool_count = await initialize_tool_system()
         vcprint(f"{tool_count} tools loaded", "[FastAPI] Tool System V2 initialized", color="green", inline=True)
     except Exception as e:
@@ -188,6 +201,11 @@ def create_app() -> FastAPI:
     )
 
     # --- Exception handlers ---
+    # HTTPException first — catches FastAPI's own 401/403/404 (dependencies, auth, etc.)
+    # so they are never silent.
+    from fastapi import HTTPException  # noqa: PLC0415
+
+    app.add_exception_handler(HTTPException, http_exception_handler)  # type: ignore[arg-type]
     app.add_exception_handler(MatrxException, matrx_exception_handler)  # type: ignore[arg-type]
     app.add_exception_handler(Exception, unhandled_exception_handler)  # type: ignore[arg-type]
 
@@ -228,18 +246,23 @@ app = create_app()
 # Entry point — installs uvloop before uvicorn takes over
 # ---------------------------------------------------------------------------
 
-if __name__ == "__main__":
+def start() -> None:
+    """CLI entry point registered as `matrx-ai-server` in pyproject.toml."""
     import uvicorn
 
-    uvloop.install()  # must be called before uvicorn starts the event loop
+    uvloop.install()
 
     settings = get_settings()
     uvicorn.run(
-        "app.main:app",
+        "matrx_ai.app.main:app",
         host=settings.host,
         port=settings.port,
         reload=settings.debug,
         loop="uvloop",
-        log_config=None,  # we configure logging ourselves above
-        access_log=False,  # handled by RequestContextMiddleware
+        log_config=None,
+        access_log=False,
     )
+
+
+if __name__ == "__main__":
+    start()

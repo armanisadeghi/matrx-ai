@@ -1,6 +1,4 @@
 import asyncio
-
-# from initialize_systems import initialize
 import json
 import os
 from datetime import datetime
@@ -10,15 +8,17 @@ import dotenv
 import rich
 from matrx_utils import cleanup_async_resources, clear_terminal, to_matrx_json, vcprint
 
-from orchestrator import CompletedRequest
+import matrx_ai
+from matrx_ai.orchestrator import CompletedRequest
 
 dotenv.load_dotenv()
+matrx_ai.initialize()
 
 LOCAL_USER_ID = os.getenv("LOCAL_USER_ID")
 
 
 async def register_all_tools():
-    from tools.registry import ToolRegistryV2
+    from matrx_ai.tools.registry import ToolRegistryV2
     tool_registry = ToolRegistryV2.get_instance()
     await tool_registry.load_from_database()
     vcprint(tool_registry.count, title="[EXECUTION TEST] register_tools Tools Loaded", color="blue", inline=True)
@@ -27,8 +27,8 @@ async def register_all_tools():
 
 async def test_autonomous_execution(config: dict, conversation_id: str, new_conversation: bool = False, debug: bool = False):
     """Test autonomous execution that handles all tool calls automatically"""
-    from config.unified_config import UnifiedConfig
-    from orchestrator.executor import execute_ai_request
+    from matrx_ai.config.unified_config import UnifiedConfig
+    from matrx_ai.orchestrator.executor import execute_ai_request
     from tests.ai.test_context import create_test_execution_context
     
     create_test_execution_context(conversation_id=conversation_id, debug=debug, new_conversation=new_conversation)

@@ -1,11 +1,9 @@
 import asyncio
-from typing import List
 
 import rich
-from pydantic import BaseModel
-from openai.types.shared_params import Reasoning
-
 from openai import AsyncOpenAI
+from openai.types.shared_params import Reasoning
+from pydantic import BaseModel
 
 
 class Step(BaseModel):
@@ -14,7 +12,7 @@ class Step(BaseModel):
 
 
 class MathResponse(BaseModel):
-    steps: List[Step]
+    steps: list[Step]
     final_answer: str
 
 

@@ -5,15 +5,17 @@ This shows how the Agent system simplifies prompt handling.
 """
 
 import asyncio
-from client.unified_client import UnifiedAIClient, AIMatrixRequest
-from prompts.tests.agent_old import Agent
-from context.console_emitter import ConsoleEmitter
-from client.ai_requests import execute_until_complete
-from tests.ai.test_context import create_test_execution_context
-from initialize_systems import initialize
-from matrx_utils import vcprint, clear_terminal
 
-initialize()
+from matrx_utils import clear_terminal, vcprint
+
+import matrx_ai
+from matrx_ai.agents.definition import Agent
+from matrx_ai.orchestrator.executor import execute_until_complete
+from matrx_ai.orchestrator.requests import AIMatrixRequest
+from matrx_ai.providers.unified_client import UnifiedAIClient
+from tests.ai.test_context import create_test_execution_context
+
+matrx_ai.initialize()
 _ctx_token = create_test_execution_context()
 
 

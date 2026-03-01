@@ -4,7 +4,7 @@ import logging
 import time
 from typing import Any
 
-from tools.arg_models.browser_args import (
+from matrx_ai.tools.arg_models.browser_args import (
     BrowserClickArgs,
     BrowserCloseArgs,
     BrowserGetElementArgs,
@@ -15,13 +15,13 @@ from tools.arg_models.browser_args import (
     BrowserTypeArgs,
     BrowserWaitForArgs,
 )
-from tools.models import ToolContext, ToolError, ToolResult
+from matrx_ai.tools.models import ToolContext, ToolError, ToolResult
 
 logger = logging.getLogger(__name__)
 
 
 def _mgr():
-    from tools.browser_sessions import get_browser_session_manager
+    from matrx_ai.tools.browser_sessions import get_browser_session_manager
 
     return get_browser_session_manager()
 

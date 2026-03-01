@@ -3,8 +3,8 @@ import asyncio
 from fastapi import APIRouter
 from fastapi.responses import ORJSONResponse
 
-from app.config import get_settings
-from app.models.health import HealthStatus
+from matrx_ai.app.config import get_settings
+from matrx_ai.app.models.health import HealthStatus
 
 router = APIRouter(prefix="/api/health", tags=["health"])
 

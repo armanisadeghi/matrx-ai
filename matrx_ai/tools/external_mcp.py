@@ -7,7 +7,7 @@ from typing import Any
 
 import httpx
 
-from tools.models import ToolContext, ToolDefinition, ToolError, ToolResult, ToolType
+from matrx_ai.tools.models import ToolContext, ToolDefinition, ToolError, ToolResult, ToolType
 
 logger = logging.getLogger(__name__)
 

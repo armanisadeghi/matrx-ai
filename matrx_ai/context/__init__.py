@@ -6,21 +6,21 @@
 - ConsoleEmitter: Dev/test emitter
 
 Usage:
-    from context.app_context import AppContext, get_app_context, set_app_context
-    from context.emitter_protocol import Emitter
-    from context.events import EventType
+    from matrx_ai.context.app_context import AppContext, get_app_context, set_app_context
+    from matrx_ai.context.emitter_protocol import Emitter
+    from matrx_ai.context.events import EventType
 """
 
-from context.app_context import (
+from matrx_ai.context.app_context import (
     AppContext,
+    clear_app_context,
+    context_dep,
     get_app_context,
     set_app_context,
     try_get_app_context,
-    clear_app_context,
-    context_dep,
 )
-from context.emitter_protocol import Emitter
-from context.events import EventType
+from matrx_ai.context.emitter_protocol import Emitter
+from matrx_ai.context.events import EventType
 
 __all__ = [
     "AppContext",

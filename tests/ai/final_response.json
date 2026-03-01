@@ -1,6 +1,6 @@
 {
     "request": {
-        "conversation_id": "98ef213c-87ee-4963-8cfc-d3e3cb186b72",
+        "conversation_id": "5f1f7842-bd8f-4fd6-a515-4f4e2a579844",
         "user_id": "4cf62e4e-2679-484f-b652-034e697418df",
         "debug": false,
         "config": {
@@ -22,33 +22,33 @@
                         {
                             "type": "thinking",
                             "text": "",
-                            "id": "rs_064108d702c6d3e20069a3e9a1e7108196b0cf3223c09fca2e",
+                            "id": "rs_06aa022ebd87d11c0069a402931794819d8730c549c9876650",
                             "provider": "openai",
-                            "signature": "gAAAAABpo-mi8d4XtoojRlaKU1GsKGZzlVNbGsBUJIx-Bp5l6kDuXTwiMkyYKSJ4crST1j6NFeGU7Vg14X4MiVA7u7EwrFX3xkU_cNwvtSyMMTG_gInwooIbZBTr7tCPjMpsbCE9hK3mh79xMjEVEtXt6H4leSErFgtCWPy1WEhMRPYf35M2_NsZqadaOIL199pYHq9iiQsf_337OBD9SNGIxZ_y5djqi9qIBVYPZjY_6yTa3h1_WHTD16uYndy2ig9Je--T5bqrp1KobgNaBybcDdgxUMAiND6a1TKCjLedEDHIgHP9smJwHTMuVdYQu54u69TFIDXnB1uWtr5g0LJk5X2m947Wp3Fb3mYQ4y7ge6xqyz44T_yuCjBgnUkOh9hpSPQYRc83leWsu4kIWn3muhSkpFuQ4LBzrr-blX9e-xBqDXWi2d1LfwXzE_U4mGadjX5-6ksmeRYG60EuEuqDnIHmUiEHENpy9VIv-P89Zxsr7oFnjxarxFNQ11Y8lWwPSzcMtS208kRxHR05_KX3pOy9mplCX8mSfeHyV4l36kjxe4EJaF8_MNopHK2-lnuJF_xzmUSkxuWkqhqPszWaVSvSxm6cc_e-jIZj5ikz0D_6S_PNOQCFi7PJhBf1xyuwiBvstHEdgeWDIwz-5r6RR2laApaCL-1_MPe-4e_eAJTW5gfy2UclHhj-wTg3O81mfiO1IR2rq51GAFf1oE-B8Q9jM0xY60_pGlV-lEb6ep-LZkfD98RMVttgPV9-Lu17A2RvnOUvIW6hLtReGbnMX0AIBGudecC6Z5SMCcPxICf7bovBdXdMtib9oMDY1rkOxfiqbAWWeQNS85cMTrz_x2-2swJ2JgNAdigJqb9UnC6IlvWHtwL-I_YvIX6c8YXhX3E4b9X0aFcfEnUv6Sg_vZrst402hUu0iK9Houi61k0cV9MsdKM=",
+                            "signature": "gAAAAABppAKTuRhmjJF953O1TwijBX822hqFOVWKZPSVMyeOUwfqHmR02WSw1Kik50Zph_UMJX2F5WwXhuYjhdns8j2qOYbB7q1TsEm5X_lvyvLdzbzO1xnsAtRI5HXLRof5ums5nsYkfLAN_xYKp8_a6p86qj0qLXutxruGM-7gwb4hA0DlruackIAVgebXadTqDXYS319Q232lRJ9rUvxt4VKP6zRmTL3Uc7iwGJlq1wP485qdx3cXAMzqUlyCbhXto2XgSNfFH7oOCZeISzL85HRldKgXnuIg8tZro2dbgFGyq49Djdp8JqyfoKyYe9F3cgzKMFV8BSgz6xb1a0vU5XfvhFzL2I1Doi8JvwUWJRqD_oNUP-lYM6Kdbq-87p8J0Uht1Ak3s8xLs5D-QQb_SiXENnrmLFas0rygCZeFUOh9wQmK_vIOlcST3Dl_C71nnGanbeZBMlNv9JKo9VgYVS67DCLAvoQmig8NBnAbkYLqfW_vnCXpRHw4lmDnQ27FTX1j3l8DnPsjglJDhwkyNjx0uAtWeWIPdnHhTg80VGMYZAMvWjzRxrrYR3RFz31s6dbuX-Ou9XAGUqMYaiehiiM-Fixu0T_gPIU81vko5gcuo3S4siqv5gOz3XuUvTES6kprhoIjiMXWUOAzRZa_-q7m5EX0BMYr05Q9Ektw0mVoF8XNmzEINUE4EyMcvw7s3AWlhJVKO9hTiheW7DE1OQ08eqfX4G9gtCXP9Ob4p-HfDSwr8kJv7gukDhTTGj6ktSwNQzQcDnbZ2rDFsP9do0mfLnicmF3kB6JsRw-L7QrNrYmYrANTAeyujUKQ956eOeW68KGT21iAy4CAfqILlH9pDC0_BnQXVNZfN2AGER9AYC8Q1PEPfMHwRc_3kuFk9PZaZm1VEO-yb9WFqXe-hMabiyb7PTDeF_IqXOz-Oc69VNRL7Zcd9u8XJArs8QiDGQuSyWP5",
                             "metadata": {
-                                "id": "rs_064108d702c6d3e20069a3e9a1e7108196b0cf3223c09fca2e"
+                                "id": "rs_06aa022ebd87d11c0069a402931794819d8730c549c9876650"
                             }
                         }
                     ],
-                    "id": "rs_064108d702c6d3e20069a3e9a1e7108196b0cf3223c09fca2e"
+                    "id": "rs_06aa022ebd87d11c0069a402931794819d8730c549c9876650"
                 },
                 {
                     "role": "assistant",
                     "content": [
                         {
                             "type": "text",
-                            "text": "Hello \u2014 I\u2019m doing well, thank you! How can I help you today?",
-                            "id": "msg_064108d702c6d3e20069a3e9a25f808196880c38d14ba94ac1",
+                            "text": "Hi \u2014 I'm doing well, thanks! How can I help you today?",
+                            "id": "msg_06aa022ebd87d11c0069a402935cec819d93c67eb3340171c3",
                             "metadata": {
                                 "annotations": [],
                                 "type": "output_text",
                                 "logprobs": [],
                                 "parsed": null,
-                                "id": "msg_064108d702c6d3e20069a3e9a25f808196880c38d14ba94ac1"
+                                "id": "msg_06aa022ebd87d11c0069a402935cec819d93c67eb3340171c3"
                             }
                         }
                     ],
-                    "id": "msg_064108d702c6d3e20069a3e9a25f808196880c38d14ba94ac1"
+                    "id": "msg_06aa022ebd87d11c0069a402935cec819d93c67eb3340171c3"
                 }
             ],
             "system_instruction": "You're a helpful assistant.",
@@ -59,8 +59,8 @@
             "count": 1,
             "metadata": {}
         },
-        "request_id": "ae7106fa-baf6-430f-97b4-df9e78c06a2f",
-        "created_at": "2026-03-01T07:24:15.077156+00:00",
+        "request_id": "7cddc04d-4752-41a4-bc1a-059a99178d12",
+        "created_at": "2026-03-01T09:10:40.738639+00:00",
         "created_by": null,
         "status": null,
         "metadata": {}
@@ -74,16 +74,16 @@
                     {
                         "type": "thinking",
                         "text": "",
-                        "id": "rs_064108d702c6d3e20069a3e9a1e7108196b0cf3223c09fca2e",
+                        "id": "rs_06aa022ebd87d11c0069a402931794819d8730c549c9876650",
                         "summary": [],
                         "provider": "openai",
-                        "signature": "gAAAAABpo-mi8d4XtoojRlaKU1GsKGZzlVNbGsBUJIx-Bp5l6kDuXTwiMkyYKSJ4crST1j6NFeGU7Vg14X4MiVA7u7EwrFX3xkU_cNwvtSyMMTG_gInwooIbZBTr7tCPjMpsbCE9hK3mh79xMjEVEtXt6H4leSErFgtCWPy1WEhMRPYf35M2_NsZqadaOIL199pYHq9iiQsf_337OBD9SNGIxZ_y5djqi9qIBVYPZjY_6yTa3h1_WHTD16uYndy2ig9Je--T5bqrp1KobgNaBybcDdgxUMAiND6a1TKCjLedEDHIgHP9smJwHTMuVdYQu54u69TFIDXnB1uWtr5g0LJk5X2m947Wp3Fb3mYQ4y7ge6xqyz44T_yuCjBgnUkOh9hpSPQYRc83leWsu4kIWn3muhSkpFuQ4LBzrr-blX9e-xBqDXWi2d1LfwXzE_U4mGadjX5-6ksmeRYG60EuEuqDnIHmUiEHENpy9VIv-P89Zxsr7oFnjxarxFNQ11Y8lWwPSzcMtS208kRxHR05_KX3pOy9mplCX8mSfeHyV4l36kjxe4EJaF8_MNopHK2-lnuJF_xzmUSkxuWkqhqPszWaVSvSxm6cc_e-jIZj5ikz0D_6S_PNOQCFi7PJhBf1xyuwiBvstHEdgeWDIwz-5r6RR2laApaCL-1_MPe-4e_eAJTW5gfy2UclHhj-wTg3O81mfiO1IR2rq51GAFf1oE-B8Q9jM0xY60_pGlV-lEb6ep-LZkfD98RMVttgPV9-Lu17A2RvnOUvIW6hLtReGbnMX0AIBGudecC6Z5SMCcPxICf7bovBdXdMtib9oMDY1rkOxfiqbAWWeQNS85cMTrz_x2-2swJ2JgNAdigJqb9UnC6IlvWHtwL-I_YvIX6c8YXhX3E4b9X0aFcfEnUv6Sg_vZrst402hUu0iK9Houi61k0cV9MsdKM=",
+                        "signature": "gAAAAABppAKTuRhmjJF953O1TwijBX822hqFOVWKZPSVMyeOUwfqHmR02WSw1Kik50Zph_UMJX2F5WwXhuYjhdns8j2qOYbB7q1TsEm5X_lvyvLdzbzO1xnsAtRI5HXLRof5ums5nsYkfLAN_xYKp8_a6p86qj0qLXutxruGM-7gwb4hA0DlruackIAVgebXadTqDXYS319Q232lRJ9rUvxt4VKP6zRmTL3Uc7iwGJlq1wP485qdx3cXAMzqUlyCbhXto2XgSNfFH7oOCZeISzL85HRldKgXnuIg8tZro2dbgFGyq49Djdp8JqyfoKyYe9F3cgzKMFV8BSgz6xb1a0vU5XfvhFzL2I1Doi8JvwUWJRqD_oNUP-lYM6Kdbq-87p8J0Uht1Ak3s8xLs5D-QQb_SiXENnrmLFas0rygCZeFUOh9wQmK_vIOlcST3Dl_C71nnGanbeZBMlNv9JKo9VgYVS67DCLAvoQmig8NBnAbkYLqfW_vnCXpRHw4lmDnQ27FTX1j3l8DnPsjglJDhwkyNjx0uAtWeWIPdnHhTg80VGMYZAMvWjzRxrrYR3RFz31s6dbuX-Ou9XAGUqMYaiehiiM-Fixu0T_gPIU81vko5gcuo3S4siqv5gOz3XuUvTES6kprhoIjiMXWUOAzRZa_-q7m5EX0BMYr05Q9Ektw0mVoF8XNmzEINUE4EyMcvw7s3AWlhJVKO9hTiheW7DE1OQ08eqfX4G9gtCXP9Ob4p-HfDSwr8kJv7gukDhTTGj6ktSwNQzQcDnbZ2rDFsP9do0mfLnicmF3kB6JsRw-L7QrNrYmYrANTAeyujUKQ956eOeW68KGT21iAy4CAfqILlH9pDC0_BnQXVNZfN2AGER9AYC8Q1PEPfMHwRc_3kuFk9PZaZm1VEO-yb9WFqXe-hMabiyb7PTDeF_IqXOz-Oc69VNRL7Zcd9u8XJArs8QiDGQuSyWP5",
                         "metadata": {
-                            "id": "rs_064108d702c6d3e20069a3e9a1e7108196b0cf3223c09fca2e"
+                            "id": "rs_06aa022ebd87d11c0069a402931794819d8730c549c9876650"
                         }
                     }
                 ],
-                "id": "rs_064108d702c6d3e20069a3e9a1e7108196b0cf3223c09fca2e",
+                "id": "rs_06aa022ebd87d11c0069a402931794819d8730c549c9876650",
                 "name": null,
                 "timestamp": null,
                 "status": "active",
@@ -94,18 +94,18 @@
                 "content": [
                     {
                         "type": "text",
-                        "text": "Hello \u2014 I\u2019m doing well, thank you! How can I help you today?",
-                        "id": "msg_064108d702c6d3e20069a3e9a25f808196880c38d14ba94ac1",
+                        "text": "Hi \u2014 I'm doing well, thanks! How can I help you today?",
+                        "id": "msg_06aa022ebd87d11c0069a402935cec819d93c67eb3340171c3",
                         "metadata": {
                             "annotations": [],
                             "type": "output_text",
                             "logprobs": [],
                             "parsed": null,
-                            "id": "msg_064108d702c6d3e20069a3e9a25f808196880c38d14ba94ac1"
+                            "id": "msg_06aa022ebd87d11c0069a402935cec819d93c67eb3340171c3"
                         }
                     }
                 ],
-                "id": "msg_064108d702c6d3e20069a3e9a25f808196880c38d14ba94ac1",
+                "id": "msg_06aa022ebd87d11c0069a402935cec819d93c67eb3340171c3",
                 "name": null,
                 "timestamp": null,
                 "status": "active",
@@ -119,13 +119,13 @@
             "matrx_model_name": "gpt-5-mini",
             "provider_model_name": "gpt-5-mini-2025-08-07",
             "api": "openai",
-            "response_id": "resp_064108d702c6d3e20069a3e9a153948196adf58b248febffac",
+            "response_id": "resp_06aa022ebd87d11c0069a4029292e8819d93d8ec276933ab25",
             "metadata": {}
         },
         "finish_reason": "stop",
         "raw_response": {
-            "id": "resp_064108d702c6d3e20069a3e9a153948196adf58b248febffac",
-            "created_at": 1772349857.0,
+            "id": "resp_06aa022ebd87d11c0069a4029292e8819d93d8ec276933ab25",
+            "created_at": 1772356242.0,
             "error": null,
             "incomplete_details": null,
             "instructions": null,
@@ -134,17 +134,17 @@
             "object": "response",
             "output": [
                 {
-                    "id": "rs_064108d702c6d3e20069a3e9a1e7108196b0cf3223c09fca2e",
+                    "id": "rs_06aa022ebd87d11c0069a402931794819d8730c549c9876650",
                     "summary": [],
                     "type": "reasoning",
-                    "encrypted_content": "gAAAAABpo-mi8d4XtoojRlaKU1GsKGZzlVNbGsBUJIx-Bp5l6kDuXTwiMkyYKSJ4crST1j6NFeGU7Vg14X4MiVA7u7EwrFX3xkU_cNwvtSyMMTG_gInwooIbZBTr7tCPjMpsbCE9hK3mh79xMjEVEtXt6H4leSErFgtCWPy1WEhMRPYf35M2_NsZqadaOIL199pYHq9iiQsf_337OBD9SNGIxZ_y5djqi9qIBVYPZjY_6yTa3h1_WHTD16uYndy2ig9Je--T5bqrp1KobgNaBybcDdgxUMAiND6a1TKCjLedEDHIgHP9smJwHTMuVdYQu54u69TFIDXnB1uWtr5g0LJk5X2m947Wp3Fb3mYQ4y7ge6xqyz44T_yuCjBgnUkOh9hpSPQYRc83leWsu4kIWn3muhSkpFuQ4LBzrr-blX9e-xBqDXWi2d1LfwXzE_U4mGadjX5-6ksmeRYG60EuEuqDnIHmUiEHENpy9VIv-P89Zxsr7oFnjxarxFNQ11Y8lWwPSzcMtS208kRxHR05_KX3pOy9mplCX8mSfeHyV4l36kjxe4EJaF8_MNopHK2-lnuJF_xzmUSkxuWkqhqPszWaVSvSxm6cc_e-jIZj5ikz0D_6S_PNOQCFi7PJhBf1xyuwiBvstHEdgeWDIwz-5r6RR2laApaCL-1_MPe-4e_eAJTW5gfy2UclHhj-wTg3O81mfiO1IR2rq51GAFf1oE-B8Q9jM0xY60_pGlV-lEb6ep-LZkfD98RMVttgPV9-Lu17A2RvnOUvIW6hLtReGbnMX0AIBGudecC6Z5SMCcPxICf7bovBdXdMtib9oMDY1rkOxfiqbAWWeQNS85cMTrz_x2-2swJ2JgNAdigJqb9UnC6IlvWHtwL-I_YvIX6c8YXhX3E4b9X0aFcfEnUv6Sg_vZrst402hUu0iK9Houi61k0cV9MsdKM="
+                    "encrypted_content": "gAAAAABppAKTuRhmjJF953O1TwijBX822hqFOVWKZPSVMyeOUwfqHmR02WSw1Kik50Zph_UMJX2F5WwXhuYjhdns8j2qOYbB7q1TsEm5X_lvyvLdzbzO1xnsAtRI5HXLRof5ums5nsYkfLAN_xYKp8_a6p86qj0qLXutxruGM-7gwb4hA0DlruackIAVgebXadTqDXYS319Q232lRJ9rUvxt4VKP6zRmTL3Uc7iwGJlq1wP485qdx3cXAMzqUlyCbhXto2XgSNfFH7oOCZeISzL85HRldKgXnuIg8tZro2dbgFGyq49Djdp8JqyfoKyYe9F3cgzKMFV8BSgz6xb1a0vU5XfvhFzL2I1Doi8JvwUWJRqD_oNUP-lYM6Kdbq-87p8J0Uht1Ak3s8xLs5D-QQb_SiXENnrmLFas0rygCZeFUOh9wQmK_vIOlcST3Dl_C71nnGanbeZBMlNv9JKo9VgYVS67DCLAvoQmig8NBnAbkYLqfW_vnCXpRHw4lmDnQ27FTX1j3l8DnPsjglJDhwkyNjx0uAtWeWIPdnHhTg80VGMYZAMvWjzRxrrYR3RFz31s6dbuX-Ou9XAGUqMYaiehiiM-Fixu0T_gPIU81vko5gcuo3S4siqv5gOz3XuUvTES6kprhoIjiMXWUOAzRZa_-q7m5EX0BMYr05Q9Ektw0mVoF8XNmzEINUE4EyMcvw7s3AWlhJVKO9hTiheW7DE1OQ08eqfX4G9gtCXP9Ob4p-HfDSwr8kJv7gukDhTTGj6ktSwNQzQcDnbZ2rDFsP9do0mfLnicmF3kB6JsRw-L7QrNrYmYrANTAeyujUKQ956eOeW68KGT21iAy4CAfqILlH9pDC0_BnQXVNZfN2AGER9AYC8Q1PEPfMHwRc_3kuFk9PZaZm1VEO-yb9WFqXe-hMabiyb7PTDeF_IqXOz-Oc69VNRL7Zcd9u8XJArs8QiDGQuSyWP5"
                 },
                 {
-                    "id": "msg_064108d702c6d3e20069a3e9a25f808196880c38d14ba94ac1",
+                    "id": "msg_06aa022ebd87d11c0069a402935cec819d93c67eb3340171c3",
                     "content": [
                         {
                             "annotations": [],
-                            "text": "Hello \u2014 I\u2019m doing well, thank you! How can I help you today?",
+                            "text": "Hi \u2014 I'm doing well, thanks! How can I help you today?",
                             "type": "output_text",
                             "logprobs": [],
                             "parsed": null
@@ -161,7 +161,7 @@
             "tools": [],
             "top_p": 1.0,
             "background": false,
-            "completed_at": 1772349858.0,
+            "completed_at": 1772356243.0,
             "max_output_tokens": null,
             "max_tool_calls": null,
             "previous_response_id": null,
@@ -223,13 +223,13 @@
         }
     },
     "timing_stats": {
-        "total_duration": 3.105332612991333,
-        "sum_duration": 3.105332612991333,
-        "api_duration": 3.10477614402771,
+        "total_duration": 2.3360354900360107,
+        "sum_duration": 2.3360354900360107,
+        "api_duration": 2.335439443588257,
         "tool_duration": 4.0531158447265625e-06,
-        "processing_duration": 0.0005524158477783203,
+        "processing_duration": 0.0005919933319091797,
         "iterations": 1,
-        "avg_iteration_duration": 3.105332612991333
+        "avg_iteration_duration": 2.3360354900360107
     },
     "tool_call_stats": {
         "total_tool_calls": 0,
@@ -238,7 +238,7 @@
     },
     "metadata": {
         "finish_reason": "stop",
-        "response_id": "resp_064108d702c6d3e20069a3e9a153948196adf58b248febffac",
+        "response_id": "resp_06aa022ebd87d11c0069a4029292e8819d93d8ec276933ab25",
         "matrx_model_name": "gpt-5-mini",
         "provider_model_name": "gpt-5-mini-2025-08-07"
     }

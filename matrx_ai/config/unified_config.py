@@ -8,8 +8,8 @@ from typing import Any, Literal
 
 from matrx_utils import vcprint
 
-from instructions.core import SystemInstruction
-from instructions.pattern_parser import resolve_matrx_patterns
+from matrx_ai.instructions.core import SystemInstruction
+from matrx_ai.instructions.pattern_parser import resolve_matrx_patterns
 
 from .enums import Role
 from .message_config import MessageList, UnifiedMessage

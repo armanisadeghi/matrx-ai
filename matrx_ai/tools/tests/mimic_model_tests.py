@@ -19,17 +19,17 @@ import time
 from typing import Any
 
 import rich
-from matrx_utils import cleanup_async_resources, clear_terminal, vcprint
-
-from config.usage_config import MODEL_PRICING, TokenUsage
-from tools.models import ToolContext, ToolResult
 from aidream.api.middleware.test_context import (
     create_test_execution_context,
     create_test_tool_context,
 )
-from initialize_systems import initialize
+from matrx_utils import cleanup_async_resources, clear_terminal, vcprint
 
-initialize()
+import matrx_ai
+from matrx_ai.config.usage_config import MODEL_PRICING, TokenUsage
+from matrx_ai.tools.models import ToolContext, ToolResult
+
+matrx_ai.initialize()
 _ctx_token = create_test_execution_context()
 
 
@@ -88,7 +88,7 @@ def _build_ctx(tool_name: str, stream: bool = True) -> ToolContext:
 
 
 def _get_tool_map() -> dict[str, Any]:
-    from tools.implementations import (
+    from matrx_ai.tools.implementations import (
         browser_click,
         browser_close,
         browser_get_element,
@@ -1625,7 +1625,7 @@ async def _run_interactive() -> None:
 
 def _verify_tool_map_alignment() -> None:
     """Assert that _get_tool_map() keys exactly match implementations.__all__."""
-    from tools import implementations
+    from matrx_ai.tools import implementations
 
     tool_map = _get_tool_map()
     expected = set(implementations.__all__)

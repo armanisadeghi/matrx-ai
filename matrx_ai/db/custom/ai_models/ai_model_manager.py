@@ -3,7 +3,7 @@ from __future__ import annotations
 import uuid
 from typing import Any
 
-from db.models import AiModel
+from matrx_ai.db.models import AiModel
 
 from .ai_model_base import AiModelBase
 
@@ -80,4 +80,11 @@ class AiModelManager(AiModelBase):
         return models
 
 
-ai_model_manager_instance = AiModelManager()
+_ai_model_manager_instance: AiModelManager | None = None
+
+
+def get_ai_model_manager() -> AiModelManager:
+    global _ai_model_manager_instance
+    if _ai_model_manager_instance is None:
+        _ai_model_manager_instance = AiModelManager()
+    return _ai_model_manager_instance

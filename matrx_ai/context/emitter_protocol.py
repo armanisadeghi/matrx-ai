@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Protocol, runtime_checkable
 
-from context.events import BrokerPayload, CompletionPayload, ToolEventPayload
+from matrx_ai.context.events import BrokerPayload, CompletionPayload, ToolEventPayload
 
 
 @runtime_checkable

@@ -4,8 +4,8 @@ import math
 import time
 from typing import Any
 
-from tools.arg_models.math_args import CalculateArgs
-from tools.models import ToolContext, ToolError, ToolResult
+from matrx_ai.tools.arg_models.math_args import CalculateArgs
+from matrx_ai.tools.models import ToolContext, ToolError, ToolResult
 
 SAFE_MATH_NAMES: dict[str, Any] = {
     k: getattr(math, k) for k in dir(math) if not k.startswith("_")

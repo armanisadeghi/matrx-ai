@@ -29,11 +29,19 @@ Create a blank migration file for hand-written SQL:
 
 import asyncio
 import sys
+
 from dotenv import load_dotenv
 
 load_dotenv()
 
-from matrx_orm import register_database_from_env, makemigrations, migrate, rollback, migration_status, create_empty
+from matrx_orm import (
+    create_empty,
+    makemigrations,
+    migrate,
+    migration_status,
+    register_database_from_env,
+    rollback,
+)
 
 register_database_from_env(
     name="supabase_automation_matrix",

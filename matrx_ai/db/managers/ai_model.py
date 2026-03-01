@@ -4,11 +4,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from matrx_orm import BaseManager, BaseDTO, ModelView
-from matrx_utils import vcprint
+from matrx_orm import BaseDTO, BaseManager, ModelView
 
-from db.models import AiModel
-
+from matrx_ai.db.models import AiModel
 
 # ---------------------------------------------------------------------------
 # ModelView (new) — opt-in projection layer.
@@ -223,4 +221,11 @@ class AiModelManager(AiModelBase):
     async def _initialize_runtime_data(self, item: AiModel) -> None:
         pass
 
-ai_model_manager_instance = AiModelManager()
+_ai_model_manager_instance: AiModelManager | None = None
+
+
+def get_ai_model_manager() -> AiModelManager:
+    global _ai_model_manager_instance
+    if _ai_model_manager_instance is None:
+        _ai_model_manager_instance = AiModelManager()
+    return _ai_model_manager_instance

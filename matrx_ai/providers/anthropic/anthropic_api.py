@@ -6,11 +6,11 @@ from typing import Any
 from anthropic import AsyncAnthropic
 from matrx_utils import vcprint
 
-from config import (
+from matrx_ai.config import (
     UnifiedConfig,
     UnifiedResponse,
 )
-from context.emitter_protocol import Emitter
+from matrx_ai.context.emitter_protocol import Emitter
 
 from .translator import AnthropicTranslator
 
@@ -70,7 +70,7 @@ class AnthropicChat:
         api_class: str,
         debug: bool = False,
     ) -> UnifiedResponse:
-        from context.app_context import get_app_context
+        from matrx_ai.context.app_context import get_app_context
         emitter = get_app_context().emitter
 
         self.debug = debug
@@ -92,7 +92,7 @@ class AnthropicChat:
 
         except Exception as e:
             # Import here to avoid circular dependency
-            from providers.errors import classify_anthropic_error
+            from matrx_ai.providers.errors import classify_anthropic_error
             
             # Classify the error to determine if it's retryable
             error_info = classify_anthropic_error(e)

@@ -12,8 +12,8 @@ Core components for agent-based AI interactions:
 - pm: PromptManagers aggregator — single access point for prompt/builtin operations
 
 Usage:
-    from agents import Agent, pm
-    from agents import ConversationResolver, AgentConfigResolver
+    from matrx_ai.agents import Agent, pm
+    from matrx_ai.agents import ConversationResolver, AgentConfigResolver
 """
 
 __all__ = [
@@ -32,43 +32,43 @@ __all__ = [
 def __getattr__(name: str):
     """Lazy import to avoid circular dependencies."""
     if name == "Agent":
-        from agents.definition import Agent
+        from matrx_ai.agents.definition import Agent
 
         return Agent
     elif name == "AgentCache":
-        from agents.cache import AgentCache
+        from matrx_ai.agents.cache import AgentCache
 
         return AgentCache
     elif name == "AgentConfig":
-        from agents.types import AgentConfig
+        from matrx_ai.agents.types import AgentConfig
 
         return AgentConfig
     elif name == "AgentConfigResolver":
-        from agents.resolver import AgentConfigResolver
+        from matrx_ai.agents.resolver import AgentConfigResolver
 
         return AgentConfigResolver
     elif name == "AgentExecuteResult":
-        from agents.definition import AgentExecuteResult
+        from matrx_ai.agents.definition import AgentExecuteResult
 
         return AgentExecuteResult
     elif name == "AgentVariable":
-        from agents.variables import AgentVariable
+        from matrx_ai.agents.variables import AgentVariable
 
         return AgentVariable
     elif name == "ConversationResolver":
-        from agents.resolver import ConversationResolver
+        from matrx_ai.agents.resolver import ConversationResolver
 
         return ConversationResolver
     elif name == "PromptManagers":
-        from agents.manager import PromptManagers
+        from matrx_ai.agents.manager import PromptManagers
 
         return PromptManagers
     elif name == "PromptType":
-        from agents.manager import PromptType
+        from matrx_ai.agents.manager import PromptType
 
         return PromptType
     elif name == "pm":
-        from agents.manager import pm
+        from matrx_ai.agents.manager import pm
 
         return pm
     raise AttributeError(f"module 'ai.agents' has no attribute '{name}'")

@@ -1,9 +1,10 @@
-from typing import Any, List, Union
-from openai import OpenAI
-from openai.types.responses import Response as OpenAIResponse, ResponseOutputItem as OpenAIResponseOutputItem, ResponseOutputMessage as OpenAIResponseOutputMessage
-from matrx_utils import vcprint, clear_terminal
 from dotenv import load_dotenv
-from config.unified_config import UnifiedMessage
+from matrx_utils import clear_terminal, vcprint
+from openai import OpenAI
+from openai.types.responses import Response as OpenAIResponse
+from openai.types.responses import ResponseOutputItem as OpenAIResponseOutputItem
+
+from matrx_ai.config.unified_config import UnifiedMessage
 
 load_dotenv()
 clear_terminal()
@@ -43,7 +44,7 @@ vcprint(response, "Final Complete Response", color="green")
 
 
 # Output is a list of items that can be messages, reasoning, web_search_call, etc.
-output: List[OpenAIResponseOutputItem] = response.output
+output: list[OpenAIResponseOutputItem] = response.output
 
 for item in output:
     item_type: str = item.type
@@ -59,7 +60,7 @@ for item in output:
 unified_message: UnifiedMessage = UnifiedMessage.from_openai(output)
 vcprint(unified_message, "Unified Message", color="magenta")
 
-sample_output: List[OpenAIResponseOutputItem] = [
+sample_output: list[OpenAIResponseOutputItem] = [
         {
             "id": "ws_0a12a58b7b1fca6000695550b609b88193a3323f0785901b3d",
             "action": {

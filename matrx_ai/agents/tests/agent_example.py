@@ -6,10 +6,10 @@ import asyncio
 
 from matrx_utils import clear_terminal, vcprint
 
-from agents.definition import Agent
-from initialize_systems import initialize
+import matrx_ai
+from matrx_ai.agents.definition import Agent
 
-initialize()
+matrx_ai.initialize()
 
 
 async def example_1_basic_usage():

@@ -5,7 +5,7 @@ _emit_completion helper. The router's only job is to resolve a UnifiedConfig,
 set AppContext, and hand off to create_streaming_response().
 
 Usage:
-    from app.core.ai_task import run_ai_task
+    from matrx_ai.app.core.ai_task import run_ai_task
 
     return create_streaming_response(
         ctx, run_ai_task, config,
@@ -19,10 +19,10 @@ import traceback
 
 from matrx_utils import vcprint
 
-from config.unified_config import UnifiedConfig
-from context.events import CompletionPayload
-from context.stream_emitter import StreamEmitter
-from orchestrator.requests import CompletedRequest
+from matrx_ai.config.unified_config import UnifiedConfig
+from matrx_ai.context.events import CompletionPayload
+from matrx_ai.context.stream_emitter import StreamEmitter
+from matrx_ai.orchestrator.requests import CompletedRequest
 
 
 async def run_ai_task(
@@ -42,7 +42,7 @@ async def run_ai_task(
     This function is passed as task_fn to create_streaming_response().
     The emitter argument is injected by the streaming infrastructure.
     """
-    from orchestrator import execute_ai_request
+    from matrx_ai.orchestrator import execute_ai_request
 
     await emitter.send_status_update(status="processing", system_message="Starting execution")
 
@@ -61,9 +61,9 @@ async def run_ai_task(
 def _update_cache(completed: CompletedRequest) -> None:
     """Write the completed conversation config into AgentCache."""
     try:
-        from agents.cache import AgentCache
-        from agents.definition import Agent
-        from context.app_context import get_app_context
+        from matrx_ai.agents.cache import AgentCache
+        from matrx_ai.agents.definition import Agent
+        from matrx_ai.context.app_context import get_app_context
 
         ctx = get_app_context()
         conversation_id = ctx.conversation_id

@@ -7,14 +7,14 @@ import time
 from pathlib import Path
 from typing import Any
 
-from tools.arg_models.fs_args import (
+from matrx_ai.tools.arg_models.fs_args import (
     FsListArgs,
     FsMkdirArgs,
     FsReadArgs,
     FsSearchArgs,
     FsWriteArgs,
 )
-from tools.models import ToolContext, ToolError, ToolResult
+from matrx_ai.tools.models import ToolContext, ToolError, ToolResult
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +54,7 @@ async def fs_read(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         read_limit = parsed.limit if parsed.limit > 0 else MAX_READ_SIZE
         truncated = size > read_limit
 
-        with open(filepath, "r", errors="replace") as f:
+        with open(filepath, errors="replace") as f:
             if parsed.offset:
                 f.seek(parsed.offset)
             content = f.read(read_limit)

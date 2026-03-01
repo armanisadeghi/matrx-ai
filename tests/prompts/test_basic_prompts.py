@@ -2,7 +2,7 @@ import asyncio
 
 from matrx_utils import clear_terminal, vcprint
 
-from prompts.manager import pm
+from matrx_ai.agents.manager import pm
 
 
 async def load_prompt_by_id(prompt_id: str):
@@ -25,10 +25,11 @@ if __name__ == "__main__":
     prompt = asyncio.run(load_prompt_by_id(prompt_id))
     vcprint(prompt, "Prompt", color="green")
 
-    defaults = prompt.variable_defaults
-    for default in defaults:
-        name = default["name"]
-        default_value = default["defaultValue"]
+    variables = prompt.variable_defaults
+    vcprint(variables, "Variables", color="green")
+    for variable in variables:
+        name = variable["name"]
+        default_value = variable["defaultValue"]
         vcprint("\n\n", color="yellow")
         vcprint(f"Variable Name: {name}", color="yellow")
         print(default_value)

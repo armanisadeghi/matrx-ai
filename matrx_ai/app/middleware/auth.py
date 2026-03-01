@@ -5,8 +5,8 @@ from matrx_utils import vcprint
 from starlette.requests import Request
 from starlette.types import ASGIApp, Receive, Scope, Send
 
-from app.config import get_settings
-from context.app_context import AppContext, clear_app_context, set_app_context
+from matrx_ai.app.config import get_settings
+from matrx_ai.context.app_context import AppContext, clear_app_context, set_app_context
 
 
 class AuthMiddleware:
@@ -67,7 +67,7 @@ class AuthMiddleware:
 
 
 def _build_context(request: Request) -> AppContext:
-    from context.stream_emitter import StreamEmitter
+    from matrx_ai.context.stream_emitter import StreamEmitter
 
     ctx = AppContext(
         ip_address=request.client.host if request.client else None,
@@ -100,8 +100,10 @@ def _validate_token(
     try:
         scheme, token = authorization.split(None, 1)
         if scheme.lower() != "bearer":
+            vcprint(f"[AuthMiddleware] Non-bearer scheme rejected: {scheme!r}", color="yellow")
             return None
     except ValueError:
+        vcprint("[AuthMiddleware] Malformed authorization header", color="yellow")
         return None
 
     settings = get_settings()
@@ -109,6 +111,7 @@ def _validate_token(
     admin_user_id = settings.admin_user_id
 
     if admin_token and admin_user_id and token == admin_token:
+        vcprint(f"[AuthMiddleware] Admin token accepted: user={admin_user_id}", color="green")
         ctx.user_id = admin_user_id
         ctx.auth_type = "token"
         ctx.is_authenticated = True
@@ -121,6 +124,13 @@ def _validate_token(
     jwt_secret = settings.supabase_matrix_jwt_secret
 
     if not jwt_secret:
+        print(
+            "[AuthMiddleware] WARNING: supabase_matrix_jwt_secret not set — "
+            "JWT tokens cannot be validated. Set SUPABASE_MATRIX_JWT_SECRET in .env.",
+            file=__import__("sys").stderr,
+            flush=True,
+        )
+        vcprint("[AuthMiddleware] JWT secret missing — cannot validate token", color="red")
         return None
 
     try:
@@ -130,7 +140,9 @@ def _validate_token(
             algorithms=["HS256"],
             options={"verify_aud": False},
         )
-        ctx.user_id = decoded.get("sub", "")
+        user_id = decoded.get("sub", "")
+        vcprint(f"[AuthMiddleware] JWT accepted: user={user_id}", color="green")
+        ctx.user_id = user_id
         ctx.auth_type = "token"
         ctx.is_authenticated = True
         ctx.is_admin = False
@@ -138,5 +150,11 @@ def _validate_token(
         ctx.token = token
         ctx.fingerprint_id = fingerprint_id
         return ctx
-    except jwt.InvalidTokenError:
+    except jwt.InvalidTokenError as e:
+        print(
+            f"[AuthMiddleware] JWT validation FAILED: {type(e).__name__}: {e}",
+            file=__import__("sys").stderr,
+            flush=True,
+        )
+        vcprint(f"[AuthMiddleware] JWT rejected: {type(e).__name__}: {e}", color="red")
         return None

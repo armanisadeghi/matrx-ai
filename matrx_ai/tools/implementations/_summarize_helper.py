@@ -6,10 +6,10 @@ from uuid import uuid4
 
 from matrx_utils import vcprint
 
-from tools.models import ToolContext
+from matrx_ai.tools.models import ToolContext
 
 if TYPE_CHECKING:
-    from config import TokenUsage
+    from matrx_ai.config import TokenUsage
 
 
 async def summarize_content(
@@ -23,12 +23,12 @@ async def summarize_content(
     Returns ``(summary_text, usage_history)``.
     """
     try:
-        from agents.definition import Agent
-        from context.app_context import (
+        from matrx_ai.agents.definition import Agent
+        from matrx_ai.context.app_context import (
             clear_app_context as clear_execution_context,
         )
-        from context.app_context import get_app_context
-        from context.app_context import (
+        from matrx_ai.context.app_context import get_app_context
+        from matrx_ai.context.app_context import (
             set_app_context as set_execution_context,
         )
 
@@ -36,7 +36,7 @@ async def summarize_content(
         token = set_execution_context(child_ctx)
 
         try:
-            from config.unified_config import UnifiedConfig
+            from matrx_ai.config.unified_config import UnifiedConfig
 
             config = UnifiedConfig.from_dict(
                 {

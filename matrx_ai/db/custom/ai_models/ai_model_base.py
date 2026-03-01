@@ -2,8 +2,8 @@ from typing import Any
 
 from matrx_orm import BaseManager
 
-from db.custom.ai_models.ai_model_dto import AiModelDTO
-from db.models import AiModel
+from matrx_ai.db.custom.ai_models.ai_model_dto import AiModelDTO
+from matrx_ai.db.models import AiModel
 
 # ---------------------------------------------------------------------------
 # Manager — DTO is active by default for full backward compatibility.

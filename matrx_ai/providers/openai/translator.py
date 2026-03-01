@@ -4,7 +4,7 @@ import rich
 from matrx_utils import vcprint
 from openai.types.responses import Response as OpenAIResponse
 
-from config import (
+from matrx_ai.config import (
     FinishReason,
     ThinkingConfig,
     TokenUsage,
@@ -12,7 +12,7 @@ from config import (
     UnifiedMessage,
     UnifiedResponse,
 )
-from tools.registry import ToolRegistryV2
+from matrx_ai.tools.registry import ToolRegistryV2
 
 # ============================================================================
 # OPENAI TRANSLATOR

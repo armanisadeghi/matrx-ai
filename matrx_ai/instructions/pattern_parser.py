@@ -244,7 +244,7 @@ def resolve_matrx_patterns(text: str) -> str:
     if not _MATRX_QUICK_CHECK.search(text):
         return text
 
-    from instructions.matrx_fetcher import MatrxFetcher
+    from matrx_ai.instructions.matrx_fetcher import MatrxFetcher
 
     patterns = MatrxPatternParser.parse(text)
     if not patterns:

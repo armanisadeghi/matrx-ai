@@ -4,8 +4,8 @@ Quick test to verify variable application works correctly
 
 import asyncio
 
-from agents.definition import Agent
-from agents.variables import AgentVariable
+from matrx_ai.agents.definition import Agent
+from matrx_ai.agents.variables import AgentVariable
 
 
 async def test_variable_application():

@@ -5,7 +5,7 @@ from typing import Any, Literal
 from google.genai.types import Part
 from matrx_utils import vcprint
 
-from media import detect_mime_type
+from matrx_ai.media import detect_mime_type
 
 # Unified storage kind discriminator for all media types
 MediaKind = Literal["image", "audio", "video", "document", "youtube"]
@@ -46,7 +46,7 @@ class ImageContent:
 
     def to_google(self) -> dict[str, Any] | None:
         """Convert to Google Gemini format"""
-        from media import fetch_media
+        from matrx_ai.media import fetch_media
 
         # Google prefers file_uri, then inline_data
         if self.file_uri:
@@ -111,7 +111,7 @@ class ImageContent:
     @classmethod
     def from_google(cls, part: Part) -> "ImageContent | None":
         """Create ImageContent from Google Part object"""
-        from media import save_media
+        from matrx_ai.media import save_media
 
         # Google can return images via inline_data or file_data
         if part.inline_data:
@@ -241,7 +241,7 @@ class AudioContent:
 
         # Check global cache (unless forcing refresh)
         if not force_refresh:
-            from processing.audio.transcription_cache import get_cache
+            from matrx_ai.processing.audio.transcription_cache import get_cache
 
             cache = get_cache()
             cached = cache.get(
@@ -265,8 +265,8 @@ class AudioContent:
 
         # Perform transcription
         try:
-            from processing.audio.groq_transcription import GroqTranscription
-            from processing.audio.transcription_cache import get_cache
+            from matrx_ai.processing.audio.groq_transcription import GroqTranscription
+            from matrx_ai.processing.audio.transcription_cache import get_cache
 
             transcriber = GroqTranscription(default_model=self.transcription_model)
 
@@ -367,7 +367,7 @@ class AudioContent:
 
     def to_google(self) -> dict[str, Any] | None:
         """Convert to Google Gemini format"""
-        from media import fetch_media
+        from matrx_ai.media import fetch_media
 
         if self.file_uri:
             return {
@@ -407,7 +407,7 @@ class AudioContent:
     @classmethod
     def from_google(cls, part: Part) -> "AudioContent | None":
         """Create AudioContent from Google Part object"""
-        from media import save_media
+        from matrx_ai.media import save_media
 
         if hasattr(part, "inline_data") and part.inline_data:
             # Save to Supabase to prevent data loss
@@ -496,7 +496,7 @@ class VideoContent:
 
     def to_google(self) -> dict[str, Any] | None:
         """Convert to Google Gemini format"""
-        from media import fetch_media
+        from matrx_ai.media import fetch_media
 
         if self.file_uri:
             part = {
@@ -541,7 +541,7 @@ class VideoContent:
     @classmethod
     def from_google(cls, part: Part) -> "VideoContent | None":
         """Create VideoContent from Google Part object"""
-        from media import save_media
+        from matrx_ai.media import save_media
 
         video_metadata = None
         if hasattr(part, "video_metadata") and part.video_metadata:
@@ -745,7 +745,7 @@ class DocumentContent:
 
     def to_google(self) -> dict[str, Any] | None:
         """Convert to Google Gemini format"""
-        from media import fetch_media
+        from matrx_ai.media import fetch_media
 
         if self.file_uri:
             return {
@@ -798,7 +798,7 @@ class DocumentContent:
     @classmethod
     def from_google(cls, part: Part) -> "DocumentContent | None":
         """Create DocumentContent from Google Part object"""
-        from media import save_media
+        from matrx_ai.media import save_media
 
         if hasattr(part, "inline_data") and part.inline_data:
             # Save to Supabase to prevent data loss

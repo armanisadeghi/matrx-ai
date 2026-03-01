@@ -6,10 +6,10 @@ from typing import TYPE_CHECKING, Any, Literal
 
 from pydantic import BaseModel, Field
 
-from context.emitter_protocol import Emitter
+from matrx_ai.context.emitter_protocol import Emitter
 
 if TYPE_CHECKING:
-    from tools.models import ToolResult
+    from matrx_ai.tools.models import ToolResult
 
 
 class ToolStreamEvent(BaseModel):

@@ -1,10 +1,10 @@
 .PHONY: install dev run lint fmt typecheck test
 
 install:
-	uv sync
+	uv sync --extra server
 
 dev:
-	PYTHONUNBUFFERED=1 PYTHONUTF8=1 uv run uvicorn app.main:app \
+	PYTHONUNBUFFERED=1 PYTHONUTF8=1 uv run uvicorn matrx_ai.app.main:app \
 		--host 0.0.0.0 --port 8000 \
 		--reload \
 		--loop uvloop \
@@ -12,13 +12,13 @@ dev:
 		--log-level warning
 
 run:
-	PYTHONUNBUFFERED=1 PYTHONUTF8=1 uv run python -m app.main
+	PYTHONUNBUFFERED=1 PYTHONUTF8=1 uv run matrx-ai-server
 
 lint:
-	uv run ruff check app tests
+	uv run ruff check matrx_ai tests
 
 fmt:
-	uv run ruff format app tests
+	uv run ruff format matrx_ai tests
 
 typecheck:
 	uv run pyright

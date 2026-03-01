@@ -5,10 +5,10 @@ This script tests the error classification and retry behavior without
 making actual API calls.
 """
 
-from client.errors import (
+from matrx_ai.providers.errors import (
+    classify_anthropic_error,
     classify_google_error,
     classify_openai_error,
-    classify_anthropic_error,
     classify_provider_error,
 )
 
@@ -113,8 +113,8 @@ def test_anthropic_overloaded():
 
 def test_backoff_calculation():
     """Test exponential backoff calculation."""
-    from client.errors import RetryableError
-    
+    from matrx_ai.providers.errors import RetryableError
+
     error = RetryableError(
         error_type="test",
         message="test",
@@ -135,8 +135,8 @@ def test_backoff_calculation():
 
 def test_custom_retry_after():
     """Test custom retry_after override."""
-    from client.errors import RetryableError
-    
+    from matrx_ai.providers.errors import RetryableError
+
     error = RetryableError(
         error_type="test",
         message="test",

@@ -1,14 +1,14 @@
 import asyncio
 
-from matrx_utils import cleanup_async_resources, clear_terminal, vcprint
-
-from agents.definition import Agent
 from aidream.api.middleware.test_context import (
     create_test_app_context as create_test_execution_context,
 )
-from initialize_systems import initialize
+from matrx_utils import cleanup_async_resources, clear_terminal, vcprint
 
-initialize()
+import matrx_ai
+from matrx_ai.agents.definition import Agent
+
+matrx_ai.initialize()
 _ctx_token = create_test_execution_context()
 
 
@@ -54,7 +54,7 @@ async def test_1B_basic_execution_with_parent_conversation():
     """Test 1B: Basic agent execution with parent conversation tracking."""
     import uuid
 
-    from context.app_context import (
+    from matrx_ai.context.app_context import (
         clear_app_context,
         get_app_context,
         set_app_context,
@@ -213,7 +213,7 @@ async def test_4_clone_with_different_models():
 async def scrape_research_condenser_agent_1(
     instructions, scraped_content, queries, search_results, emitter=None
 ):
-    from agents.definition import Agent
+    from matrx_ai.agents.definition import Agent
 
     agent = await Agent.from_prompt("a5f65b49-f0fa-4d0d-a7ce-e200237ab1b6")
     agent.set_variable("instructions", instructions)

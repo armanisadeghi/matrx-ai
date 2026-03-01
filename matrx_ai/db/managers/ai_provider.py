@@ -4,11 +4,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from matrx_orm import BaseManager, BaseDTO, ModelView
-from matrx_utils import vcprint
+from matrx_orm import BaseDTO, BaseManager, ModelView
 
-from db.models import AiProvider
-
+from matrx_ai.db.models import AiProvider
 
 # ---------------------------------------------------------------------------
 # ModelView (new) — opt-in projection layer.
