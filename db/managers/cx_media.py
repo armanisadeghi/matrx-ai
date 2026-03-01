@@ -18,7 +18,7 @@ from db.models import CxMedia
 # When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
-class CxMediaView(ModelView):
+class CxMediaView(ModelView[CxMedia]):
     """
     Declarative view for CxMedia.
 
@@ -55,7 +55,7 @@ class CxMediaView(ModelView):
 # ---------------------------------------------------------------------------
 
 @dataclass
-class CxMediaDTO(BaseDTO):
+class CxMediaDTO(BaseDTO[CxMedia]):
     id: str
 
     async def _initialize_dto(self, model: CxMedia) -> None:

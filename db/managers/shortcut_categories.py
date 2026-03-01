@@ -18,7 +18,7 @@ from db.models import ShortcutCategories
 # When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
-class ShortcutCategoriesView(ModelView):
+class ShortcutCategoriesView(ModelView[ShortcutCategories]):
     """
     Declarative view for ShortcutCategories.
 
@@ -55,7 +55,7 @@ class ShortcutCategoriesView(ModelView):
 # ---------------------------------------------------------------------------
 
 @dataclass
-class ShortcutCategoriesDTO(BaseDTO):
+class ShortcutCategoriesDTO(BaseDTO[ShortcutCategories]):
     id: str
 
     async def _initialize_dto(self, model: ShortcutCategories) -> None:

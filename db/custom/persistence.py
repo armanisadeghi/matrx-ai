@@ -23,11 +23,9 @@ from uuid import UUID
 
 from matrx_utils import vcprint
 
-from db.custom.ai_model_manager import get_ai_model_manager
+from db.custom.ai_models.ai_model_manager import ai_model_manager_instance as model_manager
 from db.custom.cx_managers import cxm
 from orchestrator.requests import CompletedRequest
-
-model_manager = get_ai_model_manager()
 
 
 def _is_valid_uuid(value: str | None) -> bool:

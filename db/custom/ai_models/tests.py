@@ -1,7 +1,8 @@
-import os
 import asyncio
-from matrx_utils import vcprint, clear_terminal
-from matrix.ai_models.ai_model_manager import AiModelManager
+
+from matrx_utils import clear_terminal, vcprint
+
+from db.custom.ai_models.ai_model_manager import AiModelManager
 
 
 async def local_test(test_type: str, **kwargs):

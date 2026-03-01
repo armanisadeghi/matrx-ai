@@ -18,7 +18,7 @@ from db.models import Tools
 # When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
-class ToolsView(ModelView):
+class ToolsView(ModelView[Tools]):
     """
     Declarative view for Tools.
 
@@ -55,7 +55,7 @@ class ToolsView(ModelView):
 # ---------------------------------------------------------------------------
 
 @dataclass
-class ToolsDTO(BaseDTO):
+class ToolsDTO(BaseDTO[Tools]):
     id: str
 
     async def _initialize_dto(self, model: Tools) -> None:

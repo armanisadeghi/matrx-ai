@@ -18,7 +18,7 @@ from db.models import TableData
 # When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
-class TableDataView(ModelView):
+class TableDataView(ModelView[TableData]):
     """
     Declarative view for TableData.
 
@@ -55,7 +55,7 @@ class TableDataView(ModelView):
 # ---------------------------------------------------------------------------
 
 @dataclass
-class TableDataDTO(BaseDTO):
+class TableDataDTO(BaseDTO[TableData]):
     id: str
 
     async def _initialize_dto(self, model: TableData) -> None:

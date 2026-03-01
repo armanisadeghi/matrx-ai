@@ -18,7 +18,7 @@ from db.models import CxAgentMemory
 # When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
-class CxAgentMemoryView(ModelView):
+class CxAgentMemoryView(ModelView[CxAgentMemory]):
     """
     Declarative view for CxAgentMemory.
 
@@ -55,7 +55,7 @@ class CxAgentMemoryView(ModelView):
 # ---------------------------------------------------------------------------
 
 @dataclass
-class CxAgentMemoryDTO(BaseDTO):
+class CxAgentMemoryDTO(BaseDTO[CxAgentMemory]):
     id: str
 
     async def _initialize_dto(self, model: CxAgentMemory) -> None:

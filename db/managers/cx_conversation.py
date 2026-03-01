@@ -17,7 +17,7 @@ from db.models import CxConversation
 # When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
-class CxConversationView(ModelView):
+class CxConversationView(ModelView[CxConversation]):
     """
     Declarative view for CxConversation.
 
@@ -54,7 +54,7 @@ class CxConversationView(ModelView):
 # ---------------------------------------------------------------------------
 
 @dataclass
-class CxConversationDTO(BaseDTO):
+class CxConversationDTO(BaseDTO[CxConversation]):
     id: str
 
     async def _initialize_dto(self, model: CxConversation) -> None:

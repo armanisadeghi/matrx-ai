@@ -18,7 +18,7 @@ from db.models import CxToolCall
 # When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
-class CxToolCallView(ModelView):
+class CxToolCallView(ModelView[CxToolCall]):
     """
     Declarative view for CxToolCall.
 
@@ -55,7 +55,7 @@ class CxToolCallView(ModelView):
 # ---------------------------------------------------------------------------
 
 @dataclass
-class CxToolCallDTO(BaseDTO):
+class CxToolCallDTO(BaseDTO[CxToolCall]):
     id: str
 
     async def _initialize_dto(self, model: CxToolCall) -> None:

@@ -18,7 +18,7 @@ from db.models import PromptBuiltins
 # When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
-class PromptBuiltinsView(ModelView):
+class PromptBuiltinsView(ModelView[PromptBuiltins]):
     """
     Declarative view for PromptBuiltins.
 
@@ -55,7 +55,7 @@ class PromptBuiltinsView(ModelView):
 # ---------------------------------------------------------------------------
 
 @dataclass
-class PromptBuiltinsDTO(BaseDTO):
+class PromptBuiltinsDTO(BaseDTO[PromptBuiltins]):
     id: str
 
     async def _initialize_dto(self, model: PromptBuiltins) -> None:

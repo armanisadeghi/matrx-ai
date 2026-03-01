@@ -18,7 +18,7 @@ from db.models import CxUserRequest
 # When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
-class CxUserRequestView(ModelView):
+class CxUserRequestView(ModelView[CxUserRequest]):
     """
     Declarative view for CxUserRequest.
 
@@ -55,7 +55,7 @@ class CxUserRequestView(ModelView):
 # ---------------------------------------------------------------------------
 
 @dataclass
-class CxUserRequestDTO(BaseDTO):
+class CxUserRequestDTO(BaseDTO[CxUserRequest]):
     id: str
 
     async def _initialize_dto(self, model: CxUserRequest) -> None:

@@ -18,7 +18,7 @@ from db.models import ContentBlocks
 # When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
-class ContentBlocksView(ModelView):
+class ContentBlocksView(ModelView[ContentBlocks]):
     """
     Declarative view for ContentBlocks.
 
@@ -55,7 +55,7 @@ class ContentBlocksView(ModelView):
 # ---------------------------------------------------------------------------
 
 @dataclass
-class ContentBlocksDTO(BaseDTO):
+class ContentBlocksDTO(BaseDTO[ContentBlocks]):
     id: str
 
     async def _initialize_dto(self, model: ContentBlocks) -> None:

@@ -8,7 +8,8 @@ from typing import Any, Literal
 from matrx_utils import vcprint
 
 from config import UnifiedResponse
-from db.custom.ai_model_manager import get_ai_model_manager
+from db.custom.ai_models.ai_model_manager import ai_model_manager_instance
+from db.models import AiModel
 from orchestrator.requests import AIMatrixRequest
 
 # ============================================================================
@@ -38,8 +39,6 @@ API_CLASS_TO_ENDPOINT = {
 class UnifiedAIClient:
     """Unified client for all AI providers"""
 
-    model_manager = get_ai_model_manager()
-
     def __init__(self):
         from providers import (
             AnthropicChat,
@@ -51,6 +50,7 @@ class UnifiedAIClient:
             XAIChat,
         )
 
+        self.model_manager = ai_model_manager_instance
         self.google_chat = GoogleChat()
         self.openai_chat = OpenAIChat()
         self.anthropic_chat = AnthropicChat()
@@ -74,7 +74,7 @@ class UnifiedAIClient:
         debug = request.debug
 
         # Get model details first (need to know API class for audio support check)
-        model_data = await self.model_manager.load_model(model_id_or_name)
+        model_data: AiModel | None = await self.model_manager.load_model(model_id_or_name)
 
         if not model_data:
             raise ValueError(f"Model not found: {model_id_or_name}")

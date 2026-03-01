@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import uuid
+from typing import Any
 
 from db.models import AiModel
 
@@ -16,17 +19,19 @@ verbose=True for errors and things that should never be silenced.
 Errors are always set to verbose = True, color = "red"
 """
 
-
 class AiModelManager(AiModelBase):
-    _instance = None
+    _instance: AiModelManager | None = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: Any, **kwargs: Any) -> AiModelManager:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
+
+    async def _initialize_runtime_data(self, item: AiModel) -> None:
+        pass
 
     async def load_all_models(self, update_data_in_code: bool = False):
         models = await self.load_items()
@@ -75,15 +80,4 @@ class AiModelManager(AiModelBase):
         return models
 
 
-# To get the single instance of AiModelManager
-# ai_model_manager_instance = AiModelManager()
-
-# Jatin added this
-ai_model_manager_instance = None
-
-
-def get_ai_model_manager():
-    global ai_model_manager_instance
-    if ai_model_manager_instance is None:
-        ai_model_manager_instance = AiModelManager()
-    return ai_model_manager_instance
+ai_model_manager_instance = AiModelManager()

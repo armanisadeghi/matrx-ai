@@ -29,8 +29,9 @@ class AiModelDTO(BaseDTO):
     default_endpoint: str | None = None
     default_max_tokens: int | None = None
 
-    async def _initialize_dto(self, model):
-        """Initialize the DTO with the model data and compute runtime properties."""
+    async def _initialize_dto(self, model: AiModel) -> None:
+        '''Override to populate DTO fields from the model.'''
+        vcprint(f"[Ai Model DTO] {model.name} initializing...", verbose=verbose, color="green")
         self.id = str(model.id)
         await self._process_core_data(model)
         await self._process_metadata(model)
@@ -40,7 +41,7 @@ class AiModelDTO(BaseDTO):
             f"[Ai Model DTO] {self.name} initialized---", verbose=verbose, color="green"
         )
 
-    async def _process_core_data(self, ai_model_item):
+    async def _process_core_data(self, ai_model_item: AiModel) -> None:
         """Process core data and compute runtime properties."""
         # Ensure endpoints is a list
         endpoints = ai_model_item.endpoints

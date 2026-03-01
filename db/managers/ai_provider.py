@@ -18,7 +18,7 @@ from db.models import AiProvider
 # When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
-class AiProviderView(ModelView):
+class AiProviderView(ModelView[AiProvider]):
     """
     Declarative view for AiProvider.
 
@@ -55,7 +55,7 @@ class AiProviderView(ModelView):
 # ---------------------------------------------------------------------------
 
 @dataclass
-class AiProviderDTO(BaseDTO):
+class AiProviderDTO(BaseDTO[AiProvider]):
     id: str
 
     async def _initialize_dto(self, model: AiProvider) -> None:

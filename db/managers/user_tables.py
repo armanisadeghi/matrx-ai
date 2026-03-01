@@ -18,7 +18,7 @@ from db.models import UserTables
 # When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
-class UserTablesView(ModelView):
+class UserTablesView(ModelView[UserTables]):
     """
     Declarative view for UserTables.
 
@@ -55,7 +55,7 @@ class UserTablesView(ModelView):
 # ---------------------------------------------------------------------------
 
 @dataclass
-class UserTablesDTO(BaseDTO):
+class UserTablesDTO(BaseDTO[UserTables]):
     id: str
 
     async def _initialize_dto(self, model: UserTables) -> None:
