@@ -51,10 +51,11 @@ class OpenAITranslator:
             rich.print(converted)
 
             if converted:
-                # If it's a list (OUTPUT/TOOL role), extend messages with all items
+                # Lists are extended flat: OUTPUT/TOOL items, reasoning items,
+                # and prior-turn assistant messages (raw output-objects).
                 if isinstance(converted, list):
                     messages.extend(converted)
-                # Otherwise it's a single wrapped message, append it
+                # Otherwise it's a chat-style wrapped message, append it directly.
                 else:
                     messages.append(converted)
 
@@ -144,7 +145,7 @@ class OpenAITranslator:
         Convert OpenAI Responses API response to unified format.
 
         """
-        vcprint(response, "OpenAI Response", color="blue", verbose=False)
+        vcprint(response, "[OPENAI TRANSLATOR] from_openai Response before conversion", color="yellow", verbose=True)
 
         # messages = self._from_openai_messages(response.output)
         messages = []

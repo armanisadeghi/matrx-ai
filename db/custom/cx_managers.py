@@ -197,7 +197,7 @@ class CxManagers:
             "model": conversation.ai_model_id,
             "system_instruction": conversation.system_instruction,
             "messages": messages_rebuilt,
-            **(conversation.config or {}),
+            **conversation.config,
         }
 
         unified_config = UnifiedConfig.from_dict(config_dict)
@@ -219,13 +219,14 @@ class CxManagers:
         messages_rebuilt = await rebuild_conversation_messages(
             messages, tool_calls, media
         )
+        
+        config_dict = dict(conversation.config)
 
-        config_dict = {
+        config_dict.update({
             "model": conversation.ai_model_id,
             "system_instruction": conversation.system_instruction,
             "messages": messages_rebuilt,
-            **(conversation.config or {}),
-        }
+        })
 
         return UnifiedConfig.from_dict(config_dict)
 

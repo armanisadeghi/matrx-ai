@@ -8,22 +8,11 @@ from pathlib import Path
 
 import dotenv
 import rich
-from matrx_utils import cleanup_async_resources, clear_terminal, vcprint
-
-from orchestrator.executor import execute_until_complete
-from providers.unified_client import (
-    AIMatrixRequest,
-    UnifiedAIClient,
-)
-from shared.json_utils import to_matrx_json  # TODO: move to matrx_utils or inline json.dumps
-from tests.ai.test_context import create_test_execution_context
+from matrx_utils import cleanup_async_resources, clear_terminal, to_matrx_json, vcprint
 
 dotenv.load_dotenv()
 
 LOCAL_USER_ID = os.getenv("LOCAL_USER_ID")
-
-# initialize()
-_ctx_token = create_test_execution_context(debug=False)
 
 
 async def register_all_tools():
@@ -34,32 +23,26 @@ async def register_all_tools():
 
 
 
-async def test_autonomous_execution(config: dict, conversation_id: str, debug: bool = False):
+async def test_autonomous_execution(config: dict, conversation_id: str, new_conversation: bool = False, debug: bool = False):
     """Test autonomous execution that handles all tool calls automatically"""
+    from config.unified_config import UnifiedConfig
+    from orchestrator.executor import execute_ai_request
+    from tests.ai.test_context import create_test_execution_context
     
+    create_test_execution_context(conversation_id=conversation_id, debug=debug, new_conversation=new_conversation)
+
     if config.get("tools") and isinstance(config.get("tools"), list) and len(config.get("tools")) > 0:
         await register_all_tools()
-    
-    settings_to_use = {
-        "conversation_id": conversation_id,
-        "debug": debug,
-        "config": config,
-    }
 
-    client = UnifiedAIClient()
-    request = AIMatrixRequest.from_dict(settings_to_use)
-    rich.print(request)
+    unified_config = UnifiedConfig.from_dict(config)
 
     try:
-        completed = await execute_until_complete(
-            initial_request=request,
-            client=client,
+        completed = await execute_ai_request(
+            unified_config,
             max_iterations=10,
             max_retries_per_iteration=0,
         )
-
         return completed
-
     except RuntimeError as e:
         vcprint(f"\n✗ Autonomous execution failed: {str(e)}", color="red")
         raise
@@ -453,8 +436,9 @@ if __name__ == "__main__":
 
     # options: simple_chat_settings, single_tool_settings_v2, image_generation_settings, complex_settings,
     # document_input_settings, youtube_url_settings, audio_transcription_test_settings, audio_direct_google_settings
-    settings_to_use = single_tool_settings_v2
-    settings_to_use["config"]["model"] = google
+    settings_to_use = simple_chat_settings
+    settings_to_use["config"]["model"] = openai
+    new_conversation = True
     # settings_to_use["debug"] = True
 
     # Run autonomous execution that handles all tool calls automatically
@@ -464,33 +448,29 @@ if __name__ == "__main__":
 
     from tests.ai.test_context import get_test_conversation_id
 
-    conversation_id = get_test_conversation_id()
-    final_result = asyncio.run(
-        test_autonomous_execution(settings_to_use["config"], conversation_id, debug=False)
-    )
+    async def run():
+        conversation_id = get_test_conversation_id()
+        final_result = await test_autonomous_execution(settings_to_use["config"], conversation_id, new_conversation=new_conversation, debug=False)
 
-    # Save to file for easy review
-    output_file = Path(__file__).parent / "final_response.json"
-    serializable_result = to_matrx_json(final_result)
-    with open(output_file, "w") as f:
-        json.dump(serializable_result, f, indent=4)
+        output_file = Path(__file__).parent / "final_response.json"
+        serializable_result = to_matrx_json(final_result)
+        with open(output_file, "w") as f:  # noqa: ASYNC230
+            json.dump(serializable_result, f, indent=4)
+        vcprint(f"\nFinal result saved to: {output_file}", color="blue")
 
-    vcprint(f"\nFinal result saved to: {output_file}", color="blue")
+        clean_response = clean_up_response(final_result)
+        output_file = Path(__file__).parent / "clean_response.json"
+        serializable_result = to_matrx_json(clean_response)
+        with open(output_file, "w") as f:  # noqa: ASYNC230
+            json.dump(serializable_result, f, indent=4)
+        vcprint(f"\nClean response saved to: {output_file}", color="blue")
 
-    clean_response = clean_up_response(final_result)
-    output_file = Path(__file__).parent / "clean_response.json"
-    serializable_result = to_matrx_json(clean_response)
-    with open(output_file, "w") as f:
-        json.dump(serializable_result, f, indent=4)
-    vcprint(f"\nClean response saved to: {output_file}", color="blue")
+        storage_data = final_result.to_storage_dict()
+        storage_serializable = to_matrx_json(storage_data)
+        output_file = Path(__file__).parent / "cx_storage_response.json"
+        with open(output_file, "w") as f:  # noqa: ASYNC230
+            json.dump(storage_serializable, f, indent=4)
+        vcprint(f"\nCX storage format saved to: {output_file}", color="blue")
 
-    # Save in cx_ storage format (database-ready)
-    storage_data = final_result.to_storage_dict()
-    storage_serializable = to_matrx_json(storage_data)
-    output_file = Path(__file__).parent / "cx_storage_response.json"
-    with open(output_file, "w") as f:
-        json.dump(storage_serializable, f, indent=4)
-    vcprint(f"\nCX storage format saved to: {output_file}", color="blue")
-
-    # Clean up async resources to prevent ResourceWarnings
+    asyncio.run(run())
     cleanup_async_resources()

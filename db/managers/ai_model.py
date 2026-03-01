@@ -4,10 +4,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from matrx_orm import BaseDTO, BaseManager, ModelView
+from matrx_orm import BaseManager, BaseDTO, ModelView
 from matrx_utils import vcprint
 
 from db.models import AiModel
+
 
 # ---------------------------------------------------------------------------
 # ModelView (new) — opt-in projection layer.
@@ -17,7 +18,7 @@ from db.models import AiModel
 # When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
-class AiModelView(ModelView):
+class AiModelView(ModelView[AiModel]):
     """
     Declarative view for AiModel.
 
@@ -54,7 +55,7 @@ class AiModelView(ModelView):
 # ---------------------------------------------------------------------------
 
 @dataclass
-class AiModelDTO(BaseDTO):
+class AiModelDTO(BaseDTO[AiModel]):
     id: str
 
     async def _initialize_dto(self, model: AiModel) -> None:

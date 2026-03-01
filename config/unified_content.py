@@ -155,9 +155,11 @@ class TextContent:
         cls, content_item: OpenAIResponseOutputText, id: str
     ) -> "TextContent | None":
         text = content_item.text
-        metadata = content_item.model_dump(exclude={"text", "id"})
+        metadata = content_item.model_dump(exclude={"text"})
+        metadata["id"] = id
 
         return cls(
+            id=id,
             text=text,
             metadata=metadata,
         )
@@ -316,7 +318,9 @@ class ThinkingContent:
             "id": self.id,
             "summary": self.summary,
             "type": "reasoning",
+            # "content": self.text,
             "encrypted_content": self.signature,
+            # "status": self.metadata.get("status", None),
         }
 
     def to_anthropic(self) -> dict[str, Any] | None:
@@ -426,12 +430,14 @@ def reconstruct_content(block: dict[str, Any]) -> UnifiedContent:
         sig = block.get("signature")
         if sig and block.get("signature_encoding") == "base64":
             sig = base64.b64decode(sig)
+            
+        id_from_metadata = block.get("metadata", {}).get("id")
         return ThinkingContent(
             text=block.get("text", ""),
             provider=block.get("provider"),
             signature=sig,
             summary=block.get("summary", []),
-            id=block.get("id", ""),
+            id=id_from_metadata or block.get("id", ""),
         )
 
     elif block_type == "media":

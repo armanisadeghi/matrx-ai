@@ -3,14 +3,18 @@ Unified AI API System for OpenAI, Anthropic, and Google Gemini
 Preserves ALL content types and metadata from all providers
 """
 
-from typing import Any, Literal
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any, Literal
 
 from matrx_utils import vcprint
 
 from config import UnifiedResponse
 from db.custom.ai_models.ai_model_manager import ai_model_manager_instance
 from db.models import AiModel
-from orchestrator.requests import AIMatrixRequest
+
+if TYPE_CHECKING:
+    from orchestrator.requests import AIMatrixRequest
 
 # ============================================================================
 # UNIFIED CLIENT

@@ -278,7 +278,7 @@ class UnifiedMessage:
             "parts": parts,
         }
 
-    def to_openai_items(self) -> list[dict[str, Any]]:
+    def to_openai_items(self) -> list[dict[str, Any]] | dict[str, Any] | None:
         """
         Convert message to OpenAI Responses API format items.
 
@@ -287,13 +287,23 @@ class UnifiedMessage:
         - Thinking becomes separate reasoning items
         - Tool results become function_call_output items
         - Regular messages stay as message items
+
+        Assistant messages that originated from the Responses API (i.e. have an id
+        like "msg_...") must be serialized as raw output-objects:
+            {"type": "message", "role": "assistant", "id": "...", "content": [...]}
+        rather than the chat-style wrapper {"role": "assistant", "content": [...]}.
+        This is required so that a preceding "reasoning" item and its paired
+        "message" item are both flat output-objects, satisfying OpenAI's rule that
+        a reasoning item must be immediately followed by its associated output item.
         """
 
         converted = []
+        text_content_id = None
         for content in self.content:
             result = None
             if isinstance(content, TextContent):
                 result = content.to_openai(role=self.role)
+                text_content_id = content.id
             else:
                 result = content.to_openai()
 
@@ -301,11 +311,18 @@ class UnifiedMessage:
                 converted.append(result)
 
         if converted and self.role in (Role.OUTPUT, Role.TOOL):
+            vcprint(converted, "[UNIFIED MESSAGE] to_openai_items converted output or tool role", color="yellow", verbose=True)
             return converted  # Returns list: [item1, item2, item3] & without role, etc.
+
+        elif converted and self.role == Role.ASSISTANT and text_content_id:
+            # Prior Responses API output — must be a raw output-object so it is
+            # adjacent to any preceding reasoning item in the input array.
+            return [{"type": "message", "role": "assistant", "id": text_content_id, "content": converted}]
 
         elif converted:
             return {"role": self.role, "content": converted}
         else:
+            vcprint(converted, "[UNIFIED MESSAGE] to_openai_items converted None role", color="red", verbose=True)
             return None
 
     def to_anthropic_blocks(self) -> list[dict[str, Any]]:

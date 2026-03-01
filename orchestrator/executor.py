@@ -24,8 +24,8 @@ from db.custom import (
 from db.custom.persistence import persist_completed_request
 from orchestrator.requests import AIMatrixRequest, CompletedRequest
 from orchestrator.tracking import TimingUsage, ToolCallUsage
-from providers import UnifiedAIClient
 from providers.errors import RetryableError, classify_provider_error
+from providers.unified_client import UnifiedAIClient
 from tools.handle_tool_calls import handle_tool_calls_v2
 
 from .recovery_logic import handle_finish_reason
@@ -266,8 +266,11 @@ async def execute_until_complete(
         parent_conversation_id=exec_ctx.parent_conversation_id,
     )
 
+    # Use current_request.request_id as the authoritative PK for cx_user_request.
+    # This is what CompletedRequest.to_storage_dict() emits, so gate and
+    # persistence are guaranteed to reference the same row.
     await create_pending_user_request(
-        request_id=exec_ctx.request_id or current_request.request_id or "",
+        request_id=current_request.request_id or exec_ctx.request_id,
         conversation_id=exec_ctx.conversation_id,
         user_id=exec_ctx.user_id,
     )

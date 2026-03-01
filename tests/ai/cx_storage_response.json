@@ -1,1 +1,104 @@
-"{\n  \"conversation\": {\n    \"user_id\": \"4cf62e4e-2679-484f-b652-034e697418df\",\n    \"ai_model\": \"gemini-3-flash-preview\",\n    \"system_instruction\": \"Current date: 2026-02-28\\n\\nYou're a helpful assistant. Think through your response step by step and use the many tools you have available to you. You have tools to get the latest news headlines.\",\n    \"config\": {\n      \"tools\": [\n        \"news_get_headlines\"\n      ],\n      \"tool_choice\": \"auto\",\n      \"reasoning_effort\": \"low\",\n      \"reasoning_summary\": \"detailed\",\n      \"stream\": true,\n      \"internal_web_search\": false,\n      \"internal_url_context\": false\n    },\n    \"message_count\": 6,\n    \"parent_conversation_id\": null\n  },\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"position\": 0,\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Hi\"\n        }\n      ]\n    },\n    {\n      \"role\": \"assistant\",\n      \"position\": 1,\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Hello! How may I assist you today?\"\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"position\": 2,\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Hello! Can you give me some of the latest news headlines? Just for the US is good and I want them up to date for today.\"\n        }\n      ]\n    },\n    {\n      \"role\": \"assistant\",\n      \"position\": 3,\n      \"content\": [\n        {\n          \"type\": \"tool_call\",\n          \"name\": \"news_get_headlines\",\n          \"arguments\": {\n            \"country\": \"us\"\n          },\n          \"id\": \"gemini_-6612311169664738781\"\n        }\n      ]\n    },\n    {\n      \"role\": \"tool\",\n      \"position\": 4,\n      \"content\": [\n        {\n          \"type\": \"tool_result\",\n          \"name\": \"news_get_headlines\",\n          \"content\": \"TOOL ERROR [execution]: No module named 'newsapi'\\nSuggested action: Check the error details and try with different parameters.\\nTechnical details:\\nTraceback (most recent call last):\\n  File \\\"/home/arman/projects/matrx-ai/tools/executor.py\\\", line 158, in execute\\n    result = await asyncio.wait_for(\\n             ^^^^^^^^^^^^^^^^^^^^^^^\\n    ...<2 lines>...\\n    )\\n    ^\\n  File \\\"/home/arman/.local/share/uv/python/cpython-3.13.10-linux-x86_64-gnu/lib/python3.13/asyncio/tasks.py\\\", line 507, in wait_for\\n    return await fut\\n           ^^^^^^^^^\\n  File \\\"/home/arman/projects/matrx-ai/tools/executor.py\\\", line 287, in _dispatch\\n    return await self._execute_local(tool_def, args, ctx, stream)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \\\"/home/arman/projects/matrx-ai/tools/executor.py\\\", line 327, in _execute_local\\n    raw_result = await func(args, ctx)\\n                 ^^^^^^^^^^^^^^^^^^^^^\\n  File \\\"/home/arman/projects/matrx-ai/tools/implementations/news.py\\\", line 11, in news_get_headlines\\n    from api_management.news.news_api import get_top_headlines\\n  File \\\"/home/arman/projects/aidream/api_management/news/news_api.py\\\", line 3, in <module>\\n    from newsapi import NewsApiClient\\nModuleNotFoundError: No module named 'newsapi'\\n\",\n          \"tool_use_id\": \"gemini_-6612311169664738781\",\n          \"call_id\": \"gemini_-6612311169664738781\",\n          \"is_error\": true\n        }\n      ]\n    },\n    {\n      \"role\": \"assistant\",\n      \"position\": 5,\n      \"content\": [\n        {\n          \"type\": \"thinking\",\n          \"text\": \"\",\n          \"provider\": \"google\",\n          \"metadata\": {},\n          \"signature\": \"EjQKMgG+Pvb7G/1Oy3QGNl6LfS1JHDv53e/5mU8pW8bv7EA455d7M9rG+HXajEWUXidqQInt\",\n          \"signature_encoding\": \"base64\"\n        },\n        {\n          \"type\": \"text\",\n          \"text\": \"I apologize, but I'm currently having some technical difficulties fetching the news headlines for you. \\n\\nIs there anything else I can help you with in the meantime, or would you like me to try searching for news on a specific topic?\"\n        }\n      ]\n    }\n  ],\n  \"user_request\": {\n    \"request_id\": \"de8fa5ba-4aec-4238-8ba4-cdff577a816c\",\n    \"conversation_id\": \"0a48aa59-5cfe-4e72-8c65-325361765727\",\n    \"user_id\": \"4cf62e4e-2679-484f-b652-034e697418df\",\n    \"ai_model\": \"gemini-3-flash-preview\",\n    \"api_class\": \"google\",\n    \"total_input_tokens\": 1513,\n    \"total_output_tokens\": 67,\n    \"total_cached_tokens\": 0,\n    \"total_tokens\": 1580,\n    \"total_cost\": 0.000958,\n    \"iterations\": 2,\n    \"total_tool_calls\": 1,\n    \"finish_reason\": \"stop\",\n    \"api_duration_ms\": 2224,\n    \"tool_duration_ms\": 88,\n    \"total_duration_ms\": 2370,\n    \"trigger_message_position\": 2,\n    \"result_start_position\": 3,\n    \"result_end_position\": 5,\n    \"status\": \"completed\",\n    \"metadata\": {\n      \"response_id\": \"iYmjaaK9Cfvgz7IPm7PX2AE\",\n      \"usage_by_model\": {\n        \"gemini-3-flash-preview\": {\n          \"input_tokens\": 1513,\n          \"output_tokens\": 67,\n          \"cached_input_tokens\": 0,\n          \"total_tokens\": 1580,\n          \"api\": \"google\",\n          \"request_count\": 2,\n          \"cost\": 0.0009575\n        }\n      }\n    }\n  },\n  \"requests\": [\n    {\n      \"iteration\": 1,\n      \"ai_model\": \"gemini-3-flash-preview\",\n      \"api_class\": \"google\",\n      \"input_tokens\": 537,\n      \"output_tokens\": 18,\n      \"cached_tokens\": 0,\n      \"total_tokens\": 555,\n      \"response_id\": \"iImjacIe04XPsg_L_-jxCQ\",\n      \"cost\": 0.000323,\n      \"api_duration_ms\": 973,\n      \"tool_duration_ms\": 88,\n      \"total_duration_ms\": 1118,\n      \"tool_calls_count\": 1,\n      \"tool_calls_details\": [\n        {\n          \"name\": \"news_get_headlines\",\n          \"id\": \"gemini_-6612311169664738781\",\n          \"call_id\": \"gemini_-6612311169664738781\",\n          \"success\": false\n        }\n      ]\n    },\n    {\n      \"iteration\": 2,\n      \"ai_model\": \"gemini-3-flash-preview\",\n      \"api_class\": \"google\",\n      \"input_tokens\": 976,\n      \"output_tokens\": 49,\n      \"cached_tokens\": 0,\n      \"total_tokens\": 1025,\n      \"response_id\": \"iYmjaaK9Cfvgz7IPm7PX2AE\",\n      \"cost\": 0.000635,\n      \"api_duration_ms\": 1251,\n      \"tool_duration_ms\": 0,\n      \"total_duration_ms\": 1252,\n      \"tool_calls_count\": 0,\n      \"finish_reason\": \"stop\"\n    }\n  ]\n}"
+{
+    "conversation": {
+        "user_id": "4cf62e4e-2679-484f-b652-034e697418df",
+        "ai_model": "gpt-5-mini",
+        "system_instruction": "You're a helpful assistant.",
+        "config": {
+            "stream": true
+        },
+        "message_count": 3,
+        "parent_conversation_id": null
+    },
+    "messages": [
+        {
+            "role": "user",
+            "position": 0,
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Hello! How are you?"
+                }
+            ]
+        },
+        {
+            "role": "output",
+            "position": 1,
+            "content": [
+                {
+                    "type": "thinking",
+                    "text": "",
+                    "provider": "openai",
+                    "metadata": {
+                        "id": "rs_064108d702c6d3e20069a3e9a1e7108196b0cf3223c09fca2e"
+                    },
+                    "signature": "gAAAAABpo-mi8d4XtoojRlaKU1GsKGZzlVNbGsBUJIx-Bp5l6kDuXTwiMkyYKSJ4crST1j6NFeGU7Vg14X4MiVA7u7EwrFX3xkU_cNwvtSyMMTG_gInwooIbZBTr7tCPjMpsbCE9hK3mh79xMjEVEtXt6H4leSErFgtCWPy1WEhMRPYf35M2_NsZqadaOIL199pYHq9iiQsf_337OBD9SNGIxZ_y5djqi9qIBVYPZjY_6yTa3h1_WHTD16uYndy2ig9Je--T5bqrp1KobgNaBybcDdgxUMAiND6a1TKCjLedEDHIgHP9smJwHTMuVdYQu54u69TFIDXnB1uWtr5g0LJk5X2m947Wp3Fb3mYQ4y7ge6xqyz44T_yuCjBgnUkOh9hpSPQYRc83leWsu4kIWn3muhSkpFuQ4LBzrr-blX9e-xBqDXWi2d1LfwXzE_U4mGadjX5-6ksmeRYG60EuEuqDnIHmUiEHENpy9VIv-P89Zxsr7oFnjxarxFNQ11Y8lWwPSzcMtS208kRxHR05_KX3pOy9mplCX8mSfeHyV4l36kjxe4EJaF8_MNopHK2-lnuJF_xzmUSkxuWkqhqPszWaVSvSxm6cc_e-jIZj5ikz0D_6S_PNOQCFi7PJhBf1xyuwiBvstHEdgeWDIwz-5r6RR2laApaCL-1_MPe-4e_eAJTW5gfy2UclHhj-wTg3O81mfiO1IR2rq51GAFf1oE-B8Q9jM0xY60_pGlV-lEb6ep-LZkfD98RMVttgPV9-Lu17A2RvnOUvIW6hLtReGbnMX0AIBGudecC6Z5SMCcPxICf7bovBdXdMtib9oMDY1rkOxfiqbAWWeQNS85cMTrz_x2-2swJ2JgNAdigJqb9UnC6IlvWHtwL-I_YvIX6c8YXhX3E4b9X0aFcfEnUv6Sg_vZrst402hUu0iK9Houi61k0cV9MsdKM="
+                }
+            ]
+        },
+        {
+            "role": "assistant",
+            "position": 2,
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Hello \u2014 I\u2019m doing well, thank you! How can I help you today?",
+                    "id": "msg_064108d702c6d3e20069a3e9a25f808196880c38d14ba94ac1"
+                }
+            ]
+        }
+    ],
+    "user_request": {
+        "request_id": "ae7106fa-baf6-430f-97b4-df9e78c06a2f",
+        "conversation_id": "98ef213c-87ee-4963-8cfc-d3e3cb186b72",
+        "user_id": "4cf62e4e-2679-484f-b652-034e697418df",
+        "ai_model": "gpt-5-mini",
+        "api_class": "openai",
+        "total_input_tokens": 21,
+        "total_output_tokens": 42,
+        "total_cached_tokens": 0,
+        "total_tokens": 63,
+        "total_cost": 8.9e-05,
+        "iterations": 1,
+        "total_tool_calls": 0,
+        "finish_reason": "stop",
+        "api_duration_ms": 3104,
+        "tool_duration_ms": 0,
+        "total_duration_ms": 3105,
+        "trigger_message_position": 0,
+        "result_start_position": 1,
+        "result_end_position": 2,
+        "status": "completed",
+        "metadata": {
+            "response_id": "resp_064108d702c6d3e20069a3e9a153948196adf58b248febffac",
+            "usage_by_model": {
+                "gpt-5-mini": {
+                    "input_tokens": 21,
+                    "output_tokens": 42,
+                    "cached_input_tokens": 0,
+                    "total_tokens": 63,
+                    "api": "openai",
+                    "request_count": 1,
+                    "cost": 8.925e-05
+                }
+            }
+        }
+    },
+    "requests": [
+        {
+            "iteration": 1,
+            "ai_model": "gpt-5-mini",
+            "api_class": "openai",
+            "input_tokens": 21,
+            "output_tokens": 42,
+            "cached_tokens": 0,
+            "total_tokens": 63,
+            "response_id": "resp_064108d702c6d3e20069a3e9a153948196adf58b248febffac",
+            "cost": 8.9e-05,
+            "api_duration_ms": 3104,
+            "tool_duration_ms": 0,
+            "total_duration_ms": 3105,
+            "tool_calls_count": 0,
+            "finish_reason": "stop"
+        }
+    ]
+}
