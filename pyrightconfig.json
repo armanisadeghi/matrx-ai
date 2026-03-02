@@ -1,5 +1,6 @@
 {
   "pythonVersion": "3.13",
+  "exclude": ["templates/"],
   "pythonPlatform": "Darwin",
   "venvPath": ".",
   "venv": ".venv",

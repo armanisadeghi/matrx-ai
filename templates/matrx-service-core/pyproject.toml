@@ -1,0 +1,81 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+# TODO: Rename 'matrx_service' to your service package name
+packages = ["matrx_service"]
+
+[project]
+# TODO: Update name, version, description, authors
+name = "matrx-service"
+version = "0.1.0"
+description = "Matrx microservice — built on matrx-service-core template."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Matrx", email = "admin@aimatrx.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    # --- Core HTTP & validation ---
+    "pydantic>=2.10.0",
+    "pydantic-settings>=2.7.0",
+    "httpx>=0.28.0",
+    "python-dotenv>=1.0.0",
+
+    # --- FastAPI server stack ---
+    "fastapi[standard]>=0.115.0",
+    "uvicorn[standard]>=0.34.0",
+    "uvloop>=0.21.0",
+    "orjson>=3.10.0",
+    "sse-starlette>=2.2.0",
+
+    # --- Auth ---
+    "PyJWT>=2.10.0",
+    "cryptography>=44.0.0",
+
+    # --- Observability ---
+    "sentry-sdk[fastapi]>=2.35.0",
+
+    # --- Matrx ecosystem (optional — remove if not using matrx-utils) ---
+    # "matrx-utils>=1.0.9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.9.0",
+    "pyright>=1.1.0",
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.25.0",
+    "httpx>=0.28.0",
+]
+
+[project.scripts]
+# TODO: Rename to match your service, e.g. "matrx-media-server"
+matrx-service = "matrx_service.app.main:start"
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "ASYNC"]
+ignore = ["E501"]
+
+[tool.pyright]
+pythonVersion = "3.13"
+typeCheckingMode = "standard"
+venvPath = "."
+venv = ".venv"
+reportCallIssue = "none"
+reportArgumentType = "none"
+reportOperatorIssue = "none"
+reportAttributeAccessIssue = "none"
+reportIndexIssue = "none"
+reportReturnType = "none"
+reportMissingTypeArgument = "none"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

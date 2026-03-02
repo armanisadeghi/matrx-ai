@@ -29,9 +29,9 @@
                     "text": "",
                     "provider": "openai",
                     "metadata": {
-                        "id": "rs_06aa022ebd87d11c0069a402931794819d8730c549c9876650"
+                        "id": "rs_01518b02e66428fe0069a52f6b2908819eb01901c633fba1be"
                     },
-                    "signature": "gAAAAABppAKTuRhmjJF953O1TwijBX822hqFOVWKZPSVMyeOUwfqHmR02WSw1Kik50Zph_UMJX2F5WwXhuYjhdns8j2qOYbB7q1TsEm5X_lvyvLdzbzO1xnsAtRI5HXLRof5ums5nsYkfLAN_xYKp8_a6p86qj0qLXutxruGM-7gwb4hA0DlruackIAVgebXadTqDXYS319Q232lRJ9rUvxt4VKP6zRmTL3Uc7iwGJlq1wP485qdx3cXAMzqUlyCbhXto2XgSNfFH7oOCZeISzL85HRldKgXnuIg8tZro2dbgFGyq49Djdp8JqyfoKyYe9F3cgzKMFV8BSgz6xb1a0vU5XfvhFzL2I1Doi8JvwUWJRqD_oNUP-lYM6Kdbq-87p8J0Uht1Ak3s8xLs5D-QQb_SiXENnrmLFas0rygCZeFUOh9wQmK_vIOlcST3Dl_C71nnGanbeZBMlNv9JKo9VgYVS67DCLAvoQmig8NBnAbkYLqfW_vnCXpRHw4lmDnQ27FTX1j3l8DnPsjglJDhwkyNjx0uAtWeWIPdnHhTg80VGMYZAMvWjzRxrrYR3RFz31s6dbuX-Ou9XAGUqMYaiehiiM-Fixu0T_gPIU81vko5gcuo3S4siqv5gOz3XuUvTES6kprhoIjiMXWUOAzRZa_-q7m5EX0BMYr05Q9Ektw0mVoF8XNmzEINUE4EyMcvw7s3AWlhJVKO9hTiheW7DE1OQ08eqfX4G9gtCXP9Ob4p-HfDSwr8kJv7gukDhTTGj6ktSwNQzQcDnbZ2rDFsP9do0mfLnicmF3kB6JsRw-L7QrNrYmYrANTAeyujUKQ956eOeW68KGT21iAy4CAfqILlH9pDC0_BnQXVNZfN2AGER9AYC8Q1PEPfMHwRc_3kuFk9PZaZm1VEO-yb9WFqXe-hMabiyb7PTDeF_IqXOz-Oc69VNRL7Zcd9u8XJArs8QiDGQuSyWP5"
+                    "signature": "gAAAAABppS9s_tBg3egOEB4SAXNCZuhh4WFxzUlmbvCdbV7SfWRPx4xahoRRiFES1oLRntDupaDW1_J7CmonXoIQoRshP5--YIAkXnucGLzFLS8RDvSa5JIM8iN78GmKEt_RWtQPjpfWHhNJT4eMsvh6GRaZ52mvVGjmUBUDci2HLPNMVccc2PF5aJno2fflkP0jm6wUh9AruReeYcVdDsGxV1VVUkWSt3fZvMMCqZ5Ln8KvATvIzIFKbrMqsD7y4tx3OQgAxWqKCK6SJvufd_x0GwkV1de8jN1YpzqFO4KamGF908VvjD72dhQ3sRZm4o8Yu5zjjbpCn__uAbuaZevHh8qkxvv1P4fplbRVRy1XTNlvVYEEeo2r9MrsNohh0gzX-CpQqugVKYwCj5npB9M0W26cVbj8S4Bnc7AXRGrSxGSa71L7_lkRwI5rC5QLxX58bQGXiGKooRvcvlRbmz5iGxkFur6bSBIGOcezBcrBANrKTtyMvxlMvE3TVIvndvSjcLBqMCHjxishJkr2d3Obm-kXkRPxlW9Z9RKqRbUj7xfY3lGe2rFxPykqOadCbeFqDwVHL_hKcKWd2-dBTiBRSi_htrNgX4082CqWPYbUZ6Fr_Pd-XpB46VOpsT2cYQQHDB4iFB61XeAIukR5x_rkokPp_7yB_NyJbY7ldn1lCGMSUx8YV-vM7zuHiZZAQsdj01p5pNW9llEjxicxan7DDE6YhYl03lJ3OsmwA78X71ZXKgCnJ-m_n34geT-7N-DnhiS8fpQ0YVZFg3p-ojoMPfQYd9RfUKbKyW-VsUmbXQ7OX5V8DjbLUJVoM17FWZVICeSSz_ZCDIHA6HyGGKnJHiMzU5dYmhF5OQSD54rU3NeZoiPC6TSBSMd_CL6_gKB1dwpVGSY33XV9mGNWWDYNJ-WgDWQmqIqFJrXYNi2yGQqh7Bu7pySuRs1WgJ0erJVxaXrERddQgSmDy3H4H0aDla13aOkL9la_saYZKa9NwvZeLAUMruwMa-z0a-m0kKwszXfhlSGFjjbdhbg_z5SbhVcOATnVjA=="
                 }
             ]
         },
@@ -41,44 +41,44 @@
             "content": [
                 {
                     "type": "text",
-                    "text": "Hi \u2014 I'm doing well, thanks! How can I help you today?",
-                    "id": "msg_06aa022ebd87d11c0069a402935cec819d93c67eb3340171c3"
+                    "text": "Hi \u2014 I\u2019m doing well, thanks! How can I help you today?",
+                    "id": "msg_01518b02e66428fe0069a52f6bd3ec819e9e5549b0202fbf3f"
                 }
             ]
         }
     ],
     "user_request": {
-        "request_id": "7cddc04d-4752-41a4-bc1a-059a99178d12",
-        "conversation_id": "5f1f7842-bd8f-4fd6-a515-4f4e2a579844",
+        "request_id": "8e00c853-a580-45a5-89ce-0089ed1e1ee4",
+        "conversation_id": "8e2f0735-88b5-4cb9-a847-ba46769fa5c6",
         "user_id": "4cf62e4e-2679-484f-b652-034e697418df",
         "ai_model": "gpt-5-mini",
         "api_class": "openai",
         "total_input_tokens": 21,
-        "total_output_tokens": 42,
+        "total_output_tokens": 64,
         "total_cached_tokens": 0,
-        "total_tokens": 63,
-        "total_cost": 8.9e-05,
+        "total_tokens": 85,
+        "total_cost": 0.000133,
         "iterations": 1,
         "total_tool_calls": 0,
         "finish_reason": "stop",
-        "api_duration_ms": 2335,
+        "api_duration_ms": 3006,
         "tool_duration_ms": 0,
-        "total_duration_ms": 2336,
+        "total_duration_ms": 3008,
         "trigger_message_position": 0,
         "result_start_position": 1,
         "result_end_position": 2,
         "status": "completed",
         "metadata": {
-            "response_id": "resp_06aa022ebd87d11c0069a4029292e8819d93d8ec276933ab25",
+            "response_id": "resp_01518b02e66428fe0069a52f6aa674819ebfe4cf382db0bb01",
             "usage_by_model": {
                 "gpt-5-mini": {
                     "input_tokens": 21,
-                    "output_tokens": 42,
+                    "output_tokens": 64,
                     "cached_input_tokens": 0,
-                    "total_tokens": 63,
+                    "total_tokens": 85,
                     "api": "openai",
                     "request_count": 1,
-                    "cost": 8.925e-05
+                    "cost": 0.00013324999999999999
                 }
             }
         }
@@ -89,14 +89,14 @@
             "ai_model": "gpt-5-mini",
             "api_class": "openai",
             "input_tokens": 21,
-            "output_tokens": 42,
+            "output_tokens": 64,
             "cached_tokens": 0,
-            "total_tokens": 63,
-            "response_id": "resp_06aa022ebd87d11c0069a4029292e8819d93d8ec276933ab25",
-            "cost": 8.9e-05,
-            "api_duration_ms": 2335,
+            "total_tokens": 85,
+            "response_id": "resp_01518b02e66428fe0069a52f6aa674819ebfe4cf382db0bb01",
+            "cost": 0.000133,
+            "api_duration_ms": 3006,
             "tool_duration_ms": 0,
-            "total_duration_ms": 2336,
+            "total_duration_ms": 3008,
             "tool_calls_count": 0,
             "finish_reason": "stop"
         }
