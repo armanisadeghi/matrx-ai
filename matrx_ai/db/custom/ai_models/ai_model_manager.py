@@ -33,10 +33,9 @@ class AiModelManager(AiModelBase):
     async def _initialize_runtime_data(self, item: AiModel) -> None:
         pass
 
-    async def load_all_models(self, update_data_in_code: bool = False):
+    async def load_all_models(self) -> list[AiModel]:
         models = await self.load_items()
-        if update_data_in_code:
-            await self.update_data_in_code(models, "all_active_ai_models")
+
         return models
 
     async def load_model(self, id_or_name: str) -> AiModel | None:
