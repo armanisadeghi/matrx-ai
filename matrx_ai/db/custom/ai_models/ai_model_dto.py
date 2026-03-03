@@ -31,8 +31,8 @@ class AiModelDTO(BaseDTO):
 
     async def _initialize_dto(self, model: AiModel) -> None:
         '''Override to populate DTO fields from the model.'''
-        if model.name and model.name.startswith("claude-sonnet-4-6"):
-            vcprint(model, "[Ai Model DTO] Showing one sample model", color="blue")
+        # if model.name and model.name.startswith("claude-sonnet-4-6"):
+        #     vcprint(model, "[Ai Model DTO] Showing one sample model", color="blue")
         
         self.id = str(model.id)
         await self._process_core_data(model)

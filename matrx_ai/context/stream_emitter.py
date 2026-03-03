@@ -141,7 +141,7 @@ class StreamEmitter:
         vcprint(
             {"status": status, "system_message": system_message,
              "user_message": user_message, "metadata": metadata},
-            color="blue",
+            "[Stream Emitter] Status Update", color="blue",
         )
         event = build_event(
             EventType.STATUS_UPDATE,
@@ -158,7 +158,7 @@ class StreamEmitter:
         serialized = self._serialize(data)
         if not isinstance(serialized, dict):
             serialized = {"value": serialized}
-        vcprint(serialized, color="blue")
+        vcprint(serialized, "[Stream Emitter] Data", color="blue")
         await self._emit_raw(EventType.DATA, serialized)
 
     async def send_completion(self, payload: CompletionPayload) -> None:
@@ -167,7 +167,7 @@ class StreamEmitter:
             else "red" if payload.status == "failed"
             else "blue"
         )
-        vcprint(payload, color=color)
+        vcprint(payload, "[Stream Emitter] Completion", color=color)
         event = build_event(EventType.COMPLETION, payload)
         await self._emit_event(event)
 
@@ -201,19 +201,19 @@ class StreamEmitter:
             else "green" if payload.event == "tool_completed"
             else "blue"
         )
-        vcprint(payload, color=color)
+        vcprint(payload, "[Stream Emitter] Tool Event", color=color)
         event = build_event(EventType.TOOL_EVENT, payload)
         await self._emit_event(event)
 
     async def send_broker(self, broker: BrokerPayload) -> None:
-        vcprint(broker, color="blue")
+        vcprint(broker, "[Stream Emitter] Broker", color="blue")
         event = build_event(EventType.BROKER, broker)
         await self._emit_event(event)
 
     async def send_end(self, reason: str = "complete") -> None:
         if not self._ended:
             color = "green" if reason == "complete" else "blue"
-            vcprint({"reason": reason}, color=color)
+            vcprint({"reason": reason}, "[Stream Emitter] End", color=color)
             event = build_event(EventType.END, EndPayload(reason=reason))
             await self._emit_event(event)
             await self.queue.put(None)
