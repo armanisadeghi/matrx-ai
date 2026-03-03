@@ -10,7 +10,7 @@ allow-direct-references = true
 
 [project]
 name = "matrx-ai"
-version = "0.1.3"
+version = "0.1.4"
 description = "Matrx AI Engine — unified AI orchestration backend with multi-provider LLM support, streaming, tool execution, and conversation persistence."
 readme = "README.md"
 license = { text = "MIT" }
