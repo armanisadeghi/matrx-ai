@@ -1,7 +1,7 @@
 .PHONY: install dev run lint fmt typecheck test
 
 install:
-	uv sync --extra server
+	uv sync
 
 dev:
 	PYTHONUNBUFFERED=1 PYTHONUTF8=1 uv run uvicorn matrx_ai.app.main:app \

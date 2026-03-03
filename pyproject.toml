@@ -97,6 +97,15 @@ dev = [
 matrx-ai-server = "matrx_ai.app.main:start"
 
 [dependency-groups]
+# uv installs ALL groups in [dependency-groups] automatically on `uv sync`.
+# These never appear on PyPI — they are local-only.
+server = [
+    "fastapi[standard]>=0.115.0",
+    "uvicorn[standard]>=0.34.0",
+    "uvloop>=0.21.0",
+    "sse-starlette>=2.2.0",
+    "orjson>=3.10.0",
+]
 dev = [
     "ruff>=0.9.0",
     "pyright>=1.1.0",
@@ -104,6 +113,11 @@ dev = [
     "pytest-asyncio>=0.25.0",
     "hatch-vcs>=0.5.0",
 ]
+
+[tool.uv]
+# Include both groups automatically on plain `uv sync`.
+# `dev` is the default; `server` must be listed explicitly to auto-include.
+default-groups = ["dev", "server"]
 
 [tool.ruff]
 target-version = "py313"
