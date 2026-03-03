@@ -111,6 +111,16 @@ class TogetherChat:
         vcprint("[Together] API call completed, processing response...", color="cyan")
         vcprint(response, "Together Response", color="green", verbose=self.debug)
 
+        from tests.ai.translation_tests.response_capture import capture_provider_response
+        vcprint("\nCAPTURING PROVIDER RESPONSE - REMOVE AFTER TESTING\n", color="yellow")
+
+        capture_provider_response(
+            "together",
+            model,
+            response.model_dump(),
+            {"stream": False, "has_tools": bool(config_data.get("tools"))},
+        )
+
         # Convert to unified format first
         vcprint("[Together] Converting to unified format...", color="cyan")
         converted_response = self.to_unified_response(response, model)
@@ -249,6 +259,22 @@ class TogetherChat:
             # Capture finish reason
             if choice.finish_reason:
                 finish_reason = choice.finish_reason
+
+        from tests.ai.translation_tests.response_capture import capture_provider_response
+        vcprint("\nCAPTURING PROVIDER RESPONSE - REMOVE AFTER TESTING\n", color="yellow")
+
+        capture_provider_response(
+            "together",
+            model,
+            {
+                "id": response_id,
+                "content": accumulated_content,
+                "tool_calls": accumulated_tool_calls,
+                "finish_reason": finish_reason,
+                "usage": usage_data.model_dump() if usage_data else None,
+            },
+            {"stream": True},
+        )
 
         # Build unified response from accumulated data
         content = []

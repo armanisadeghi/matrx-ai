@@ -126,6 +126,16 @@ class AnthropicChat:
 
         vcprint(response, "Anthropic Response", color="green", verbose=self.debug)
 
+        from tests.ai.translation_tests.response_capture import capture_provider_response
+        vcprint("\nCAPTURING PROVIDER RESPONSE - REMOVE AFTER TESTING\n", color="yellow")
+
+        capture_provider_response(
+            "anthropic",
+            matrx_model_name,
+            response.model_dump(),
+            {"stream": False, "has_tools": bool(config_data_copy.get("tools"))},
+        )
+
         # Send content through emitter
         if hasattr(response, "content"):
             for block in response.content:
@@ -154,6 +164,16 @@ class AnthropicChat:
 
         vcprint(
             final_message, "Anthropic Final Message", color="green", verbose=self.debug
+        )
+
+        from tests.ai.translation_tests.response_capture import capture_provider_response
+        vcprint("\nCAPTURING PROVIDER RESPONSE - REMOVE AFTER TESTING\n", color="yellow")
+        
+        capture_provider_response(
+            "anthropic",
+            matrx_model_name,
+            final_message.model_dump(),
+            {"stream": True, "has_tools": bool(config_data.get("tools"))},
         )
 
         # Convert to unified format

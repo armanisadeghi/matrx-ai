@@ -64,12 +64,13 @@ dependencies = [
     "supabase",
     # --- Matrx ecosystem ---
     "matrx-utils>=1.0.13",
-    "matrx-orm>=3.0.12",
+    "matrx-orm>=3.0.13",
     # --- Utilities ---
     "rich",
     "tiktoken",
     "aiofiles",
     "pip>=26.0.1",
+    "pytest>=9.0.2",
 ]
 
 [project.urls]

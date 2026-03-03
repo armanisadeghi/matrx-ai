@@ -86,6 +86,16 @@ class GoogleChat:
                 converted_response = self.translator.from_google(
                     accumulated_chunks, matrx_model_name
                 )
+
+                from tests.ai.translation_tests.response_capture import capture_provider_response
+                vcprint("\nCAPTURING PROVIDER RESPONSE - REMOVE AFTER TESTING\n", color="yellow")
+
+                capture_provider_response(
+                    "google",
+                    matrx_model_name,
+                    [c.model_dump() for c in accumulated_chunks],
+                    {"stream": True},
+                )
             else:
                 # Non-streaming mode - returns single GenerateContentResponse
                 response = self.client.models.generate_content(**config_data)
@@ -102,6 +112,16 @@ class GoogleChat:
 
                 converted_response = self.translator.from_google(
                     accumulated_chunks, matrx_model_name
+                )
+
+                from tests.ai.translation_tests.response_capture import capture_provider_response
+                vcprint("\nCAPTURING PROVIDER RESPONSE - REMOVE AFTER TESTING\n", color="yellow")
+                
+                capture_provider_response(
+                    "google",
+                    matrx_model_name,
+                    [response.model_dump()],
+                    {"stream": False},
                 )
 
             return converted_response

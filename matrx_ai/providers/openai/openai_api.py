@@ -113,6 +113,16 @@ class OpenAIChat:
             **config_data_copy
         )
 
+        from tests.ai.translation_tests.response_capture import capture_provider_response
+        vcprint("\nCAPTURING PROVIDER RESPONSE - REMOVE AFTER TESTING\n", color="yellow")
+
+        capture_provider_response(
+            "openai",
+            matrx_model_name,
+            response.model_dump(),
+            {"stream": False, "has_tools": bool(config_data_copy.get("tools"))},
+        )
+
         content = ""
         for item in response.output:
             item_type = item.type
@@ -157,6 +167,16 @@ class OpenAIChat:
 
             # Get the final response with usage data
             final_response: OpenAIResponse = await stream.get_final_response()
+
+        from tests.ai.translation_tests.response_capture import capture_provider_response
+        vcprint("\nCAPTURING PROVIDER RESPONSE - REMOVE AFTER TESTING\n", color="yellow")
+
+        capture_provider_response(
+            "openai",
+            matrx_model_name,
+            final_response.model_dump(),
+            {"stream": True, "has_tools": bool(config_data.get("tools"))},
+        )
 
         return self.translator.from_openai(final_response, matrx_model_name)
 

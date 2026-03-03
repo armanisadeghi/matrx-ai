@@ -4,7 +4,6 @@ Tables already present in the database are created with IF NOT EXISTS so
 this migration is safe to apply against the live Supabase database without
 touching existing data.
 
-cx_messages does not yet exist in the database and will be created fresh.
 """
 
 dependencies = []
@@ -52,7 +51,7 @@ async def up(db):
         )
     """)
     await db.execute("""
-        CREATE TABLE IF NOT EXISTS "public"."cx_messages" (
+        CREATE TABLE IF NOT EXISTS "public"."cx_message" (
             "id" uuid PRIMARY KEY,
             "conversation_id" uuid NOT NULL,
             "user_id" uuid NOT NULL,
@@ -196,6 +195,6 @@ async def down(db):
     await db.execute("""DROP TABLE IF EXISTS "public"."cx_user_request" CASCADE""")
     await db.execute("""DROP TABLE IF EXISTS "public"."cx_media" CASCADE""")
     await db.execute("""DROP TABLE IF EXISTS "public"."cx_agent_memory" CASCADE""")
-    await db.execute("""DROP TABLE IF EXISTS "public"."cx_messages" CASCADE""")
+    await db.execute("""DROP TABLE IF EXISTS "public"."cx_message" CASCADE""")
     await db.execute("""DROP TABLE IF EXISTS "public"."cx_conversation" CASCADE""")
     await db.execute("""DROP TABLE IF EXISTS "public"."ai_model" CASCADE""")

@@ -108,6 +108,16 @@ class CerebrasChat:
         vcprint("[Cerebras] API call completed, processing response...", color="cyan")
         vcprint(response, "Cerebras Response", color="green", verbose=self.debug)
 
+        from tests.ai.translation_tests.response_capture import capture_provider_response
+        vcprint("\nCAPTURING PROVIDER RESPONSE - REMOVE AFTER TESTING\n", color="yellow")
+
+        capture_provider_response(
+            "cerebras",
+            model,
+            response.model_dump(),
+            {"stream": False, "has_tools": bool(config_data.get("tools"))},
+        )
+
         # Convert to unified format first
         vcprint("[Cerebras] Converting to unified format...", color="cyan")
         converted_response = self.to_unified_response(response, model)
@@ -239,6 +249,25 @@ class CerebrasChat:
         # Close reasoning tag if still open
         if accumulated_reasoning and not first_reasoning_chunk:
             await emitter.send_chunk("\n</reasoning>\n")
+
+        from tests.ai.translation_tests.response_capture import capture_provider_response
+        vcprint("\nCAPTURING PROVIDER RESPONSE - REMOVE AFTER TESTING\n", color="yellow")
+        
+        capture_provider_response(
+            "cerebras",
+            model,
+            {
+                "id": response_id,
+                "created": response_created,
+                "model": response_model,
+                "content": accumulated_content,
+                "reasoning": accumulated_reasoning,
+                "tool_calls": accumulated_tool_calls,
+                "finish_reason": finish_reason,
+                "usage": usage_data.model_dump() if usage_data else None,
+            },
+            {"stream": True},
+        )
 
         # Reconstruct a ChatCompletion-like response object to pass through translator
         # This ensures consistency with non-streaming path and keeps conversion logic in one place
