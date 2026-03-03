@@ -69,6 +69,7 @@ make test       # pytest -v
 
 | Version | Highlights |
 |---|---|
+| **v0.1.8** | Patch release |
 | **v0.1.7** | Patch release |
 | **v0.1.6** | Patch release |
 | **v0.1.5** | Patch release |
