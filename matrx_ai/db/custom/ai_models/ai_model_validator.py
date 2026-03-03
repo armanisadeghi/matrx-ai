@@ -5,8 +5,13 @@ import json
 import re
 from typing import Any
 
-from matrix.ai_models.ai_model_manager import AiModelManager
 from matrx_utils import vcprint
+
+from matrx_ai.db import _setup
+from matrx_ai.db.custom.ai_models.ai_model_manager import AiModelManager
+
+_setup()
+
 
 
 class AiModelValidator(AiModelManager):
@@ -22,8 +27,9 @@ class AiModelValidator(AiModelManager):
             "model_class_issues": [],
             "endpoint_issues": [],
             "model_provider_issues": [],
-            "max_tokens_issues": [],  # New category
-            "capabilities_issues": [],  # New category
+            "max_tokens_issues": [],
+            "capabilities_issues": [],
+            "raw_jsonb_issues": [],
         }
 
         model_names = {model.name for model in models}
@@ -35,6 +41,7 @@ class AiModelValidator(AiModelManager):
             provider_issues = self._validate_model_provider(model)
             max_tokens_issues = self._validate_max_tokens(model)
             capabilities_issues = self._validate_capabilities(model)
+            raw_jsonb_issues = self._validate_raw_jsonb_fields(model)
 
             model_identifier = f"Model '{model.name}' ({model.id})"
             if name_issues:
@@ -64,6 +71,14 @@ class AiModelValidator(AiModelManager):
             if capabilities_issues:
                 validation_report["capabilities_issues"].append(
                     f"{model_identifier}: {capabilities_issues}"
+                )
+            if raw_jsonb_issues:
+                validation_report["raw_jsonb_issues"].append(
+                    f"{model_identifier}: {raw_jsonb_issues}"
+                )
+                vcprint(
+                    f"RAW JSONB ISSUE - {model_identifier}: {raw_jsonb_issues}",
+                    color="red",
                 )
 
         self._print_validation_summary(validation_report)
@@ -213,6 +228,23 @@ class AiModelValidator(AiModelManager):
             return f"capabilities must be a dict or list, got {type(capabilities).__name__}"
         if not capabilities:
             return "capabilities is empty"
+        return ""
+
+    def _validate_raw_jsonb_fields(self, model: Any) -> str:
+        """
+        Checks whether any JSONB field came back as a raw string instead of parsed JSON.
+        This indicates the ORM failed to deserialize the value — typically caused by an
+        empty string or malformed value stored in the DB column, which would crash older
+        ORM versions with a JSONDecodeError.
+        """
+        jsonb_fields = ["endpoints", "capabilities", "controls"]
+        raw_fields = []
+        for field in jsonb_fields:
+            value = getattr(model, field, None)
+            if isinstance(value, str):
+                raw_fields.append(f"{field}='{value[:60]}'" if len(value) > 60 else f"{field}='{value}'")
+        if raw_fields:
+            return f"JSONB fields returned as raw strings (unparsed): {', '.join(raw_fields)}"
         return ""
 
     def _print_validation_summary(self, report: dict[str, list[str]]) -> None:

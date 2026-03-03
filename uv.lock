@@ -1277,7 +1277,7 @@ wheels = [
 
 [[package]]
 name = "matrx-ai"
-version = "0.1.0"
+version = "0.1.1"
 source = { editable = "." }
 dependencies = [
     { name = "aiofiles" },
@@ -1334,7 +1334,7 @@ requires-dist = [
     { name = "groq" },
     { name = "httpx", specifier = ">=0.28.0" },
     { name = "httpx", marker = "extra == 'dev'", specifier = ">=0.28.0" },
-    { name = "matrx-orm", specifier = ">=2.0.37" },
+    { name = "matrx-orm", specifier = ">=3.0.9" },
     { name = "matrx-utils", specifier = ">=1.0.9" },
     { name = "openai" },
     { name = "orjson", marker = "extra == 'server'", specifier = ">=3.10.0" },
@@ -1367,7 +1367,7 @@ dev = [
 
 [[package]]
 name = "matrx-orm"
-version = "2.0.37"
+version = "3.0.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "asyncpg" },
@@ -1377,9 +1377,9 @@ dependencies = [
     { name = "psycopg-pool" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/af/7f/fe12e7fa59fd4aa21b7ecf620fe7345b3dea6771df9e5dac1be259c3de44/matrx_orm-2.0.37.tar.gz", hash = "sha256:e2c11c99bbd76084b1e2d20d001e9d21680954d7ff6e5abcb999ff4e7dec56c4", size = 427437, upload-time = "2026-03-01T05:45:18.256Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/04/6a/a9bab7add782e57f379332e2e7ae7983d0cfc84113357f0fd7c43933ef00/matrx_orm-3.0.9.tar.gz", hash = "sha256:02ff6517db39300f8a9e8110f5941f5c3aa4b88261da07852e3288a11c93ad05", size = 433674, upload-time = "2026-03-02T08:11:18.917Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/10/05/997322749450a2854932a6f8a2f7b0f6bf2c822283349963c307d0995042/matrx_orm-2.0.37-py3-none-any.whl", hash = "sha256:3242fe7af6f358c5f47733f232d1e45a0c5a0ce336d2cf17ceb14e4620b1fdb1", size = 262862, upload-time = "2026-03-01T05:45:16.137Z" },
+    { url = "https://files.pythonhosted.org/packages/58/8b/dd5ad5b99336a43bcb0a4cd5227539b7b1d96c19c6c1c86dae5a1ffa7b63/matrx_orm-3.0.9-py3-none-any.whl", hash = "sha256:af2d357e07b72ac1d8006d914411686a45a9bfeaec9ea8e9169fa2d98f90f7c6", size = 269705, upload-time = "2026-03-02T08:11:16.851Z" },
 ]
 
 [[package]]

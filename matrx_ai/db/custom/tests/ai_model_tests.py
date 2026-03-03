@@ -2,7 +2,10 @@ import asyncio
 
 from matrx_utils import clear_terminal, vcprint
 
+from matrx_ai.db import _setup
 from matrx_ai.db.custom.ai_models.ai_model_manager import AiModelManager
+
+_setup()
 
 
 async def local_test(test_type: str, **kwargs):
