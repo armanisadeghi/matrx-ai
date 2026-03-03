@@ -11,8 +11,6 @@ _setup()
 async def local_test(test_type: str, **kwargs):
     manager = AiModelManager()
 
-    update_data = kwargs.get("update_data_in_code", False)
-
     if test_type == "id":
         data = await manager.load_model_by_id("548126f2-714a-4562-9001-0c31cbeea375")
         
@@ -21,9 +19,9 @@ async def local_test(test_type: str, **kwargs):
     elif test_type == "provider":
         data = await manager.load_models_by_provider("XAI")
     elif test_type == "all_models":
-        data = await manager.load_all_models(update_data_in_code=update_data)
+        data = await manager.load_all_models()
     elif test_type == "list_providers":
-        data = await manager.list_unique_model_providers(update_data_in_code=update_data)
+        data = await manager.list_unique_model_providers()
     else:
         raise ValueError(f"Invalid test type: {test_type}")
 
@@ -50,9 +48,9 @@ async def local_test(test_type: str, **kwargs):
 if __name__ == "__main__":
     clear_terminal()
     
-    test_type = "id"  # ["id", "name", "provider", "all_models", "list_providers"]
+    test_type = "all_models"  # ["id", "name", "provider", "all_models", "list_providers"]
 
-    data = asyncio.run(local_test(test_type, update_data_in_code=True))
+    data = asyncio.run(local_test(test_type))
     vcprint(data=data, title="AI Model", pretty=True, color="green")
 
     # dto = data.dto
