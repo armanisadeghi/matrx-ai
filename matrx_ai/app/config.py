@@ -2,6 +2,8 @@ from functools import lru_cache
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from matrx_ai import __version__
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -13,7 +15,7 @@ class Settings(BaseSettings):
 
     # Application
     app_name: str = "Matrx AI"
-    app_version: str = "0.1.0"
+    app_version: str = __version__
     debug: bool = False
     environment: str = "development"
 

@@ -18,7 +18,19 @@ Quickstart (server mode — requires pip install matrx-ai[server]):
 
 from __future__ import annotations
 
-__version__ = "0.1.0"
+__version__ = "0.1.6"
+
+
+def _get_version() -> str:
+    try:
+        from importlib.metadata import version
+
+        return version("matrx-ai")
+    except Exception:
+        return __version__
+
+
+__version__ = _get_version()
 
 _initialized = False
 

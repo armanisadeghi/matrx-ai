@@ -58,9 +58,9 @@ make test       # pytest -v
 ## Publishing a New Release
 
 ```bash
-./scripts/publish.sh              # patch bump  0.1.0 → 0.1.1
-./scripts/publish.sh --minor      # minor bump  0.1.0 → 0.2.0
-./scripts/publish.sh --major      # major bump  0.1.0 → 1.0.0
+./scripts/publish.sh              # patch bump  (e.g. 1.2.3 → 1.2.4)
+./scripts/publish.sh --minor      # minor bump  (e.g. 1.2.3 → 1.3.0)
+./scripts/publish.sh --major      # major bump  (e.g. 1.2.3 → 2.0.0)
 ./scripts/publish.sh --message "feat: add new provider"
 ./scripts/publish.sh --dry-run    # preview without committing
 ```

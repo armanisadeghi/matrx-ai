@@ -2,10 +2,10 @@
 # publish.sh — Bump version, update README, commit, tag, and push.
 #
 # Usage (run from anywhere inside the repo):
-#   ./scripts/publish.sh              # patch bump  0.1.0 → 0.1.1  (default)
-#   ./scripts/publish.sh --patch      # patch bump  0.1.0 → 0.1.1
-#   ./scripts/publish.sh --minor      # minor bump  0.1.0 → 0.2.0
-#   ./scripts/publish.sh --major      # major bump  0.1.0 → 1.0.0
+#   ./scripts/publish.sh              # patch bump  (e.g. 1.2.3 → 1.2.4)  (default)
+#   ./scripts/publish.sh --patch      # patch bump  (e.g. 1.2.3 → 1.2.4)
+#   ./scripts/publish.sh --minor      # minor bump  (e.g. 1.2.3 → 1.3.0)
+#   ./scripts/publish.sh --major      # major bump  (e.g. 1.2.3 → 2.0.0)
 #   ./scripts/publish.sh --message "feat: something"   # custom commit message
 #   ./scripts/publish.sh --minor --message "feat: new provider"
 #   ./scripts/publish.sh --dry-run    # preview changes without committing
@@ -18,6 +18,7 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$REPO_ROOT"
 
 PYPROJECT="pyproject.toml"
+INIT_PY="matrx_ai/__init__.py"
 README="README.md"
 REMOTE="origin"
 BRANCH="main"
@@ -59,6 +60,7 @@ done
 
 # ── Pre-flight checks ────────────────────────────────────────────────────────
 [[ -f "$PYPROJECT" ]] || fail "$PYPROJECT not found. Cannot continue."
+[[ -f "$INIT_PY"   ]] || fail "$INIT_PY not found. Cannot continue."
 [[ -f "$README"    ]] || fail "$README not found. Cannot continue."
 
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
@@ -115,6 +117,7 @@ echo ""
 
 if $DRY_RUN; then
     preview "Would update version in $PYPROJECT:  $CURRENT_VERSION → $NEW_VERSION"
+    preview "Would update fallback version in $INIT_PY:  $CURRENT_VERSION → $NEW_VERSION"
     preview "Would prepend entry in $README version history table"
     preview "Would commit: '$COMMIT_MSG'"
     preview "Would create tag: $NEW_TAG"
@@ -133,6 +136,15 @@ WRITTEN_VERSION=$(grep '^version = ' "$PYPROJECT" | sed 's/version = "\(.*\)"/\1
 [[ "$WRITTEN_VERSION" == "$NEW_VERSION" ]] \
     || fail "Version write failed — $PYPROJECT still shows $WRITTEN_VERSION."
 ok "pyproject.toml → $NEW_VERSION"
+
+# ── Update __init__.py fallback version ──────────────────────────────────────
+info "Bumping fallback __version__ in $INIT_PY..."
+sed -i "s/^__version__ = \"${CURRENT_VERSION}\"/__version__ = \"${NEW_VERSION}\"/" "$INIT_PY"
+
+INIT_VERSION=$(grep '^__version__ = ' "$INIT_PY" | head -1 | sed 's/__version__ = "\(.*\)"/\1/')
+[[ "$INIT_VERSION" == "$NEW_VERSION" ]] \
+    || fail "Version write failed — $INIT_PY still shows $INIT_VERSION."
+ok "__init__.py → $NEW_VERSION"
 
 # ── Update README version history table ──────────────────────────────────────
 info "Inserting v${NEW_VERSION} entry in $README..."
@@ -159,7 +171,7 @@ ok "README.md → added $NEW_VERSION to version history"
 
 # ── Commit ───────────────────────────────────────────────────────────────────
 info "Staging changed files..."
-git add "$PYPROJECT" "$README"
+git add "$PYPROJECT" "$INIT_PY" "$README"
 git add -u
 
 info "Committing..."
