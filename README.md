@@ -69,6 +69,7 @@ make test       # pytest -v
 
 | Version | Highlights |
 |---|---|
+| **v0.1.3** | Patch release |
 | **v0.1.2** | Patch release |
 | **v0.1.1** | Patch release |
 | **v0.1.0** | Initial release — multi-provider AI orchestration, streaming, tool system, conversation persistence |
