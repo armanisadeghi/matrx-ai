@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # publish.sh — Bump version, update README, commit, tag, and push.
 #
+# Version is derived from the latest git tag (hatch-vcs). pyproject.toml is NOT
+# edited — the tag IS the version. uv.lock never gets a stale version entry.
+#
 # Usage (run from anywhere inside the repo):
 #   ./scripts/publish.sh              # patch bump  (e.g. 1.2.3 → 1.2.4)  (default)
 #   ./scripts/publish.sh --patch      # patch bump  (e.g. 1.2.3 → 1.2.4)
@@ -17,7 +20,6 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$REPO_ROOT"
 
-PYPROJECT="pyproject.toml"
 INIT_PY="matrx_ai/__init__.py"
 README="README.md"
 REMOTE="origin"
@@ -59,9 +61,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 # ── Pre-flight checks ────────────────────────────────────────────────────────
-[[ -f "$PYPROJECT" ]] || fail "$PYPROJECT not found. Cannot continue."
-[[ -f "$INIT_PY"   ]] || fail "$INIT_PY not found. Cannot continue."
-[[ -f "$README"    ]] || fail "$README not found. Cannot continue."
+[[ -f "$INIT_PY" ]] || fail "$INIT_PY not found. Cannot continue."
+[[ -f "$README"  ]] || fail "$README not found. Cannot continue."
 
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 [[ "$CURRENT_BRANCH" == "$BRANCH" ]] \
@@ -75,10 +76,16 @@ if [[ -n "$(git diff --name-only HEAD)" ]]; then
     warn "Unstaged changes in tracked files — they will be committed with the version bump."
 fi
 
-# ── Read current version ─────────────────────────────────────────────────────
-CURRENT_VERSION=$(grep '^version = ' "$PYPROJECT" | sed 's/version = "\(.*\)"/\1/')
-[[ -n "$CURRENT_VERSION" ]] || fail "Could not read version from $PYPROJECT."
+# ── Read current version from latest git tag ─────────────────────────────────
+# hatch-vcs owns versioning; pyproject.toml has dynamic = ["version"].
+# We derive the base version from the most recent vX.Y.Z tag.
+CURRENT_TAG=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' --sort=-version:refname | head -1)
+if [[ -z "$CURRENT_TAG" ]]; then
+    fail "No version tag found (expected format: vX.Y.Z). Create an initial tag first:
+  git tag v0.1.0 && git push origin v0.1.0"
+fi
 
+CURRENT_VERSION="${CURRENT_TAG#v}"
 IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
 
 # ── Calculate new version ────────────────────────────────────────────────────
@@ -107,7 +114,7 @@ echo ""
 echo -e "${BOLD}  matrx-ai release${NC}"
 echo -e "  ─────────────────────────────────────────────"
 echo -e "  Bump type  : ${CYAN}${BUMP_TYPE}${NC}"
-echo -e "  Old version: ${YELLOW}${CURRENT_VERSION}${NC}"
+echo -e "  Old version: ${YELLOW}${CURRENT_VERSION}${NC}  (from tag ${CURRENT_TAG})"
 echo -e "  New version: ${GREEN}${NEW_VERSION}${NC}"
 echo -e "  Tag        : ${GREEN}${NEW_TAG}${NC}"
 echo -e "  Commit msg : ${CYAN}${COMMIT_MSG}${NC}"
@@ -116,11 +123,10 @@ echo -e "  ───────────────────────
 echo ""
 
 if $DRY_RUN; then
-    preview "Would update version in $PYPROJECT:  $CURRENT_VERSION → $NEW_VERSION"
-    preview "Would update fallback version in $INIT_PY:  $CURRENT_VERSION → $NEW_VERSION"
+    preview "Would update fallback __version__ in $INIT_PY:  $CURRENT_VERSION → $NEW_VERSION"
     preview "Would prepend entry in $README version history table"
     preview "Would commit: '$COMMIT_MSG'"
-    preview "Would create tag: $NEW_TAG"
+    preview "Would create annotated tag: $NEW_TAG"
     preview "Would push: git push $REMOTE $BRANCH --tags"
     echo ""
     preview "Dry run complete. No changes made."
@@ -128,16 +134,9 @@ if $DRY_RUN; then
     exit 0
 fi
 
-# ── Update pyproject.toml ────────────────────────────────────────────────────
-info "Bumping version in $PYPROJECT..."
-sed -i "s/^version = \"${CURRENT_VERSION}\"/version = \"${NEW_VERSION}\"/" "$PYPROJECT"
-
-WRITTEN_VERSION=$(grep '^version = ' "$PYPROJECT" | sed 's/version = "\(.*\)"/\1/')
-[[ "$WRITTEN_VERSION" == "$NEW_VERSION" ]] \
-    || fail "Version write failed — $PYPROJECT still shows $WRITTEN_VERSION."
-ok "pyproject.toml → $NEW_VERSION"
-
 # ── Update __init__.py fallback version ──────────────────────────────────────
+# This fallback is only used when the package is not installed (no dist-info).
+# At runtime, _get_version() reads from importlib.metadata instead.
 info "Bumping fallback __version__ in $INIT_PY..."
 sed -i "s/^__version__ = \"${CURRENT_VERSION}\"/__version__ = \"${NEW_VERSION}\"/" "$INIT_PY"
 
@@ -159,7 +158,6 @@ else
     esac
 fi
 
-# Insert the new row immediately after the "| Version | Highlights |" header row.
 ESCAPED_ENTRY=$(printf '%s\n' "$README_ENTRY" | sed 's/[\/&]/\\&/g')
 sed -i "/^| Version | Highlights |/{
     n        # skip the separator row
@@ -171,7 +169,7 @@ ok "README.md → added $NEW_VERSION to version history"
 
 # ── Commit ───────────────────────────────────────────────────────────────────
 info "Staging changed files..."
-git add "$PYPROJECT" "$INIT_PY" "$README"
+git add "$INIT_PY" "$README"
 git add -u
 
 info "Committing..."
@@ -179,8 +177,9 @@ git commit -m "$COMMIT_MSG"
 ok "Committed: '$COMMIT_MSG'"
 
 # ── Tag ──────────────────────────────────────────────────────────────────────
-info "Creating tag $NEW_TAG..."
-git tag "$NEW_TAG"
+# Annotated tag so hatch-vcs resolves a clean exact version (no .devN suffix).
+info "Creating annotated tag $NEW_TAG..."
+git tag -a "$NEW_TAG" -m "Release $NEW_VERSION"
 ok "Tag $NEW_TAG created"
 
 # ── Push ─────────────────────────────────────────────────────────────────────
