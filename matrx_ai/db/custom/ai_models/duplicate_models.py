@@ -239,19 +239,19 @@ if __name__ == "__main__":
     clear_terminal()
 
     # Refresh local_models.json from DB, then audit + save all_model_keys.json / dataclass_gaps.json:
-    asyncio.run(save_all_models())
+    # asyncio.run(save_all_models())
 
     # Audit coverage against existing local_models.json (no DB hit):
     # audit_dataclass_coverage()
 
     overrides = {
-        "name": "gemini-3-pro-image-preview",
-        "common_name": "Gemini 3 Pro Image Preview",
-        "model_class": "gemini-3-pro-image-preview",
+        "name": "whisper-large-v3-turbo",
+        "common_name": "Whisper Large V3 Turbo",
+        "model_class": "whisper-large-v3-turbo",
         # "controls": {
         #     "reasoning_effort": {"enum": ["low", "medium", "high"], "type": "string", "default": "high"},
         # },
     }
 
-    # new_model = asyncio.run(duplicate_ai_model("gemini-3.1-flash-image-preview", overrides))
-    # vcprint(new_model, "[Duplicator] New model", color="blue")
+    new_model = asyncio.run(duplicate_ai_model("distil-whisper-large-v3-en", overrides))
+    vcprint(new_model, "[Duplicator] New model", color="blue")

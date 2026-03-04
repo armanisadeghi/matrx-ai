@@ -1,32 +1,20 @@
 {
     "conversation": {
         "user_id": "4cf62e4e-2679-484f-b652-034e697418df",
-        "ai_model": "gemini-3.1-pro-preview",
-        "system_instruction": "You're a helpful assistant. Think through your response step by step before proceeding with a response. Always search the web to ensure you include recent and relevant facts in your response. You can check the user's location with a tool and provide whatever they need.",
+        "ai_model": "llama-3.3-70b-versatile",
+        "system_instruction": "You're a helpful assistant. Think through your response step by step and use the many tools you have available to you. You have tools to get the latest news headlines. Today's Date: 2026-03-03",
         "config": {
-            "temperature": 1,
-            "max_output_tokens": 4096,
-            "top_p": 1,
-            "top_k": 50,
             "tools": [
-                "get_location",
-                "get_weather",
-                "get_restaurants",
-                "get_activities",
-                "get_events",
-                "create_summary"
+                "news_get_headlines"
             ],
             "tool_choice": "auto",
-            "parallel_tool_calls": false,
             "reasoning_effort": "low",
-            "reasoning_summary": "auto",
-            "response_format": "text",
+            "reasoning_summary": "detailed",
             "stream": true,
-            "internal_web_search": true,
-            "store": true,
-            "verbosity": "medium"
+            "internal_web_search": false,
+            "internal_url_context": false
         },
-        "message_count": 1,
+        "message_count": 6,
         "parent_conversation_id": null
     },
     "messages": [
@@ -36,41 +24,101 @@
             "content": [
                 {
                     "type": "text",
-                    "text": "Hello! Can you help me? What is the latest us news?"
+                    "text": "Hi"
+                }
+            ]
+        },
+        {
+            "role": "assistant",
+            "position": 1,
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Hello! How may I assist you today?"
+                }
+            ]
+        },
+        {
+            "role": "user",
+            "position": 2,
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Hello! Can you give me some of the latest news headlines? Just for the US is good and I want them up to  date for today."
+                }
+            ]
+        },
+        {
+            "role": "assistant",
+            "position": 3,
+            "content": [
+                {
+                    "type": "tool_call",
+                    "name": "news_get_headlines",
+                    "arguments": {
+                        "country": "us"
+                    },
+                    "id": "8k2n292h8"
+                }
+            ]
+        },
+        {
+            "role": "tool",
+            "position": 4,
+            "content": [
+                {
+                    "type": "tool_result",
+                    "name": "news_get_headlines",
+                    "content": "TOOL ERROR [execution]: No module named 'newsapi'\nSuggested action: Check the error details and try with different parameters.\nTechnical details:\nTraceback (most recent call last):\n  File \"/home/arman/projects/matrx-ai/matrx_ai/tools/executor.py\", line 158, in execute\n    result = await asyncio.wait_for(\n             ^^^^^^^^^^^^^^^^^^^^^^^\n    ...<2 lines>...\n    )\n    ^\n  File \"/home/arman/.local/share/uv/python/cpython-3.13.10-linux-x86_64-gnu/lib/python3.13/asyncio/tasks.py\", line 507, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/home/arman/projects/matrx-ai/matrx_ai/tools/executor.py\", line 287, in _dispatch\n    return await self._execute_local(tool_def, args, ctx, stream)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/arman/projects/matrx-ai/matrx_ai/tools/executor.py\", line 329, in _execute_local\n    raw_result = await func(args, ctx)\n                 ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/arman/projects/matrx-ai/matrx_ai/tools/implementations/news.py\", line 11, in news_get_headlines\n    from api_management.news.news_api import get_top_headlines\n  File \"/home/arman/projects/aidream/api_management/news/news_api.py\", line 3, in <module>\n    from newsapi import NewsApiClient\nModuleNotFoundError: No module named 'newsapi'\n",
+                    "tool_use_id": "8k2n292h8",
+                    "call_id": "8k2n292h8",
+                    "is_error": true
+                }
+            ]
+        },
+        {
+            "role": "assistant",
+            "position": 5,
+            "content": [
+                {
+                    "type": "text",
+                    "text": "The news_get_headlines function failed to execute due to a missing 'newsapi' module. Let's try searching the news instead."
                 }
             ]
         }
     ],
     "user_request": {
-        "request_id": "8a8d9a06-d99c-4d01-874b-7624cb211a1f",
-        "conversation_id": "0214fbec-2bc1-4b6e-8d16-ef0a35fef675",
+        "request_id": "6c98d5cb-0bbf-406b-b0ca-bab0a3fe4b2b",
+        "conversation_id": "1180a165-122b-4c07-b54e-75966e2c09f9",
         "user_id": "4cf62e4e-2679-484f-b652-034e697418df",
-        "ai_model": "gemini-3.1-pro-preview",
-        "api_class": "google",
-        "total_input_tokens": 69,
-        "total_output_tokens": 0,
+        "ai_model": "llama-3.3-70b-versatile",
+        "api_class": "groq",
+        "total_input_tokens": 1675,
+        "total_output_tokens": 45,
         "total_cached_tokens": 0,
-        "total_tokens": 69,
-        "total_cost": 0.000138,
-        "iterations": 1,
-        "total_tool_calls": 0,
-        "finish_reason": "malformed_function_call",
-        "api_duration_ms": 0,
-        "tool_duration_ms": 0,
-        "total_duration_ms": 0,
-        "trigger_message_position": 0,
-        "status": "failed",
-        "error": "Model stopped with finish reason: malformed_function_call",
+        "total_tokens": 1720,
+        "total_cost": 0,
+        "iterations": 2,
+        "total_tool_calls": 1,
+        "finish_reason": "stop",
+        "api_duration_ms": 1176,
+        "tool_duration_ms": 96,
+        "total_duration_ms": 1346,
+        "trigger_message_position": 2,
+        "result_start_position": 3,
+        "result_end_position": 5,
+        "status": "completed",
         "metadata": {
+            "response_id": "chatcmpl-05e1dcba-36e2-4efd-99ad-9d751c4832a6",
             "usage_by_model": {
-                "gemini-3.1-pro-preview": {
-                    "input_tokens": 69,
-                    "output_tokens": 0,
+                "llama-3.3-70b-versatile": {
+                    "input_tokens": 1675,
+                    "output_tokens": 45,
                     "cached_input_tokens": 0,
-                    "total_tokens": 69,
-                    "api": "google",
-                    "request_count": 1,
-                    "cost": 0.000138
+                    "total_tokens": 1720,
+                    "api": "groq",
+                    "request_count": 2,
+                    "cost": null
                 }
             }
         }
@@ -78,16 +126,40 @@
     "requests": [
         {
             "iteration": 1,
-            "ai_model": "gemini-3.1-pro-preview",
-            "api_class": "google",
-            "input_tokens": 69,
-            "output_tokens": 0,
+            "ai_model": "llama-3.3-70b-versatile",
+            "api_class": "groq",
+            "input_tokens": 654,
+            "output_tokens": 17,
             "cached_tokens": 0,
-            "total_tokens": 69,
-            "response_id": "XZWnaYnAAtTRz7IPm6fggQQ",
-            "cost": 0.000138,
+            "total_tokens": 671,
+            "response_id": "chatcmpl-df75b186-06a4-49bd-a807-4a2be67210d9",
+            "api_duration_ms": 520,
+            "tool_duration_ms": 96,
+            "total_duration_ms": 690,
+            "tool_calls_count": 1,
+            "tool_calls_details": [
+                {
+                    "name": "news_get_headlines",
+                    "id": "8k2n292h8",
+                    "call_id": "8k2n292h8",
+                    "success": false
+                }
+            ]
+        },
+        {
+            "iteration": 2,
+            "ai_model": "llama-3.3-70b-versatile",
+            "api_class": "groq",
+            "input_tokens": 1021,
+            "output_tokens": 28,
+            "cached_tokens": 0,
+            "total_tokens": 1049,
+            "response_id": "chatcmpl-05e1dcba-36e2-4efd-99ad-9d751c4832a6",
+            "api_duration_ms": 655,
+            "tool_duration_ms": 0,
+            "total_duration_ms": 656,
             "tool_calls_count": 0,
-            "finish_reason": "malformed_function_call"
+            "finish_reason": "stop"
         }
     ]
 }

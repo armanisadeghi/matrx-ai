@@ -1,0 +1,34 @@
+{
+  "capture_metadata": {
+    "provider": "groq",
+    "model": "llama-3.3-70b-versatile",
+    "timestamp_ms": 1772598635404,
+    "label": "",
+    "context": {
+      "stream": true
+    }
+  },
+  "response": {
+    "id": "chatcmpl-df75b186-06a4-49bd-a807-4a2be67210d9",
+    "content": "",
+    "tool_calls": [
+      {
+        "id": "8k2n292h8",
+        "name": "news_get_headlines",
+        "arguments": "{\"country\":\"us\"}"
+      }
+    ],
+    "finish_reason": "tool_calls",
+    "usage": {
+      "completion_tokens": 17,
+      "prompt_tokens": 654,
+      "total_tokens": 671,
+      "completion_time": 0.084366449,
+      "completion_tokens_details": null,
+      "prompt_time": 0.138402687,
+      "prompt_tokens_details": null,
+      "queue_time": 0.069247272,
+      "total_time": 0.222769136
+    }
+  }
+}

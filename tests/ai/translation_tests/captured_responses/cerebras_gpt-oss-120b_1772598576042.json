@@ -1,0 +1,63 @@
+{
+  "capture_metadata": {
+    "provider": "cerebras",
+    "model": "gpt-oss-120b",
+    "timestamp_ms": 1772598576042,
+    "label": "",
+    "context": {
+      "stream": false,
+      "has_tools": true
+    }
+  },
+  "response": {
+    "id": "chatcmpl-0e715acc-4fbd-4f0e-a625-f91d6a0199d3",
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "reasoning": "The news tool is failing due to missing library. As per instructions, I should think of alternative. Perhaps I can fallback to using a different source? There's no other tool. Could I simulate? The instruction says I have tools to get latest news headlines. The tool failed; maybe try with different parameters like using sources? Might still need the same library. Could maybe request with query? Still uses same function. Possibly the environment lacks newsapi, but maybe other fallback? Could try with 'category' param maybe uses different endpoint? Unlikely.\n\nGiven failure, I could apologize and provide generic guidance that I cannot fetch due to technical issue, and suggest manually checking news websites. But maybe try again with 'category': 'general' and country 'us'? That still uses same function; likely same error. Could try using 'sources' instead of country. But then function will ignore country; still uses same library.\n\nLet's attempt with 'language' param? Probably same.\n\nWe can attempt again to see if error persists.",
+          "tool_calls": [
+            {
+              "id": "5dc5c00b7",
+              "function": {
+                "arguments": "{\"country\":\"us\",\"category\":\"general\"}",
+                "name": "news_get_headlines"
+              },
+              "type": "function"
+            }
+          ]
+        },
+        "logprobs": null,
+        "reasoning_logprobs": null
+      }
+    ],
+    "created": 1772598573,
+    "model": "gpt-oss-120b",
+    "object": "chat.completion",
+    "system_fingerprint": "fp_2d389d34367dd22b92f3",
+    "time_info": {
+      "completion_time": 0.161024587,
+      "prompt_time": 0.007414187000000001,
+      "queue_time": 0.015604061,
+      "total_time": 0.2578463554382324,
+      "created": 1772598573.3065312
+    },
+    "usage": {
+      "completion_tokens": 234,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0,
+        "reasoning_tokens": 0
+      },
+      "prompt_tokens": 947,
+      "prompt_tokens_details": {
+        "cached_tokens": 512
+      },
+      "total_tokens": 1181
+    },
+    "service_tier": null
+  }
+}

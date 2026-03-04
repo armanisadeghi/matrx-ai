@@ -1,0 +1,2590 @@
+{
+  "capture_metadata": {
+    "provider": "google",
+    "model": "gemini-3.1-pro-preview",
+    "timestamp_ms": 1772597899717,
+    "label": "",
+    "context": {
+      "stream": true
+    }
+  },
+  "response": [
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "Based on the provided",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 4,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1387,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " image, here is a detailed and specific breakdown of the document's contents. \n\nThe document is a screenshot of a",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 29,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1412,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " digital analytics dashboard or report focusing on marketing performance.\n\n**Title and Controls:**\n*   **Main Title:** \"Con",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 54,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1437,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "versions by Source\" (Top left, large text).\n*   **Filters/Date Ranges:** Below the title are two rectangular",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 80,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1463,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " buttons:\n    *   The first features a calendar icon and the text \"**Last 90 days**\".\n",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 104,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1487,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "    *   The second contains the text \"**No comparison**\".\n\n**Data Table:**\nThe core of the document is a",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 130,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1513,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " data table consisting of five columns. The \"Sessions\" column header includes a double-arrow icon (up/down), indicating that",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 156,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1539,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " the table is currently sortable by that metric.\n\n**Column Headers:**\n1.  **Month**\n2",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 180,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1563,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": ".  **UTM campaign source**\n3.  **Sessions**\n4.  **Conversion rate**\n",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 204,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1587,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "5.  **Sessions converted**\n\n**Table Data (Row by Row):**\n\n*   **Row 1",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 228,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1611,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " (Aggregate/Summary Totals):** \n    *   Month: **Mar 2023 - Apr ",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 253,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1636,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "2023**\n    *   UTM campaign source: *(Blank)*\n    *   Sessions: **8,4",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 280,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1663,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "17**\n    *   Conversion rate: **1.50%**\n    *   Sessions converted:",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 304,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1687,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " **126**\n\n*   **Row 2 (March Data):**\n    *   Month: **Mar 2",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 331,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1714,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "023**\n    *   UTM campaign source: **google-ads**\n    *   Sessions:",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 355,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1738,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " **5,403**\n    *   Conversion rate: **1.17%**\n    *",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 379,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1762,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "   Sessions converted: **63**\n\n*   **Row 3 (April Data):**\n    *   ",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 403,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1786,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "Month: **Apr 2023**\n    *   UTM campaign source: **google-ads**",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 427,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1810,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "\n    *   Sessions: **3,014**\n    *   Conversion rate: **2.0",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 451,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1834,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "9%**\n    *   Sessions converted: **63**\n\n**Footer:**\n*   Centered directly beneath",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 475,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1858,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " the table is a light gray text indicator that reads: \"**Showing 2 of 2 result(s).**\"",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 499,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1882,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " \n\n*(Note: The aggregate row accurately reflects the sum of the March and April sessions [5,403",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 523,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1906,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " + 3,014 = 8,417] and the sum of the converted sessions [6",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 547,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1930,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "3 + 63 = 126]).*",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 559,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 36,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1942,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:18:13 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=15898",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "Based on the provided",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " image, here is a detailed and specific breakdown of the document's contents. \n\nThe document is a screenshot of a",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " digital analytics dashboard or report focusing on marketing performance.\n\n**Title and Controls:**\n*   **Main Title:** \"Con",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "versions by Source\" (Top left, large text).\n*   **Filters/Date Ranges:** Below the title are two rectangular",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " buttons:\n    *   The first features a calendar icon and the text \"**Last 90 days**\".\n",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "    *   The second contains the text \"**No comparison**\".\n\n**Data Table:**\nThe core of the document is a",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " data table consisting of five columns. The \"Sessions\" column header includes a double-arrow icon (up/down), indicating that",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " the table is currently sortable by that metric.\n\n**Column Headers:**\n1.  **Month**\n2",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": ".  **UTM campaign source**\n3.  **Sessions**\n4.  **Conversion rate**\n",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "5.  **Sessions converted**\n\n**Table Data (Row by Row):**\n\n*   **Row 1",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " (Aggregate/Summary Totals):** \n    *   Month: **Mar 2023 - Apr ",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "2023**\n    *   UTM campaign source: *(Blank)*\n    *   Sessions: **8,4",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "17**\n    *   Conversion rate: **1.50%**\n    *   Sessions converted:",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " **126**\n\n*   **Row 2 (March Data):**\n    *   Month: **Mar 2",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "023**\n    *   UTM campaign source: **google-ads**\n    *   Sessions:",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " **5,403**\n    *   Conversion rate: **1.17%**\n    *",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "   Sessions converted: **63**\n\n*   **Row 3 (April Data):**\n    *   ",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "Month: **Apr 2023**\n    *   UTM campaign source: **google-ads**",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "\n    *   Sessions: **3,014**\n    *   Conversion rate: **2.0",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "9%**\n    *   Sessions converted: **63**\n\n**Footer:**\n*   Centered directly beneath",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " the table is a light gray text indicator that reads: \"**Showing 2 of 2 result(s).**\"",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " \n\n*(Note: The aggregate row accurately reflects the sum of the March and April sessions [5,403",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " + 3,014 = 8,417] and the sum of the converted sessions [6",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "3 + 63 = 126]).*",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "",
+                "thought": null,
+                "thought_signature": {
+                  "__bytes__": true,
+                  "data": "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"
+                },
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": "STOP",
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "hbKnafqdOvPgz7IP_IzvkQU",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 559,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 556,
+        "prompt_tokens_details": [
+          {
+            "modality": "IMAGE",
+            "token_count": 520
+          },
+          {
+            "modality": "TEXT",
+            "token_count": 36
+          }
+        ],
+        "thoughts_token_count": 1347,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 2462,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    }
+  ]
+}

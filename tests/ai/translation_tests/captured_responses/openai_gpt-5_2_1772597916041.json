@@ -1,0 +1,84 @@
+{
+  "capture_metadata": {
+    "provider": "openai",
+    "model": "gpt-5.2",
+    "timestamp_ms": 1772597916041,
+    "label": "",
+    "context": {
+      "stream": true,
+      "has_tools": false
+    }
+  },
+  "response": {
+    "id": "resp_005a663037bbc95e0069a7b296fddc81a3a2f094e1ac4a5118",
+    "created_at": 1772597912.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "metadata": {},
+    "model": "gpt-5.2-2025-12-11",
+    "object": "response",
+    "output": [
+      {
+        "id": "msg_005a663037bbc95e0069a7b298f73881a396f5853b88d9b489",
+        "content": [
+          {
+            "annotations": [],
+            "text": "The document is a screenshot/report titled **\u201cConversions by Source.\u201d** It appears to be an analytics view summarizing conversions attributed to a marketing source over a selected date range.\n\nSpecific visible elements:\n\n- **Title:** *Conversions by Source*\n- **Date range selector:** **Last 90 days** (with a calendar icon)\n- **Comparison setting:** **No comparison**\n- **Table headers:**\n  - **Month**\n  - **UTM campaign source**\n- **Table content:**\n  - A grouped period row: **Mar 2023 \u2013 Apr 2023**\n  - **Mar 2023** \u2192 **google-ads**\n  - **Apr 2023** \u2192 **google-ads**\n\nThe \u201cparsed text\u201d shown above the image is garbled/unreadable, but the image content itself clearly shows the report and the entries listed above.",
+            "type": "output_text",
+            "logprobs": [],
+            "parsed": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message"
+      }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1772597915.0,
+    "conversation": null,
+    "max_output_tokens": null,
+    "max_tool_calls": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_key": null,
+    "prompt_cache_retention": null,
+    "reasoning": {
+      "effort": "none",
+      "generate_summary": null,
+      "summary": null
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+      "format": {
+        "type": "text"
+      },
+      "verbosity": "medium"
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+      "input_tokens": 848,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 181,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 1029
+    },
+    "user": null,
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "store": true
+  }
+}

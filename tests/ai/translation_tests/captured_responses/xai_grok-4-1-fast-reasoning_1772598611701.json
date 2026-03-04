@@ -1,0 +1,18 @@
+{
+  "capture_metadata": {
+    "provider": "xai",
+    "model": "grok-4-1-fast-reasoning",
+    "timestamp_ms": 1772598611701,
+    "label": "",
+    "context": {
+      "stream": true
+    }
+  },
+  "response": {
+    "id": "47771a56-9175-e5dc-7d86-b1017cec8ad5",
+    "content": "I'm sorry, but I'm currently unable to fetch the latest news headlines due to a temporary technical issue with my news tool. If you'd like headlines from a specific category (like technology, sports, or business), or news from another country, let me know and I'll try again or assist in another way! Alternatively, I can help with other questions in the meantime. \ud83d\ude0a",
+    "tool_calls": [],
+    "finish_reason": "stop",
+    "usage": null
+  }
+}

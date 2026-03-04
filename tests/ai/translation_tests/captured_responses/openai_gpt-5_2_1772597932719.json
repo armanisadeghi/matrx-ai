@@ -1,0 +1,84 @@
+{
+  "capture_metadata": {
+    "provider": "openai",
+    "model": "gpt-5.2",
+    "timestamp_ms": 1772597932719,
+    "label": "",
+    "context": {
+      "stream": true,
+      "has_tools": false
+    }
+  },
+  "response": {
+    "id": "resp_0e3e434beffe52c70069a7b2a9ea3881909e94343bc1aae0f3",
+    "created_at": 1772597929.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "metadata": {},
+    "model": "gpt-5.2-2025-12-11",
+    "object": "response",
+    "output": [
+      {
+        "id": "msg_0e3e434beffe52c70069a7b2aa84608190baa46e01c9edf07e",
+        "content": [
+          {
+            "annotations": [],
+            "text": "I can, but I\u2019ll need the video content first\u2014right now I don\u2019t have the video or a link/transcript to work from.  \nPlease share the URL (YouTube/Vimeo/etc.) or paste the transcript/captions (or upload the video file), and tell me if you want the summary to focus on the main argument, key events, or actionable takeaways.  \nOnce I have that, I\u2019ll summarize it in exactly 3 sentences.",
+            "type": "output_text",
+            "logprobs": [],
+            "parsed": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message"
+      }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1772597932.0,
+    "conversation": null,
+    "max_output_tokens": null,
+    "max_tool_calls": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_key": null,
+    "prompt_cache_retention": null,
+    "reasoning": {
+      "effort": "none",
+      "generate_summary": null,
+      "summary": null
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+      "format": {
+        "type": "text"
+      },
+      "verbosity": "medium"
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+      "input_tokens": 15,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 98,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 113
+    },
+    "user": null,
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "store": true
+  }
+}

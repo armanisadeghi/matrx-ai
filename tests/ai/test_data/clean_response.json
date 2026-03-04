@@ -1,76 +1,135 @@
 {
-    "output": "",
-    "assistant_response": null,
+    "output": "The news_get_headlines function failed to execute due to a missing 'newsapi' module. Let's try searching the news instead.",
+    "assistant_response": {
+        "role": "assistant",
+        "content": [
+            {
+                "type": "text",
+                "text": "The news_get_headlines function failed to execute due to a missing 'newsapi' module. Let's try searching the news instead.",
+                "id": "",
+                "metadata": {}
+            }
+        ],
+        "id": "chatcmpl-05e1dcba-36e2-4efd-99ad-9d751c4832a6",
+        "name": null,
+        "timestamp": null,
+        "status": "active",
+        "metadata": {}
+    },
     "config": {
-        "model": "gemini-3.1-pro-preview",
+        "model": "llama-3.3-70b-versatile",
         "messages": [
             {
                 "role": "user",
                 "content": [
                     {
                         "type": "text",
-                        "text": "Hello! Can you help me? What is the latest us news?",
+                        "text": "Hi",
                         "id": ""
                     }
                 ]
+            },
+            {
+                "role": "assistant",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": "Hello! How may I assist you today?",
+                        "id": ""
+                    }
+                ]
+            },
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": "Hello! Can you give me some of the latest news headlines? Just for the US is good and I want them up to  date for today.",
+                        "id": ""
+                    }
+                ]
+            },
+            {
+                "role": "assistant",
+                "content": [
+                    {
+                        "type": "tool_call",
+                        "id": "8k2n292h8",
+                        "call_id": "",
+                        "name": "news_get_headlines",
+                        "arguments": {
+                            "country": "us"
+                        }
+                    }
+                ],
+                "id": "chatcmpl-df75b186-06a4-49bd-a807-4a2be67210d9"
+            },
+            {
+                "role": "tool",
+                "content": [
+                    {
+                        "type": "tool_result",
+                        "tool_use_id": "8k2n292h8",
+                        "call_id": "8k2n292h8",
+                        "name": "news_get_headlines",
+                        "content": "TOOL ERROR [execution]: No module named 'newsapi'\nSuggested action: Check the error details and try with different parameters.\nTechnical details:\nTraceback (most recent call last):\n  File \"/home/arman/projects/matrx-ai/matrx_ai/tools/executor.py\", line 158, in execute\n    result = await asyncio.wait_for(\n             ^^^^^^^^^^^^^^^^^^^^^^^\n    ...<2 lines>...\n    )\n    ^\n  File \"/home/arman/.local/share/uv/python/cpython-3.13.10-linux-x86_64-gnu/lib/python3.13/asyncio/tasks.py\", line 507, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/home/arman/projects/matrx-ai/matrx_ai/tools/executor.py\", line 287, in _dispatch\n    return await self._execute_local(tool_def, args, ctx, stream)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/arman/projects/matrx-ai/matrx_ai/tools/executor.py\", line 329, in _execute_local\n    raw_result = await func(args, ctx)\n                 ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/arman/projects/matrx-ai/matrx_ai/tools/implementations/news.py\", line 11, in news_get_headlines\n    from api_management.news.news_api import get_top_headlines\n  File \"/home/arman/projects/aidream/api_management/news/news_api.py\", line 3, in <module>\n    from newsapi import NewsApiClient\nModuleNotFoundError: No module named 'newsapi'\n",
+                        "is_error": true
+                    }
+                ]
+            },
+            {
+                "role": "assistant",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": "The news_get_headlines function failed to execute due to a missing 'newsapi' module. Let's try searching the news instead.",
+                        "id": ""
+                    }
+                ],
+                "id": "chatcmpl-05e1dcba-36e2-4efd-99ad-9d751c4832a6"
             }
         ],
-        "system_instruction": "You're a helpful assistant. Think through your response step by step before proceeding with a response. Always search the web to ensure you include recent and relevant facts in your response. You can check the user's location with a tool and provide whatever they need.",
+        "system_instruction": "You're a helpful assistant. Think through your response step by step and use the many tools you have available to you. You have tools to get the latest news headlines. Today's Date: 2026-03-03",
         "stream": true,
-        "max_output_tokens": 4096,
-        "temperature": 1,
-        "top_p": 1,
-        "top_k": 50,
         "tools": [
-            "get_location",
-            "get_weather",
-            "get_restaurants",
-            "get_activities",
-            "get_events",
-            "create_summary"
+            "news_get_headlines"
         ],
         "tool_choice": "auto",
-        "parallel_tool_calls": false,
+        "parallel_tool_calls": true,
         "reasoning_effort": "low",
-        "reasoning_summary": "auto",
-        "response_format": "text",
+        "reasoning_summary": "detailed",
         "stop_sequences": [],
-        "store": true,
-        "verbosity": "medium",
-        "internal_web_search": true,
-        "size": "1024x1024",
-        "quality": "standard",
+        "internal_web_search": false,
+        "internal_url_context": false,
         "count": 1,
-        "audio_voice": "alloy",
-        "audio_format": "mp3",
         "metadata": {}
     },
     "usage": {
         "by_model": {
-            "gemini-3.1-pro-preview": {
-                "input_tokens": 69,
-                "output_tokens": 0,
+            "llama-3.3-70b-versatile": {
+                "input_tokens": 1675,
+                "output_tokens": 45,
                 "cached_input_tokens": 0,
-                "total_tokens": 69,
-                "api": "google",
-                "request_count": 1,
-                "cost": 0.000138
+                "total_tokens": 1720,
+                "api": "groq",
+                "request_count": 2,
+                "cost": null
             }
         },
         "total": {
-            "input_tokens": 69,
-            "output_tokens": 0,
+            "input_tokens": 1675,
+            "output_tokens": 45,
             "cached_input_tokens": 0,
-            "total_tokens": 69,
-            "total_requests": 1,
+            "total_tokens": 1720,
+            "total_requests": 2,
             "unique_models": 1,
-            "total_cost": 0.000138
+            "total_cost": null
         }
     },
     "metadata": {
-        "status": "failed",
-        "finish_reason": "malformed_function_call",
-        "error": "Model stopped with finish reason: malformed_function_call",
-        "error_type": "finish_reason_error"
+        "finish_reason": "stop",
+        "response_id": "chatcmpl-05e1dcba-36e2-4efd-99ad-9d751c4832a6",
+        "matrx_model_name": "llama-3.3-70b-versatile",
+        "provider_model_name": "llama-3.3-70b-versatile"
     }
 }

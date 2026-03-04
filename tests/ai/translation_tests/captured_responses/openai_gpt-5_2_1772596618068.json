@@ -1,0 +1,496 @@
+{
+  "capture_metadata": {
+    "provider": "openai",
+    "model": "gpt-5.2",
+    "timestamp_ms": 1772596618068,
+    "label": "",
+    "context": {
+      "stream": true,
+      "has_tools": true
+    }
+  },
+  "response": {
+    "id": "resp_0cd28c4dfc5f15be0069a7ad5ab6c08195913ccdcd0b2f95ac",
+    "created_at": 1772596570.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "metadata": {},
+    "model": "gpt-5.2-2025-12-11",
+    "object": "response",
+    "output": [
+      {
+        "id": "rs_0cd28c4dfc5f15be0069a7ad5b95f481959365406981a702b0",
+        "summary": [
+          {
+            "text": "I need to use the web run tool to get the latest news. It looks like I should provide a summary organized by categories to make it clearer for the user. I\u2019m considering how I can gather all relevant information and present it in a way that's both informative and engaging. I want to ensure that the user gets a comprehensive overview, so I\u2019ll make sure to cover various topics as needed!",
+            "type": "summary_text"
+          }
+        ],
+        "type": "reasoning",
+        "content": null,
+        "encrypted_content": "gAAAAABpp62J47DS4s1LOb61AkubI2wgnZRGtJNq_0Dkgdik64Q7l1KUp2XBXIJxX0Hwuy-KSAmnsHNTJBooIfoHg_tNLMBLMlFPph5Tbdr3a56WdbyekSh3s5HQRDHzhj4VpbV9_V-XYTJFMnsciKruK2Qt5ardlT17ouku4xI8_vgmCKi5Nexcx1ucEkjhg6HeHxKfwYj3Smm6hiEQj2YcaxFBT9ZxYmS9Uw3tsQFRI4TVIHcP-KRghjpPWpIiRmP3lzr6ZhC7C5Ehg6Lt7Bit4M-S37ZScyf3gcF9MT9caIDc02AKLr8h7pPIr9DiU5lllVU7ghTWgqiJzC-NSmqbjcIBpsXISp3NO8_qLByYayVx9WwSxiTxtB-4kEHGF-tRiRRbQd7y3yYARllpbKaotElfnBN7JXNRi6tSz1hpSbvgEWMR_gy6VzriX5xV6Xn7WFVQsuroKq7_9zLfaf4-UsxkRGIgqVUBl8o-dWdFFaEfoE0AuHKIn90a5vHWxLEVaJo6X-fS8yERFDDLdLCRIQypugo6qZEgk6t415LllFdLv0GT2OkZRD8kU5Ac0BosFcUEdE_1UsrW86HKlsByKFhjzHpsbNLljxNCOgRF_YQZygiMFZkvT7ydn9mIVyJreMYE8CksYfTpkVpL64rkuaf4EnymloNoNljUxbTSFyapotdVMTWj3pEq0tHlc9BrP_pYn9c6XRhrP0a-i9S6Yj0gZ_ytg4bSxEOFCMMviQA2Hb8TA12jAuxxwMBO8j7avVts2O3WqHgEXj_s4yixD1XVPAHMhiGabE45othO2T7W7oBoh3o8oTp_xNzpxcESSHgZvetaQG57DmLcJFmFkfVCG74v3SU3I6kIMP_i3wXoSy0R97VeFOUC7WfIc6To_xLkfUSpZakmo9NUR1uBl6Bh6iShpYe72NzfC7Pb-h-oYk0VcvRpes1Jgr-msdXwLsamLym8",
+        "status": null
+      },
+      {
+        "id": "ws_0cd28c4dfc5f15be0069a7ad5d20548195a61930f836e51032",
+        "action": {
+          "query": "latest U.S. news March 4 2026",
+          "type": "search",
+          "queries": [
+            "latest U.S. news March 4 2026",
+            "U.S. politics latest news",
+            "U.S. economy latest news",
+            "U.S. Supreme Court latest news"
+          ],
+          "sources": [
+            {
+              "type": "url",
+              "url": "https://www.vox.com/politics/481401/supreme-court-mirabelli-bonta-sauron-wins"
+            },
+            {
+              "type": "url",
+              "url": "https://apnews.com/article/a24bc87a8fc1447e84fa1e6366202fd8"
+            },
+            {
+              "type": "url",
+              "url": "https://apnews.com/article/2f5e96aea7c5b652b837ec6b80136281"
+            },
+            {
+              "type": "url",
+              "url": "https://en.wikipedia.org/wiki/2025_United_States_federal_government_shutdown"
+            },
+            {
+              "type": "url",
+              "url": "https://finance.yahoo.com/news/us-economy-grow-least-3-220415822.html/"
+            },
+            {
+              "type": "url",
+              "url": "https://en.wikipedia.org/wiki/Trump_v._Anderson"
+            },
+            {
+              "type": "url",
+              "url": "https://en.wikipedia.org/wiki/Trump_v._United_States"
+            },
+            {
+              "type": "url",
+              "url": "https://en.wikipedia.org/wiki/2024_United_States_elections"
+            },
+            {
+              "type": "url",
+              "url": "https://en.wikipedia.org/wiki/Fischer_v._United_States_%282024%29"
+            },
+            {
+              "type": "url",
+              "url": "https://en.wikipedia.org/wiki/Roberts_Court"
+            }
+          ]
+        },
+        "status": "completed",
+        "type": "web_search_call"
+      },
+      {
+        "id": "rs_0cd28c4dfc5f15be0069a7ad6a579c8195b07e5f6e52f4b9d0",
+        "summary": [
+          {
+            "text": "**Exploring diverse sources**\n\nI think I need to find more reliable and diverse news sources beyond just Vox and AP. It's important to get a well-rounded perspective, so I'll search places like Reuters, The Wall Street Journal, and The New York Times. I wonder what insights these sources might provide that I haven\u2019t seen before. Gathering information from various outlets can really enrich the understanding of the topic at hand!",
+            "type": "summary_text"
+          }
+        ],
+        "type": "reasoning",
+        "content": null,
+        "encrypted_content": "gAAAAABpp62JnRgnrAFgLzsylWQOLF8Pdijxb9SoXG_tNc0PZCWJN_VaZk_YoHrH_QKhdvgnVnLu-dmyKWhKtf12ENIk8IvOwzpKyIruyf_YFyvpkhdWKX7J2_XYn7GxdGBZ6j1O3Xu-Xq0IR0buDaSPfgNDh-XfdBu3qwEzIavOTolpupB6J83tpqEOO09EuYf0CnBqhmZ9wJeTa4iDA0t-Yca0LzIe1S2RLPvphUgCJSIPrWwEP8Sk0Soqa_zQ7nbE7Rv86FsgdVYifGRizp7by4jV-lwJBKtWr1Rnf5rpAZ8ej21Hur3Z88DMO38tM6AotyFuO8h2fCkYib1hP5uMZcg8P7rEw_aF2DcCCCTvScA9vfNoqcI37F0hXWzjP3WtoOAJL_VMmdBZUG_qm7-NWOaoTfKHm40Xf2oUNi9waZRoXBaBOF7EemC2csm_BuWl8aOoV0N2fRcI5_uLJf88kUGFgnG37CWTONA9nNGldkJfY7zu0yBHZb3YvF6-4tGHu6lT6QfrJalzsxGDpqRbiSAOdKFhNRJCf0nLIeTlfsf_maKHvlteWNLWiAOGyDKyqbRn_0Opjor0WPqBI8he6PTQfMHgi46gZ2NJiu4TnKgwbr-dbMRlUACZuz3o5vFzWKquNlXzqvEySMGdGurn2OPieCB337yrEgf4BafPadg2ZxYQBZVxhrQnoSUU_uTFlppKykwV3ZHTXwauRB_1761On_psvfYZVIraM67LVPD53wkuq6EszLZbdhOa_E18bugTKCdBffM6LHXSEV7cC-6Y3315bWg8xyopVVStBQSrnB83ApU2IBLFKhJTyLm-nUMlmP95DweWaOT67xYuqpjluuLUq1xTv5MvRb-tHN04xpbqt43rsB1P5i3fwUY7kShW7tmrQvNvFaU5c3wDFBZymz-eW-tCDbxnHzOTyEKCX1iltZydwvyy-iyjyVx02W8j2Tmr",
+        "status": null
+      },
+      {
+        "id": "ws_0cd28c4dfc5f15be0069a7ad6b851c81959782eea4040e6ab3",
+        "action": {
+          "query": "Reuters U.S. news March 4 2026 top stories",
+          "type": "search",
+          "queries": [
+            "Reuters U.S. news March 4 2026 top stories",
+            "New York Times U.S. news March 4 2026",
+            "Wall Street Journal U.S. news March 4 2026",
+            "CNN U.S. news March 4 2026"
+          ],
+          "sources": [
+            {
+              "type": "url",
+              "url": "https://news.cgtn.com/news/2026-03-03/news-1LczoeNqS4M/p.html"
+            },
+            {
+              "type": "url",
+              "url": "https://parade.com/living/nyt-mini-crossword-answers-hints-clues-today-march-4-2026/"
+            },
+            {
+              "type": "url",
+              "url": "https://en.wikipedia.org/wiki/2025_Donald_Trump_speech_to_a_joint_session_of_Congress"
+            },
+            {
+              "type": "url",
+              "url": "https://www.investing.com/news/stock-market-news/us-stock-futures-fall-after-nvidia-dents-wall-st-netflix-rallies-4530329"
+            },
+            {
+              "type": "url",
+              "url": "https://www.clickondetroit.com/business/2026/01/06/asian-shares-and-us-futures-advance-and-oil-prices-fall-back/"
+            },
+            {
+              "type": "url",
+              "url": "https://www.wesh.com/article/stock-market-march-3-2026/70588554"
+            },
+            {
+              "type": "url",
+              "url": "https://keyt.com/news/money-and-business/cnn-business-consumer/2026/03/03/stocks-tumble-as-wall-street-fears-a-prolonged-war-with-iran/"
+            },
+            {
+              "type": "url",
+              "url": "https://en.wikipedia.org/wiki/2026_United_States_protests_against_strikes_on_Iran"
+            },
+            {
+              "type": "url",
+              "url": "https://www.mundoamerica.com/news/2026/03/03/69a705b5e9cf4a5e108b4586.html"
+            }
+          ]
+        },
+        "status": "completed",
+        "type": "web_search_call"
+      },
+      {
+        "id": "rs_0cd28c4dfc5f15be0069a7ad7ca7d88195b0be79c02aa0f12f",
+        "summary": [
+          {
+            "text": "**Searching for authoritative sources**\n\nI\u2019m noticing the search results include some questionable sources. I definitely need authoritative information, so I\u2019ll use AP and Reuters, potentially through Yahoo. For topics like security or claims about war with Iran, I really want to confirm facts from reputable outlets. I\u2019ll dig deeper into AP and Reuters to get their latest coverage on the situation in Iran. That should help ensure accuracy!",
+            "type": "summary_text"
+          }
+        ],
+        "type": "reasoning",
+        "content": null,
+        "encrypted_content": "gAAAAABpp62JneAmfLvppwVCctzwEM-mZBpAnZOiRBKO1F5bNqEtT_gX0V6b4n3aHCNZBcBXstog9i5_9f37HvNnyVHCXZwBxKVoQFz34Bp5BWDbohz-_41zTYcVo9KEPQcwwoo5ZONcQGo_1ul8rIg0NTDIRFcxNW433fgRpLN1kK7bWJtSCNgTA7Q4szAfLb9n-K-_l7vfOFGPZjAKhbwbaisNvI-8sE6QNV6FjdBW2rp5CYCVegioiQIGLE4hfC3I8Kmm4rIpb5S3m_M75r-pTUYrm2MxziIYxAJoteaum09j9BCIPGYp7xZ7lV0SDZclfiH3DduATRKk_00VAH8OQfrP-wWb5UzAMBsC7J0Ke0QKblV92lOoK7XbxMKG8bu1kofLWyYNokUtDjHk9pee1uSSRNNPnh3XSQ3vDmyb78xeYEgQpK2vXlbYqkHUOei-Xd9Vvkn2O4wCIPd4jUIl4TnUBkQLcnUiM7bZpopgnPA9-LLoBAfG-jNJYq38tOja2NrP_A3fXXe062KClfynTiRYgNW-vXP63sMLj-ulebHzwykETUVwRF83MkMbRBgo-yy0ODaTLoBpgX0vuCzqTT_pwVKe76eKp3beDpScKs1T6OwJsxJR2n33M8ruuSxU3psW-gt9-JijXG2vpwwssmEwGguBa4AcvjAMBza6laWI57a5EC5l0UK7zhRX8cHEU55MWcjD8HQITJ04z5GvJcfQBjSujv-CGcRms38uglBPYRP999SEtCMxl5ORqdda5pj3X0BX1l3oMWoii6nVbC7fq3tW3Rd57iySbT1Fyi-5xHiDe6hzCcOsKMdQXEShWGkUewOOjajeNbDSNbPebJ9M-bDf-Z6ZfYgg4yOl_WyiJXWxFJ8W96q5tQ2OwWHDPmcyBgib7DDQAL6DWR6Agic7U59FVrKk9XSQAaRS-HOJVlS6l1A1wZFqh7TXAPQlUvlxpT2qxQOi-WlJYKSPSLYPatv3-8svEKa-23PKvESRQ3DOhUdpOSMjkwCSE9IcbjMbMiYe03en5QElDN7M5FyXX2zXmX7jhPfxkA8ygC3nTklOgLqbe6qmYFFz38U7IZeKcfJijrGdFUNHDzI9SMYqf3LPU0wVSb7I_UYqX9YxVxmSTPWUdw_TVjC8cweE46piLTSlpuVcbqCSk7GUagLLy4JU8WU_-qay290CGDAfZK_kIdk=",
+        "status": null
+      },
+      {
+        "id": "ws_0cd28c4dfc5f15be0069a7ad7dd2708195a3e1898d2d965457",
+        "action": {
+          "query": "AP News Iran strikes U.S. March 3 2026 embassy Saudi Arabia",
+          "type": "search",
+          "queries": [
+            "AP News Iran strikes U.S. March 3 2026 embassy Saudi Arabia",
+            "Reuters March 3 2026 Iran embassy Saudi Arabia U.S. personnel ordered to depart",
+            "BBC US Iran conflict March 2026 Strait of Hormuz threat",
+            "NPR Supreme Court Mirabelli v. Bonta March 2026"
+          ],
+          "sources": [
+            {
+              "type": "url",
+              "url": "https://www.washingtonpost.com/national-security/2026/03/03/cia-saudi-arabia-drone-attack-iran/"
+            },
+            {
+              "type": "url",
+              "url": "https://www.theguardian.com/us-news/2026/mar/03/first-thing-conflict-middle-east-human-rights-groups-iranian-civilians-killed"
+            },
+            {
+              "type": "url",
+              "url": "https://www.washingtonpost.com/world/2026/03/03/us-iran-israel-military-strikes-trump-live-updates/"
+            },
+            {
+              "type": "url",
+              "url": "https://www.yahoo.com/news/articles/us-orders-non-emergency-staff-055809896.html"
+            },
+            {
+              "type": "url",
+              "url": "https://www.ksat.com/news/world/2026/03/03/iran-war-taxes-us-diplomatic-work-and-leaves-americans-in-the-mideast-in-limbo/"
+            },
+            {
+              "type": "url",
+              "url": "https://www.californiafamily.org/2026/03/us-supreme-court-blocks-californias-secret-transition-policies-restores-parents-rights/"
+            },
+            {
+              "type": "url",
+              "url": "https://www.washingtonpost.com/business/2026/03/02/oil-prices-strait-hormuz//"
+            },
+            {
+              "type": "url",
+              "url": "https://commonslibrary.parliament.uk/research-briefings/cbp-10521/"
+            },
+            {
+              "type": "url",
+              "url": "https://www.ksat.com/news/world/2026/03/03/us-embassy-in-saudi-arabia-hit-with-iranian-drones-as-american-and-israeli-attacks-on-iran-escalate/"
+            }
+          ]
+        },
+        "status": "completed",
+        "type": "web_search_call"
+      },
+      {
+        "id": "rs_0cd28c4dfc5f15be0069a7ad8975b08195ab68a74cd5c5d932",
+        "summary": [],
+        "type": "reasoning",
+        "content": null,
+        "encrypted_content": "gAAAAABpp62JdjJPf_QAOWzTUoZDOkvg3LgWbgvvRKHMBySd5KxTyrf0DltVzH191RLsLL_FhPfQIEaSw0cCR-ynFUIXyLhnW0jlfD5ydvxgZL1RMo6hua0zJkYRQDlRSnslZWiM_H3mS3qktJxRHJB5jfu95or_zHq2WOm_o4jIoVmDDqdg9rwpSurJF1dp-reLyBsk2J3YW-nk2OvFYxrd7cmpbwaDo4tFVNKkOOZIS_t-V2aAt6aEdUXz_5UpvP96CLEiNfTAAlZXApp8yPITc104r2Wvnrembr3_TTENLQe_KbXvg2PmLlMOV8Q4yO--GT8klJagdYkYRI27dR0WjGBwWgXIRTXz2UiXu16Q_4my7Oi3aPoofbruhUix9N_eNYLGabp2yqjV0d3nO7pB9E1P6dzOw6mzSQnTUe0v1kSoRzvXPpR4LhWEKg7QUC_YCVzs58XczLayPtVo5yRrZ61wLclSiuZ0y8vGmzOCm0u8BwRXmvlmpFu1D5SCz_M3s5MDq9_HHYemirofeyRpMWFws2z7vPCkQ9e_Xb6Lm9Jv1kOFWUIJe_x8xn7xNr2XBfYwE4NEvA-lwn75McR0ZsTZ1zBAfEJErL7gI1fw-pXxiJaTRZgsZsbFh5wPbB0779iTwMpF2k7V_xmgcQFTk8grETHESB1Ui4Dd9BgrAYZlBrvC26SnrmFUYtg-QJwYfKQuYOrm9JSM9HWoMMqW2VyIOadi2eRSQjtkGkfwh0EDvwvlhtZldn7mm5cQD8GfwdKec4YxrNHzpHxOWrmFZrCWkQAgDCD8CeAw7dKnK-awq16b2wovTKFr390vmZ6MwTY-Gt7xhKOYSy2EQJ3G2VN_eBs8oUdrlXXc_fS6S1cwfFUFLf62x5-3qllTSkzevEQC7LjrVOLSe4R9JUAJEObOSio1BdDo0CemwGhkvRy8O_arbF1D_1axUvYmbxiq5p2tnc5QEe-7Lh4hs3HwznDC4BhBdFYXk-_mFrdBt44iqRDDjeIWzmkAoliWTqfIzUCpvXEYyOQNuXtFF4ObUcZeRmLZIQ==",
+        "status": null
+      },
+      {
+        "id": "msg_0cd28c4dfc5f15be0069a7ad899a8081958f8f326e76493b0c",
+        "content": [
+          {
+            "annotations": [
+              {
+                "end_index": 576,
+                "start_index": 463,
+                "title": "US orders some diplomatic staff to leave Middle East as Iran conflict escalates",
+                "type": "url_citation",
+                "url": "https://www.yahoo.com/news/articles/us-orders-non-emergency-staff-055809896.html?utm_source=openai"
+              },
+              {
+                "end_index": 913,
+                "start_index": 738,
+                "title": "US Embassy in Saudi Arabia hit with Iranian drones as American and Israeli attacks on Iran escalate",
+                "type": "url_citation",
+                "url": "https://www.ksat.com/news/world/2026/03/03/us-embassy-in-saudi-arabia-hit-with-iranian-drones-as-american-and-israeli-attacks-on-iran-escalate/?utm_source=openai"
+              },
+              {
+                "end_index": 1171,
+                "start_index": 1052,
+                "title": "Iran strikes stall traffic in Strait of Hormuz, rattling world markets - The Washington Post",
+                "type": "url_citation",
+                "url": "https://www.washingtonpost.com/business/2026/03/02/oil-prices-strait-hormuz//?utm_source=openai"
+              },
+              {
+                "end_index": 1477,
+                "start_index": 1382,
+                "title": "Dow drops as stocks sell off around the world and oil prices leap even higher",
+                "type": "url_citation",
+                "url": "https://www.wesh.com/article/stock-market-march-3-2026/70588554?utm_source=openai"
+              },
+              {
+                "end_index": 1927,
+                "start_index": 1819,
+                "title": "The Supreme Court&#8217;s Republicans just seized the most dangerous power in constitutional law",
+                "type": "url_citation",
+                "url": "https://www.vox.com/politics/481401/supreme-court-mirabelli-bonta-sauron-wins?utm_source=openai"
+              },
+              {
+                "end_index": 2272,
+                "start_index": 2179,
+                "title": "IMF sees 'buoyant' US economy accelerating this year but warns of risks from tariffs, rising debt",
+                "type": "url_citation",
+                "url": "https://apnews.com/article/a24bc87a8fc1447e84fa1e6366202fd8?utm_source=openai"
+              }
+            ],
+            "text": "Here are some of the biggest **U.S.-focused headlines as of Wednesday, March 4, 2026** (latest reporting from the past ~1\u20132 days):\n\n## 1) Middle East conflict is driving major U.S. security + diplomatic moves\n- The U.S. has **ordered non-emergency government personnel (and families) to depart** from multiple Middle East countries and **closed/curtailed operations at several diplomatic missions**, amid escalating conflict involving the U.S., Israel, and Iran. ([yahoo.com](https://www.yahoo.com/news/articles/us-orders-non-emergency-staff-055809896.html?utm_source=openai))  \n- **Iran struck the U.S. Embassy in Riyadh (Saudi Arabia)** with drones, according to AP/Washington Post reporting, as fighting and retaliatory strikes widen. ([ksat.com](https://www.ksat.com/news/world/2026/03/03/us-embassy-in-saudi-arabia-hit-with-iranian-drones-as-american-and-israeli-attacks-on-iran-escalate/?utm_source=openai))  \n- Oil shipping disruption fears\u2014especially around the **Strait of Hormuz**\u2014are contributing to market anxiety and higher energy prices. ([washingtonpost.com](https://www.washingtonpost.com/business/2026/03/02/oil-prices-strait-hormuz//?utm_source=openai))  \n\n## 2) Markets are reacting to energy-price shock and war-risk\n- U.S. and global markets have been sliding as oil prices jump and investors worry about inflation and growth impacts from a prolonged conflict. ([wesh.com](https://www.wesh.com/article/stock-market-march-3-2026/70588554?utm_source=openai))  \n\n## 3) Supreme Court action affecting education / parental-notification policies\n- A new Supreme Court-related development in **Mirabelli v. Bonta** is drawing major attention around whether/when schools must notify parents about a student\u2019s gender identity\u2014alongside broader arguments about \u201cparental rights\u201d and constitutional doctrine. ([vox.com](https://www.vox.com/politics/481401/supreme-court-mirabelli-bonta-sauron-wins?utm_source=openai))  \n\n## 4) U.S. economy outlook: solid growth, but tariff/debt risks flagged\n- The IMF has described the U.S. economy as \u201cbuoyant\u201d with **strong 2026 growth expectations**, while warning about downside risks tied to **tariffs and rising federal debt**. ([apnews.com](https://apnews.com/article/a24bc87a8fc1447e84fa1e6366202fd8?utm_source=openai))  \n\nIf you tell me what you care about most\u2014**(a) the Iran conflict, (b) Supreme Court, (c) markets/economy, (d) Congress/White House, (e) immigration, (f) climate/disasters, (g) crime/public safety**\u2014I can narrow this to a tighter \u201ctop 5\u201d with more detail in that area.",
+            "type": "output_text",
+            "logprobs": [],
+            "parsed": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message"
+      }
+    ],
+    "parallel_tool_calls": false,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [
+      {
+        "name": "travel_get_location",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "type": "function",
+        "description": "Get the user's current location city. Returns a randomly selected city (mock data for demo/testing)."
+      },
+      {
+        "name": "travel_get_weather",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "City name to get weather for."
+            }
+          },
+          "required": [
+            "city"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "type": "function",
+        "description": "Get current weather conditions for a specified city. Returns condition, temperature, and unit (mock data for demo/testing)."
+      },
+      {
+        "name": "travel_get_restaurants",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "City name to get restaurants for."
+            }
+          },
+          "required": [
+            "city"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "type": "function",
+        "description": "Get restaurant recommendations for a specified city. Returns a list of restaurant names (mock data for demo/testing)."
+      },
+      {
+        "name": "travel_get_activities",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "City name."
+            },
+            "weather": {
+              "type": "string",
+              "description": "Current weather condition."
+            }
+          },
+          "required": [
+            "city",
+            "weather"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "type": "function",
+        "description": "Get activity recommendations based on city and weather. Returns indoor activities for rainy/snowy weather, outdoor for others (mock data for demo/testing)."
+      },
+      {
+        "name": "travel_get_events",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "City name."
+            },
+            "weather": {
+              "type": "string",
+              "description": "Current weather condition."
+            }
+          },
+          "required": [
+            "city",
+            "weather"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "type": "function",
+        "description": "Get local events happening in a city, taking weather into account. Returns indoor events for rainy/snowy weather, outdoor for others (mock data for demo/testing)."
+      },
+      {
+        "name": "travel_create_summary",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "events": {
+              "type": "array",
+              "description": "List of event names.",
+              "items": {
+                "type": "string"
+              }
+            },
+            "location": {
+              "type": "string",
+              "description": "City or location name."
+            },
+            "activities": {
+              "type": "array",
+              "description": "List of activity names.",
+              "items": {
+                "type": "string"
+              }
+            },
+            "restaurants": {
+              "type": "array",
+              "description": "List of restaurant names.",
+              "items": {
+                "type": "string"
+              }
+            },
+            "weather_info": {
+              "type": "object",
+              "description": "Weather object with condition and temperature fields."
+            }
+          },
+          "required": [
+            "events",
+            "location",
+            "activities",
+            "restaurants",
+            "weather_info"
+          ],
+          "additionalProperties": false
+        },
+        "strict": false,
+        "type": "function",
+        "description": "Create a comprehensive travel summary combining location, weather, restaurants, activities, and events into a formatted text report."
+      },
+      {
+        "type": "web_search",
+        "filters": null,
+        "search_context_size": "medium",
+        "user_location": {
+          "city": null,
+          "country": "US",
+          "region": null,
+          "timezone": null,
+          "type": "approximate"
+        }
+      }
+    ],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1772596617.0,
+    "conversation": null,
+    "max_output_tokens": 4096,
+    "max_tool_calls": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_key": null,
+    "prompt_cache_retention": null,
+    "reasoning": {
+      "effort": "low",
+      "generate_summary": null,
+      "summary": "detailed"
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+      "format": {
+        "type": "text"
+      },
+      "verbosity": "medium"
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+      "input_tokens": 16998,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 989,
+      "output_tokens_details": {
+        "reasoning_tokens": 444
+      },
+      "total_tokens": 17987
+    },
+    "user": null,
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "store": true
+  }
+}

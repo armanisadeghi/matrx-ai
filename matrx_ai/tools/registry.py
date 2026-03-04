@@ -306,15 +306,16 @@ class ToolRegistryV2:
             # A handler must be registered at runtime via register_external_tool_handler
             # or register_external_app_handler before the first call.
             tool_type = ToolType.EXTERNAL_HANDLER
-            vcprint(
-                f"[ToolRegistryV2] External-handler tool '{tool_name}' (source_app='{source_app}'). "
-                "Register a handler via register_external_tool_handler / register_external_app_handler.",
-                color="yellow",
-            )
+            # vcprint(
+            #     f"[ToolRegistryV2] External-handler tool '{tool_name}' (source_app='{source_app}'). "
+            #     "Register a handler via register_external_tool_handler / register_external_app_handler.",
+            #     color="yellow",
+            # )
         else:
             tool_type = ToolType.LOCAL
             if source_app == "matrx_ai":
-                vcprint(f"[ToolRegistryV2] Local tool: {tool_name}", color="green")
+                # vcprint(f"[ToolRegistryV2] Local tool: {tool_name}", color="green")
+                pass
             else:
                 # source_app is None or an unrecognised value — treat as local and
                 # let _resolve_callable raise if the function_path is invalid.

@@ -221,12 +221,12 @@ if __name__ == "__main__":
             "store": True,
             "stop_sequences": [],
             "tools": [
-                "get_location",
-                "get_weather",
-                "get_restaurants",
-                "get_activities",
-                "get_events",
-                "create_summary",
+                "travel_get_location",
+                "travel_get_weather",
+                "travel_get_restaurants",
+                "travel_get_activities",
+                "travel_get_events",
+                "travel_create_summary",
             ],
             "tool_choice": "auto",
             "parallel_tool_calls": False,
@@ -483,13 +483,16 @@ if __name__ == "__main__":
 
     # options: simple_chat_settings, single_tool_settings_v2, image_generation_settings, complex_settings,
     # document_input_settings, youtube_url_settings, audio_transcription_test_settings, audio_direct_google_settings
-    settings_to_use = complex_settings
+    settings_to_use = single_tool_settings
     
-    # claude_adaptive 
-    # google_thinking
+    # claude_adaptive
+    # google_thinking    | google_small
     # openai_reasoning
     
-    settings_to_use["config"]["model"] = google_thinking
+    
+    # cerebras xai together groq
+    
+    settings_to_use["config"]["model"] = together
     new_conversation = True
     # settings_to_use["debug"] = True
 

@@ -1,0 +1,58 @@
+{
+  "capture_metadata": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-6",
+    "timestamp_ms": 1772596661128,
+    "label": "",
+    "context": {
+      "stream": true,
+      "has_tools": true
+    }
+  },
+  "response": {
+    "id": "msg_01EukjEKT444kEgu48XHoMJP",
+    "container": null,
+    "content": [
+      {
+        "signature": "Es0BCkYICxgCKkCkRzwhyay52NKc12k+qYxN/EtLDRsRXKMMD+kx4tTPeFheSxEA2kdDYu0I24VQBZnEis6oEcLtkWguBSK+XrRxEgxzrD2cY2ViVJQXOb8aDG50G14oqkB1u21atyIwBYadz4I/Jdwdf73nguQg34+A2Ip/27nnatK3qJ5/IwkUzygltciFzj7l3M50HJtIKjUZe3oQX6lE46BzcPxnThGPLtiTT8dfVplUrL5CkeJXh9n7svKH80UUkYzTvXD4n10kJ441lRgB",
+        "thinking": "Let me fetch the latest US headlines.",
+        "type": "thinking"
+      },
+      {
+        "citations": null,
+        "text": "Sure thing! Let me fetch the latest US headlines for you right now!",
+        "type": "text",
+        "parsed_output": null
+      },
+      {
+        "id": "toolu_0181eKLeQFqKp6Tc19hftPWa",
+        "caller": {
+          "type": "direct"
+        },
+        "input": {
+          "country": "us"
+        },
+        "name": "news_get_headlines",
+        "type": "tool_use"
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "role": "assistant",
+    "stop_reason": "tool_use",
+    "stop_sequence": null,
+    "type": "message",
+    "usage": {
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "inference_geo": "global",
+      "input_tokens": 1047,
+      "output_tokens": 94,
+      "server_tool_use": null,
+      "service_tier": "standard"
+    }
+  }
+}

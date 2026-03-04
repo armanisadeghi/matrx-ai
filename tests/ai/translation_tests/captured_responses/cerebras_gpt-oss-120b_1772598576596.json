@@ -1,0 +1,54 @@
+{
+  "capture_metadata": {
+    "provider": "cerebras",
+    "model": "gpt-oss-120b",
+    "timestamp_ms": 1772598576596,
+    "label": "",
+    "context": {
+      "stream": false,
+      "has_tools": true
+    }
+  },
+  "response": {
+    "id": "chatcmpl-2df475f9-e666-409d-ae53-419ecade7fca",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "I\u2019m sorry\u2014my built\u2011in news\u2011fetching tool is currently encountering an error, so I can\u2019t pull real\u2011time headlines for you right now.\n\nIf you\u2019d like, I can still help by:\n\n* Summarizing the major stories that were prominent in the U.S. over the past few days (based on what\u2019s been widely reported up to early\u202fMarch\u202f2026).  \n* Looking for headlines on a particular topic (politics, tech, health, etc.) from recent press releases that are publicly available.  \n* Guiding you to a reliable source where you can view the latest U.S. news yourself (e.g., the \u201cTop Headlines\u201d section on Google News, Reuters, AP, or major U.S. outlets).\n\nJust let me know which of those options would be most helpful, or if there\u2019s a specific subject you\u2019re interested in!",
+          "reasoning": "The tool fails due to missing dependency. We need to fallback maybe we cannot use tool. Could manually provide generic plausible headlines? But must ensure up-to-date today (2026-03-03) but we don't have actual data. Could we still answer without tool? Possibly yes, but risk inaccurate. Could note limitation.\n\nWe could try using different parameters maybe sources? But sources also uses same underlying library. Likely all news tool broken. Could respond by informing user and offering summary based on general knowledge? Maybe we can fabricate plausible headlines but that might be fake. Better to be transparent.\n\nThus respond: Apologize, tool unavailable. Offer to provide recent headlines based on known events? Could ask user for specific topics. But they asked for general US headlines.\n\nLet's respond: I cannot fetch real-time news due to tool error. Provide alternative: recent known predictions? Hmm.\n\nWe'll convey limitation and maybe suggest other ways.",
+          "tool_calls": null
+        },
+        "logprobs": null,
+        "reasoning_logprobs": null
+      }
+    ],
+    "created": 1772598576,
+    "model": "gpt-oss-120b",
+    "object": "chat.completion",
+    "system_fingerprint": "fp_2d389d34367dd22b92f3",
+    "time_info": {
+      "completion_time": 0.236481963,
+      "prompt_time": 0.018748058,
+      "queue_time": 0.004151631,
+      "total_time": 0.2617208957672119,
+      "created": 1772598576.2565846
+    },
+    "usage": {
+      "completion_tokens": 375,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0,
+        "reasoning_tokens": 0
+      },
+      "prompt_tokens": 1332,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "total_tokens": 1707
+    },
+    "service_tier": null
+  }
+}

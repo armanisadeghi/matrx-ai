@@ -1,0 +1,42 @@
+{
+  "capture_metadata": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-6",
+    "timestamp_ms": 1772596666228,
+    "label": "",
+    "context": {
+      "stream": true,
+      "has_tools": true
+    }
+  },
+  "response": {
+    "id": "msg_013zZMgjHRMkFT4xF7SLWV6q",
+    "container": null,
+    "content": [
+      {
+        "citations": null,
+        "text": "I'm sorry, it looks like I'm currently experiencing a technical issue with the news tool \u2014 it seems a required module isn't available on the backend right now. This is something that would need to be resolved on the system/server side.\n\nHere are a few alternatives you can use to get the latest US headlines:\n\n- \ud83d\uddde\ufe0f **[Google News (US)](https://news.google.com/topstories?hl=en-US&gl=US&ceid=US:en)**\n- \ud83d\udcf0 **[Reuters](https://www.reuters.com/)**\n- \ud83d\udcfa **[CNN](https://www.cnn.com/)**\n- \ud83e\udd85 **[AP News](https://apnews.com/)**\n- \ud83d\udce1 **[NPR News](https://www.npr.org/sections/news/)**\n\nI apologize for the inconvenience! Is there anything else I can help you with?",
+        "type": "text",
+        "parsed_output": null
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "type": "message",
+    "usage": {
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "inference_geo": "global",
+      "input_tokens": 1582,
+      "output_tokens": 218,
+      "server_tool_use": null,
+      "service_tier": "standard"
+    }
+  }
+}

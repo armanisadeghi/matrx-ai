@@ -1,0 +1,63 @@
+{
+  "capture_metadata": {
+    "provider": "cerebras",
+    "model": "gpt-oss-120b",
+    "timestamp_ms": 1772598576075,
+    "label": "",
+    "context": {
+      "stream": false,
+      "has_tools": true
+    }
+  },
+  "response": {
+    "id": "chatcmpl-da653e81-c698-45ae-a014-fad45e6b8f6d",
+    "choices": [
+      {
+        "finish_reason": "tool_calls",
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "reasoning": "User wants latest news headlines for US, up-to-date today (2026-03-03). Need to fetch US top headlines. Use news_get_headlines with country=\"us\". No category needed maybe default. Use function.",
+          "tool_calls": [
+            {
+              "id": "160525f81",
+              "function": {
+                "arguments": "{\n  \"country\": \"us\"\n}",
+                "name": "news_get_headlines"
+              },
+              "type": "function"
+            }
+          ]
+        },
+        "logprobs": null,
+        "reasoning_logprobs": null
+      }
+    ],
+    "created": 1772598572,
+    "model": "gpt-oss-120b",
+    "object": "chat.completion",
+    "system_fingerprint": "fp_2d389d34367dd22b92f3",
+    "time_info": {
+      "completion_time": 0.042748036,
+      "prompt_time": 0.007769503,
+      "queue_time": 0.003978488,
+      "total_time": 0.05605196952819824,
+      "created": 1772598572.8781128
+    },
+    "usage": {
+      "completion_tokens": 76,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0,
+        "reasoning_tokens": 0
+      },
+      "prompt_tokens": 568,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "total_tokens": 644
+    },
+    "service_tier": null
+  }
+}

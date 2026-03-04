@@ -1,0 +1,614 @@
+{
+  "capture_metadata": {
+    "provider": "google",
+    "model": "gemini-3.1-flash-lite-preview",
+    "timestamp_ms": 1772597966589,
+    "label": "",
+    "context": {
+      "stream": true
+    }
+  },
+  "response": [
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:19:25 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=2256",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "This video",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-flash-lite-preview",
+      "prompt_feedback": null,
+      "response_id": "zbKnaaaJMf6tz7IPhcOMuAw",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 2,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 10,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 10
+          }
+        ],
+        "thoughts_token_count": null,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 12,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:19:25 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=2256",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " demonstrates the capabilities of Gemini 2.0, particularly its new multimodal live streaming feature within",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-flash-lite-preview",
+      "prompt_feedback": null,
+      "response_id": "zbKnaaaJMf6tz7IPhcOMuAw",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 20,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 10,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 10
+          }
+        ],
+        "thoughts_token_count": null,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 30,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:19:25 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=2256",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " AI Studio. The demo showcases the AI\u2019s ability to interact with a user by reading text on the screen, responding",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-flash-lite-preview",
+      "prompt_feedback": null,
+      "response_id": "zbKnaaaJMf6tz7IPhcOMuAw",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 44,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 10,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 10
+          }
+        ],
+        "thoughts_token_count": null,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 54,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:19:25 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=2256",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " to interruptions, and summarizing past parts of the conversation. Ultimately, the video highlights how these features allow users to build more",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-flash-lite-preview",
+      "prompt_feedback": null,
+      "response_id": "zbKnaaaJMf6tz7IPhcOMuAw",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 68,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 10,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 10
+          }
+        ],
+        "thoughts_token_count": null,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 78,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:19:25 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=2256",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " dynamic, real-time AI applications.",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-flash-lite-preview",
+      "prompt_feedback": null,
+      "response_id": "zbKnaaaJMf6tz7IPhcOMuAw",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 76,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 10,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 10
+          }
+        ],
+        "thoughts_token_count": null,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 86,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 04:19:25 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=2256",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "This video",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " demonstrates the capabilities of Gemini 2.0, particularly its new multimodal live streaming feature within",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " AI Studio. The demo showcases the AI\u2019s ability to interact with a user by reading text on the screen, responding",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " to interruptions, and summarizing past parts of the conversation. Ultimately, the video highlights how these features allow users to build more",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " dynamic, real-time AI applications.",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "",
+                "thought": null,
+                "thought_signature": {
+                  "__bytes__": true,
+                  "data": "EjQKMgG+Pvb70foAfFKw/1ZGJoyeNCvLs0YJy9u15ZVGmlds0Q6GeUu8SQwUyjKSo1U3N03j"
+                },
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": "STOP",
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-flash-lite-preview",
+      "prompt_feedback": null,
+      "response_id": "zbKnaaaJMf6tz7IPhcOMuAw",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 76,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 13576,
+        "prompt_tokens_details": [
+          {
+            "modality": "VIDEO",
+            "token_count": 13566
+          },
+          {
+            "modality": "TEXT",
+            "token_count": 10
+          }
+        ],
+        "thoughts_token_count": null,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 13652,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    }
+  ]
+}

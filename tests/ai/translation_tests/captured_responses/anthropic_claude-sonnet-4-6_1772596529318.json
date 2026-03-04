@@ -1,0 +1,47 @@
+{
+  "capture_metadata": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-6",
+    "timestamp_ms": 1772596529318,
+    "label": "",
+    "context": {
+      "stream": true,
+      "has_tools": true
+    }
+  },
+  "response": {
+    "id": "msg_01J4uRvMRb892QbT2Gp7Teyr",
+    "container": null,
+    "content": [
+      {
+        "signature": "EswCCkYICxgCKkCKRBdysWRl25iGgWt3Jk3vQOk9a3qOl/q//iHaYlUoT9yk6mZX3X4RWLqqZ4zAA1eq5mNtcK6PLC/pZzaSbapWEgxxrcGzqGSPMHeIuncaDJ40r+n+l+LJmEh6pSIwzxdO1fW0fw4+QAM+M9CJmz63tjgJNF4Hdph2JpmtoYqaUkFxN9tLuub8QRWjaN3xKrMBDhM3h8UIo1OfNyqGlPTJfMHuzp7NFz0LHRv/fecHaTbszRxmxW9+L4WJ27CCSLVjPZqeV00OMQXDBVKUrcdDbjIzcKzkfurBXX5jmzjtdvwvFA3KAcmkf+0CaxWU8CMwftYTS6BYD8XIhxJpUc+wYHLVeipWTihl9oE8Yf8a3AVSONwVbMaqhBXw8tvSR/8G3Ww5NWvzxTFp3nCt/bh0yEeXd+p+eA3M1Aq102jks087638YAQ==",
+        "thinking": "The user is asking about the latest US news. I don't have web search capabilities, and none of my available tools are relevant to news. I should let the user know.",
+        "type": "thinking"
+      },
+      {
+        "citations": null,
+        "text": "I appreciate you reaching out! Unfortunately, I **don't have the ability to browse the web or access real-time news feeds**, so I'm unable to provide the latest US news updates. For the most current and accurate news, I'd recommend checking these reliable sources:\n\n- \ud83d\udcf0 **AP News** \u2013 [apnews.com](https://apnews.com)\n- \ud83d\udcfa **BBC News US** \u2013 [bbc.com/news/us-canada](https://www.bbc.com/news/us-canada)\n- \ud83d\uddde\ufe0f **Reuters** \u2013 [reuters.com](https://www.reuters.com)\n- \ud83d\udce1 **NPR News** \u2013 [npr.org](https://www.npr.org)\n- \ud83c\udf10 **Google News** \u2013 [news.google.com](https://news.google.com)\n\n---\n\nHowever, what I **can** help you with is **travel-related assistance**! \ud83c\udf0d\u2708\ufe0f I can:\n\n- \ud83d\udccd Detect your **current location**\n- \ud83c\udf24\ufe0f Check the **weather** in your city\n- \ud83c\udf7d\ufe0f Recommend **restaurants**\n- \ud83c\udfaf Suggest fun **activities**\n- \ud83c\udf89 Find local **events**\n- \ud83d\udccb Create a full **travel summary** for your day!\n\nWould you like me to help you with any of these? Just say the word! \ud83d\ude0a",
+        "type": "text",
+        "parsed_output": null
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "type": "message",
+    "usage": {
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "inference_geo": "global",
+      "input_tokens": 1286,
+      "output_tokens": 388,
+      "server_tool_use": null,
+      "service_tier": "standard"
+    }
+  }
+}

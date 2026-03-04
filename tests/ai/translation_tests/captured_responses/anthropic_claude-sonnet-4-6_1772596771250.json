@@ -1,0 +1,42 @@
+{
+  "capture_metadata": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-6",
+    "timestamp_ms": 1772596771250,
+    "label": "",
+    "context": {
+      "stream": true,
+      "has_tools": false
+    }
+  },
+  "response": {
+    "id": "msg_015xjF8Bg7CfBTm5f9PDL34Z",
+    "container": null,
+    "content": [
+      {
+        "citations": null,
+        "text": "## Document Analysis: Conversions by Source Report\n\nThis is a **web analytics report** titled **\"Conversions by Source\"**, filtered to show the **Last 90 days** with **No comparison** period selected.\n\n---\n\n### Report Columns:\n- **Month**\n- **UTM Campaign Source**\n- **Sessions**\n- **Conversion Rate**\n- **Sessions Converted**\n\n---\n\n### Data Breakdown:\n\n| Month | UTM Source | Sessions | Conversion Rate | Sessions Converted |\n|---|---|---|---|---|\n| **Mar 2023 \u2013 Apr 2023 (Total)** | \u2014 | **8,417** | **1.50%** | **126** |\n| Mar 2023 | google-ads | 5,403 | 1.17% | 63 |\n| Apr 2023 | google-ads | 3,014 | 2.09% | 63 |\n\n---\n\n### Key Observations:\n- The **only traffic source** tracked is **Google Ads**\n- **March 2023** had significantly more sessions (**5,403**) but a **lower conversion rate (1.17%)**\n- **April 2023** had fewer sessions (**3,014**) but a **higher conversion rate (2.09%)**\n- Both months produced **exactly 63 conversions** each, totaling **126**\n- The report shows **2 of 2 results**",
+        "type": "text",
+        "parsed_output": null
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "type": "message",
+    "usage": {
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "inference_geo": "global",
+      "input_tokens": 1703,
+      "output_tokens": 336,
+      "server_tool_use": null,
+      "service_tier": "standard"
+    }
+  }
+}

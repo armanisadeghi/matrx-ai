@@ -1,0 +1,1966 @@
+{
+  "capture_metadata": {
+    "provider": "google",
+    "model": "gemini-3.1-pro-preview",
+    "timestamp_ms": 1772596745341,
+    "label": "",
+    "context": {
+      "stream": true
+    }
+  },
+  "response": [
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "Based",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 1,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 20,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1057,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " on the image provided, here is a specific and detailed description:\n\n**Overall Composition**\nThe image is a digital",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 25,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 20,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1081,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " graphic featuring a logo consisting of a symbol on the left and text on the right, set against a solid background.\n\n**Background",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 51,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 20,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1107,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "**\n*   **Color:** The background is a flat, uniform, medium-light blue (similar to a cornflower or",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 77,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 20,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1133,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " cerulean blue). There are no gradients, textures, or shadows.\n\n**Graphic Symbol (Left)**\n*   **",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 103,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 20,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1159,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "Color:** White.\n*   **Design:** It is a stylized line-art graphic made of a single continuous line of uniform thickness",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 130,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 20,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1186,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": ".\n*   **Shape:** The shape abstractly resembles a tilted letter \"M\" or a continuous winding track (like a paper",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 157,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 20,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1213,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "clip bent back and forth). \n*   **Orientation:** The entire shape is angled diagonally, pointing upwards from left to",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 182,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 20,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1238,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " right at roughly a 45-degree angle.\n*   **Specific Features:** \n    *   The line",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 207,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 20,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1263,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " ends have rounded caps.\n    *   It consists of three parallel straight segments connected by smooth, semi-circular ",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 231,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 20,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1287,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "180-degree turns.\n    *   The bottom-most end of the line finishes with a small,",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 255,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 20,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1311,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " sharp right-angle drop downwards.\n\n**Text (Right)**\n*   **Content:** The words \"Model Context Protocol\".",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 281,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 20,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1337,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "\n*   **Color:** White.\n*   **Typography:** The text is rendered in a modern, clean, sans-",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 307,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 20,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1363,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "serif typeface. The font weight appears to be medium or semi-bold.\n*   **Capitalization:** It is",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 331,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 20,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1387,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " written in Title Case (the first letter of each word is capitalized: **M**odel **C**ontext **P**rot",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 358,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 20,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1414,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "ocol).\n*   **Alignment:** The text is placed to the right of the graphic symbol. The vertical center of the text",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 384,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 20,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1440,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " aligns perfectly with the vertical center of the graphic symbol.\n\n**Layout**\nThe combined symbol and text are horizontally centered within the frame",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 411,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 20,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1467,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " of the image, with a balanced, proportional amount of empty blue space surrounding them on all sides.",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 431,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 20,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1487,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 03:59:00 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=12901",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "Based",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " on the image provided, here is a specific and detailed description:\n\n**Overall Composition**\nThe image is a digital",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " graphic featuring a logo consisting of a symbol on the left and text on the right, set against a solid background.\n\n**Background",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "**\n*   **Color:** The background is a flat, uniform, medium-light blue (similar to a cornflower or",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " cerulean blue). There are no gradients, textures, or shadows.\n\n**Graphic Symbol (Left)**\n*   **",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "Color:** White.\n*   **Design:** It is a stylized line-art graphic made of a single continuous line of uniform thickness",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": ".\n*   **Shape:** The shape abstractly resembles a tilted letter \"M\" or a continuous winding track (like a paper",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "clip bent back and forth). \n*   **Orientation:** The entire shape is angled diagonally, pointing upwards from left to",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " right at roughly a 45-degree angle.\n*   **Specific Features:** \n    *   The line",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " ends have rounded caps.\n    *   It consists of three parallel straight segments connected by smooth, semi-circular ",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "180-degree turns.\n    *   The bottom-most end of the line finishes with a small,",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " sharp right-angle drop downwards.\n\n**Text (Right)**\n*   **Content:** The words \"Model Context Protocol\".",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "\n*   **Color:** White.\n*   **Typography:** The text is rendered in a modern, clean, sans-",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "serif typeface. The font weight appears to be medium or semi-bold.\n*   **Capitalization:** It is",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " written in Title Case (the first letter of each word is capitalized: **M**odel **C**ontext **P**rot",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "ocol).\n*   **Alignment:** The text is placed to the right of the graphic symbol. The vertical center of the text",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " aligns perfectly with the vertical center of the graphic symbol.\n\n**Layout**\nThe combined symbol and text are horizontally centered within the frame",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " of the image, with a balanced, proportional amount of empty blue space surrounding them on all sides.",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "",
+                "thought": null,
+                "thought_signature": {
+                  "__bytes__": true,
+                  "data": "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"
+                },
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": "STOP",
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "BK6nabL8M9TQz7IP1-7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 431,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 1100,
+        "prompt_tokens_details": [
+          {
+            "modality": "IMAGE",
+            "token_count": 1080
+          },
+          {
+            "modality": "TEXT",
+            "token_count": 20
+          }
+        ],
+        "thoughts_token_count": 1036,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 2567,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    }
+  ]
+}

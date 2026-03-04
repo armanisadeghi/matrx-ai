@@ -1,0 +1,188 @@
+{
+  "capture_metadata": {
+    "provider": "openai",
+    "model": "gpt-5.2",
+    "timestamp_ms": 1772596639216,
+    "label": "",
+    "context": {
+      "stream": true,
+      "has_tools": true
+    }
+  },
+  "response": {
+    "id": "resp_097fee0ce29236650069a7ad9c0a5481978bf6f4118d50f4a5",
+    "created_at": 1772596636.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "metadata": {},
+    "model": "gpt-5.2-2025-12-11",
+    "object": "response",
+    "output": [
+      {
+        "id": "rs_097fee0ce29236650069a7ad9c94248197a42126ff4f82e1e3",
+        "summary": [
+          {
+            "text": "**Fetching news headlines**\n\nI need to call for news headlines using the tool. It looks like I should focus on the US and the general category, and I\u2019ll need to reference the date 2026-03-03 as per the developer's guidelines. Once I have that call set up, I can fetch the information. I'm curious to see what current events are happening on that date as it will give a snapshot of the news landscape. Let\u2019s get this done!",
+            "type": "summary_text"
+          }
+        ],
+        "type": "reasoning",
+        "content": null,
+        "encrypted_content": "gAAAAABpp62eVNdA4haqFa6XQShZheD_5twdOF7oQx1VHb7Kb8BzR0Lsva8eCbHKZHPldS8nxEDoz0vicLwkg_R3Ba-EdkOj6Ix20stF-D8Q5LbYhxLNW9xtPwlSiipUTJvJwaq4H5sbky_9Yv-RPzOg3Q66Whdxve8cURJTwNt3FQ7BnhCwqgO6Rra2Fqzd4BPxUc50-A5-6q68vXcOozlt4MefhzeeJ84xi_uW2otnSKEFjg4joqA-XDfl6GN1BFC1iv34FaIha-PZYRBaDTMnwinjS4T_SNCk4qd3LQ2VEcV0s4Rtrz41Q2I5sKKYCKuTNnov58QqF1ROyxYfrTTO77QkzaMLddgn-emirCbigAatD0dGnk26igxW8YcAGiCtts58cluFiwryDfXJrMQGR_iyKmTbrza_68bTFq6ODTPnM8TaRbnHGuN0TUcDoailmlB63430ixtV9tjxjVlKopcKkk-gJ5kjMcvQjA1VpQ00KvcJgx9XljHyRU9UZD2zt9odqxCzD2xodk6xCdVc1fIR_Klp_pmfQ3RxG9lkHZi2RBGWVhHn9W_C00P4z-Stnkf0PXOrYagY9VkCC_Cyj6l4JT3xIuBb2cZIUcNvRfbGnC7S_br5y9f0A0ShM721NZ2uoXQY7NPIMvw6dRy8u4zdiXf1QcIpClYKUVAHkj9AqwOW_lBBgslvNGTPgFYg7jNC2hs3YEEgAtQ4Rgq7fKJuhT8e47vYlrOI4zi0tF64V_FvTS4rZSAD4fGtfunDBmzNHju8bxDUZc7N_0eO3KZzdgjO6xA8HovxBtO5tovLjOHZj6NLJnqAd__KLMAsdtxX7O9BJdft1DKJS7RoH6oOKYnGdJRx44KoaZY8YYe5YgqUlK2ubdQr99PAy20Gn5Q5uRL4XXfT9nJa6tf8xTK2mFbIG8wqFXLY5mA_pA7_DN5orjdrKMofXILnU8nSmBEDnxflufbAicOZ6LBb39TtExyD_znW3gIOL-VeUvEiV2zkWXs=",
+        "status": null
+      },
+      {
+        "arguments": "{\"query\":\"\",\"country\":\"us\",\"sources\":\"\",\"category\":\"general\",\"language\":\"en\"}",
+        "call_id": "call_JwitA17s893hyNNEitBnRizx",
+        "name": "news_get_headlines",
+        "type": "function_call",
+        "id": "fc_097fee0ce29236650069a7ad9e7d088197abadc3447720dd2e",
+        "status": "completed",
+        "parsed_arguments": null
+      }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [
+      {
+        "name": "news_get_headlines",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "Keyword or phrase to search within headlines."
+            },
+            "country": {
+              "type": "string",
+              "description": "Two-letter ISO 3166-1 country code.",
+              "enum": [
+                "us",
+                "gb",
+                "fr",
+                "de",
+                "ca",
+                "au",
+                "in",
+                "jp",
+                "br",
+                "mx",
+                "it",
+                "es",
+                "nl",
+                "se",
+                "no",
+                "za",
+                "ar",
+                "eg",
+                "kr",
+                "tw",
+                "hk",
+                "sg",
+                "nz",
+                "ie",
+                "at",
+                "ch",
+                "be",
+                "pt",
+                "pl",
+                "ru"
+              ]
+            },
+            "sources": {
+              "type": "string",
+              "description": "Comma-separated news source IDs (e.g. bbc-news,cnn). Mutually exclusive with country and category \u2014 cannot be used alongside either. If country or category is also provided, sources will be ignored."
+            },
+            "category": {
+              "type": "string",
+              "description": "News category to filter by.",
+              "enum": [
+                "business",
+                "entertainment",
+                "general",
+                "health",
+                "science",
+                "sports",
+                "technology"
+              ]
+            },
+            "language": {
+              "type": "string",
+              "description": "Two-letter language code for results.",
+              "default": "en",
+              "enum": [
+                "en",
+                "es",
+                "fr",
+                "de",
+                "it",
+                "pt",
+                "nl",
+                "sv",
+                "no",
+                "ar",
+                "he",
+                "zh",
+                "ru"
+              ]
+            }
+          },
+          "required": [
+            "query",
+            "country",
+            "sources",
+            "category",
+            "language"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "type": "function",
+        "description": "Fetch current top news headlines. Filter by country, category, sources, or keyword query. Returns article titles, sources, descriptions, and URLs. At least one of country, sources, or category is required. Sources cannot be combined with country or category \u2014 if all three are provided, country and category take priority and sources is ignored."
+      }
+    ],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1772596638.0,
+    "conversation": null,
+    "max_output_tokens": null,
+    "max_tool_calls": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_key": null,
+    "prompt_cache_retention": null,
+    "reasoning": {
+      "effort": "low",
+      "generate_summary": null,
+      "summary": "detailed"
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+      "format": {
+        "type": "text"
+      },
+      "verbosity": "medium"
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+      "input_tokens": 493,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 67,
+      "output_tokens_details": {
+        "reasoning_tokens": 33
+      },
+      "total_tokens": 560
+    },
+    "user": null,
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "store": true
+  }
+}

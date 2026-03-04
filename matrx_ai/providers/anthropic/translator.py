@@ -76,9 +76,6 @@ class AnthropicTranslator:
         elif config.top_p is not None:
             anthropic_request["top_p"] = config.top_p
 
-        if config.top_k is not None:
-            anthropic_request["top_k"] = config.top_k
-
         if config.tool_choice:
             if config.tool_choice == "auto":
                 anthropic_request["tool_choice"] = {"type": "auto"}
@@ -124,6 +121,11 @@ class AnthropicTranslator:
                 if config.max_output_tokens is not None
                 else 8000
             )
+
+        # top_k is incompatible with Anthropic thinking (enabled or adaptive).
+        # Only add it when no thinking block was set.
+        if config.top_k is not None and "thinking" not in anthropic_request:
+            anthropic_request["top_k"] = config.top_k
 
         return anthropic_request
 

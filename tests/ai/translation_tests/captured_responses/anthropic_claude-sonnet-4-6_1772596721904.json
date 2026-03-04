@@ -1,0 +1,42 @@
+{
+  "capture_metadata": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-6",
+    "timestamp_ms": 1772596721904,
+    "label": "",
+    "context": {
+      "stream": true,
+      "has_tools": false
+    }
+  },
+  "response": {
+    "id": "msg_01WuHHqmbMUhyXDE1QT6qfqg",
+    "container": null,
+    "content": [
+      {
+        "citations": null,
+        "text": "## Image Description\n\nThe image is a **logo/branding graphic** for **\"Model Context Protocol\"** (commonly known as **MCP**).\n\n### Details:\n\n- **Background:** A solid, medium-to-bright **blue color** (approximately a cornflower or sky blue, similar to `#4A90D9` or similar hex value)\n- **Logo Icon (left side):** A white abstract icon that resembles **two overlapping or intertwined rectangular/rounded shapes**, somewhat reminiscent of a stylized paper clip or linked connectors. It has a looping, continuous line design with rounded corners.\n- **Text (right of icon):** The words **\"Model Context Protocol\"** are written in **bold, white, sans-serif font** \u2014 clean and modern in style\n- **Layout:** The logo and text are **horizontally centered** on the image, slightly left of center overall\n- **Aspect ratio:** Wider than tall (landscape orientation)\n\n### Context:\n**Model Context Protocol (MCP)** is an open standard developed by **Anthropic** (the AI company behind Claude) that enables AI models to securely connect to external data sources, tools, and services in a standardized way.",
+        "type": "text",
+        "parsed_output": null
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "type": "message",
+    "usage": {
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "inference_geo": "global",
+      "input_tokens": 953,
+      "output_tokens": 271,
+      "server_tool_use": null,
+      "service_tier": "standard"
+    }
+  }
+}

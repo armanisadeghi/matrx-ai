@@ -1,0 +1,181 @@
+{
+  "capture_metadata": {
+    "provider": "openai",
+    "model": "gpt-5.2",
+    "timestamp_ms": 1772596702672,
+    "label": "",
+    "context": {
+      "stream": true,
+      "has_tools": true
+    }
+  },
+  "response": {
+    "id": "resp_04236a8859a849be0069a7adda6ae4819599f8d249d8e36d2d",
+    "created_at": 1772596698.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "metadata": {},
+    "model": "gpt-5.2-2025-12-11",
+    "object": "response",
+    "output": [
+      {
+        "id": "msg_04236a8859a849be0069a7addb50908195bee5f8a3538a7b84",
+        "content": [
+          {
+            "annotations": [],
+            "text": "I can\u2019t pull up-to-the-minute US headlines right now because the news-fetching tool on my side is failing (it\u2019s missing a required `newsapi` module), so I don\u2019t have live access to today\u2019s headlines.\n\nIf you want, I can still help in either of these ways:\n1) **You paste a link or text** (e.g., Apple News/Google News/NYT/CNN front page), and I\u2019ll **summarize the top stories** and organize them by topic.\n2) Tell me your preferred outlets or topics (politics, business, tech, sports, etc.), and I\u2019ll provide a **quick \u201cwhat to check today\u201d briefing** plus reliable places to find the latest headlines.",
+            "type": "output_text",
+            "logprobs": [],
+            "parsed": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message"
+      }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [
+      {
+        "name": "news_get_headlines",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "Keyword or phrase to search within headlines."
+            },
+            "country": {
+              "type": "string",
+              "description": "Two-letter ISO 3166-1 country code.",
+              "enum": [
+                "us",
+                "gb",
+                "fr",
+                "de",
+                "ca",
+                "au",
+                "in",
+                "jp",
+                "br",
+                "mx",
+                "it",
+                "es",
+                "nl",
+                "se",
+                "no",
+                "za",
+                "ar",
+                "eg",
+                "kr",
+                "tw",
+                "hk",
+                "sg",
+                "nz",
+                "ie",
+                "at",
+                "ch",
+                "be",
+                "pt",
+                "pl",
+                "ru"
+              ]
+            },
+            "sources": {
+              "type": "string",
+              "description": "Comma-separated news source IDs (e.g. bbc-news,cnn). Mutually exclusive with country and category \u2014 cannot be used alongside either. If country or category is also provided, sources will be ignored."
+            },
+            "category": {
+              "type": "string",
+              "description": "News category to filter by.",
+              "enum": [
+                "business",
+                "entertainment",
+                "general",
+                "health",
+                "science",
+                "sports",
+                "technology"
+              ]
+            },
+            "language": {
+              "type": "string",
+              "description": "Two-letter language code for results.",
+              "default": "en",
+              "enum": [
+                "en",
+                "es",
+                "fr",
+                "de",
+                "it",
+                "pt",
+                "nl",
+                "sv",
+                "no",
+                "ar",
+                "he",
+                "zh",
+                "ru"
+              ]
+            }
+          },
+          "required": [
+            "query",
+            "country",
+            "sources",
+            "category",
+            "language"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "type": "function",
+        "description": "Fetch current top news headlines. Filter by country, category, sources, or keyword query. Returns article titles, sources, descriptions, and URLs. At least one of country, sources, or category is required. Sources cannot be combined with country or category \u2014 if all three are provided, country and category take priority and sources is ignored."
+      }
+    ],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1772596702.0,
+    "conversation": null,
+    "max_output_tokens": null,
+    "max_tool_calls": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_key": null,
+    "prompt_cache_retention": null,
+    "reasoning": {
+      "effort": "low",
+      "generate_summary": null,
+      "summary": "detailed"
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+      "format": {
+        "type": "text"
+      },
+      "verbosity": "medium"
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+      "input_tokens": 917,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 154,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 1071
+    },
+    "user": null,
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "store": true
+  }
+}

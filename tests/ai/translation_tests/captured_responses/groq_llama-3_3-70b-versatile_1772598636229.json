@@ -1,0 +1,28 @@
+{
+  "capture_metadata": {
+    "provider": "groq",
+    "model": "llama-3.3-70b-versatile",
+    "timestamp_ms": 1772598636229,
+    "label": "",
+    "context": {
+      "stream": true
+    }
+  },
+  "response": {
+    "id": "chatcmpl-05e1dcba-36e2-4efd-99ad-9d751c4832a6",
+    "content": "The news_get_headlines function failed to execute due to a missing 'newsapi' module. Let's try searching the news instead.",
+    "tool_calls": [],
+    "finish_reason": "stop",
+    "usage": {
+      "completion_tokens": 28,
+      "prompt_tokens": 1021,
+      "total_tokens": 1049,
+      "completion_time": 0.15202361,
+      "completion_tokens_details": null,
+      "prompt_time": 0.178519543,
+      "prompt_tokens_details": null,
+      "queue_time": 0.173512013,
+      "total_time": 0.330543153
+    }
+  }
+}

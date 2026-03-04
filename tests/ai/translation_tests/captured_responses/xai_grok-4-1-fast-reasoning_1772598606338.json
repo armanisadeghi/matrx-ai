@@ -1,0 +1,24 @@
+{
+  "capture_metadata": {
+    "provider": "xai",
+    "model": "grok-4-1-fast-reasoning",
+    "timestamp_ms": 1772598606338,
+    "label": "",
+    "context": {
+      "stream": true
+    }
+  },
+  "response": {
+    "id": "80982ff5-156b-28d8-4ca5-8ba01534a46a",
+    "content": "",
+    "tool_calls": [
+      {
+        "id": "call_90792658",
+        "name": "news_get_headlines",
+        "arguments": "{\"country\":\"us\"}"
+      }
+    ],
+    "finish_reason": "tool_calls",
+    "usage": null
+  }
+}
