@@ -1,9 +1,5 @@
 # File: db/models.py
-from dataclasses import dataclass
-
 from matrx_orm import (
-    BaseDTO,
-    BaseManager,
     BigIntegerField,
     BooleanField,
     CharField,
@@ -18,7 +14,12 @@ from matrx_orm import (
     TextField,
     UUIDField,
     model_registry,
+    BaseDTO,
+    BaseManager,
 )
+from enum import Enum
+from dataclasses import dataclass
+from typing import ClassVar
 
 
 class Users(Model):
@@ -36,7 +37,7 @@ class AiProvider(Model):
     company_description = TextField()
     documentation_link = CharField()
     models_link = CharField()
-    _inverse_foreign_keys = {
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {
         "ai_settings": {
             "from_model": "AiSettings",
             "from_field": "ai_provider",
@@ -69,7 +70,7 @@ class CxAgentMemory(Model):
     created_at = DateTimeField(null=False)
     updated_at = DateTimeField(null=False)
     deleted_at = DateTimeField()
-    _inverse_foreign_keys = {}
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {}
     _database = "supabase_automation_matrix"
 
 
@@ -88,7 +89,7 @@ class Prompts(Model):
     )
     settings = JSONBField()
     description = TextField()
-    _inverse_foreign_keys = {
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {
         "prompt_apps": {
             "from_model": "PromptApps",
             "from_field": "prompt_id",
@@ -138,7 +139,7 @@ class ShortcutCategories(Model):
     is_active = BooleanField(default=True)
     metadata = JSONBField(default={})
     enabled_contexts = JSONBField(default=["general"])
-    _inverse_foreign_keys = {
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {
         "content_blocks": {
             "from_model": "ContentBlocks",
             "from_field": "category_id",
@@ -169,7 +170,6 @@ class Tools(Model):
     output_schema = JSONBField()
     annotations = JSONBField(default=[])
     function_path = TextField(null=False)
-    source_app = TextField(default="matrx_ai")
     category = TextField()
     tags = JSONBField()
     icon = CharField(max_length=255)
@@ -177,7 +177,8 @@ class Tools(Model):
     version = TextField(default="1.0.0")
     created_at = DateTimeField()
     updated_at = DateTimeField()
-    _inverse_foreign_keys = {
+    source_app = TextField(null=False, default="matrx_ai")
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {
         "tool_test_samples": {
             "from_model": "ToolTestSamples",
             "from_field": "tool_id",
@@ -205,7 +206,7 @@ class UserTables(Model):
     created_at = DateTimeField(null=False)
     updated_at = DateTimeField(null=False)
     row_ordering_config = JSONBField()
-    _inverse_foreign_keys = {
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {
         "table_data": {
             "from_model": "TableData",
             "from_field": "table_id",
@@ -241,7 +242,7 @@ class AiModel(Model):
     is_primary = BooleanField(default=False)
     is_premium = BooleanField(default=False)
     api_class = CharField()
-    _inverse_foreign_keys = {
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {
         "ai_model_endpoint": {
             "from_model": "AiModelEndpoint",
             "from_field": "ai_model_id",
@@ -309,7 +310,7 @@ class ContentBlocks(Model):
         to_model=ShortcutCategories,
         to_column="id",
     )
-    _inverse_foreign_keys = {}
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {}
     _database = "supabase_automation_matrix"
 
 
@@ -334,7 +335,7 @@ class PromptBuiltins(Model):
         to_column="id",
     )
     source_prompt_snapshot_at = DateTimeField()
-    _inverse_foreign_keys = {
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {
         "prompt_shortcuts": {
             "from_model": "PromptShortcuts",
             "from_field": "prompt_builtin_id",
@@ -360,7 +361,7 @@ class TableData(Model):
     authenticated_read = BooleanField(null=False, default=False)
     created_at = DateTimeField(null=False)
     updated_at = DateTimeField(null=False)
-    _inverse_foreign_keys = {}
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {}
     _database = "supabase_automation_matrix"
 
 
@@ -391,7 +392,7 @@ class CxConversation(Model):
     )
     variables = JSONBField(null=False, default={})
     overrides = JSONBField(null=False, default={})
-    _inverse_foreign_keys = {
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {
         "cx_tool_call": {
             "from_model": "CxToolCall",
             "from_field": "conversation_id",
@@ -441,7 +442,7 @@ class CxMedia(Model):
     created_at = DateTimeField(null=False)
     deleted_at = DateTimeField()
     metadata = JSONBField(null=False, default={})
-    _inverse_foreign_keys = {}
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {}
     _database = "supabase_automation_matrix"
 
 
@@ -455,7 +456,7 @@ class CxMessage(Model):
     created_at = DateTimeField(null=False)
     deleted_at = DateTimeField()
     metadata = JSONBField(null=False, default={})
-    _inverse_foreign_keys = {
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {
         "cx_tool_call": {
             "from_model": "CxToolCall",
             "from_field": "message_id",
@@ -495,7 +496,7 @@ class CxUserRequest(Model):
         to_model=AiModel,
         to_column="id",
     )
-    _inverse_foreign_keys = {
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {
         "cx_tool_call": {
             "from_model": "CxToolCall",
             "from_field": "request_id",
@@ -534,7 +535,7 @@ class CxRequest(Model):
     deleted_at = DateTimeField()
     metadata = JSONBField(null=False, default={})
     ai_model_id = ForeignKey(to_model=AiModel, to_column="id", null=False)
-    _inverse_foreign_keys = {}
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {}
     _database = "supabase_automation_matrix"
 
 
@@ -580,7 +581,7 @@ class CxToolCall(Model):
     metadata = JSONBField(null=False, default={})
     created_at = DateTimeField(null=False)
     deleted_at = DateTimeField()
-    _inverse_foreign_keys = {}
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {}
     _database = "supabase_automation_matrix"
 
 
@@ -612,7 +613,7 @@ class AiProviderDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model: "Model"):
+    async def from_model(cls, model: AiProvider):
         return cls(id=str(model.id))
 
 
@@ -632,7 +633,7 @@ class CxAgentMemoryDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model: "Model"):
+    async def from_model(cls, model: CxAgentMemory):
         return cls(id=str(model.id))
 
 
@@ -652,7 +653,7 @@ class PromptsDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model: "Model"):
+    async def from_model(cls, model: Prompts):
         return cls(id=str(model.id))
 
 
@@ -672,7 +673,7 @@ class ShortcutCategoriesDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model: "Model"):
+    async def from_model(cls, model: ShortcutCategories):
         return cls(id=str(model.id))
 
 
@@ -692,7 +693,7 @@ class ToolsDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model: "Model"):
+    async def from_model(cls, model: Tools):
         return cls(id=str(model.id))
 
 
@@ -712,7 +713,7 @@ class UserTablesDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model: "Model"):
+    async def from_model(cls, model: UserTables):
         return cls(id=str(model.id))
 
 
@@ -732,7 +733,7 @@ class AiModelDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model: "Model"):
+    async def from_model(cls, model: AiModel):
         return cls(id=str(model.id))
 
 
@@ -752,7 +753,7 @@ class ContentBlocksDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model: "Model"):
+    async def from_model(cls, model: ContentBlocks):
         return cls(id=str(model.id))
 
 
@@ -772,7 +773,7 @@ class PromptBuiltinsDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model: "Model"):
+    async def from_model(cls, model: PromptBuiltins):
         return cls(id=str(model.id))
 
 
@@ -792,7 +793,7 @@ class TableDataDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model: "Model"):
+    async def from_model(cls, model: TableData):
         return cls(id=str(model.id))
 
 
@@ -812,7 +813,7 @@ class CxConversationDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model: "Model"):
+    async def from_model(cls, model: CxConversation):
         return cls(id=str(model.id))
 
 
@@ -832,7 +833,7 @@ class CxMediaDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model: "Model"):
+    async def from_model(cls, model: CxMedia):
         return cls(id=str(model.id))
 
 
@@ -852,7 +853,7 @@ class CxMessageDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model: "Model"):
+    async def from_model(cls, model: CxMessage):
         return cls(id=str(model.id))
 
 
@@ -872,7 +873,7 @@ class CxUserRequestDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model: "Model"):
+    async def from_model(cls, model: CxUserRequest):
         return cls(id=str(model.id))
 
 
@@ -892,7 +893,7 @@ class CxRequestDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model: "Model"):
+    async def from_model(cls, model: CxRequest):
         return cls(id=str(model.id))
 
 
@@ -912,7 +913,7 @@ class CxToolCallDTO(BaseDTO):
     id: str
 
     @classmethod
-    async def from_model(cls, model: "Model"):
+    async def from_model(cls, model: CxToolCall):
         return cls(id=str(model.id))
 
 
