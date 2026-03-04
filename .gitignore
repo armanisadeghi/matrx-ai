@@ -25,6 +25,9 @@ venv/
 htmlcov/
 coverage.xml
 
+# Linting
+.ruff_cache/
+
 # Type checking
 .pyright/
 .mypy_cache/
