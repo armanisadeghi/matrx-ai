@@ -1,0 +1,818 @@
+{
+  "capture_metadata": {
+    "provider": "google",
+    "model": "gemini-3.1-pro-preview",
+    "timestamp_ms": 1772590405069,
+    "label": "",
+    "context": {
+      "stream": true
+    }
+  },
+  "response": [
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 02:13:23 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=3917",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "**Begin Formulation**\n\nI'm ready to craft the response now that I've gathered my resources. I'm considering presenting the information directly, as the request seems straightforward. Though, I might incorporate other activities and information. I also intend to experiment with a \"travel\\_create\\_summary\" command, just in case.\n\n\n",
+                "thought": true,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "Q5Wnace5D9TQz7IPze7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": null,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 875,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 875
+          }
+        ],
+        "thoughts_token_count": null,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 875,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 02:13:23 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=3917",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "Based on your current location in **Austin**, where the weather is currently a beautiful and **sunny** 67\u00b0F,",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "Q5Wnace5D9TQz7IPze7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 26,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 875,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 875
+          }
+        ],
+        "thoughts_token_count": 95,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 996,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 02:13:23 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=3917",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " I have some great recommendations for you today!\n\n### \ud83c\udf7d\ufe0f Restaurants\nHere are some excellent dining options in the",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "Q5Wnace5D9TQz7IPze7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 50,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 875,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 875
+          }
+        ],
+        "thoughts_token_count": 95,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1020,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 02:13:23 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=3917",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " area:\n*   **Chez American Grill**\n*   **Casa Mexican Kitchen**\n*   **Mama Japanese House**\n\n",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "Q5Wnace5D9TQz7IPze7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 77,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 875,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 875
+          }
+        ],
+        "thoughts_token_count": 95,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1047,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 02:13:23 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=3917",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "### \ud83c\udf89 Events\nSince it's sunny outside, here are some great local events to check out:\n*   **Farmers",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "Q5Wnace5D9TQz7IPze7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 103,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 875,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 875
+          }
+        ],
+        "thoughts_token_count": 95,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1073,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 02:13:23 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=3917",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " market**\n*   **Food truck festival**\n\nLet me know if you would like to know about any other activities to",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "Q5Wnace5D9TQz7IPze7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 128,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 875,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 875
+          }
+        ],
+        "thoughts_token_count": 95,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1098,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 02:13:23 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=3917",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " do around Austin today!",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "Q5Wnace5D9TQz7IPze7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 133,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 875,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 875
+          }
+        ],
+        "thoughts_token_count": 95,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1103,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 02:13:23 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=3917",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "**Begin Formulation**\n\nI'm ready to craft the response now that I've gathered my resources. I'm considering presenting the information directly, as the request seems straightforward. Though, I might incorporate other activities and information. I also intend to experiment with a \"travel\\_create\\_summary\" command, just in case.\n\n\n",
+                "thought": true,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "Based on your current location in **Austin**, where the weather is currently a beautiful and **sunny** 67\u00b0F,",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " I have some great recommendations for you today!\n\n### \ud83c\udf7d\ufe0f Restaurants\nHere are some excellent dining options in the",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " area:\n*   **Chez American Grill**\n*   **Casa Mexican Kitchen**\n*   **Mama Japanese House**\n\n",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "### \ud83c\udf89 Events\nSince it's sunny outside, here are some great local events to check out:\n*   **Farmers",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " market**\n*   **Food truck festival**\n\nLet me know if you would like to know about any other activities to",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": " do around Austin today!",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "",
+                "thought": null,
+                "thought_signature": {
+                  "__bytes__": true,
+                  "data": "EpgECpUEAb4+9vt9dB/jje0vzTg2wU3i+ZaxvpLx7ukpUc30shZRcJjSLICDy72x/cbHcY/rcMF79N3t0O66ojYgv475CNHqCv6TVmZtNClihu8x39SBIWH22idOTL+PV5bM1pgVqy3+Bc8qhPElrwAF+VEXoDLTJlPYk34KcUf8UrJ4fuDyhiaIBiC7FoEltE8R6PHqBNinYrmo0c9HaQ14+tMjV0V8B/3ISP20Bh6HbEsJPEP1kep151OpttHazPUFObIJzEFDHgtWgLb5EG8yoPCf8dNyci751lMLTSgDNrtf7tYAN6NalMiF5i4Nar1wzXNuNvj/cAM074NnM14yvIlZEQ5HKeJwTdnOYCUlBRaO+un+tezcdRI7Ezfu4cPYs1Fq2Ot/2nApG6X8EhpiM61JhMxTgHVKwGgD6y8zUrHnf7q2YeNat3tR5JfsHtK07wD1Po4V2UGayueHorO+7YbWtFZ8Liv152oRVjaH5eCxCvcVUUeLbIqsY+umP9HyW/27CVNhqpmNkWsdFs5oIkbYvCfH3wI3M0tqyVS0Yt9ZFx/mOgMOkIjCoEHl2M5YaqdtSZfoBONNKjRRKAcy/PrzRW+9l9irfZ7HJghzCqFA5cW++nDmlWYcOxL8vH2fRXqV7IQieNDOG5Q7tLx9fm5Cxt3qzX3HxhxVDLO4DKVdRTn3lXFsFyZWzOSX38gv2rVDr1QoU+Q="
+                },
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": "STOP",
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "Q5Wnace5D9TQz7IPze7n2A4",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 133,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 1148,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1148
+          }
+        ],
+        "thoughts_token_count": 95,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 1376,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    }
+  ]
+}

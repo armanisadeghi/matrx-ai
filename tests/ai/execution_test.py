@@ -85,6 +85,19 @@ def save_results(final_result: CompletedRequest):
         json.dump(storage_serializable, f, indent=4)
     vcprint(f"\nCX storage format saved to: {output_file}", color="blue")
 
+    if os.environ.get("MATRX_CAPTURE_LLM_RESPONSES", "").lower() in ("1", "true", "yes"):
+        from tests.ai.translation_tests.response_capture import CAPTURE_DIR, load_captured_responses
+
+        captures = load_captured_responses()
+        if captures:
+            vcprint(f"\n{len(captures)} provider response(s) captured → {CAPTURE_DIR}", color="green")
+            for cap in captures:
+                meta = cap.get("capture_metadata", {})
+                vcprint(
+                    f"  {meta.get('provider')} / {meta.get('model')}  stream={meta.get('context', {}).get('stream')}  → {Path(cap['_filepath']).name}",
+                    color="cyan",
+                )
+
 
 
 # ============================================================================
@@ -93,6 +106,7 @@ def save_results(final_result: CompletedRequest):
 
 
 if __name__ == "__main__":
+    os.environ["MATRX_CAPTURE_LLM_RESPONSES"] = "1"
     clear_terminal()
     from tests.ai.test_context import get_test_conversation_id
 
@@ -102,17 +116,24 @@ if __name__ == "__main__":
     openai = "gpt-5-mini"
     google = "gemini-3-flash-preview"
     model_3 = "548126f2-714a-4562-9001-0c31cbeea375"
-    model_4 = "gemini-3-pro-image-preview"
+    google_image_model = "gemini-3-pro-image-preview"
+    google_image_small = "gemini-3.1-flash-image-preview"
     model_5 = "gpt-5"
     claude = "claude-sonnet-4-5-20250929"
     claude_low = "5b467c4b-80f3-420f-a516-05218907521b"
-    claude_adaptive = "claude-sonnet-4-6"
     claude_high = "claude-sonnet-4-6"
     cerebras = "gpt-oss-120b"
     xai = "grok-4-1-fast-reasoning"
     together = "openai/gpt-oss-120b"
     groq = "llama-3.3-70b-versatile"
     openai_non_reasoning = "gpt-4.1-mini-2025-04-14"
+    
+    
+    claude_adaptive = "claude-sonnet-4-6"
+    openai_reasoning = "gpt-5.2"
+    google_thinking = "gemini-3.1-pro-preview"
+
+    google_small = "gemini-3.1-flash-lite-preview"
 
     multiple_tools_settings = {
         "debug": True,
@@ -122,12 +143,12 @@ if __name__ == "__main__":
             "reasoning_effort": "low",
             "reasoning_summary": "detailed",
             "tools": [
-                "get_location",
-                "get_weather",
-                "get_restaurants",
-                "get_activities",
-                "get_events",
-                "create_summary",
+                "travel_get_location",
+                "travel_get_weather",
+                "travel_get_restaurants",
+                "travel_get_activities",
+                "travel_get_events",
+                "travel_create_summary",
             ],
             "tool_choice": "auto",
             "parallel_tool_calls": True,
@@ -155,7 +176,7 @@ if __name__ == "__main__":
     }
 
     image_generation_settings = {
-        "ai_model_id": model_4,
+        "ai_model_id": google_image_model,
         "debug": True,
         "config": {
             # "max_output_tokens": 4444,
@@ -462,8 +483,13 @@ if __name__ == "__main__":
 
     # options: simple_chat_settings, single_tool_settings_v2, image_generation_settings, complex_settings,
     # document_input_settings, youtube_url_settings, audio_transcription_test_settings, audio_direct_google_settings
-    settings_to_use = simple_chat_settings
-    settings_to_use["config"]["model"] = openai
+    settings_to_use = complex_settings
+    
+    # claude_adaptive 
+    # google_thinking
+    # openai_reasoning
+    
+    settings_to_use["config"]["model"] = google_thinking
     new_conversation = True
     # settings_to_use["debug"] = True
 

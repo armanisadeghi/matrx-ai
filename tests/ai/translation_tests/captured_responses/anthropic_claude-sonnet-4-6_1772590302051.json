@@ -1,0 +1,56 @@
+{
+  "capture_metadata": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-6",
+    "timestamp_ms": 1772590302051,
+    "label": "",
+    "context": {
+      "stream": true,
+      "has_tools": true
+    }
+  },
+  "response": {
+    "id": "msg_01XwSZ1umYtiL1jgAsZq6S3H",
+    "container": null,
+    "content": [
+      {
+        "signature": "EpcCCkYICxgCKkAuzDcABC4TfIndvLWaFncZESH49igHvKFjoztcy55GRXJhVTHKQLb0KBMs04IrLdpT3ipWPLjkX+yHiCLZizi4EgzV7hD/tnRZMMrA9aUaDO+davLc4iBJtn1TnCIwzh8A3lzuT7oQKAyIu4Yl9ujI0syGUFQlc2+GuifnZUvEARhkBV/fnC4Guq+fP4nPKn8LM1WS6dc873yzdbssDt90envaFxQOEXCk7rCqeKAI8FjBlBmpGe8cUJO5DUtRTuj1WRXsJNa9LXN715MclwQlzZi558ui5sf50OuHc92IOvcdKkFxoJZow8rL7jtfQ1kxBiCnZVrNcGAlKBtRGMkT1EfEAKYroZDGx1APg9WqGAE=",
+        "thinking": "Let me start by getting the user's location first, then I can get weather, restaurants, and events in parallel.",
+        "type": "thinking"
+      },
+      {
+        "citations": null,
+        "text": "Sure! Let me start by finding your current location first!",
+        "type": "text",
+        "parsed_output": null
+      },
+      {
+        "id": "toolu_011NBHwY1tjcE8sy2JAjN5nk",
+        "caller": {
+          "type": "direct"
+        },
+        "input": {},
+        "name": "travel_get_location",
+        "type": "tool_use"
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "role": "assistant",
+    "stop_reason": "tool_use",
+    "stop_sequence": null,
+    "type": "message",
+    "usage": {
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "inference_geo": "global",
+      "input_tokens": 1302,
+      "output_tokens": 90,
+      "server_tool_use": null,
+      "service_tier": "standard"
+    }
+  }
+}

@@ -1,109 +1,76 @@
 {
-    "output": "Hello \u2014 I'm doing well, thanks! How can I help you today?",
-    "assistant_response": {
-        "role": "assistant",
-        "content": [
-            {
-                "type": "text",
-                "text": "Hello \u2014 I'm doing well, thanks! How can I help you today?",
-                "id": "msg_086865cd59b3535f0069a75bb5376c8194b9416786838c4f6a",
-                "metadata": {
-                    "annotations": [],
-                    "type": "output_text",
-                    "logprobs": [],
-                    "parsed": null,
-                    "id": "msg_086865cd59b3535f0069a75bb5376c8194b9416786838c4f6a"
-                }
-            }
-        ],
-        "id": "msg_086865cd59b3535f0069a75bb5376c8194b9416786838c4f6a",
-        "name": null,
-        "timestamp": null,
-        "status": "active",
-        "metadata": {}
-    },
+    "output": "",
+    "assistant_response": null,
     "config": {
-        "model": "gpt-5-mini",
+        "model": "gemini-3.1-pro-preview",
         "messages": [
             {
                 "role": "user",
                 "content": [
                     {
                         "type": "text",
-                        "text": "Hello! How are you?",
+                        "text": "Hello! Can you help me? What is the latest us news?",
                         "id": ""
                     }
                 ]
-            },
-            {
-                "role": "output",
-                "content": [
-                    {
-                        "type": "thinking",
-                        "text": "",
-                        "id": "rs_086865cd59b3535f0069a75bb4bec88194aaa9fb5e6b6f7126",
-                        "provider": "openai",
-                        "signature": "gAAAAABpp1u1wBiA0uAUyr1d9MfTvr5Wuqb1lohUWM3oK5LCOHd2rBYGxW9mNP-BcxamD-pm6E6Jy0zUTHFHY0f2Czfeae1JeZP5hjCRT9Vrs-ObL_Q18g0svQD-n7ifKX-J9gRzTtkT6V5LcG3h4auoSn0NQ9WFjwDozzyw32fpquFl9tLGrx2huQpYcGg7ABtKW4pXJ-S4uL_5a6ESnqJGoP8OE412W7SWc_loFOtrGLYwiY1CxNxhxIfuW6yK-qsgaAXhzOZDo7hbYeVVkJ8nAnVEaSB1Rv6It5jApKyhPK9XVRu4J3IzrQ8Dz0uCLLUHjFr6uGLTNrYl9JwhVkZQHBWS3Q9dO7PBMEoezJOUT8LtPOY5X2RPxPb0hzxlTSfGd5NNeiMLwMemkpSbLonyOwXRH-Y-CCIpqHm94l3SAWEpLTDes-kRZbkGXFScgQRphaep6qXdHIMX-00mEgdcqn8e1LGE3UPJQtXPdx1wbgjDcSbtxfVl2jD7ZUzmtrhYwSVuYCQTQWAwWQa2PfsuQq7-7JzmmXgK-c-HLN5I9E0kwKmHnm2MR-GkdkirsOCSsFdNfN2K5ydAKTtqtGkvCB24n66Z3oqop6fg1a0WSnqrl1VP66Cybd6JMWbc-XwiEh_83eMklXme1PbILIyJYG6ksT5vc2DQAwSfa2nF4F5PiH-KW4HqCIoVt2AC4HbpXB5DprtBmP94QQyB1yNn8oZ8HxA7ICHu7y03Nu3LE4WROnNSAJ2sYnTmZk7FN0U3ND295PbWOQ78emugi9PPNSlM--SwzoBDirhZaDpSPDBRVp1z-XywLvEIpf7tM2C_ewRsmqGFUHgOFPQ8zCchTzKHIq7gKK06A3-ln8NWh-R_UKxwzqAUauYr12QQHRGlwl4-bv39HeWDuv-QOLbzBdeM4JTKrUvKgsq3jgrcTtnEbbR2eriq1VMZH1lV9J4P1XmWkpwk",
-                        "metadata": {
-                            "id": "rs_086865cd59b3535f0069a75bb4bec88194aaa9fb5e6b6f7126"
-                        }
-                    }
-                ],
-                "id": "rs_086865cd59b3535f0069a75bb4bec88194aaa9fb5e6b6f7126"
-            },
-            {
-                "role": "assistant",
-                "content": [
-                    {
-                        "type": "text",
-                        "text": "Hello \u2014 I'm doing well, thanks! How can I help you today?",
-                        "id": "msg_086865cd59b3535f0069a75bb5376c8194b9416786838c4f6a",
-                        "metadata": {
-                            "annotations": [],
-                            "type": "output_text",
-                            "logprobs": [],
-                            "parsed": null,
-                            "id": "msg_086865cd59b3535f0069a75bb5376c8194b9416786838c4f6a"
-                        }
-                    }
-                ],
-                "id": "msg_086865cd59b3535f0069a75bb5376c8194b9416786838c4f6a"
             }
         ],
-        "system_instruction": "You're a helpful assistant.",
+        "system_instruction": "You're a helpful assistant. Think through your response step by step before proceeding with a response. Always search the web to ensure you include recent and relevant facts in your response. You can check the user's location with a tool and provide whatever they need.",
         "stream": true,
-        "tools": [],
-        "parallel_tool_calls": true,
+        "max_output_tokens": 4096,
+        "temperature": 1,
+        "top_p": 1,
+        "top_k": 50,
+        "tools": [
+            "get_location",
+            "get_weather",
+            "get_restaurants",
+            "get_activities",
+            "get_events",
+            "create_summary"
+        ],
+        "tool_choice": "auto",
+        "parallel_tool_calls": false,
+        "reasoning_effort": "low",
+        "reasoning_summary": "auto",
+        "response_format": "text",
         "stop_sequences": [],
+        "store": true,
+        "verbosity": "medium",
+        "internal_web_search": true,
+        "size": "1024x1024",
+        "quality": "standard",
         "count": 1,
+        "audio_voice": "alloy",
+        "audio_format": "mp3",
         "metadata": {}
     },
     "usage": {
         "by_model": {
-            "gpt-5-mini": {
-                "input_tokens": 21,
-                "output_tokens": 42,
+            "gemini-3.1-pro-preview": {
+                "input_tokens": 69,
+                "output_tokens": 0,
                 "cached_input_tokens": 0,
-                "total_tokens": 63,
-                "api": "openai",
+                "total_tokens": 69,
+                "api": "google",
                 "request_count": 1,
-                "cost": 8.925e-05
+                "cost": 0.000138
             }
         },
         "total": {
-            "input_tokens": 21,
-            "output_tokens": 42,
+            "input_tokens": 69,
+            "output_tokens": 0,
             "cached_input_tokens": 0,
-            "total_tokens": 63,
+            "total_tokens": 69,
             "total_requests": 1,
             "unique_models": 1,
-            "total_cost": 8.925e-05
+            "total_cost": 0.000138
         }
     },
     "metadata": {
-        "finish_reason": "stop",
-        "response_id": "resp_086865cd59b3535f0069a75bb3c7b48194bc6a691d910e9ee6",
-        "matrx_model_name": "gpt-5-mini",
-        "provider_model_name": "gpt-5-mini-2025-08-07"
+        "status": "failed",
+        "finish_reason": "malformed_function_call",
+        "error": "Model stopped with finish reason: malformed_function_call",
+        "error_type": "finish_reason_error"
     }
 }

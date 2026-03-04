@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, Any, Literal
 from matrx_utils import vcprint
 
 from matrx_ai.config import UnifiedResponse
-from matrx_ai.db.custom.ai_models.ai_model_manager import get_ai_model_manager
+from matrx_ai.db.custom.ai_models.ai_model_manager import AiModelManager, ai_model_manager_instance
 from matrx_ai.db.models import AiModel
 
 if TYPE_CHECKING:
@@ -54,7 +54,7 @@ class UnifiedAIClient:
             XAIChat,
         )
 
-        self.model_manager = get_ai_model_manager()
+        self.model_manager: AiModelManager = ai_model_manager_instance
         self.google_chat = GoogleChat()
         self.openai_chat = OpenAIChat()
         self.anthropic_chat = AnthropicChat()

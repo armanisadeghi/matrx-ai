@@ -17,6 +17,12 @@ Public API:
 
 from .agent_tool import execute_agent_tool, register_agent_as_tool
 from .executor import ToolExecutor
+from .external_handlers import (
+    ExternalHandlerRegistry,
+    ExternalToolHandler,
+    register_external_app_handler,
+    register_external_tool_handler,
+)
 from .external_mcp import ExternalMCPClient
 from .guardrails import GuardrailEngine
 from .lifecycle import ToolLifecycleManager
@@ -51,6 +57,10 @@ __all__ = [
     "ToolExecutionLogger",
     "ToolLifecycleManager",
     "ExternalMCPClient",
+    "ExternalHandlerRegistry",
+    "ExternalToolHandler",
+    "register_external_tool_handler",
+    "register_external_app_handler",
     "execute_agent_tool",
     "register_agent_as_tool",
 ]

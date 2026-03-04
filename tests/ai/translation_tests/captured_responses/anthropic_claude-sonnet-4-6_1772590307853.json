@@ -1,0 +1,54 @@
+{
+  "capture_metadata": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-6",
+    "timestamp_ms": 1772590307853,
+    "label": "",
+    "context": {
+      "stream": true,
+      "has_tools": true
+    }
+  },
+  "response": {
+    "id": "msg_01ExvMKaGUfvxVASvuhC3YE1",
+    "container": null,
+    "content": [
+      {
+        "citations": null,
+        "text": "It's snowy in San Francisco! Let me now get the events based on that weather condition!",
+        "type": "text",
+        "parsed_output": null
+      },
+      {
+        "id": "toolu_01CGiSa47xVkwTGRxfqjRHzd",
+        "caller": {
+          "type": "direct"
+        },
+        "input": {
+          "city": "San Francisco",
+          "weather": "snowy"
+        },
+        "name": "travel_get_events",
+        "type": "tool_use"
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "role": "assistant",
+    "stop_reason": "tool_use",
+    "stop_sequence": null,
+    "type": "message",
+    "usage": {
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "inference_geo": "global",
+      "input_tokens": 1654,
+      "output_tokens": 95,
+      "server_tool_use": null,
+      "service_tier": "standard"
+    }
+  }
+}

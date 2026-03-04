@@ -1,0 +1,231 @@
+{
+  "capture_metadata": {
+    "provider": "openai",
+    "model": "gpt-5.2",
+    "timestamp_ms": 1772590365140,
+    "label": "",
+    "context": {
+      "stream": true,
+      "has_tools": true
+    }
+  },
+  "response": {
+    "id": "resp_0dbd1b80b2593bb10069a7951ac3a88192a4b3d1b24339a21c",
+    "created_at": 1772590362.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "metadata": {},
+    "model": "gpt-5.2-2025-12-11",
+    "object": "response",
+    "output": [
+      {
+        "id": "msg_0dbd1b80b2593bb10069a7951b4e1c8192ab8074f21beb7536",
+        "content": [
+          {
+            "annotations": [],
+            "text": "Here are some ideas for today in **Seattle** (currently **snowy**, **47\u00b0F**):\n\n## Restaurants\n- **Chez Japanese Kitchen**\n- **Casa Japanese Kitchen**\n- **The French House**\n\n## Events (good for snowy weather)\n- **Theater performance**\n- **Comedy show**\n\nIf you tell me what neighborhood you\u2019re in (or how far you want to travel) and your budget/cuisine preferences, I can narrow these down.",
+            "type": "output_text",
+            "logprobs": [],
+            "parsed": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message"
+      }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [
+      {
+        "name": "travel_get_location",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "type": "function",
+        "description": "Get the user's current location city. Returns a randomly selected city (mock data for demo/testing)."
+      },
+      {
+        "name": "travel_get_weather",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "City name to get weather for."
+            }
+          },
+          "required": [
+            "city"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "type": "function",
+        "description": "Get current weather conditions for a specified city. Returns condition, temperature, and unit (mock data for demo/testing)."
+      },
+      {
+        "name": "travel_get_restaurants",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "City name to get restaurants for."
+            }
+          },
+          "required": [
+            "city"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "type": "function",
+        "description": "Get restaurant recommendations for a specified city. Returns a list of restaurant names (mock data for demo/testing)."
+      },
+      {
+        "name": "travel_get_activities",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "City name."
+            },
+            "weather": {
+              "type": "string",
+              "description": "Current weather condition."
+            }
+          },
+          "required": [
+            "city",
+            "weather"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "type": "function",
+        "description": "Get activity recommendations based on city and weather. Returns indoor activities for rainy/snowy weather, outdoor for others (mock data for demo/testing)."
+      },
+      {
+        "name": "travel_get_events",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "City name."
+            },
+            "weather": {
+              "type": "string",
+              "description": "Current weather condition."
+            }
+          },
+          "required": [
+            "city",
+            "weather"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "type": "function",
+        "description": "Get local events happening in a city, taking weather into account. Returns indoor events for rainy/snowy weather, outdoor for others (mock data for demo/testing)."
+      },
+      {
+        "name": "travel_create_summary",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "events": {
+              "type": "array",
+              "description": "List of event names.",
+              "items": {
+                "type": "string"
+              }
+            },
+            "location": {
+              "type": "string",
+              "description": "City or location name."
+            },
+            "activities": {
+              "type": "array",
+              "description": "List of activity names.",
+              "items": {
+                "type": "string"
+              }
+            },
+            "restaurants": {
+              "type": "array",
+              "description": "List of restaurant names.",
+              "items": {
+                "type": "string"
+              }
+            },
+            "weather_info": {
+              "type": "object",
+              "description": "Weather object with condition and temperature fields."
+            }
+          },
+          "required": [
+            "events",
+            "location",
+            "activities",
+            "restaurants",
+            "weather_info"
+          ],
+          "additionalProperties": false
+        },
+        "strict": false,
+        "type": "function",
+        "description": "Create a comprehensive travel summary combining location, weather, restaurants, activities, and events into a formatted text report."
+      }
+    ],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1772590364.0,
+    "conversation": null,
+    "max_output_tokens": null,
+    "max_tool_calls": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_key": null,
+    "prompt_cache_retention": null,
+    "reasoning": {
+      "effort": "low",
+      "generate_summary": null,
+      "summary": "detailed"
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+      "format": {
+        "type": "text"
+      },
+      "verbosity": "medium"
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+      "input_tokens": 662,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 96,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 758
+    },
+    "user": null,
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "store": true
+  }
+}

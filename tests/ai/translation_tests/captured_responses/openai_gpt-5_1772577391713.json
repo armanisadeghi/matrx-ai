@@ -1,0 +1,92 @@
+{
+  "capture_metadata": {
+    "provider": "openai",
+    "model": "gpt-5",
+    "timestamp_ms": 1772577391713,
+    "label": "",
+    "context": {
+      "stream": true,
+      "has_tools": false
+    }
+  },
+  "response": {
+    "id": "resp_0d9e58f5f4607c980069a7626dba8881a39675e50383c26a00",
+    "created_at": 1772577389.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "metadata": {},
+    "model": "gpt-5-2025-08-07",
+    "object": "response",
+    "output": [
+      {
+        "id": "rs_0d9e58f5f4607c980069a7626e559081a3859990d47b137ce9",
+        "summary": [],
+        "type": "reasoning",
+        "content": null,
+        "encrypted_content": "gAAAAABpp2JvK0LT_21ZGm6OtjAVvIIQEo1-_PsIL_7XLfDXBYJaTx5xmFKBalsyZNaPgUpivmcKJryjk3z1Dk5xc3UJBxX5lX-lQNJhvDfmH4u25q8BAq0QA4WeXCa04-AJragCWhEAqCNi-_ADMMUOmFpKwlBjKayCnQCisJKwhXwkkZ-2RQfuTaOWMMexVod5Wa8Q-1_0eh863VxIT8yEf4Bd5cRWN5F_W1_gWMVLYr7sVLsGlFtBlZsCbfEMt7Xo3rxYO2wGXOWRCNargP9mMVvXDKCGc6nTRA-BKgc7GJ-ScqodTOtGOO58WKr5q14IIJ_Y_H6irraLzW0McV5KVA66AEB_z6Djq8DhtwN5E1NN5dVMkNFb0PgCb0kvHOxYGOZMucVnlf4N350BG8KIYfxklpw2QC-b00SOmUO3V3LjbuVOBiTk9XX4PxRnttqOpJlFvKHVT-HWkge4gLspKKVvzBkZFvGVtfyvVDiDORvdrr-Jdb9bU_sd0Cf-cfaFEXBW3O2YByWFUbyUYvBnV2-QTP4i9k8RnEmkKDBvPo_PBUgYx9hL4EFUViTrobB4d09LhstZP-EgZSDzAPnmZQsRE9aeLp_itDQ9nKEZQvDlxVAlBdl-k9qRKTycFRy_nlVVMMzsjgdsNtyCvynfpSE1vBG93HagQGC4z0va7lMlN59EJTge_05OIazxJkXa1v1TVRlQycVWwHWOARLVk-08lOGFTpUwa-g9_0UFHPyOF2iqs29LeFFT9cEZrYdozKlRYW7k9CuaOJ3C8x9xxqFfpA8YUNAuVHYJ4XG_8sTLad3BnvnXDO6m1esRC87V_-Wk9urbaQW_2k_jheMtQh0pyvoldSybqK1nw2_GZNv5GmBF5Kc31K1rFtW_yKx-noVoakV6xS5QBnmhs8mTpzSeNDLdNraEYZH4OHNHr_J2dF9w-zE8ycBO3LekTdKlRUJ9ioxJTvF8MgQa8UuNgDZBq_oF9BldwNV3OFAgCjOpDLHP4SOesZ9xY1_Nyws3gCd9Q6kocxwsJeT9XWlh9sju4gp5d8QV0GoY3i33ehSxx_2a4rrxEvO-51NQgPMfm4iiZPvbFi6-OVwDfnJakJIB40oR7E3RB6mxFMuS6J7oduzziyvowqtLIuD3bEizvHOmc2zD",
+        "status": null
+      },
+      {
+        "id": "msg_0d9e58f5f4607c980069a7626f24b081a3aa161253c95c8d17",
+        "content": [
+          {
+            "annotations": [],
+            "text": "Hi! I\u2019m doing well, thanks for asking. How can I help you today?",
+            "type": "output_text",
+            "logprobs": [],
+            "parsed": null
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message"
+      }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [],
+    "top_p": 1.0,
+    "background": false,
+    "completed_at": 1772577391.0,
+    "conversation": null,
+    "max_output_tokens": null,
+    "max_tool_calls": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_key": null,
+    "prompt_cache_retention": null,
+    "reasoning": {
+      "effort": "medium",
+      "generate_summary": null,
+      "summary": null
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+      "format": {
+        "type": "text"
+      },
+      "verbosity": "medium"
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+      "input_tokens": 21,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 80,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 101
+    },
+    "user": null,
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "store": true
+  }
+}

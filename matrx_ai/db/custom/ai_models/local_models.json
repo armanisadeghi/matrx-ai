@@ -1,0 +1,4610 @@
+[
+    {
+        "id": "5970727c-37fc-4a0f-88c6-04ea8ca09ec6",
+        "name": "claude-sonnet-4-6",
+        "common_name": "Claude Sonnet 4.6",
+        "model_class": "claude-sonnet-4-6",
+        "provider": "Anthropic",
+        "endpoints": [
+            "anthropic_chat"
+        ],
+        "context_window": 200000,
+        "max_tokens": 64000,
+        "capabilities": [
+            "text_generation",
+            "image_to_text",
+            "thinking",
+            "tool_calling"
+        ],
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "top_k": {
+                "max": 500,
+                "min": 0,
+                "type": "integer"
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "max_tokens": {
+                "max": 8192,
+                "min": 1,
+                "type": "integer",
+                "required": true
+            },
+            "temperature": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stop_sequences": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "maxItems": 4
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "default": "low"
+            }
+        },
+        "model_provider": "af5b5f1d-25dd-4c76-b84d-995e53fdf1f4",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "anthropic_adaptive",
+        "dto": {
+            "id": "5970727c-37fc-4a0f-88c6-04ea8ca09ec6",
+            "default_endpoint": "anthropic_chat",
+            "default_max_tokens": 64000
+        }
+    },
+    {
+        "id": "90857a2c-c456-4c5c-b783-95a4242b96b3",
+        "name": "llama-3.2-90b-vision-preview",
+        "common_name": "Llama 3.2 90B Vision",
+        "model_class": "llama-3.2-90b-vision",
+        "provider": "Meta",
+        "endpoints": [
+            "groq_chat"
+        ],
+        "context_window": 128000,
+        "max_tokens": 8192,
+        "model_provider": "cd39e85b-3693-43a5-852a-c4bb86398a73",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "groq_standard",
+        "dto": {
+            "id": "90857a2c-c456-4c5c-b783-95a4242b96b3",
+            "default_endpoint": "groq_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "f4275c13-ff77-40da-b107-31f937381ddf",
+        "name": "llama3-70b-8192",
+        "common_name": "Llama 3 70b",
+        "model_class": "llama3-70b",
+        "provider": "Meta",
+        "endpoints": [
+            "groq_chat"
+        ],
+        "max_tokens": 8192,
+        "model_provider": "cd39e85b-3693-43a5-852a-c4bb86398a73",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": false,
+        "dto": {
+            "id": "f4275c13-ff77-40da-b107-31f937381ddf",
+            "default_endpoint": "groq_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "faf0bb92-c5d4-4f40-b3a5-fec96319542c",
+        "name": "o3-mini-20250131",
+        "common_name": "o3 Mini",
+        "model_class": "o3-mini",
+        "provider": "OpenAi",
+        "endpoints": [
+            "openai_chat"
+        ],
+        "context_window": 128000,
+        "max_tokens": 65536,
+        "capabilities": [
+            "text-generation",
+            "reasoning",
+            "coding",
+            "step-by-step-thinking",
+            "web-search"
+        ],
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": false,
+        "dto": {
+            "id": "faf0bb92-c5d4-4f40-b3a5-fec96319542c",
+            "default_endpoint": "openai_chat",
+            "default_max_tokens": 65536
+        }
+    },
+    {
+        "id": "4de7f70f-c859-408d-9ef9-37466ad35a59",
+        "name": "gemini-2.0-flash-exp-image-generation",
+        "common_name": "Gemini 2 Flash Image Generation",
+        "model_class": "gemini-2.0-flash-exp-image-generation",
+        "provider": "Google",
+        "endpoints": [
+            "google_chat"
+        ],
+        "context_window": 32768,
+        "max_tokens": 8192,
+        "capabilities": [
+            "image",
+            "text"
+        ],
+        "model_provider": "cd21dbf4-314e-46bf-85d2-5f4c5ec92dc8",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "google_image_generation",
+        "dto": {
+            "id": "4de7f70f-c859-408d-9ef9-37466ad35a59",
+            "default_endpoint": "google_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "18e749ab-924b-4788-84da-c89b4450e62e",
+        "name": "gpt-4.5-preview-2025-02-27",
+        "common_name": "GPT-4.5 Latest",
+        "model_class": "gpt-4.5-preview-2025-02-27",
+        "provider": "OpenAi",
+        "endpoints": [
+            "openai_chat"
+        ],
+        "context_window": 128000,
+        "max_tokens": 16384,
+        "capabilities": [
+            "text-generation",
+            "image-to-text",
+            "advanced-reasoning",
+            "coding",
+            "multilingual-tasks"
+        ],
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": true,
+        "dto": {
+            "id": "18e749ab-924b-4788-84da-c89b4450e62e",
+            "default_endpoint": "openai_chat",
+            "default_max_tokens": 16384
+        }
+    },
+    {
+        "id": "32ff6bbd-5a67-492b-ade0-44a05e453963",
+        "name": "learnlm-1.5-pro-experimental",
+        "common_name": "LearnLM 1.5 Pro Experimental",
+        "model_class": "learnlm-1.5-pro",
+        "provider": "Google",
+        "endpoints": [
+            "google_chat"
+        ],
+        "model_provider": "cd21dbf4-314e-46bf-85d2-5f4c5ec92dc8",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "dto": {
+            "id": "32ff6bbd-5a67-492b-ade0-44a05e453963",
+            "default_endpoint": "google_chat",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "72aa685f-506b-4d9b-9783-86f354bed059",
+        "name": "distil-whisper-large-v3-en",
+        "common_name": "Whisper Large V3 Distilled",
+        "model_class": "distil-whisper-large-v3-en",
+        "provider": "Groq",
+        "endpoints": [
+            "groq_chat"
+        ],
+        "model_provider": "eb5c328b-4c12-4646-a9df-255d8aa2c502",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "groq_standard",
+        "dto": {
+            "id": "72aa685f-506b-4d9b-9783-86f354bed059",
+            "default_endpoint": "groq_chat",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "8549da25-064a-44d4-9c5c-f0d90ae989e3",
+        "name": "llama-3.3-70b-versatile",
+        "common_name": "Llama 3.3 70b Versatile",
+        "model_class": "llama-3.3-70b-versatile",
+        "provider": "Meta",
+        "endpoints": [
+            "groq_chat"
+        ],
+        "context_window": 128000,
+        "max_tokens": 8000,
+        "model_provider": "cd39e85b-3693-43a5-852a-c4bb86398a73",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "groq_standard",
+        "dto": {
+            "id": "8549da25-064a-44d4-9c5c-f0d90ae989e3",
+            "default_endpoint": "groq_chat",
+            "default_max_tokens": 8000
+        }
+    },
+    {
+        "id": "36299f07-ba31-4f10-8343-12b50b553365",
+        "name": "llama-3.2-11b-vision-preview",
+        "common_name": "Llama 3.2 11B Vision",
+        "model_class": "llama-3.2-11b-vision",
+        "provider": "Meta",
+        "endpoints": [
+            "groq_chat"
+        ],
+        "context_window": 128000,
+        "max_tokens": 8192,
+        "model_provider": "cd39e85b-3693-43a5-852a-c4bb86398a73",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "groq_standard",
+        "dto": {
+            "id": "36299f07-ba31-4f10-8343-12b50b553365",
+            "default_endpoint": "groq_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "ddd74da2-2c49-4979-89d7-62a1cf3fa376",
+        "name": "llama3-8b-8192",
+        "common_name": "Llama 3 8b",
+        "model_class": "llama3-8b",
+        "provider": "Meta",
+        "endpoints": [
+            "groq_chat"
+        ],
+        "max_tokens": 8192,
+        "model_provider": "cd39e85b-3693-43a5-852a-c4bb86398a73",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "groq_standard",
+        "dto": {
+            "id": "ddd74da2-2c49-4979-89d7-62a1cf3fa376",
+            "default_endpoint": "groq_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "325408aa-fd5b-4876-9410-2bf34757b9d8",
+        "name": "llama-3.2-1b-preview",
+        "common_name": "Llama 3.2 1b",
+        "model_class": "llama-3.1-8b-instant",
+        "provider": "Meta",
+        "endpoints": [
+            "groq_chat"
+        ],
+        "context_window": 128000,
+        "max_tokens": 8192,
+        "model_provider": "cd39e85b-3693-43a5-852a-c4bb86398a73",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "groq_standard",
+        "dto": {
+            "id": "325408aa-fd5b-4876-9410-2bf34757b9d8",
+            "default_endpoint": "groq_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "528ddac6-fe7a-4b11-9679-1c1fe134c448",
+        "name": "llama-3.3-70b-specdec",
+        "common_name": "Llama 3.3 70b Specdec",
+        "model_class": "llama-3.3-70b-specdec",
+        "provider": "Meta",
+        "endpoints": [
+            "groq_chat"
+        ],
+        "context_window": 8192,
+        "max_tokens": 8192,
+        "model_provider": "cd39e85b-3693-43a5-852a-c4bb86398a73",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "groq_standard",
+        "dto": {
+            "id": "528ddac6-fe7a-4b11-9679-1c1fe134c448",
+            "default_endpoint": "groq_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "bf5d0d08-20a3-439e-b4cb-381feee02818",
+        "name": "llama3-groq-70b-8192-tool-use-preview",
+        "common_name": "Llama 3 70B Groq Tool Use",
+        "model_class": "llama3-groq-70b-8192-tool-use",
+        "provider": "Groq",
+        "endpoints": [
+            "groq_chat"
+        ],
+        "max_tokens": 8192,
+        "model_provider": "eb5c328b-4c12-4646-a9df-255d8aa2c502",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "dto": {
+            "id": "bf5d0d08-20a3-439e-b4cb-381feee02818",
+            "default_endpoint": "groq_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "ecedb9e0-d172-4d50-927e-61b22b4bc5be",
+        "name": "gemma2-9b-it",
+        "common_name": "Gemma 2 9b IT",
+        "model_class": "gemma2-9b-it",
+        "provider": "Google",
+        "endpoints": [
+            "groq_chat"
+        ],
+        "context_window": 8192,
+        "max_tokens": 8192,
+        "model_provider": "cd21dbf4-314e-46bf-85d2-5f4c5ec92dc8",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "groq_standard",
+        "dto": {
+            "id": "ecedb9e0-d172-4d50-927e-61b22b4bc5be",
+            "default_endpoint": "groq_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "f72525b1-3f41-41b8-86b6-2830d496d33d",
+        "name": "llama-3.1-70b-specdec",
+        "common_name": "Llama 3.1 70b Specdec",
+        "model_class": "llama-3.1-70b-specdec",
+        "provider": "Meta",
+        "endpoints": [
+            "groq_chat"
+        ],
+        "max_tokens": 8192,
+        "model_provider": "cd39e85b-3693-43a5-852a-c4bb86398a73",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "groq_standard",
+        "dto": {
+            "id": "f72525b1-3f41-41b8-86b6-2830d496d33d",
+            "default_endpoint": "groq_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "162b69a1-be5b-40e9-9ff5-7bb066a87394",
+        "name": "llama-3.1-8b-instant",
+        "common_name": "Llama 3.1 8b Instant",
+        "model_class": "llama-3.1-8b",
+        "provider": "Meta",
+        "endpoints": [
+            "groq_chat"
+        ],
+        "context_window": 128000,
+        "max_tokens": 8192,
+        "model_provider": "cd39e85b-3693-43a5-852a-c4bb86398a73",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "groq_standard",
+        "dto": {
+            "id": "162b69a1-be5b-40e9-9ff5-7bb066a87394",
+            "default_endpoint": "groq_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "add8d3b9-33c9-4a82-92b2-94d4f7e1063e",
+        "name": "llama3-groq-8b-8192-tool-use-preview",
+        "common_name": "Llama 3 8B Groq Tool Use",
+        "model_class": "llama3-groq-8b-8192-tool-use",
+        "provider": "Groq",
+        "endpoints": [
+            "groq_chat"
+        ],
+        "context_window": 8192,
+        "max_tokens": 8192,
+        "model_provider": "eb5c328b-4c12-4646-a9df-255d8aa2c502",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "dto": {
+            "id": "add8d3b9-33c9-4a82-92b2-94d4f7e1063e",
+            "default_endpoint": "groq_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "44d754b7-06c4-4e46-964a-468be5c5d2c2",
+        "name": "claude-3-5-sonnet-20241022",
+        "common_name": "Claude 3.5 Sonnet",
+        "model_class": "claude-3-5-sonnet",
+        "provider": "Anthropic",
+        "endpoints": [
+            "anthropic_chat"
+        ],
+        "max_tokens": 8192,
+        "controls": {
+            "top_k": {
+                "max": 500,
+                "min": 0,
+                "type": "integer"
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "max_tokens": {
+                "max": 8192,
+                "min": 1,
+                "type": "integer",
+                "required": true
+            },
+            "temperature": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stop_sequences": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "maxItems": 4
+            }
+        },
+        "model_provider": "af5b5f1d-25dd-4c76-b84d-995e53fdf1f4",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "anthropic_standard",
+        "dto": {
+            "id": "44d754b7-06c4-4e46-964a-468be5c5d2c2",
+            "default_endpoint": "anthropic_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "ba3afb45-9d2c-4160-b59f-253badbd9138",
+        "name": "llama-3.2-3b-preview",
+        "common_name": "Llama 3.2 3b",
+        "model_class": "llama-3.1-8b-instant",
+        "provider": "Meta",
+        "endpoints": [
+            "groq_chat"
+        ],
+        "context_window": 128000,
+        "max_tokens": 8192,
+        "model_provider": "cd39e85b-3693-43a5-852a-c4bb86398a73",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "groq_standard",
+        "dto": {
+            "id": "ba3afb45-9d2c-4160-b59f-253badbd9138",
+            "default_endpoint": "groq_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "db7c30c0-4dd3-4891-ba07-bfa5f5ba65d5",
+        "name": "mixtral-8x7b-32768",
+        "common_name": "Mixtral 8x 7b",
+        "model_class": "mixtral-8x7b",
+        "provider": "Mixtral",
+        "endpoints": [
+            "groq_chat"
+        ],
+        "context_window": 32768,
+        "max_tokens": 32768,
+        "model_provider": "45f57539-cf49-4cd2-8658-0572498b2c27",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "dto": {
+            "id": "db7c30c0-4dd3-4891-ba07-bfa5f5ba65d5",
+            "default_endpoint": "groq_chat",
+            "default_max_tokens": 32768
+        }
+    },
+    {
+        "id": "c6539f9a-14ff-4449-8a33-644dfe49d2ea",
+        "name": "claude-opus-4-6",
+        "common_name": "Claude Opus 4.6",
+        "model_class": "claude-opus-4-6",
+        "provider": "Anthropic",
+        "endpoints": [
+            "anthropic_chat"
+        ],
+        "context_window": 200000,
+        "max_tokens": 64000,
+        "capabilities": [
+            "text_generation",
+            "image_to_text",
+            "thinking",
+            "tool_calling"
+        ],
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "top_k": {
+                "max": 500,
+                "min": 0,
+                "type": "integer"
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "max_tokens": {
+                "max": 8192,
+                "min": 1,
+                "type": "integer",
+                "required": true
+            },
+            "temperature": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stop_sequences": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "maxItems": 4
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "default": "low"
+            }
+        },
+        "model_provider": "af5b5f1d-25dd-4c76-b84d-995e53fdf1f4",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "anthropic_adaptive",
+        "dto": {
+            "id": "c6539f9a-14ff-4449-8a33-644dfe49d2ea",
+            "default_endpoint": "anthropic_chat",
+            "default_max_tokens": 64000
+        }
+    },
+    {
+        "id": "5b467c4b-80f3-420f-a516-05218907521b",
+        "name": "claude-haiku-4-5",
+        "common_name": "Clause Haiku 4.5",
+        "model_class": "claude-haiku-4-5",
+        "provider": "Anthropic",
+        "endpoints": [
+            "anthropic_chat"
+        ],
+        "context_window": 200000,
+        "max_tokens": 64000,
+        "capabilities": [
+            "text_generation",
+            "image_to_text",
+            "thinking",
+            "tool_calling"
+        ],
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "top_k": {
+                "max": 500,
+                "min": 0,
+                "type": "integer"
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "max_tokens": {
+                "max": 8192,
+                "min": 1,
+                "type": "integer",
+                "required": true
+            },
+            "temperature": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stop_sequences": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "maxItems": 4
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "default": "low"
+            }
+        },
+        "model_provider": "af5b5f1d-25dd-4c76-b84d-995e53fdf1f4",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "anthropic_standard",
+        "dto": {
+            "id": "5b467c4b-80f3-420f-a516-05218907521b",
+            "default_endpoint": "anthropic_chat",
+            "default_max_tokens": 64000
+        }
+    },
+    {
+        "id": "97f7e293-12e8-4c45-9527-68c73733a40b",
+        "name": "grok-code-fast-1",
+        "common_name": "Grok Code Fast 1",
+        "model_class": "grok-code-fast-1",
+        "provider": "XAI",
+        "endpoints": [
+            "xai_chat"
+        ],
+        "context_window": 256000,
+        "capabilities": [
+            "function_calling",
+            "structured_output",
+            "reasoning"
+        ],
+        "model_provider": "ffe876a4-f529-4f7c-85b6-afec891fb019",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "dto": {
+            "id": "97f7e293-12e8-4c45-9527-68c73733a40b",
+            "default_endpoint": "xai_chat",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "7ad9fc2b-d910-4058-8a94-588ffa026695",
+        "name": "matrx-ai",
+        "common_name": "Matrx AI",
+        "model_class": "matrx-ai",
+        "provider": "AI Matrx",
+        "endpoints": [
+            "google_chat",
+            "openai_chat",
+            "anthropic_chat",
+            "together_chat",
+            "groq_chat"
+        ],
+        "model_provider": "81a9a929-aa58-49e3-9df2-fe8eef90aa7c",
+        "is_deprecated": false,
+        "is_primary": true,
+        "is_premium": false,
+        "dto": {
+            "id": "7ad9fc2b-d910-4058-8a94-588ffa026695",
+            "default_endpoint": "google_chat",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "4a9783f3-7fda-49da-9adc-b46f55f9ed5f",
+        "name": "gemini-2.5-pro-preview-06-05",
+        "common_name": "Gemini 2.5 Pro Preview",
+        "model_class": "gemini-2.5-pro",
+        "provider": "Google",
+        "endpoints": [
+            "google_chat"
+        ],
+        "context_window": 1048576,
+        "max_tokens": 64000,
+        "capabilities": {
+            "structured_outputs": true,
+            "caching": false,
+            "tuning": false,
+            "function_calling": true,
+            "code_execution": true,
+            "search_grounding": true,
+            "image_generation": false,
+            "native_tool_use": true,
+            "audio_generation": false,
+            "live_api": false,
+            "thinking": true
+        },
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "default": 1
+            },
+            "stream": {
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true
+            },
+            "image_urls": {
+                "allowed": true
+            },
+            "max_tokens": {
+                "max": 65536,
+                "min": 1,
+                "default": 8000
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "default": 0.5
+            },
+            "output_format": {
+                "enum": [
+                    "text",
+                    "json_schema"
+                ],
+                "default": "text"
+            },
+            "youtube_videos": {
+                "allowed": true
+            },
+            "thinking_budget": {
+                "max": 24576,
+                "min": -1,
+                "default": 1024
+            },
+            "include_thoughts": {
+                "default": true
+            },
+            "internal_web_search": {
+                "allowed": true
+            },
+            "internal_url_context": {
+                "allowed": true
+            }
+        },
+        "model_provider": "cd21dbf4-314e-46bf-85d2-5f4c5ec92dc8",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": true,
+        "api_class": "google_thinking",
+        "dto": {
+            "id": "4a9783f3-7fda-49da-9adc-b46f55f9ed5f",
+            "default_endpoint": "google_chat",
+            "default_max_tokens": 64000
+        }
+    },
+    {
+        "id": "9fa78796-035d-4437-84d3-ef30db0723bf",
+        "name": "ft:gpt-4o-mini-2024-07-18:titanium::BISwAgnl",
+        "common_name": "Matrx Mini",
+        "model_class": "gpt-4o-mini",
+        "provider": "AI Matrx",
+        "endpoints": [
+            "openai_chat"
+        ],
+        "context_window": 16348,
+        "max_tokens": 16348,
+        "capabilities": [
+            "text_generation"
+        ],
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "dto": {
+            "id": "9fa78796-035d-4437-84d3-ef30db0723bf",
+            "default_endpoint": "openai_chat",
+            "default_max_tokens": 16348
+        }
+    },
+    {
+        "id": "443dc501-74b3-44cf-afd5-3c9d14acda8b",
+        "name": "deepseek-ai/DeepSeek-V3",
+        "common_name": "DeepSeek V3",
+        "model_class": "deepseek-ai/DeepSeek-V3",
+        "provider": "DeepSeek",
+        "endpoints": [
+            "together_chat"
+        ],
+        "context_window": 16384,
+        "model_provider": "b879239e-a56f-4912-a518-21d25fb8c35b",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "together_text_standard",
+        "dto": {
+            "id": "443dc501-74b3-44cf-afd5-3c9d14acda8b",
+            "default_endpoint": "together_chat",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "4c029be2-026f-43a7-bc90-5b5beb87464b",
+        "name": "deepseek-r1-distill-llama-70b",
+        "common_name": "Llama 70B (R1 Distilled)",
+        "model_class": "deepseek-r1-distill-llama-70b",
+        "provider": "cerebras_chat",
+        "endpoints": [
+            "groq_chat"
+        ],
+        "context_window": 8192,
+        "max_tokens": 8192,
+        "model_provider": "a02762ff-c763-49e9-bc34-47a6a374147d",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "groq_standard",
+        "dto": {
+            "id": "4c029be2-026f-43a7-bc90-5b5beb87464b",
+            "default_endpoint": "groq_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "abe83b34-a5de-493a-b9d3-999d77843b68",
+        "name": "Qwen/QwQ-32B-Preview",
+        "common_name": "QwQ 32B",
+        "model_class": "Qwen/QwQ-32B-Preview",
+        "provider": "Qwen",
+        "endpoints": [
+            "together_chat"
+        ],
+        "context_window": 32768,
+        "model_provider": "43eadcc4-832e-4b3c-aa23-dc46b3f73386",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "together_text_standard",
+        "dto": {
+            "id": "abe83b34-a5de-493a-b9d3-999d77843b68",
+            "default_endpoint": "together_chat",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "5c7f22ec-7e9c-4ec9-a0a2-0659c8b6cb7c",
+        "name": "meta-llama/llama-4-scout-17b-16e-instruct",
+        "common_name": "Llama 4 Scout (Fast)",
+        "model_class": "meta-llama/llama-4-scout-17b-16e-instruct",
+        "provider": "Meta",
+        "endpoints": [
+            "groq_chat"
+        ],
+        "context_window": 131072,
+        "max_tokens": 8192,
+        "capabilities": [
+            "text",
+            "image"
+        ],
+        "model_provider": "cd39e85b-3693-43a5-852a-c4bb86398a73",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "groq_standard",
+        "dto": {
+            "id": "5c7f22ec-7e9c-4ec9-a0a2-0659c8b6cb7c",
+            "default_endpoint": "groq_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "7acc8a29-29ab-4901-b579-c3f5378ab423",
+        "name": "openai/gpt-oss-20b",
+        "common_name": "GPT OSS 20b",
+        "model_class": "openai/gpt-oss-20b",
+        "provider": "Together",
+        "endpoints": [
+            "together_chat"
+        ],
+        "capabilities": [
+            "chat",
+            "json",
+            "tool_calling"
+        ],
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "default": null
+            },
+            "stream": {
+                "default": true
+            },
+            "max_tokens": {
+                "max": 8192,
+                "min": 1,
+                "default": null
+            },
+            "temperature": {
+                "max": 1.5,
+                "min": 0,
+                "default": null
+            },
+            "output_format": {
+                "enum": [
+                    "text",
+                    "json_object",
+                    "json_schema"
+                ],
+                "default": "text"
+            }
+        },
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": false,
+        "is_primary": true,
+        "is_premium": false,
+        "api_class": "together_text_standard",
+        "dto": {
+            "id": "7acc8a29-29ab-4901-b579-c3f5378ab423",
+            "default_endpoint": "together_chat",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "675497b1-b3a9-449b-aa27-773004c32181",
+        "name": "qwen-3-32b",
+        "common_name": "Qwen 3 32b (Lightning)",
+        "model_class": "qwen-3-32b",
+        "provider": "cerebras_chat",
+        "endpoints": [
+            "cerebras_chat"
+        ],
+        "context_window": 8192,
+        "max_tokens": 8192,
+        "model_provider": "a02762ff-c763-49e9-bc34-47a6a374147d",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "cerebras_standard",
+        "dto": {
+            "id": "675497b1-b3a9-449b-aa27-773004c32181",
+            "default_endpoint": "cerebras_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "40f834d3-412c-46dd-b72d-30fe6227c048",
+        "name": "ft:gpt-4o-2024-08-06:titanium:matrx-thinking-medium-2024-04-03:BIT6qJPF",
+        "common_name": "Matrx Medium",
+        "model_class": "gpt-4o",
+        "provider": "AI Matrx",
+        "endpoints": [
+            "openai_chat"
+        ],
+        "context_window": 16384,
+        "max_tokens": 16384,
+        "capabilities": [
+            "text_generation"
+        ],
+        "model_provider": "81a9a929-aa58-49e3-9df2-fe8eef90aa7c",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "dto": {
+            "id": "40f834d3-412c-46dd-b72d-30fe6227c048",
+            "default_endpoint": "openai_chat",
+            "default_max_tokens": 16384
+        }
+    },
+    {
+        "id": "8006a196-39d8-4445-9475-f03f5fb5e9b6",
+        "name": "llama-3.3-70b",
+        "common_name": "Llama 3.3 70B",
+        "model_class": "llama-3.3-70b",
+        "provider": "cerebras_chat",
+        "endpoints": [
+            "cerebras_chat"
+        ],
+        "context_window": 8192,
+        "max_tokens": 8192,
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "default": 1
+            },
+            "stream": {
+                "default": true
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "default": 1
+            },
+            "response_format": {
+                "enum": [
+                    "text",
+                    "json_object",
+                    "json_schema"
+                ],
+                "default": "text"
+            },
+            "parallel_tool_calls": {
+                "default": true
+            },
+            "max_completion_tokens": {
+                "max": 8000,
+                "min": 1,
+                "default": 4096
+            }
+        },
+        "model_provider": "a02762ff-c763-49e9-bc34-47a6a374147d",
+        "is_deprecated": false,
+        "is_primary": true,
+        "is_premium": false,
+        "api_class": "cerebras_standard",
+        "dto": {
+            "id": "8006a196-39d8-4445-9475-f03f5fb5e9b6",
+            "default_endpoint": "cerebras_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "016f6ff1-3a87-4af6-b5c1-dc59eeacb190",
+        "name": "distil-whisper-large-v3-en",
+        "common_name": "Wisper Large V3",
+        "model_class": "distil-whisper-large-v3-en",
+        "provider": "Groq",
+        "endpoints": [
+            "groq_tts"
+        ],
+        "capabilities": "[transcription]",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "dto": {
+            "id": "016f6ff1-3a87-4af6-b5c1-dc59eeacb190",
+            "default_endpoint": "groq_tts",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "fb16d2c5-abd4-4193-80e4-5c024b9e0685",
+        "name": "llama-4-scout-17b-16e-instruct",
+        "common_name": "Llama 4 Scout (Lightning)",
+        "model_class": "llama-4-scout-17b-16e-instruct",
+        "provider": "cerebras_chat",
+        "endpoints": [
+            "cerebras_chat"
+        ],
+        "context_window": 8192,
+        "max_tokens": 8192,
+        "model_provider": "a02762ff-c763-49e9-bc34-47a6a374147d",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "cerebras_standard",
+        "dto": {
+            "id": "fb16d2c5-abd4-4193-80e4-5c024b9e0685",
+            "default_endpoint": "cerebras_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "10168527-4d6b-456f-ab07-a889223ba3a9",
+        "name": "llama3.1-8b",
+        "common_name": "Llama 3.1 8B",
+        "model_class": "llama-3.1-8b",
+        "provider": "cerebras_chat",
+        "endpoints": [
+            "cerebras_chat"
+        ],
+        "context_window": 8192,
+        "max_tokens": 8192,
+        "model_provider": "a02762ff-c763-49e9-bc34-47a6a374147d",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "cerebras_standard",
+        "dto": {
+            "id": "10168527-4d6b-456f-ab07-a889223ba3a9",
+            "default_endpoint": "cerebras_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "c0602fe6-cd0a-40c2-9969-b3bfc0fd9f8b",
+        "name": "meta-llama/Llama-Vision-Free",
+        "common_name": "Llama Vision Turbo",
+        "model_class": "meta-llama/Llama-Vision-Free",
+        "provider": "Meta",
+        "endpoints": [
+            "together_vision"
+        ],
+        "context_window": 131072,
+        "capabilities": [
+            "vision"
+        ],
+        "model_provider": "cd39e85b-3693-43a5-852a-c4bb86398a73",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "dto": {
+            "id": "c0602fe6-cd0a-40c2-9969-b3bfc0fd9f8b",
+            "default_endpoint": "together_vision",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "ab160fca-4fef-4ebd-9eef-dcf36cafa2cb",
+        "name": "microsoft/WizardLM-2-8x22B",
+        "common_name": "WizardLM 2 8x22B",
+        "model_class": "microsoft/WizardLM-2-8x22B",
+        "provider": "Microsoft",
+        "endpoints": [
+            "together_chat"
+        ],
+        "context_window": 65536,
+        "model_provider": "7a5258fe-1cbe-49b9-b31c-c04ceb008a5e",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "together_text_standard",
+        "dto": {
+            "id": "ab160fca-4fef-4ebd-9eef-dcf36cafa2cb",
+            "default_endpoint": "together_chat",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "a6bc98da-c234-4c21-a0e0-14f2784ee863",
+        "name": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+        "common_name": "Llama 4 Scout",
+        "model_class": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+        "provider": "Meta",
+        "endpoints": [
+            "together_chat"
+        ],
+        "context_window": 327680,
+        "max_tokens": 8192,
+        "model_provider": "cd39e85b-3693-43a5-852a-c4bb86398a73",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "together_text_standard",
+        "dto": {
+            "id": "a6bc98da-c234-4c21-a0e0-14f2784ee863",
+            "default_endpoint": "together_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "56363cb1-0d87-40b7-8bdc-664901e9f1ef",
+        "name": "gemini-3.1-pro-preview",
+        "common_name": "Gemini 3.1 Pro Preview",
+        "model_class": "gemini-3.1-pro-preview",
+        "provider": "Google",
+        "endpoints": [
+            "google_chat"
+        ],
+        "context_window": 1048576,
+        "max_tokens": 65536,
+        "capabilities": {
+            "tuning": false,
+            "caching": true,
+            "live_api": false,
+            "thinking": true,
+            "code_execution": true,
+            "native_tool_use": true,
+            "audio_generation": false,
+            "function_calling": true,
+            "image_generation": false,
+            "search_grounding": true,
+            "structured_outputs": true,
+            "google_maps_grounding": false
+        },
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "stream": {
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true,
+                "default": false
+            },
+            "image_urls": {
+                "allowed": true,
+                "default": false
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "default": 0.5
+            },
+            "output_format": {
+                "enum": [
+                    "text",
+                    "json_schema"
+                ],
+                "default": "text"
+            },
+            "youtube_videos": {
+                "allowed": true,
+                "default": false
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "high"
+            },
+            "max_output_tokens": {
+                "max": 65536,
+                "min": 1,
+                "default": 8000
+            },
+            "reasoning_summary": {
+                "enum": [
+                    "always",
+                    "never"
+                ],
+                "type": "string",
+                "default": "always"
+            },
+            "internal_web_search": {
+                "allowed": true,
+                "default": true
+            },
+            "internal_url_context": {
+                "allowed": true,
+                "default": true
+            }
+        },
+        "model_provider": "cd21dbf4-314e-46bf-85d2-5f4c5ec92dc8",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "google_thinking_3",
+        "dto": {
+            "id": "56363cb1-0d87-40b7-8bdc-664901e9f1ef",
+            "default_endpoint": "google_chat",
+            "default_max_tokens": 65536
+        }
+    },
+    {
+        "id": "ee49f6d3-60ec-47b3-a9e3-2b4d6d64dfa9",
+        "name": "gpt-4o",
+        "common_name": "GPT 4o",
+        "model_class": "gpt-4o",
+        "provider": "OpenAi",
+        "endpoints": [
+            "openai_chat"
+        ],
+        "max_tokens": 16383,
+        "controls": {
+            "store": {
+                "type": "boolean",
+                "default": true
+            },
+            "tools": {
+                "allowed": true
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "max_output_tokens": {
+                "max": 32768,
+                "min": 1,
+                "type": "integer",
+                "default": 4096
+            }
+        },
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "openai_standard",
+        "dto": {
+            "id": "ee49f6d3-60ec-47b3-a9e3-2b4d6d64dfa9",
+            "default_endpoint": "openai_chat",
+            "default_max_tokens": 16383
+        }
+    },
+    {
+        "id": "3611795f-7f2d-47c0-8214-0ce394392bca",
+        "name": "gpt-5-chat-latest",
+        "common_name": "GPT 5 Chat Latest",
+        "model_class": "gpt-5",
+        "provider": "OpenAI",
+        "endpoints": [
+            "openai_chat"
+        ],
+        "context_window": 1047576,
+        "max_tokens": 32768,
+        "controls": {
+            "store": {
+                "type": "boolean",
+                "default": true
+            },
+            "tools": {
+                "allowed": true
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true
+            },
+            "verbosity": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "medium"
+            },
+            "image_urls": {
+                "allowed": true
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "medium"
+            },
+            "reasoning_summary": {
+                "enum": [
+                    "auto",
+                    "always",
+                    "never"
+                ],
+                "type": "string",
+                "default": "auto"
+            },
+            "internal_web_search": {
+                "allowed": true
+            },
+            "parallel_tool_calls": {
+                "type": "boolean",
+                "default": true
+            }
+        },
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": true,
+        "api_class": "openai_reasoning",
+        "dto": {
+            "id": "3611795f-7f2d-47c0-8214-0ce394392bca",
+            "default_endpoint": "openai_chat",
+            "default_max_tokens": 32768
+        }
+    },
+    {
+        "id": "6f4eb19c-74d4-49eb-88b5-ab34e8b2a1dc",
+        "name": "gpt-5-mini",
+        "common_name": "GPT 5 Mini",
+        "model_class": "gpt-5-mini",
+        "provider": "OpenAI",
+        "endpoints": [
+            "openai_chat"
+        ],
+        "context_window": 1047576,
+        "max_tokens": 32768,
+        "controls": {
+            "store": {
+                "type": "boolean",
+                "default": true
+            },
+            "tools": {
+                "allowed": true
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true
+            },
+            "verbosity": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "medium"
+            },
+            "image_urls": {
+                "allowed": true
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "medium"
+            },
+            "reasoning_summary": {
+                "enum": [
+                    "auto",
+                    "always",
+                    "never"
+                ],
+                "type": "string",
+                "default": "auto"
+            },
+            "internal_web_search": {
+                "allowed": true
+            },
+            "parallel_tool_calls": {
+                "type": "boolean",
+                "default": true
+            }
+        },
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": false,
+        "is_primary": true,
+        "is_premium": false,
+        "api_class": "openai_reasoning",
+        "dto": {
+            "id": "6f4eb19c-74d4-49eb-88b5-ab34e8b2a1dc",
+            "default_endpoint": "openai_chat",
+            "default_max_tokens": 32768
+        }
+    },
+    {
+        "id": "548126f2-714a-4562-9001-0c31cbeea375",
+        "name": "gpt-4.1-mini-2025-04-14",
+        "common_name": "GPT 4.1 Mini",
+        "model_class": "gpt-4.1-mini-2025-04-14",
+        "provider": "OpenAi",
+        "endpoints": [
+            "openai_chat"
+        ],
+        "context_window": 1047576,
+        "max_tokens": 32768,
+        "controls": {
+            "store": {
+                "type": "boolean",
+                "default": true
+            },
+            "tools": {
+                "allowed": true
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "max_output_tokens": {
+                "max": 32768,
+                "min": 1,
+                "type": "integer",
+                "default": 4096
+            }
+        },
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": false,
+        "is_primary": true,
+        "is_premium": false,
+        "api_class": "openai_standard",
+        "dto": {
+            "id": "548126f2-714a-4562-9001-0c31cbeea375",
+            "default_endpoint": "openai_chat",
+            "default_max_tokens": 32768
+        }
+    },
+    {
+        "id": "e665a26a-6326-43ce-9a51-c24f6d468424",
+        "name": "gpt-5-nano",
+        "common_name": "GPT 5 Nano",
+        "model_class": "gpt-5-nano",
+        "provider": "OpenAI",
+        "endpoints": [
+            "openai_chat"
+        ],
+        "context_window": 1047576,
+        "max_tokens": 32768,
+        "controls": {
+            "store": {
+                "type": "boolean",
+                "default": true
+            },
+            "tools": {
+                "allowed": true
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true
+            },
+            "verbosity": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "medium"
+            },
+            "image_urls": {
+                "allowed": true
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "medium"
+            },
+            "reasoning_summary": {
+                "enum": [
+                    "auto",
+                    "always",
+                    "never"
+                ],
+                "type": "string",
+                "default": "auto"
+            },
+            "internal_web_search": {
+                "allowed": true
+            },
+            "parallel_tool_calls": {
+                "type": "boolean",
+                "default": true
+            }
+        },
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "openai_reasoning",
+        "dto": {
+            "id": "e665a26a-6326-43ce-9a51-c24f6d468424",
+            "default_endpoint": "openai_chat",
+            "default_max_tokens": 32768
+        }
+    },
+    {
+        "id": "7fe2bcd1-3059-423b-9878-0ee2ad6ddb2f",
+        "name": "gpt-5",
+        "common_name": "GPT 5",
+        "model_class": "gpt-5",
+        "provider": "OpenAI",
+        "endpoints": [
+            "openai_chat"
+        ],
+        "context_window": 1047576,
+        "max_tokens": 32768,
+        "controls": {
+            "store": {
+                "type": "boolean",
+                "default": true
+            },
+            "tools": {
+                "allowed": true
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true
+            },
+            "verbosity": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "medium"
+            },
+            "image_urls": {
+                "allowed": true
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "medium"
+            },
+            "reasoning_summary": {
+                "enum": [
+                    "auto",
+                    "always",
+                    "never"
+                ],
+                "type": "string",
+                "default": "auto"
+            },
+            "internal_web_search": {
+                "allowed": true
+            },
+            "parallel_tool_calls": {
+                "type": "boolean",
+                "default": true
+            }
+        },
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": false,
+        "is_primary": true,
+        "is_premium": true,
+        "api_class": "openai_reasoning",
+        "dto": {
+            "id": "7fe2bcd1-3059-423b-9878-0ee2ad6ddb2f",
+            "default_endpoint": "openai_chat",
+            "default_max_tokens": 32768
+        }
+    },
+    {
+        "id": "bd68e0a8-0bf3-400f-85cd-f923736d8025",
+        "name": "gemini-3.1-flash-lite-preview",
+        "common_name": "Gemini 3.1 Flash Lite Preview",
+        "model_class": "gemini-3.1-flash-lite-preview",
+        "provider": "Google",
+        "endpoints": [
+            "google_chat"
+        ],
+        "context_window": 1048576,
+        "max_tokens": 65536,
+        "capabilities": {
+            "tuning": false,
+            "caching": true,
+            "live_api": false,
+            "thinking": true,
+            "code_execution": true,
+            "native_tool_use": true,
+            "audio_generation": false,
+            "function_calling": true,
+            "image_generation": false,
+            "search_grounding": true,
+            "structured_outputs": true,
+            "google_maps_grounding": false
+        },
+        "controls": {
+            "tools": {
+                "allowed": true,
+                "default": null
+            },
+            "stream": {
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true,
+                "default": false
+            },
+            "image_urls": {
+                "allowed": true,
+                "default": false
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "default": null
+            },
+            "output_format": {
+                "enum": [
+                    "text",
+                    "json_schema"
+                ],
+                "default": "text"
+            },
+            "youtube_videos": {
+                "allowed": true,
+                "default": false
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "minimal",
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "low"
+            },
+            "max_output_tokens": {
+                "max": 65536,
+                "min": 1,
+                "default": null
+            },
+            "reasoning_summary": {
+                "enum": [
+                    "always",
+                    "never"
+                ],
+                "type": "string",
+                "default": "always"
+            },
+            "internal_web_search": {
+                "allowed": true,
+                "default": true
+            },
+            "internal_url_context": {
+                "allowed": true,
+                "default": true
+            }
+        },
+        "model_provider": "cd21dbf4-314e-46bf-85d2-5f4c5ec92dc8",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "google_thinking_3",
+        "dto": {
+            "id": "bd68e0a8-0bf3-400f-85cd-f923736d8025",
+            "default_endpoint": "google_chat",
+            "default_max_tokens": 65536
+        }
+    },
+    {
+        "id": "a49176be-e22c-437a-a3a3-e79b391e851d",
+        "name": "gemini-3.1-flash-image-preview",
+        "common_name": "Gemini 3.1 Flash Image Preview",
+        "model_class": "gemini-3.1-flash-image-preview",
+        "provider": "Google",
+        "endpoints": [
+            "google_chat"
+        ],
+        "context_window": 32768,
+        "max_tokens": 8192,
+        "capabilities": [
+            "image",
+            "text"
+        ],
+        "model_provider": "cd21dbf4-314e-46bf-85d2-5f4c5ec92dc8",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "google_image_generation",
+        "dto": {
+            "id": "a49176be-e22c-437a-a3a3-e79b391e851d",
+            "default_endpoint": "google_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "49848d52-9cc8-4ce4-bacb-32aa2201cd10",
+        "name": "claude-3-7-sonnet-20250219",
+        "common_name": "Claude 3.7 Sonnet",
+        "model_class": "claude-3-7-sonnet-20250219",
+        "provider": "Anthropic",
+        "endpoints": [
+            "anthropic_chat"
+        ],
+        "context_window": 20000,
+        "max_tokens": 64000,
+        "capabilities": [
+            "text_generation",
+            "image_to_text",
+            "thinking",
+            "tool_calling"
+        ],
+        "controls": {
+            "top_k": {
+                "max": 500,
+                "min": 0,
+                "type": "integer"
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "max_tokens": {
+                "max": 8192,
+                "min": 1,
+                "type": "integer",
+                "required": true
+            },
+            "temperature": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stop_sequences": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "maxItems": 4
+            }
+        },
+        "model_provider": "af5b5f1d-25dd-4c76-b84d-995e53fdf1f4",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "anthropic_standard",
+        "dto": {
+            "id": "49848d52-9cc8-4ce4-bacb-32aa2201cd10",
+            "default_endpoint": "anthropic_chat",
+            "default_max_tokens": 64000
+        }
+    },
+    {
+        "id": "490a6074-89a5-4379-858e-9aa5fd8ec1ca",
+        "name": "claude-sonnet-4-20250514",
+        "common_name": "Claude 4 Sonnet",
+        "model_class": "claude-sonnet-4-20250514",
+        "provider": "Anthropic",
+        "endpoints": [
+            "anthropic_chat"
+        ],
+        "context_window": 20000,
+        "max_tokens": 64000,
+        "capabilities": [
+            "text_generation",
+            "image_to_text",
+            "thinking",
+            "tool_calling"
+        ],
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "top_k": {
+                "max": 500,
+                "min": 0,
+                "type": "integer"
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "max_tokens": {
+                "max": 8192,
+                "min": 1,
+                "type": "integer",
+                "required": true
+            },
+            "temperature": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stop_sequences": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "maxItems": 4
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "default": "low"
+            }
+        },
+        "model_provider": "af5b5f1d-25dd-4c76-b84d-995e53fdf1f4",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "anthropic_standard",
+        "dto": {
+            "id": "490a6074-89a5-4379-858e-9aa5fd8ec1ca",
+            "default_endpoint": "anthropic_chat",
+            "default_max_tokens": 64000
+        }
+    },
+    {
+        "id": "65720464-ab01-49ad-a2cf-273a2a931454",
+        "name": "claude-opus-4-1-20250805",
+        "common_name": "Claude 4.1 Opus",
+        "model_class": "claude-opus-4-1-20250805",
+        "provider": "Anthropic",
+        "endpoints": [
+            "anthropic_chat"
+        ],
+        "context_window": 20000,
+        "max_tokens": 64000,
+        "capabilities": [
+            "text_generation",
+            "image_to_text",
+            "thinking",
+            "tool_calling"
+        ],
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "top_k": {
+                "max": 500,
+                "min": 0,
+                "type": "integer"
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "max_tokens": {
+                "max": 8192,
+                "min": 1,
+                "type": "integer",
+                "required": true
+            },
+            "temperature": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stop_sequences": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "maxItems": 4
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "default": "low"
+            }
+        },
+        "model_provider": "af5b5f1d-25dd-4c76-b84d-995e53fdf1f4",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "anthropic_standard",
+        "dto": {
+            "id": "65720464-ab01-49ad-a2cf-273a2a931454",
+            "default_endpoint": "anthropic_chat",
+            "default_max_tokens": 64000
+        }
+    },
+    {
+        "id": "596384c7-913c-47b9-9aef-02eec511f62b",
+        "name": "claude-sonnet-4-5-20250929",
+        "common_name": "Claude Sonnet 4.5 09-29",
+        "model_class": "claude-sonnet-4-5",
+        "provider": "Anthropic",
+        "endpoints": [
+            "anthropic_chat"
+        ],
+        "context_window": 20000,
+        "max_tokens": 64000,
+        "capabilities": [
+            "text_generation",
+            "image_to_text",
+            "thinking",
+            "tool_calling"
+        ],
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "top_k": {
+                "max": 500,
+                "min": 0,
+                "type": "integer"
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "max_tokens": {
+                "max": 8192,
+                "min": 1,
+                "type": "integer",
+                "required": true
+            },
+            "temperature": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stop_sequences": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "maxItems": 4
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "default": "low"
+            }
+        },
+        "model_provider": "af5b5f1d-25dd-4c76-b84d-995e53fdf1f4",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "anthropic_standard",
+        "dto": {
+            "id": "596384c7-913c-47b9-9aef-02eec511f62b",
+            "default_endpoint": "anthropic_chat",
+            "default_max_tokens": 64000
+        }
+    },
+    {
+        "id": "9b2507aa-49b0-4fff-84f7-95573be4bbfb",
+        "name": "claude-3-opus-20240229",
+        "common_name": "Claude 3.5 Opus",
+        "model_class": "claude-3-opus",
+        "provider": "Anthropic",
+        "endpoints": [
+            "anthropic_chat"
+        ],
+        "max_tokens": 4096,
+        "controls": {
+            "top_k": {
+                "max": 500,
+                "min": 0,
+                "type": "integer"
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "max_tokens": {
+                "max": 8192,
+                "min": 1,
+                "type": "integer",
+                "required": true
+            },
+            "temperature": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stop_sequences": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "maxItems": 4
+            }
+        },
+        "model_provider": "af5b5f1d-25dd-4c76-b84d-995e53fdf1f4",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "anthropic_standard",
+        "dto": {
+            "id": "9b2507aa-49b0-4fff-84f7-95573be4bbfb",
+            "default_endpoint": "anthropic_chat",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "1aa00794-f43a-49e3-8ecf-169693f39f40",
+        "name": "claude-3-5-haiku-20241022",
+        "common_name": "Claude 3.5 Haiku",
+        "model_class": "claude-3-5-haiku",
+        "provider": "Anthropic",
+        "endpoints": [
+            "anthropic_chat"
+        ],
+        "max_tokens": 8192,
+        "controls": {
+            "top_k": {
+                "max": 500,
+                "min": 0,
+                "type": "integer"
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "max_tokens": {
+                "max": 8192,
+                "min": 1,
+                "type": "integer",
+                "required": true
+            },
+            "temperature": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stop_sequences": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "maxItems": 4
+            }
+        },
+        "model_provider": "af5b5f1d-25dd-4c76-b84d-995e53fdf1f4",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "anthropic_standard",
+        "dto": {
+            "id": "1aa00794-f43a-49e3-8ecf-169693f39f40",
+            "default_endpoint": "anthropic_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "226e0f0f-5ac1-4234-a80f-4254b841684a",
+        "name": "chatgpt-4o-latest",
+        "common_name": "GPT-4o Latest",
+        "model_class": "gpt-4o",
+        "provider": "OpenAi",
+        "endpoints": [
+            "openai_chat"
+        ],
+        "context_window": 128000,
+        "max_tokens": 16384,
+        "capabilities": [
+            "text-generation",
+            "image-to-text",
+            "advanced-reasoning",
+            "coding",
+            "multilingual-tasks"
+        ],
+        "controls": {
+            "text": {
+                "type": "object",
+                "properties": {
+                    "format": {
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "enum": [
+                                    "text",
+                                    "json_object",
+                                    "json_schema"
+                                ],
+                                "type": "string",
+                                "default": "text"
+                            }
+                        }
+                    }
+                }
+            },
+            "store": {
+                "type": "boolean",
+                "default": true
+            },
+            "tools": {
+                "type": "array",
+                "items": {
+                    "type": "object"
+                }
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "include": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "reasoning": {
+                "type": "object",
+                "properties": {}
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "max_output_tokens": {
+                "max": 32768,
+                "min": 1,
+                "type": "integer",
+                "default": 4096
+            }
+        },
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "dto": {
+            "id": "226e0f0f-5ac1-4234-a80f-4254b841684a",
+            "default_endpoint": "openai_chat",
+            "default_max_tokens": 16384
+        }
+    },
+    {
+        "id": "93ec2b02-62af-444b-942e-38f6757b3a1c",
+        "name": "gpt-4o-mini-2024-07-18",
+        "common_name": "GPT-4o Mini",
+        "model_class": "gpt-4o-mini",
+        "provider": "OpenAi",
+        "endpoints": [
+            "openai_chat"
+        ],
+        "context_window": 128000,
+        "max_tokens": 16384,
+        "capabilities": [
+            "text-generation",
+            "image-to-text",
+            "reasoning",
+            "coding",
+            "multilingual-tasks"
+        ],
+        "controls": {
+            "text": {
+                "type": "object",
+                "properties": {
+                    "format": {
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "enum": [
+                                    "text",
+                                    "json_object",
+                                    "json_schema"
+                                ],
+                                "type": "string",
+                                "default": "text"
+                            }
+                        }
+                    }
+                }
+            },
+            "store": {
+                "type": "boolean",
+                "default": true
+            },
+            "tools": {
+                "type": "array",
+                "items": {
+                    "type": "object"
+                }
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "include": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "reasoning": {
+                "type": "object",
+                "properties": {}
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "max_output_tokens": {
+                "max": 32768,
+                "min": 1,
+                "type": "integer",
+                "default": 4096
+            }
+        },
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "openai_standard",
+        "dto": {
+            "id": "93ec2b02-62af-444b-942e-38f6757b3a1c",
+            "default_endpoint": "openai_chat",
+            "default_max_tokens": 16384
+        }
+    },
+    {
+        "id": "421cf11d-1f3f-49cf-aeb0-bc66dbaa9e6a",
+        "name": "gemini-3-pro-image-preview",
+        "common_name": "Gemini 3 Pro Image Preview",
+        "model_class": "gemini-3-pro-image-preview",
+        "provider": "Google",
+        "endpoints": [
+            "google_chat"
+        ],
+        "context_window": 32768,
+        "max_tokens": 8192,
+        "capabilities": [
+            "image",
+            "text"
+        ],
+        "model_provider": "cd21dbf4-314e-46bf-85d2-5f4c5ec92dc8",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "google_image_generation",
+        "dto": {
+            "id": "421cf11d-1f3f-49cf-aeb0-bc66dbaa9e6a",
+            "default_endpoint": "google_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "49978747-e84d-4b26-baea-53b5a5380690",
+        "name": "gpt-4.1-2025-04-14",
+        "common_name": "GPT 4.1",
+        "model_class": "gpt-4.1-2025-04-14",
+        "provider": "OpenAi",
+        "endpoints": [
+            "openai_chat"
+        ],
+        "context_window": 1047576,
+        "max_tokens": 32768,
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "default": 1
+            },
+            "stream": {
+                "default": true
+            },
+            "max_tokens": {
+                "max": 8000,
+                "min": 1,
+                "default": 4096
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "default": 1
+            },
+            "output_format": {
+                "enum": [
+                    "text",
+                    "json_object",
+                    "json_schema"
+                ],
+                "default": "text"
+            }
+        },
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": false,
+        "is_primary": true,
+        "is_premium": false,
+        "api_class": "openai_standard",
+        "dto": {
+            "id": "49978747-e84d-4b26-baea-53b5a5380690",
+            "default_endpoint": "openai_chat",
+            "default_max_tokens": 32768
+        }
+    },
+    {
+        "id": "f6a813ba-bd4a-47c7-ac1d-ef889b75a480",
+        "name": "deepseek-ai/DeepSeek-R1",
+        "common_name": "DeepSeek R1",
+        "model_class": "deepseek-ai/DeepSeek-R1",
+        "provider": "DeepSeek",
+        "endpoints": [
+            "together_chat"
+        ],
+        "controls": {
+            "store": {
+                "default": true
+            },
+            "tools": {
+                "allowed": true
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "default": 1
+            },
+            "stream": {
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true
+            },
+            "verbosity": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "default": "medium"
+            },
+            "image_urls": {
+                "allowed": true
+            },
+            "max_tokens": {
+                "max": 8000,
+                "min": 1,
+                "default": 4096
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "default": 1
+            },
+            "tool_choice": {
+                "enum": [
+                    "auto",
+                    "required",
+                    "none"
+                ],
+                "default": "auto"
+            },
+            "output_format": {
+                "enum": [
+                    "text",
+                    "json_object",
+                    "json_schema"
+                ],
+                "default": "text"
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "default": "medium"
+            },
+            "reasoning_summary": {
+                "enum": [
+                    "auto",
+                    "always",
+                    "never"
+                ],
+                "default": "auto"
+            },
+            "internal_web_search": {
+                "allowed": true
+            },
+            "parallel_tool_calls": {
+                "default": true
+            }
+        },
+        "model_provider": "b879239e-a56f-4912-a518-21d25fb8c35b",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "together_text_standard",
+        "dto": {
+            "id": "f6a813ba-bd4a-47c7-ac1d-ef889b75a480",
+            "default_endpoint": "together_chat",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "dd45b76e-f470-4765-b6c4-1a275d7860bf",
+        "name": "gpt-4o-mini",
+        "common_name": "GPT 4o Mini",
+        "model_class": "gpt-4o-mini",
+        "provider": "OpenAi",
+        "endpoints": [
+            "openai_chat"
+        ],
+        "max_tokens": 16383,
+        "controls": {
+            "store": {
+                "type": "boolean",
+                "default": true
+            },
+            "tools": {
+                "allowed": true
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "max_output_tokens": {
+                "max": 32768,
+                "min": 1,
+                "type": "integer",
+                "default": 4096
+            }
+        },
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "openai_standard",
+        "dto": {
+            "id": "dd45b76e-f470-4765-b6c4-1a275d7860bf",
+            "default_endpoint": "openai_chat",
+            "default_max_tokens": 16383
+        }
+    },
+    {
+        "id": "33f83646-b4e4-4169-9815-c54188bafdfa",
+        "name": "gpt-4.1-nano-2025-04-14",
+        "common_name": "GPT 4.1 Nano",
+        "model_class": "gpt-4.1-nano-2025-04-14",
+        "provider": "OpenAI",
+        "endpoints": [
+            "openai_chat"
+        ],
+        "context_window": 1047576,
+        "max_tokens": 32768,
+        "controls": {
+            "store": {
+                "type": "boolean",
+                "default": true
+            },
+            "tools": {
+                "allowed": true
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "max_output_tokens": {
+                "max": 32768,
+                "min": 1,
+                "type": "integer",
+                "default": 4096
+            }
+        },
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "openai_standard",
+        "dto": {
+            "id": "33f83646-b4e4-4169-9815-c54188bafdfa",
+            "default_endpoint": "openai_chat",
+            "default_max_tokens": 32768
+        }
+    },
+    {
+        "id": "7e2df678-5d36-46e1-854c-4ef017d8fb77",
+        "name": "gemini-flash-lite-latest",
+        "common_name": "Gemini Flash Light Latest",
+        "model_class": "gemini-flash-lite-latest",
+        "provider": "Google",
+        "endpoints": [
+            "google_chat"
+        ],
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "default": 1
+            },
+            "stream": {
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true
+            },
+            "image_urls": {
+                "allowed": true
+            },
+            "max_tokens": {
+                "max": 65536,
+                "min": 1,
+                "default": 8000
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "default": 0.5
+            },
+            "output_format": {
+                "enum": [
+                    "text",
+                    "json_schema"
+                ],
+                "default": "text"
+            },
+            "youtube_videos": {
+                "allowed": true
+            },
+            "thinking_budget": {
+                "max": 24576,
+                "min": -1,
+                "default": 1024
+            },
+            "include_thoughts": {
+                "default": true
+            },
+            "internal_web_search": {
+                "allowed": true
+            },
+            "internal_url_context": {
+                "allowed": true
+            }
+        },
+        "model_provider": "cd21dbf4-314e-46bf-85d2-5f4c5ec92dc8",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "google_thinking",
+        "dto": {
+            "id": "7e2df678-5d36-46e1-854c-4ef017d8fb77",
+            "default_endpoint": "google_chat",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "4c4c1f0c-d2d8-4ca1-9f5a-033093614ae5",
+        "name": "claude-sonnet-4-5",
+        "common_name": "Claude Sonnet 4.5",
+        "model_class": "claude-sonnet-4-5",
+        "provider": "Anthropic",
+        "endpoints": [
+            "anthropic_chat"
+        ],
+        "context_window": 20000,
+        "max_tokens": 64000,
+        "capabilities": [
+            "text_generation",
+            "image_to_text",
+            "thinking",
+            "tool_calling"
+        ],
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "top_k": {
+                "max": 500,
+                "min": 0,
+                "type": "integer"
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "max_tokens": {
+                "max": 8192,
+                "min": 1,
+                "type": "integer",
+                "required": true
+            },
+            "temperature": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stop_sequences": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "maxItems": 4
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "default": "low"
+            }
+        },
+        "model_provider": "af5b5f1d-25dd-4c76-b84d-995e53fdf1f4",
+        "is_deprecated": false,
+        "is_primary": true,
+        "is_premium": false,
+        "api_class": "anthropic_standard",
+        "dto": {
+            "id": "4c4c1f0c-d2d8-4ca1-9f5a-033093614ae5",
+            "default_endpoint": "anthropic_chat",
+            "default_max_tokens": 64000
+        }
+    },
+    {
+        "id": "db1b859c-ab1a-41e8-bdda-d7b0bff7ec82",
+        "name": "gemini-2.5-flash",
+        "common_name": "Gemini 2.5 Flash",
+        "model_class": "gemini-2.5-flash",
+        "provider": "Google",
+        "endpoints": [
+            "google_chat"
+        ],
+        "context_window": 1048576,
+        "max_tokens": 50000,
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "default": 1
+            },
+            "stream": {
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true
+            },
+            "image_urls": {
+                "allowed": true
+            },
+            "max_tokens": {
+                "max": 65536,
+                "min": 1,
+                "default": 8000
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "default": 0.5
+            },
+            "output_format": {
+                "enum": [
+                    "text",
+                    "json_schema"
+                ],
+                "default": "text"
+            },
+            "youtube_videos": {
+                "allowed": true
+            },
+            "thinking_budget": {
+                "max": 24576,
+                "min": -1,
+                "default": 1024
+            },
+            "include_thoughts": {
+                "default": true
+            },
+            "internal_web_search": {
+                "allowed": true
+            },
+            "internal_url_context": {
+                "allowed": true
+            }
+        },
+        "model_provider": "cd21dbf4-314e-46bf-85d2-5f4c5ec92dc8",
+        "is_deprecated": false,
+        "is_primary": true,
+        "is_premium": false,
+        "api_class": "google_thinking",
+        "dto": {
+            "id": "db1b859c-ab1a-41e8-bdda-d7b0bff7ec82",
+            "default_endpoint": "google_chat",
+            "default_max_tokens": 50000
+        }
+    },
+    {
+        "id": "398b6795-9134-4c49-95b0-eee4e689ed47",
+        "name": "claude-opus-4-20250514",
+        "common_name": "Claude 4 Opus",
+        "model_class": "claude-opus-4-20250514",
+        "provider": "Anthropic",
+        "endpoints": [
+            "anthropic_chat"
+        ],
+        "context_window": 20000,
+        "max_tokens": 32000,
+        "capabilities": [
+            "text_generation",
+            "image_to_text",
+            "thinking",
+            "tool_calling"
+        ],
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "top_k": {
+                "max": 500,
+                "min": 0,
+                "type": "integer"
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "max_tokens": {
+                "max": 8192,
+                "min": 1,
+                "type": "integer",
+                "required": true
+            },
+            "temperature": {
+                "max": 1,
+                "min": 0,
+                "type": "number",
+                "default": 1
+            },
+            "stop_sequences": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "maxItems": 4
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "default": "low"
+            }
+        },
+        "model_provider": "af5b5f1d-25dd-4c76-b84d-995e53fdf1f4",
+        "is_deprecated": true,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "anthropic_standard",
+        "dto": {
+            "id": "398b6795-9134-4c49-95b0-eee4e689ed47",
+            "default_endpoint": "anthropic_chat",
+            "default_max_tokens": 32000
+        }
+    },
+    {
+        "id": "4f72b5ab-7603-4125-a69c-d78ddfbfc50f",
+        "name": "gemini-flash-latest",
+        "common_name": "Gemini Flash Latest",
+        "model_class": "gemini-flash-latest",
+        "provider": "Google",
+        "endpoints": [
+            "google_chat"
+        ],
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "default": 1
+            },
+            "stream": {
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true
+            },
+            "image_urls": {
+                "allowed": true
+            },
+            "max_tokens": {
+                "max": 65536,
+                "min": 1,
+                "default": 8000
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "default": 0.5
+            },
+            "output_format": {
+                "enum": [
+                    "text",
+                    "json_schema"
+                ],
+                "default": "text"
+            },
+            "youtube_videos": {
+                "allowed": true
+            },
+            "thinking_budget": {
+                "max": 24576,
+                "min": -1,
+                "default": 1024
+            },
+            "include_thoughts": {
+                "default": true
+            },
+            "internal_web_search": {
+                "allowed": true
+            },
+            "internal_url_context": {
+                "allowed": true
+            }
+        },
+        "model_provider": "cd21dbf4-314e-46bf-85d2-5f4c5ec92dc8",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "google_thinking",
+        "dto": {
+            "id": "4f72b5ab-7603-4125-a69c-d78ddfbfc50f",
+            "default_endpoint": "google_chat",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "88b3c603-b381-4342-971f-ae9c8a220e50",
+        "name": "gemini-2.5-pro",
+        "common_name": "Gemini 2.5 Pro",
+        "model_class": "gemini-2.5-pro",
+        "provider": "Google",
+        "endpoints": [
+            "google_chat"
+        ],
+        "context_window": 1048576,
+        "max_tokens": 64000,
+        "capabilities": {
+            "structured_outputs": true,
+            "caching": false,
+            "tuning": false,
+            "function_calling": true,
+            "code_execution": true,
+            "search_grounding": true,
+            "image_generation": false,
+            "native_tool_use": true,
+            "audio_generation": false,
+            "live_api": false,
+            "thinking": true
+        },
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "default": 1
+            },
+            "stream": {
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true
+            },
+            "image_urls": {
+                "allowed": true
+            },
+            "max_tokens": {
+                "max": 65536,
+                "min": 1,
+                "default": 8000
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "default": 0.5
+            },
+            "output_format": {
+                "enum": [
+                    "text",
+                    "json_schema"
+                ],
+                "default": "text"
+            },
+            "youtube_videos": {
+                "allowed": true
+            },
+            "thinking_budget": {
+                "max": 24576,
+                "min": -1,
+                "default": 1024
+            },
+            "include_thoughts": {
+                "default": true
+            },
+            "internal_web_search": {
+                "allowed": true
+            },
+            "internal_url_context": {
+                "allowed": true
+            }
+        },
+        "model_provider": "cd21dbf4-314e-46bf-85d2-5f4c5ec92dc8",
+        "is_deprecated": false,
+        "is_primary": true,
+        "is_premium": true,
+        "api_class": "google_thinking",
+        "dto": {
+            "id": "88b3c603-b381-4342-971f-ae9c8a220e50",
+            "default_endpoint": "google_chat",
+            "default_max_tokens": 64000
+        }
+    },
+    {
+        "id": "e407ba1d-34b4-4a2d-bdca-0566d3171d58",
+        "name": "gpt-5.2",
+        "common_name": "GPT 5.2",
+        "model_class": "gpt-5.2",
+        "provider": "OpenAI",
+        "endpoints": [
+            "openai_chat"
+        ],
+        "context_window": 1047576,
+        "max_tokens": 32768,
+        "controls": {
+            "store": {
+                "type": "boolean",
+                "default": true
+            },
+            "tools": {
+                "allowed": true
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true
+            },
+            "verbosity": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "medium"
+            },
+            "image_urls": {
+                "allowed": true
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "none",
+                    "low",
+                    "medium",
+                    "high",
+                    "xhigh"
+                ],
+                "type": "string",
+                "default": "low"
+            },
+            "reasoning_summary": {
+                "enum": [
+                    "auto",
+                    "concise",
+                    "detailed",
+                    "null"
+                ],
+                "type": "string",
+                "default": "auto"
+            },
+            "internal_web_search": {
+                "allowed": true
+            },
+            "parallel_tool_calls": {
+                "type": "boolean",
+                "default": true
+            }
+        },
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": true,
+        "api_class": "openai_reasoning",
+        "dto": {
+            "id": "e407ba1d-34b4-4a2d-bdca-0566d3171d58",
+            "default_endpoint": "openai_chat",
+            "default_max_tokens": 32768
+        }
+    },
+    {
+        "id": "0b4ed30b-2488-4ad0-b188-1c4cf882667f",
+        "name": "gpt-5.1",
+        "common_name": "GPT 5.1",
+        "model_class": "gpt-5.1",
+        "provider": "OpenAI",
+        "endpoints": [
+            "openai_chat"
+        ],
+        "context_window": 1047576,
+        "max_tokens": 32768,
+        "controls": {
+            "store": {
+                "type": "boolean",
+                "default": true
+            },
+            "tools": {
+                "allowed": true
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true
+            },
+            "verbosity": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "medium"
+            },
+            "image_urls": {
+                "allowed": true
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "none",
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "low"
+            },
+            "reasoning_summary": {
+                "enum": [
+                    "auto",
+                    "concise",
+                    "detailed",
+                    "null"
+                ],
+                "type": "string",
+                "default": "auto"
+            },
+            "internal_web_search": {
+                "allowed": true
+            },
+            "parallel_tool_calls": {
+                "type": "boolean",
+                "default": true
+            }
+        },
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "openai_reasoning",
+        "dto": {
+            "id": "0b4ed30b-2488-4ad0-b188-1c4cf882667f",
+            "default_endpoint": "openai_chat",
+            "default_max_tokens": 32768
+        }
+    },
+    {
+        "id": "a187e236-5dec-4fce-8882-dcc462eb1851",
+        "name": "grok-4-1-fast-reasoning",
+        "common_name": "Grok 4.1 Fast Reasoning",
+        "model_class": "grok-4-1-fast-reasoning",
+        "provider": "XAI",
+        "endpoints": [
+            "xai_chat"
+        ],
+        "context_window": 2000000,
+        "capabilities": [
+            "function_calling",
+            "structured_output",
+            "reasoning"
+        ],
+        "controls": {
+            "store": {
+                "type": "boolean",
+                "default": true
+            },
+            "tools": {
+                "allowed": true
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true
+            },
+            "verbosity": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "medium"
+            },
+            "image_urls": {
+                "allowed": true
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "medium"
+            },
+            "reasoning_summary": {
+                "enum": [
+                    "auto",
+                    "always",
+                    "never"
+                ],
+                "type": "string",
+                "default": "auto"
+            },
+            "internal_web_search": {
+                "allowed": true
+            },
+            "parallel_tool_calls": {
+                "type": "boolean",
+                "default": true
+            }
+        },
+        "model_provider": "ffe876a4-f529-4f7c-85b6-afec891fb019",
+        "is_deprecated": false,
+        "is_primary": true,
+        "is_premium": true,
+        "api_class": "xai_standard",
+        "dto": {
+            "id": "a187e236-5dec-4fce-8882-dcc462eb1851",
+            "default_endpoint": "xai_chat",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "2d637e2d-4e9f-4490-bae2-5bbdf5eb0ef4",
+        "name": "gemini-3-pro-preview",
+        "common_name": "Gemini 3 Pro Preview",
+        "model_class": "gemini-3-pro-preview",
+        "provider": "Google",
+        "endpoints": [
+            "google_chat"
+        ],
+        "context_window": 1048576,
+        "max_tokens": 65536,
+        "capabilities": {
+            "tuning": false,
+            "caching": true,
+            "live_api": false,
+            "thinking": true,
+            "code_execution": true,
+            "native_tool_use": true,
+            "audio_generation": false,
+            "function_calling": true,
+            "image_generation": false,
+            "search_grounding": true,
+            "structured_outputs": true,
+            "google_maps_grounding": false
+        },
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "stream": {
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true,
+                "default": false
+            },
+            "image_urls": {
+                "allowed": true,
+                "default": false
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "default": 0.5
+            },
+            "output_format": {
+                "enum": [
+                    "text",
+                    "json_schema"
+                ],
+                "default": "text"
+            },
+            "youtube_videos": {
+                "allowed": true,
+                "default": false
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "high"
+                ],
+                "type": "string",
+                "default": "low"
+            },
+            "max_output_tokens": {
+                "max": 65536,
+                "min": 1,
+                "default": 8000
+            },
+            "reasoning_summary": {
+                "enum": [
+                    "always",
+                    "never"
+                ],
+                "type": "string",
+                "default": "always"
+            },
+            "internal_web_search": {
+                "allowed": true,
+                "default": true
+            },
+            "internal_url_context": {
+                "allowed": true,
+                "default": true
+            }
+        },
+        "model_provider": "cd21dbf4-314e-46bf-85d2-5f4c5ec92dc8",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "google_thinking_3",
+        "dto": {
+            "id": "2d637e2d-4e9f-4490-bae2-5bbdf5eb0ef4",
+            "default_endpoint": "google_chat",
+            "default_max_tokens": 65536
+        }
+    },
+    {
+        "id": "96104d5a-ecc9-4064-b591-970b329938d6",
+        "name": "gemini-3-pro-image-preview",
+        "common_name": "Nano Banana Pro Preview",
+        "model_class": "gemini-3-pro-image-preview",
+        "provider": "Google",
+        "endpoints": [
+            "google_chat"
+        ],
+        "context_window": 32768,
+        "max_tokens": 8192,
+        "capabilities": [
+            "image",
+            "text"
+        ],
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "stream": {
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true,
+                "default": false
+            },
+            "image_size": {
+                "enum": [
+                    "1K",
+                    "2K",
+                    "4K"
+                ],
+                "default": "1K"
+            },
+            "image_urls": {
+                "allowed": true,
+                "default": false
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "default": 0.5
+            },
+            "aspect_ratio": {
+                "enum": [
+                    "1:1",
+                    "2:3",
+                    "3:2",
+                    "3:4",
+                    "4:3",
+                    "9:16",
+                    "16:9",
+                    "21:9"
+                ],
+                "default": null
+            },
+            "output_format": {
+                "enum": [
+                    "text",
+                    "json_schema"
+                ],
+                "default": "text"
+            },
+            "youtube_videos": {
+                "allowed": true,
+                "default": false
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "high"
+                ],
+                "type": "string",
+                "default": "low"
+            },
+            "max_output_tokens": {
+                "max": 65536,
+                "min": 1,
+                "default": 8000
+            },
+            "reasoning_summary": {
+                "enum": [
+                    "always",
+                    "never"
+                ],
+                "type": "string",
+                "default": "always"
+            },
+            "internal_web_search": {
+                "allowed": true,
+                "default": true
+            },
+            "internal_url_context": {
+                "allowed": true,
+                "default": true
+            }
+        },
+        "model_provider": "cd21dbf4-314e-46bf-85d2-5f4c5ec92dc8",
+        "is_deprecated": false,
+        "is_primary": true,
+        "is_premium": true,
+        "api_class": "google_image_generation",
+        "dto": {
+            "id": "96104d5a-ecc9-4064-b591-970b329938d6",
+            "default_endpoint": "google_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "e2150d2f-7dd3-4fad-9d81-6e6ea41d4afd",
+        "name": "gemini-3-flash-preview",
+        "common_name": "Gemini 3 Flash Preview",
+        "model_class": "gemini-3-flash-preview",
+        "provider": "Google",
+        "endpoints": [
+            "google_chat"
+        ],
+        "context_window": 1048576,
+        "max_tokens": 65536,
+        "capabilities": {
+            "tuning": false,
+            "caching": true,
+            "live_api": false,
+            "thinking": true,
+            "code_execution": true,
+            "native_tool_use": true,
+            "audio_generation": false,
+            "function_calling": true,
+            "image_generation": false,
+            "search_grounding": true,
+            "structured_outputs": true,
+            "google_maps_grounding": false
+        },
+        "controls": {
+            "tools": {
+                "allowed": true,
+                "default": null
+            },
+            "stream": {
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true,
+                "default": false
+            },
+            "image_urls": {
+                "allowed": true,
+                "default": false
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "default": null
+            },
+            "output_format": {
+                "enum": [
+                    "text",
+                    "json_schema"
+                ],
+                "default": "text"
+            },
+            "youtube_videos": {
+                "allowed": true,
+                "default": false
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "minimal",
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "low"
+            },
+            "max_output_tokens": {
+                "max": 65536,
+                "min": 1,
+                "default": null
+            },
+            "reasoning_summary": {
+                "enum": [
+                    "always",
+                    "never"
+                ],
+                "type": "string",
+                "default": "always"
+            },
+            "internal_web_search": {
+                "allowed": true,
+                "default": true
+            },
+            "internal_url_context": {
+                "allowed": true,
+                "default": true
+            }
+        },
+        "model_provider": "cd21dbf4-314e-46bf-85d2-5f4c5ec92dc8",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "google_thinking_3",
+        "dto": {
+            "id": "e2150d2f-7dd3-4fad-9d81-6e6ea41d4afd",
+            "default_endpoint": "google_chat",
+            "default_max_tokens": 65536
+        }
+    },
+    {
+        "id": "715a2dc0-5ee4-4265-8a59-8017d5c9da9e",
+        "name": "google/veo-3.0-fast",
+        "common_name": "Google VEO 3 Fast",
+        "model_class": "google/veo-3.0-fast",
+        "provider": "Google",
+        "endpoints": [
+            "together_chat"
+        ],
+        "capabilities": [
+            "video"
+        ],
+        "controls": {
+            "fps": {
+                "type": "integer",
+                "default": null
+            },
+            "seed": {
+                "type": "integer",
+                "default": null
+            },
+            "steps": {
+                "max": 50,
+                "min": 10,
+                "type": "integer",
+                "default": null
+            },
+            "width": {
+                "type": "integer",
+                "default": null
+            },
+            "height": {
+                "type": "integer",
+                "default": null
+            },
+            "stream": {
+                "default": false
+            },
+            "seconds": {
+                "type": "string",
+                "default": null
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "default": null
+            },
+            "frame_images": {
+                "type": "object_array",
+                "default": null
+            },
+            "output_format": {
+                "enum": [
+                    "MP4",
+                    "WEBM"
+                ],
+                "default": null
+            },
+            "guidance_scale": {
+                "max": 10,
+                "min": 0,
+                "type": "integer",
+                "default": null
+            },
+            "output_quality": {
+                "max": 100,
+                "min": 1,
+                "type": "integer",
+                "default": null
+            },
+            "negative_prompt": {
+                "type": "string",
+                "default": null
+            },
+            "reference_images": {
+                "type": "string_array",
+                "default": null
+            }
+        },
+        "model_provider": "cd21dbf4-314e-46bf-85d2-5f4c5ec92dc8",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "together_video",
+        "dto": {
+            "id": "715a2dc0-5ee4-4265-8a59-8017d5c9da9e",
+            "default_endpoint": "together_chat",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "3ae4cc99-990b-44e5-a056-7b8a70e8fd15",
+        "name": "google/veo-3.0-fast-audio",
+        "common_name": "Google VEO 3 with Audio Fast",
+        "model_class": "google/veo-3.0-fast",
+        "provider": "Google",
+        "endpoints": [
+            "together_chat"
+        ],
+        "capabilities": [
+            "video"
+        ],
+        "controls": {
+            "fps": {
+                "type": "integer",
+                "default": null
+            },
+            "seed": {
+                "type": "integer",
+                "default": null
+            },
+            "steps": {
+                "max": 50,
+                "min": 10,
+                "type": "integer",
+                "default": null
+            },
+            "width": {
+                "type": "integer",
+                "default": null
+            },
+            "height": {
+                "type": "integer",
+                "default": null
+            },
+            "stream": {
+                "default": false
+            },
+            "seconds": {
+                "type": "string",
+                "default": null
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "default": null
+            },
+            "frame_images": {
+                "type": "object_array",
+                "default": null
+            },
+            "output_format": {
+                "enum": [
+                    "MP4",
+                    "WEBM"
+                ],
+                "default": null
+            },
+            "guidance_scale": {
+                "max": 10,
+                "min": 0,
+                "type": "integer",
+                "default": null
+            },
+            "output_quality": {
+                "max": 100,
+                "min": 1,
+                "type": "integer",
+                "default": null
+            },
+            "negative_prompt": {
+                "type": "string",
+                "default": null
+            },
+            "reference_images": {
+                "type": "string_array",
+                "default": null
+            }
+        },
+        "model_provider": "cd21dbf4-314e-46bf-85d2-5f4c5ec92dc8",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "together_video",
+        "dto": {
+            "id": "3ae4cc99-990b-44e5-a056-7b8a70e8fd15",
+            "default_endpoint": "together_chat",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "d823aa90-07e3-4c80-a9ac-e8d3be48e710",
+        "name": "Wan-AI/Wan2.2-T2V-A14B",
+        "common_name": "WAN 2.2 14B",
+        "model_class": "google/veo-3.0-fast",
+        "provider": "WAN",
+        "endpoints": [
+            "together_chat"
+        ],
+        "capabilities": [
+            "video"
+        ],
+        "controls": {
+            "fps": {
+                "type": "integer",
+                "default": null
+            },
+            "seed": {
+                "type": "integer",
+                "default": null
+            },
+            "steps": {
+                "max": 50,
+                "min": 10,
+                "type": "integer",
+                "default": null
+            },
+            "width": {
+                "type": "integer",
+                "default": null
+            },
+            "height": {
+                "type": "integer",
+                "default": null
+            },
+            "stream": {
+                "default": false
+            },
+            "seconds": {
+                "type": "string",
+                "default": null
+            },
+            "temperature": {
+                "max": 2,
+                "min": 0,
+                "default": null
+            },
+            "frame_images": {
+                "type": "object_array",
+                "default": null
+            },
+            "output_format": {
+                "enum": [
+                    "MP4",
+                    "WEBM"
+                ],
+                "default": null
+            },
+            "guidance_scale": {
+                "max": 10,
+                "min": 0,
+                "type": "integer",
+                "default": null
+            },
+            "output_quality": {
+                "max": 100,
+                "min": 1,
+                "type": "integer",
+                "default": null
+            },
+            "negative_prompt": {
+                "type": "string",
+                "default": null
+            },
+            "reference_images": {
+                "type": "string_array",
+                "default": null
+            }
+        },
+        "model_provider": "cd21dbf4-314e-46bf-85d2-5f4c5ec92dc8",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "together_video",
+        "dto": {
+            "id": "d823aa90-07e3-4c80-a9ac-e8d3be48e710",
+            "default_endpoint": "together_chat",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "e76cbdf7-b39c-403c-ac3e-e7c84adff27f",
+        "name": "black-forest-labs/FLUX.1-kontext-max",
+        "common_name": "FLUX Kontext Max",
+        "model_class": "black-forest-labs/FLUX.1-kontext-max",
+        "provider": "Black Forest Labs",
+        "endpoints": [
+            "together_image"
+        ],
+        "capabilities": [
+            "image"
+        ],
+        "controls": {
+            "n": {
+                "min": 1,
+                "type": "integer",
+                "default": null
+            },
+            "seed": {
+                "type": "integer",
+                "default": null
+            },
+            "steps": {
+                "max": 50,
+                "min": 1,
+                "type": "integer",
+                "default": null
+            },
+            "width": {
+                "type": "integer",
+                "default": 1024
+            },
+            "height": {
+                "type": "integer",
+                "default": null
+            },
+            "image_loras": {
+                "type": "object_array",
+                "default": null
+            },
+            "output_format": {
+                "enum": [
+                    "jpeg",
+                    "png"
+                ],
+                "default": "jpeg"
+            },
+            "guidance_scale": {
+                "type": "number",
+                "default": 3.5
+            },
+            "negative_prompt": {
+                "type": "string",
+                "default": null
+            },
+            "response_format": {
+                "enum": [
+                    "base64",
+                    "url"
+                ],
+                "default": null
+            },
+            "reference_images": {
+                "type": "string_array",
+                "default": null
+            },
+            "disable_safety_checker": {
+                "type": "boolean",
+                "default": false
+            }
+        },
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "together_image",
+        "dto": {
+            "id": "e76cbdf7-b39c-403c-ac3e-e7c84adff27f",
+            "default_endpoint": "together_image",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "f78184a1-fbe9-409f-ad86-69d0df8ade41",
+        "name": "openai/gpt-oss-120b",
+        "common_name": "GPT OSS 120b",
+        "model_class": "openai/gpt-oss-20b",
+        "provider": "Together",
+        "endpoints": [
+            "together_chat"
+        ],
+        "capabilities": [
+            "chat",
+            "json",
+            "tool_calling"
+        ],
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "default": null
+            },
+            "stream": {
+                "default": true
+            },
+            "max_tokens": {
+                "max": 8192,
+                "min": 1,
+                "default": null
+            },
+            "temperature": {
+                "max": 1.5,
+                "min": 0,
+                "default": null
+            },
+            "output_format": {
+                "enum": [
+                    "text",
+                    "json_object",
+                    "json_schema"
+                ],
+                "default": "text"
+            }
+        },
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": false,
+        "is_primary": true,
+        "is_premium": false,
+        "api_class": "together_text_standard",
+        "dto": {
+            "id": "f78184a1-fbe9-409f-ad86-69d0df8ade41",
+            "default_endpoint": "together_chat",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "818e9603-9418-44ae-a373-2e10c96b030e",
+        "name": "gpt-oss-120b",
+        "common_name": "GPT OSS 120b Lightning",
+        "model_class": "gpt-oss-120b",
+        "provider": "OpenAI",
+        "endpoints": [
+            "cerebras_chat"
+        ],
+        "max_tokens": 8192,
+        "capabilities": [
+            "text"
+        ],
+        "controls": {
+            "tools": {
+                "allowed": true
+            },
+            "top_p": {
+                "max": 1,
+                "min": 0,
+                "default": null
+            },
+            "stream": {
+                "default": true
+            },
+            "max_tokens": {
+                "max": 8192,
+                "min": 1,
+                "default": null
+            },
+            "temperature": {
+                "max": 1.5,
+                "min": 0,
+                "default": null
+            },
+            "output_format": {
+                "enum": [
+                    "text",
+                    "json_object",
+                    "json_schema"
+                ],
+                "default": "text"
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "medium"
+            }
+        },
+        "model_provider": "99fa34b1-4c36-427f-ab73-cc56f1d5c4a0",
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "cerebras_reasoning",
+        "dto": {
+            "id": "818e9603-9418-44ae-a373-2e10c96b030e",
+            "default_endpoint": "cerebras_chat",
+            "default_max_tokens": 8192
+        }
+    },
+    {
+        "id": "ffe2693c-93f1-4a9a-83ae-57fdc9651ae3",
+        "name": "grok-4-1-fast-non-reasoning",
+        "common_name": "Grok 4.1 Fast Non-Reasoning",
+        "model_class": "grok-4-1-fast-non-reasoning",
+        "provider": "XAI",
+        "endpoints": [
+            "xai_chat"
+        ],
+        "context_window": 2000000,
+        "capabilities": [
+            "function_calling",
+            "structured_output"
+        ],
+        "controls": {
+            "store": {
+                "type": "boolean",
+                "default": true
+            },
+            "tools": {
+                "allowed": true
+            },
+            "stream": {
+                "type": "boolean",
+                "default": true
+            },
+            "file_urls": {
+                "allowed": true
+            },
+            "verbosity": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "medium"
+            },
+            "image_urls": {
+                "allowed": true
+            },
+            "reasoning_effort": {
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "type": "string",
+                "default": "medium"
+            },
+            "reasoning_summary": {
+                "enum": [
+                    "auto",
+                    "always",
+                    "never"
+                ],
+                "type": "string",
+                "default": "auto"
+            },
+            "internal_web_search": {
+                "allowed": true
+            },
+            "parallel_tool_calls": {
+                "type": "boolean",
+                "default": true
+            }
+        },
+        "model_provider": "ffe876a4-f529-4f7c-85b6-afec891fb019",
+        "is_deprecated": false,
+        "is_primary": true,
+        "is_premium": true,
+        "api_class": "xai_standard",
+        "dto": {
+            "id": "ffe2693c-93f1-4a9a-83ae-57fdc9651ae3",
+            "default_endpoint": "xai_chat",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "47a5dce8-7b63-4ee4-b169-6bceb5e3b970",
+        "name": "black-forest-labs/FLUX.2-dev",
+        "common_name": "Flux 2 Dev",
+        "model_class": "black-forest-labs/FLUX.1-kontext-max",
+        "provider": "Black Forest Labs",
+        "endpoints": [
+            "together_image"
+        ],
+        "capabilities": [
+            "image"
+        ],
+        "controls": {
+            "n": {
+                "min": 1,
+                "type": "integer",
+                "default": null
+            },
+            "seed": {
+                "type": "integer",
+                "default": null
+            },
+            "steps": {
+                "max": 50,
+                "min": 1,
+                "type": "integer",
+                "default": null
+            },
+            "width": {
+                "type": "integer",
+                "default": 1024
+            },
+            "height": {
+                "type": "integer",
+                "default": null
+            },
+            "image_loras": {
+                "type": "object_array",
+                "default": null
+            },
+            "output_format": {
+                "enum": [
+                    "jpeg",
+                    "png"
+                ],
+                "default": "jpeg"
+            },
+            "guidance_scale": {
+                "type": "number",
+                "default": 3.5
+            },
+            "negative_prompt": {
+                "type": "string",
+                "default": null
+            },
+            "response_format": {
+                "enum": [
+                    "base64",
+                    "url"
+                ],
+                "default": null
+            },
+            "reference_images": {
+                "type": "string_array",
+                "default": null
+            },
+            "disable_safety_checker": {
+                "type": "boolean",
+                "default": false
+            }
+        },
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "together_image",
+        "dto": {
+            "id": "47a5dce8-7b63-4ee4-b169-6bceb5e3b970",
+            "default_endpoint": "together_image",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "7a11e506-2642-46a0-bd13-e16f0e77be50",
+        "name": "black-forest-labs/FLUX.2-flex",
+        "common_name": "Flux 2 Flex",
+        "model_class": "black-forest-labs/FLUX.1-kontext-max",
+        "provider": "Black Forest Labs",
+        "endpoints": [
+            "together_image"
+        ],
+        "capabilities": [
+            "image"
+        ],
+        "controls": {
+            "n": {
+                "min": 1,
+                "type": "integer",
+                "default": null
+            },
+            "seed": {
+                "type": "integer",
+                "default": null
+            },
+            "steps": {
+                "max": 50,
+                "min": 1,
+                "type": "integer",
+                "default": null
+            },
+            "width": {
+                "type": "integer",
+                "default": 1024
+            },
+            "height": {
+                "type": "integer",
+                "default": null
+            },
+            "image_loras": {
+                "type": "object_array",
+                "default": null
+            },
+            "output_format": {
+                "enum": [
+                    "jpeg",
+                    "png"
+                ],
+                "default": "jpeg"
+            },
+            "guidance_scale": {
+                "type": "number",
+                "default": 3.5
+            },
+            "negative_prompt": {
+                "type": "string",
+                "default": null
+            },
+            "response_format": {
+                "enum": [
+                    "base64",
+                    "url"
+                ],
+                "default": null
+            },
+            "reference_images": {
+                "type": "string_array",
+                "default": null
+            },
+            "disable_safety_checker": {
+                "type": "boolean",
+                "default": false
+            }
+        },
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "together_image",
+        "dto": {
+            "id": "7a11e506-2642-46a0-bd13-e16f0e77be50",
+            "default_endpoint": "together_image",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "58549757-2167-4db2-9944-b6e4cc5bba8f",
+        "name": "black-forest-labs/FLUX.2-max",
+        "common_name": "Flux 2 Max",
+        "model_class": "black-forest-labs/FLUX.1-kontext-max",
+        "provider": "Black Forest Labs",
+        "endpoints": [
+            "together_image"
+        ],
+        "capabilities": [
+            "image"
+        ],
+        "controls": {
+            "n": {
+                "min": 1,
+                "type": "integer",
+                "default": null
+            },
+            "seed": {
+                "type": "integer",
+                "default": null
+            },
+            "steps": {
+                "max": 50,
+                "min": 1,
+                "type": "integer",
+                "default": null
+            },
+            "width": {
+                "type": "integer",
+                "default": 1024
+            },
+            "height": {
+                "type": "integer",
+                "default": null
+            },
+            "image_loras": {
+                "type": "object_array",
+                "default": null
+            },
+            "output_format": {
+                "enum": [
+                    "jpeg",
+                    "png"
+                ],
+                "default": "jpeg"
+            },
+            "guidance_scale": {
+                "type": "number",
+                "default": 3.5
+            },
+            "negative_prompt": {
+                "type": "string",
+                "default": null
+            },
+            "response_format": {
+                "enum": [
+                    "base64",
+                    "url"
+                ],
+                "default": null
+            },
+            "reference_images": {
+                "type": "string_array",
+                "default": null
+            },
+            "disable_safety_checker": {
+                "type": "boolean",
+                "default": false
+            }
+        },
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "together_image",
+        "dto": {
+            "id": "58549757-2167-4db2-9944-b6e4cc5bba8f",
+            "default_endpoint": "together_image",
+            "default_max_tokens": 4096
+        }
+    },
+    {
+        "id": "b443da3d-a869-44cb-b15c-d97bcaef3a71",
+        "name": "black-forest-labs/FLUX.2-pro",
+        "common_name": "Flux 2 Pro",
+        "model_class": "black-forest-labs/FLUX.1-kontext-max",
+        "provider": "Black Forest Labs",
+        "endpoints": [
+            "together_image"
+        ],
+        "capabilities": [
+            "image"
+        ],
+        "controls": {
+            "n": {
+                "min": 1,
+                "type": "integer",
+                "default": null
+            },
+            "seed": {
+                "type": "integer",
+                "default": null
+            },
+            "steps": {
+                "max": 50,
+                "min": 1,
+                "type": "integer",
+                "default": null
+            },
+            "width": {
+                "type": "integer",
+                "default": 1024
+            },
+            "height": {
+                "type": "integer",
+                "default": null
+            },
+            "image_loras": {
+                "type": "object_array",
+                "default": null
+            },
+            "output_format": {
+                "enum": [
+                    "jpeg",
+                    "png"
+                ],
+                "default": "jpeg"
+            },
+            "guidance_scale": {
+                "type": "number",
+                "default": 3.5
+            },
+            "negative_prompt": {
+                "type": "string",
+                "default": null
+            },
+            "response_format": {
+                "enum": [
+                    "base64",
+                    "url"
+                ],
+                "default": null
+            },
+            "reference_images": {
+                "type": "string_array",
+                "default": null
+            },
+            "disable_safety_checker": {
+                "type": "boolean",
+                "default": false
+            }
+        },
+        "is_deprecated": false,
+        "is_primary": false,
+        "is_premium": false,
+        "api_class": "together_image",
+        "dto": {
+            "id": "b443da3d-a869-44cb-b15c-d97bcaef3a71",
+            "default_endpoint": "together_image",
+            "default_max_tokens": 4096
+        }
+    }
+]

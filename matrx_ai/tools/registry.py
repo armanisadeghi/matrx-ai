@@ -71,6 +71,8 @@ class ToolRegistryV2:
                 tool_def = self._row_to_definition(row)
                 if tool_def.tool_type == ToolType.LOCAL:
                     tool_def._callable = self._resolve_callable(tool_def.function_path)
+                # EXTERNAL_HANDLER, AGENT, and EXTERNAL_MCP tools have no local
+                # callable to resolve — their execution is delegated at runtime.
                 self._tools[tool_def.name] = tool_def
                 count += 1
             except Exception as exc:
@@ -285,7 +287,12 @@ class ToolRegistryV2:
 
     @staticmethod
     def _row_to_definition(row: dict[str, Any]) -> ToolDefinition:
-        tool_type = ToolType.LOCAL
+        source_app: str | None = row.get("source_app")
+        tool_name = row.get("name", "?")
+
+        # Determine tool_type from function_path prefix first, then fall back to
+        # source_app to decide between LOCAL (callable in this codebase) and
+        # EXTERNAL_HANDLER (callable lives in the host application).
         function_path = row.get("function_path", "")
         prompt_id: str | None = None
 
@@ -294,6 +301,28 @@ class ToolRegistryV2:
             prompt_id = function_path.split(":", 1)[1]
         elif function_path.startswith("mcp:"):
             tool_type = ToolType.EXTERNAL_MCP
+        elif source_app and source_app != "matrx_ai":
+            # Tool implementation lives in an external host application.
+            # A handler must be registered at runtime via register_external_tool_handler
+            # or register_external_app_handler before the first call.
+            tool_type = ToolType.EXTERNAL_HANDLER
+            vcprint(
+                f"[ToolRegistryV2] External-handler tool '{tool_name}' (source_app='{source_app}'). "
+                "Register a handler via register_external_tool_handler / register_external_app_handler.",
+                color="yellow",
+            )
+        else:
+            tool_type = ToolType.LOCAL
+            if source_app == "matrx_ai":
+                vcprint(f"[ToolRegistryV2] Local tool: {tool_name}", color="green")
+            else:
+                # source_app is None or an unrecognised value — treat as local and
+                # let _resolve_callable raise if the function_path is invalid.
+                vcprint(
+                    f"[ToolRegistryV2] Tool '{tool_name}' has no recognised source_app "
+                    f"(got {source_app!r}); treating as local.",
+                    color="yellow",
+                )
 
         guardrails = row.get("annotations") or []
         guardrail_config: dict[str, Any] = {}
@@ -324,6 +353,7 @@ class ToolRegistryV2:
             annotations=row.get("annotations") or [],
             tool_type=tool_type,
             function_path=function_path,
+            source_app=source_app,
             category=row.get("category"),
             tags=row.get("tags") or [],
             icon=row.get("icon"),

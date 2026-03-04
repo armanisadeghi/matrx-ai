@@ -19,6 +19,7 @@ verbose=True for errors and things that should never be silenced.
 Errors are always set to verbose = True, color = "red"
 """
 
+
 class AiModelManager(AiModelBase):
     _instance: AiModelManager | None = None
 
@@ -42,7 +43,7 @@ class AiModelManager(AiModelBase):
         return await self.load_model_by_id(id_or_name)
 
     async def load_model_get_string_uuid(self, id_or_name: str) -> str | None:
-        model: AiModel | None = await self.load_model_by_id(id_or_name)        
+        model: AiModel | None = await self.load_model_by_id(id_or_name)
         return model.id if model else None
 
     async def load_model_by_id(self, model_id: str) -> AiModel | None:
@@ -79,11 +80,4 @@ class AiModelManager(AiModelBase):
         return models
 
 
-_ai_model_manager_instance: AiModelManager | None = None
-
-
-def get_ai_model_manager() -> AiModelManager:
-    global _ai_model_manager_instance
-    if _ai_model_manager_instance is None:
-        _ai_model_manager_instance = AiModelManager()
-    return _ai_model_manager_instance
+ai_model_manager_instance = AiModelManager()

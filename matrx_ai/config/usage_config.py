@@ -102,18 +102,84 @@ class ModelPricing:
 # Hard-coded pricing lookup for testing
 # In production, this will come from the database
 MODEL_PRICING: dict[str, ModelPricing] = {
+    # --- Gemini 3 series (preview) ---
+    # gemini-3.1-flash-lite-preview: text/image/video input $0.25/M, audio input $0.50/M, output $1.50/M
+    # Note: audio_input_price ($0.50/M) not captured in PricingTier; text rate used for input_price
+    "gemini-3.1-flash-lite-preview": ModelPricing(
+        model_name="gemini-3.1-flash-lite-preview",
+        api="google",
+        tiers=[
+            PricingTier(
+                max_tokens=None,
+                input_price=0.25,   # text, image, video input; audio input is $0.50/M
+                output_price=1.50,
+                cached_input_price=0.025,
+            )
+        ],
+    ),
+    # gemini-3.1-flash-image-preview: text input $0.25/M; image output price varies by resolution
+    # output_price stores the base per-image price ($0.067) scaled to per-million-token equivalent
+    # for cost tracking; actual billing is per-image and resolution-dependent
+    "gemini-3.1-flash-image-preview": ModelPricing(
+        model_name="gemini-3.1-flash-image-preview",
+        api="google",
+        tiers=[
+            PricingTier(
+                max_tokens=None,
+                input_price=0.25,   # text input per million tokens
+                output_price=0.067, # image output — price per image, resolution-dependent; see pricing page
+                cached_input_price=0.025,
+            )
+        ],
+    ),
+    # gemini-3.1-pro-preview: tiered by context length, 1M context window
+    "gemini-3.1-pro-preview": ModelPricing(
+        model_name="gemini-3.1-pro-preview",
+        api="google",
+        tiers=[
+            # Tier 1: prompts <= 200k tokens
+            PricingTier(
+                max_tokens=200_000,
+                input_price=2.00,
+                output_price=12.00,
+                cached_input_price=0.20,
+            ),
+            # Tier 2: prompts > 200k tokens
+            PricingTier(
+                max_tokens=None,
+                input_price=4.00,
+                output_price=18.00,
+                cached_input_price=0.40,
+            ),
+        ],
+    ),
     "gemini-3-flash-preview": ModelPricing(
         model_name="gemini-3-flash-preview",
         api="google",
         tiers=[
             PricingTier(
-                max_tokens=None,  # No tiers, simple flat rate
+                max_tokens=None,
                 input_price=0.50,
                 output_price=3.00,
                 cached_input_price=0.05,
             )
         ],
     ),
+    # gemini-3-pro-image-preview (Nano Banana Pro): text input $2/M; image output price varies by resolution
+    # output_price stores the base per-image price ($0.134); actual billing is per-image and resolution-dependent
+    "gemini-3-pro-image-preview": ModelPricing(
+        model_name="gemini-3-pro-image-preview",
+        api="google",
+        tiers=[
+            PricingTier(
+                max_tokens=None,
+                input_price=2.00,   # text input per million tokens
+                output_price=0.134, # image output — price per image, resolution-dependent; see pricing page
+                cached_input_price=0.20,
+            )
+        ],
+    ),
+    # gemini-3-pro-preview: DEPRECATED — same pricing as gemini-3.1-pro-preview
     "gemini-3-pro-preview": ModelPricing(
         model_name="gemini-3-pro-preview",
         api="google",
@@ -127,7 +193,7 @@ MODEL_PRICING: dict[str, ModelPricing] = {
             ),
             # Tier 2: prompts > 200k tokens
             PricingTier(
-                max_tokens=None,  # Unlimited (highest tier)
+                max_tokens=None,
                 input_price=4.00,
                 output_price=18.00,
                 cached_input_price=0.40,

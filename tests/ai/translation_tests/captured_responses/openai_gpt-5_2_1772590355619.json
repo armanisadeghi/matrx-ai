@@ -1,0 +1,238 @@
+{
+  "capture_metadata": {
+    "provider": "openai",
+    "model": "gpt-5.2",
+    "timestamp_ms": 1772590355619,
+    "label": "",
+    "context": {
+      "stream": true,
+      "has_tools": true
+    }
+  },
+  "response": {
+    "id": "resp_0dbd1b80b2593bb10069a7950ff6688192aad592a04c865c36",
+    "created_at": 1772590352.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": null,
+    "metadata": {},
+    "model": "gpt-5.2-2025-12-11",
+    "object": "response",
+    "output": [
+      {
+        "id": "rs_0dbd1b80b2593bb10069a79510a9808192a72f8296909269a4",
+        "summary": [
+          {
+            "text": "**Planning for user requests**\n\nI need to use tools to gather the necessary information. First, I\u2019ll get the weather for a specific location. Then I can look up restaurants and events in that area too. It seems like using a parallel approach could be helpful here since I\u2019m asking for multiple things at once. I want to ensure I\u2019m efficient and provide the user with a comprehensive overview. That's the goal!",
+            "type": "summary_text"
+          }
+        ],
+        "type": "reasoning",
+        "content": null,
+        "encrypted_content": "gAAAAABpp5UTXgm2zLfI65c_zFcltEapG6ruS2ti5I7Sk0huBepWMfFS8STY0A-Sx0UASp6ot_-8zR--paAFz3MQbhgiHAqlMXwpXMZVaC-hUEMqxkCrB4BAxGf3AmBStKSl-ps6ojXj5dkhE2uu1wq3qJrG4bVRQ6FMYV0a1yo7Fn5j1LP52wzhRXAm4aSq9J0ZWtN-wONO_xg-5Hi17NwTbEFmrNlpq0QiKG6e-i1N7jgoWkH0fgYHtz4JRnItaUluTtaoE2Kj0Sl2h_KNBgPDoKjLC_a_yJCRymL6XrX9as27EEcNPuwjdvh8LmJXUzOIK7eUjUtUyxdFnwiKDDJIiK4bLqPJuK624tdK9Ub8noTv5DIKxmk_Rf0b5ME6vNcLZyvMt-7YVAt07Xo37QMT2mpOGCzj534YkdmIRw8zfQALeKXTFLgPDs0x3z29wvM6zWzFMhrOaCTQzCZ6F-MHgLJqecI5eecJLrZVqgKu-GxaYMV8ZAWWCz37qunxczvJuhDU6d3_Ms3OSBFA_udwxg8XHeN2PvBBWwWgljqN8k1nxZGRanaR3t2X9YI2SCmLvdTNvSr1X4J2g2YnCxn0ody0ZEePIynXhhxpR094KUmIVYiyEMlxBPjQX-DlMkMLec4j4wb7PqhzdOhyy2czod7LU3DN1PpShcwn88aLzP3pZ0RArxiYJWLYfW53PD5OmemcPFWXE1YgM1FKWV4v2jSM5BCA8jQtnC7_-QO9Dys34TEJB_FVFnIH-jDh-v49lqrfTY9uzx_SsMVuvhZ6hHoKg58MprBWD8DojMsWJ3Dmb2ORiyzNesPeW5732-UCTeu6voBcWvDUiKpgXf_a3WXdhP9DUu9zh5LH0IOtTcMn5d0nB98Pq3iV5djUHOFuf-bLpK8zZitmIwWbVMu9MoFV_qe9woXTJSDL05LtQwHOjvARer7cUETckUTc_DWbIEuHBGkd",
+        "status": null
+      },
+      {
+        "arguments": "{}",
+        "call_id": "call_QDb9lQLX55eAiVS4h9OpmFYN",
+        "name": "travel_get_location",
+        "type": "function_call",
+        "id": "fc_0dbd1b80b2593bb10069a795135a88819291de7424996e5397",
+        "status": "completed",
+        "parsed_arguments": null
+      }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [
+      {
+        "name": "travel_get_location",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "type": "function",
+        "description": "Get the user's current location city. Returns a randomly selected city (mock data for demo/testing)."
+      },
+      {
+        "name": "travel_get_weather",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "City name to get weather for."
+            }
+          },
+          "required": [
+            "city"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "type": "function",
+        "description": "Get current weather conditions for a specified city. Returns condition, temperature, and unit (mock data for demo/testing)."
+      },
+      {
+        "name": "travel_get_restaurants",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "City name to get restaurants for."
+            }
+          },
+          "required": [
+            "city"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "type": "function",
+        "description": "Get restaurant recommendations for a specified city. Returns a list of restaurant names (mock data for demo/testing)."
+      },
+      {
+        "name": "travel_get_activities",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "City name."
+            },
+            "weather": {
+              "type": "string",
+              "description": "Current weather condition."
+            }
+          },
+          "required": [
+            "city",
+            "weather"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "type": "function",
+        "description": "Get activity recommendations based on city and weather. Returns indoor activities for rainy/snowy weather, outdoor for others (mock data for demo/testing)."
+      },
+      {
+        "name": "travel_get_events",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "City name."
+            },
+            "weather": {
+              "type": "string",
+              "description": "Current weather condition."
+            }
+          },
+          "required": [
+            "city",
+            "weather"
+          ],
+          "additionalProperties": false
+        },
+        "strict": true,
+        "type": "function",
+        "description": "Get local events happening in a city, taking weather into account. Returns indoor events for rainy/snowy weather, outdoor for others (mock data for demo/testing)."
+      },
+      {
+        "name": "travel_create_summary",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "events": {
+              "type": "array",
+              "description": "List of event names.",
+              "items": {
+                "type": "string"
+              }
+            },
+            "location": {
+              "type": "string",
+              "description": "City or location name."
+            },
+            "activities": {
+              "type": "array",
+              "description": "List of activity names.",
+              "items": {
+                "type": "string"
+              }
+            },
+            "restaurants": {
+              "type": "array",
+              "description": "List of restaurant names.",
+              "items": {
+                "type": "string"
+              }
+            },
+            "weather_info": {
+              "type": "object",
+              "description": "Weather object with condition and temperature fields."
+            }
+          },
+          "required": [
+            "events",
+            "location",
+            "activities",
+            "restaurants",
+            "weather_info"
+          ],
+          "additionalProperties": false
+        },
+        "strict": false,
+        "type": "function",
+        "description": "Create a comprehensive travel summary combining location, weather, restaurants, activities, and events into a formatted text report."
+      }
+    ],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1772590355.0,
+    "conversation": null,
+    "max_output_tokens": null,
+    "max_tool_calls": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_key": null,
+    "prompt_cache_retention": null,
+    "reasoning": {
+      "effort": "low",
+      "generate_summary": null,
+      "summary": "detailed"
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+      "format": {
+        "type": "text"
+      },
+      "verbosity": "medium"
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+      "input_tokens": 418,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 39,
+      "output_tokens_details": {
+        "reasoning_tokens": 22
+      },
+      "total_tokens": 457
+    },
+    "user": null,
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "store": true
+  }
+}

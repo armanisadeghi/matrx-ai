@@ -23,7 +23,7 @@ from uuid import UUID
 
 from matrx_utils import vcprint
 
-from matrx_ai.db.custom.ai_models.ai_model_manager import get_ai_model_manager as _get_model_manager
+from matrx_ai.db.custom.ai_models.ai_model_manager import AiModelManager, ai_model_manager_instance
 from matrx_ai.db.custom.cx_managers import cxm
 from matrx_ai.orchestrator.requests import CompletedRequest
 
@@ -109,6 +109,9 @@ async def persist_completed_request(
     # )
 
     storage = completed.to_storage_dict()
+    model_manager: AiModelManager | None = ai_model_manager_instance
+    if model_manager is None:
+        raise ValueError("Model manager is not initialized")
     # vcprint(
     #     storage,
     #     "[CX PERSISTENCE PERSIST COMPLETED REQUEST] After to storage dict",
@@ -125,7 +128,7 @@ async def persist_completed_request(
     ai_model_name = conv_data.get("ai_model")
     # vcprint(ai_model_name, "[CX Persistence] AI Model Name", color="pink")
 
-    primary_ai_model_id = await _get_model_manager().load_model_get_string_uuid(ai_model_name)
+    primary_ai_model_id = await model_manager.load_model_get_string_uuid(ai_model_name)
     # vcprint(primary_ai_model_id, "[CX Persistence] Primary AI Model ID", color="pink")
 
     user_id = conv_data.get("user_id")
@@ -322,7 +325,7 @@ async def persist_completed_request(
         # 4. REQUEST ROWS — one per iteration
         # ============================================================
         for req in req_list:
-            iter_ai_model_id = await _get_model_manager().load_model_get_string_uuid(
+            iter_ai_model_id = await model_manager.load_model_get_string_uuid(
                 req.get("ai_model")
             )
 

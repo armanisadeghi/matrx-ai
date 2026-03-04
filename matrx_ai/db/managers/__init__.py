@@ -1,5 +1,5 @@
 # File: db/managers/__init__.py
-from .ai_model import AiModelBase, AiModelDTO, AiModelView
+# from .ai_model import AiModelBase, AiModelDTO, AiModelView
 from .ai_provider import AiProviderBase, AiProviderDTO, AiProviderView
 from .content_blocks import ContentBlocksBase, ContentBlocksDTO, ContentBlocksView
 from .cx_agent_memory import CxAgentMemoryBase, CxAgentMemoryDTO, CxAgentMemoryView

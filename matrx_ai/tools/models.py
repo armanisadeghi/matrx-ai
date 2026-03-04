@@ -18,6 +18,7 @@ class ToolType(StrEnum):
     LOCAL = "local"
     EXTERNAL_MCP = "external"
     AGENT = "agent"
+    EXTERNAL_HANDLER = "external_handler"
 
 
 class ToolError(BaseModel):
@@ -181,6 +182,11 @@ class ToolDefinition(BaseModel):
     tool_type: ToolType = ToolType.LOCAL
     function_path: str = Field(
         default="", description="Dotted import path or 'agent:<prompt_id>'"
+    )
+    source_app: str | None = Field(
+        default=None,
+        description="The application that owns this tool's implementation (e.g. 'matrx_ai', 'matrx_local'). "
+        "Tools with source_app != 'matrx_ai' require an external handler registered at runtime.",
     )
 
     category: str | None = None

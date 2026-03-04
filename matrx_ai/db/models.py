@@ -169,6 +169,7 @@ class Tools(Model):
     output_schema = JSONBField()
     annotations = JSONBField(default=[])
     function_path = TextField(null=False)
+    source_app = TextField(default="matrx_ai")
     category = TextField()
     tags = JSONBField()
     icon = CharField(max_length=255)

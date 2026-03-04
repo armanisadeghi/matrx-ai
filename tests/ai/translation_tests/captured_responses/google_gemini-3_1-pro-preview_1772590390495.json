@@ -1,0 +1,313 @@
+{
+  "capture_metadata": {
+    "provider": "google",
+    "model": "gemini-3.1-pro-preview",
+    "timestamp_ms": 1772590390495,
+    "label": "",
+    "context": {
+      "stream": true
+    }
+  },
+  "response": [
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 02:13:08 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=3508",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "**Initiating Request Understanding**\n\nI'm now zeroing in on the user's need: restaurant and event suggestions, localized for today. I've pinpointed the `travel_get_location` tool as crucial for pinpointing the user's location, and `travel_get_weather` appears necessary. I'm building out a strategy to execute the requests in tandem.\n\n\n",
+                "thought": true,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "NJWnaY6_I93Rz7IPoozS2A0",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": null,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 665,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 665
+          }
+        ],
+        "thoughts_token_count": null,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 665,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 02:13:08 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=3508",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": {
+                  "id": null,
+                  "args": {},
+                  "name": "travel_get_location",
+                  "partial_args": null,
+                  "will_continue": null
+                },
+                "function_response": null,
+                "inline_data": null,
+                "text": null,
+                "thought": null,
+                "thought_signature": {
+                  "__bytes__": true,
+                  "data": "EqQICqEIAb4+9vuUlxOpHdXTo3Xny3s1EQaZ6lb8U6AG2vUNQW39b1RhmPy4AiUjqfq+tAve/I8jLYt7/MMMwXOUBhg9lf/lXbN0pcxGlfGFt27Kt7+91QcOLxsdwMUAc/LzDZGuzTZ9R+wpydbeKTs+eWUxm6Gk0hXtQORr+2MqQjqblHDFAOADz+tdGqH/TkaYSbZfnoWfJWp/YpvVJLbkpqweUI44Fr6CqjfHnrMSqVfJkGtMg3esLXIKz9eKtLvxuna1/dL0ueYoad6YEzxrBiC+YYiYXn78L22moDqQHTtZveTYfan5/P9Jo36gwcE9nxA+B4j8a29ojp/ftEVEx80ms3SaX5E3ZfE6amdJcCVhYdYnJvnUfkpcXDR7MEaFDzCgfAbs2gxNmFH5oTE4ytWNHzk0i8jqC3msfBaBtUZEn0K1Hmw9p4Ik1wLPIAh/TbU800j2DJRHtP8HFRX6ZJ04ir7bZcyUkoeaR3iuTF8Dp8P9hmxa07f4g5/NVllNF8v9TsOLSuQAmRkwhxe9q7MLV7zRmneogQhxOPeMaAXRPcVPscmf7lmUYUmE130GgBGqrtdjiTnR17kIAS8+BMNH207/GZvQ/DFQnLCDNdEiP5nwoYl/idcVLb6WxWPSG0K3GNwxX2n0GtjzQI2uxaQ4bkHzdzJ3PkOL+Ex8mVn1XDoXa0N3kGqOlbwX8evl8Ait//hGIj6721WCeYbxOU2Sj6+q9mW/nfww4s/Wts58xnNhk0/Kx5+ELAhgR1Askdf7ff1Xze6LyiZb2Dt7TvtzkuS4kYNz2P1CrNJMQxp5P8UiFFx74LbFrKLmc1Dm1PD48yjN18PTnNoL3hHmu593yVkVpQ7MHEmN58z2JakMDwsX4uTgLpsdoKis642SAd2v+BLXbT3w8K6Wya2aO1Z4/kCn3DlbGqvOxvkSKqdydULFkji+dQOrCGMcvywFy84sdp2urVvDheacSz5zAGmUVrOQIgUHQkCBdPnTYnu5xIQ/bH8AdxpwL+ehsfjCyuN8FVezRRO76qiMPKY62l2FpxcLfjKKL2HSZ7TYbBJM0iQSpxxdAwryn621GdCtjuvEQ3iWKYybXIgbyySLC13y6mkpwYn6y4j+UPwCgoCZbwQxzBcTjy7NPaaDNWexyhXOL4zmI7t5fk56j9txyhPd/icvomI/GgZqXz8Glg1527kuSCl1LXU6kFnIdY9AhRAzzvEJzv6VNY/sudL42nBLrA9vGOVwymr5UKffXcmXNZZcNsVQ9qu1ZZXPKph7NeOHzocHTdobSqO29G1gXmsc6Ac8cnRQyjk+sI3Osmq9/dg4PwN6QIj6CfjauB01lku6p9CKCNCeGpm7X9l1CmWtwAj2gliIpEXC9InBIRxRt9fO7zRPhLpm6f3s/6n3rIHPBQ=="
+                },
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "NJWnaY6_I93Rz7IPoozS2A0",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 12,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 665,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 665
+          }
+        ],
+        "thoughts_token_count": 228,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 905,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    },
+    {
+      "sdk_http_response": {
+        "headers": {
+          "content-type": "text/event-stream",
+          "content-disposition": "attachment",
+          "vary": "Origin, X-Origin, Referer",
+          "transfer-encoding": "chunked",
+          "date": "Wed, 04 Mar 2026 02:13:08 GMT",
+          "server": "scaffolding on HTTPServer2",
+          "x-xss-protection": "0",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "server-timing": "gfet4t7; dur=3508",
+          "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+        },
+        "body": null
+      },
+      "candidates": [
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "**Initiating Request Understanding**\n\nI'm now zeroing in on the user's need: restaurant and event suggestions, localized for today. I've pinpointed the `travel_get_location` tool as crucial for pinpointing the user's location, and `travel_get_weather` appears necessary. I'm building out a strategy to execute the requests in tandem.\n\n\n",
+                "thought": true,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": {
+                  "id": null,
+                  "args": {},
+                  "name": "travel_get_location",
+                  "partial_args": null,
+                  "will_continue": null
+                },
+                "function_response": null,
+                "inline_data": null,
+                "text": null,
+                "thought": null,
+                "thought_signature": {
+                  "__bytes__": true,
+                  "data": "EqQICqEIAb4+9vuUlxOpHdXTo3Xny3s1EQaZ6lb8U6AG2vUNQW39b1RhmPy4AiUjqfq+tAve/I8jLYt7/MMMwXOUBhg9lf/lXbN0pcxGlfGFt27Kt7+91QcOLxsdwMUAc/LzDZGuzTZ9R+wpydbeKTs+eWUxm6Gk0hXtQORr+2MqQjqblHDFAOADz+tdGqH/TkaYSbZfnoWfJWp/YpvVJLbkpqweUI44Fr6CqjfHnrMSqVfJkGtMg3esLXIKz9eKtLvxuna1/dL0ueYoad6YEzxrBiC+YYiYXn78L22moDqQHTtZveTYfan5/P9Jo36gwcE9nxA+B4j8a29ojp/ftEVEx80ms3SaX5E3ZfE6amdJcCVhYdYnJvnUfkpcXDR7MEaFDzCgfAbs2gxNmFH5oTE4ytWNHzk0i8jqC3msfBaBtUZEn0K1Hmw9p4Ik1wLPIAh/TbU800j2DJRHtP8HFRX6ZJ04ir7bZcyUkoeaR3iuTF8Dp8P9hmxa07f4g5/NVllNF8v9TsOLSuQAmRkwhxe9q7MLV7zRmneogQhxOPeMaAXRPcVPscmf7lmUYUmE130GgBGqrtdjiTnR17kIAS8+BMNH207/GZvQ/DFQnLCDNdEiP5nwoYl/idcVLb6WxWPSG0K3GNwxX2n0GtjzQI2uxaQ4bkHzdzJ3PkOL+Ex8mVn1XDoXa0N3kGqOlbwX8evl8Ait//hGIj6721WCeYbxOU2Sj6+q9mW/nfww4s/Wts58xnNhk0/Kx5+ELAhgR1Askdf7ff1Xze6LyiZb2Dt7TvtzkuS4kYNz2P1CrNJMQxp5P8UiFFx74LbFrKLmc1Dm1PD48yjN18PTnNoL3hHmu593yVkVpQ7MHEmN58z2JakMDwsX4uTgLpsdoKis642SAd2v+BLXbT3w8K6Wya2aO1Z4/kCn3DlbGqvOxvkSKqdydULFkji+dQOrCGMcvywFy84sdp2urVvDheacSz5zAGmUVrOQIgUHQkCBdPnTYnu5xIQ/bH8AdxpwL+ehsfjCyuN8FVezRRO76qiMPKY62l2FpxcLfjKKL2HSZ7TYbBJM0iQSpxxdAwryn621GdCtjuvEQ3iWKYybXIgbyySLC13y6mkpwYn6y4j+UPwCgoCZbwQxzBcTjy7NPaaDNWexyhXOL4zmI7t5fk56j9txyhPd/icvomI/GgZqXz8Glg1527kuSCl1LXU6kFnIdY9AhRAzzvEJzv6VNY/sudL42nBLrA9vGOVwymr5UKffXcmXNZZcNsVQ9qu1ZZXPKph7NeOHzocHTdobSqO29G1gXmsc6Ac8cnRQyjk+sI3Osmq9/dg4PwN6QIj6CfjauB01lku6p9CKCNCeGpm7X9l1CmWtwAj2gliIpEXC9InBIRxRt9fO7zRPhLpm6f3s/6n3rIHPBQ=="
+                },
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": null,
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        },
+        {
+          "content": {
+            "parts": [
+              {
+                "media_resolution": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "inline_data": null,
+                "text": "",
+                "thought": null,
+                "thought_signature": null,
+                "video_metadata": null
+              }
+            ],
+            "role": "model"
+          },
+          "citation_metadata": null,
+          "finish_message": null,
+          "token_count": null,
+          "finish_reason": "STOP",
+          "avg_logprobs": null,
+          "grounding_metadata": null,
+          "index": 0,
+          "logprobs_result": null,
+          "safety_ratings": null,
+          "url_context_metadata": null
+        }
+      ],
+      "create_time": null,
+      "model_version": "gemini-3.1-pro-preview",
+      "prompt_feedback": null,
+      "response_id": "NJWnaY6_I93Rz7IPoozS2A0",
+      "usage_metadata": {
+        "cache_tokens_details": null,
+        "cached_content_token_count": null,
+        "candidates_token_count": 12,
+        "candidates_tokens_details": null,
+        "prompt_token_count": 665,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 665
+          }
+        ],
+        "thoughts_token_count": 228,
+        "tool_use_prompt_token_count": null,
+        "tool_use_prompt_tokens_details": null,
+        "total_token_count": 905,
+        "traffic_type": null
+      },
+      "automatic_function_calling_history": null,
+      "parsed": null
+    }
+  ]
+}

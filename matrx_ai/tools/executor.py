@@ -289,6 +289,8 @@ class ToolExecutor:
                 return await self._execute_external_mcp(tool_def, args, ctx)
             case ToolType.AGENT:
                 return await self._execute_agent(tool_def, args, ctx)
+            case ToolType.EXTERNAL_HANDLER:
+                return await self._execute_external_handler(tool_def, args, ctx)
             case _:
                 return ToolResult(
                     success=False,
@@ -389,6 +391,28 @@ class ToolExecutor:
             }
         )
         return await execute_agent_tool(tool_def, args, child_ctx)
+
+    async def _execute_external_handler(
+        self,
+        tool_def: ToolDefinition,
+        args: dict[str, Any],
+        ctx: ToolContext,
+    ) -> ToolResult:
+        """Dispatch a tool call to an async handler registered by a host application.
+
+        The handler is resolved from ``ExternalHandlerRegistry`` using a two-tier
+        lookup: exact tool-name match first, then app-level (source_app) fallback.
+        If no handler is registered, a structured error is returned to the model.
+        """
+        from .external_handlers import invoke_external_handler
+
+        child_ctx = ctx.model_copy(update={"tool_name": tool_def.name})
+        return await invoke_external_handler(
+            tool_name=tool_def.name,
+            source_app=tool_def.source_app,
+            args=args,
+            ctx=child_ctx,
+        )
 
     # ------------------------------------------------------------------
     # Helpers

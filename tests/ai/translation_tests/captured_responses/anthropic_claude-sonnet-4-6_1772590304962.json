@@ -1,0 +1,64 @@
+{
+  "capture_metadata": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-6",
+    "timestamp_ms": 1772590304962,
+    "label": "",
+    "context": {
+      "stream": true,
+      "has_tools": true
+    }
+  },
+  "response": {
+    "id": "msg_01GWEYVJtnP1zZ5oVrMK4Chu",
+    "container": null,
+    "content": [
+      {
+        "citations": null,
+        "text": "Great, you're in **San Francisco**! Now let me grab the weather, restaurants, and events all at once!",
+        "type": "text",
+        "parsed_output": null
+      },
+      {
+        "id": "toolu_012LtkKWKDXE6XG84tr57gAg",
+        "caller": {
+          "type": "direct"
+        },
+        "input": {
+          "city": "San Francisco"
+        },
+        "name": "travel_get_weather",
+        "type": "tool_use"
+      },
+      {
+        "id": "toolu_01S3Dd22CyURP8DQaEPrKho7",
+        "caller": {
+          "type": "direct"
+        },
+        "input": {
+          "city": "San Francisco"
+        },
+        "name": "travel_get_restaurants",
+        "type": "tool_use"
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "role": "assistant",
+    "stop_reason": "tool_use",
+    "stop_sequence": null,
+    "type": "message",
+    "usage": {
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "inference_geo": "global",
+      "input_tokens": 1411,
+      "output_tokens": 121,
+      "server_tool_use": null,
+      "service_tier": "standard"
+    }
+  }
+}
