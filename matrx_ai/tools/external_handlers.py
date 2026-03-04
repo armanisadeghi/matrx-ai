@@ -11,66 +11,95 @@ pipeline as any native tool -- the model cannot tell the difference.
 
 ----
 
-Usage in the host application (e.g. Matrx Local)
--------------------------------------------------
+There are three integration patterns, from simplest to most flexible:
 
-Option A -- Register a handler for a single specific tool::
+Pattern 1 — ``ExternalToolAdapter`` (recommended for most apps)
+----------------------------------------------------------------
+Subclass ``ExternalToolAdapter``, decorate methods with ``@external_tool``, and call
+``register()`` once at startup. The adapter auto-dispatches every decorated method::
+
+    from matrx_ai.tools import ExternalToolAdapter, external_tool, ToolContext
+
+    class MyTools(ExternalToolAdapter):
+        source_app = "matrx_local"
+
+        @external_tool("screenshot")
+        async def take_screenshot(self, args: dict, ctx: ToolContext) -> dict:
+            return {"image": await capture_screen(args.get("region"))}
+
+        @external_tool("open_file")
+        async def open_file(self, args: dict, ctx: ToolContext) -> dict:
+            return {"content": await read_file(args["path"])}
+
+    MyTools().register()   # call once at app startup
+
+
+Pattern 2 — ``register_external_tool_handler`` (per-tool, plain functions)
+---------------------------------------------------------------------------
+Register individual async functions, one per tool::
 
     from matrx_ai.tools import register_external_tool_handler, ToolContext, ToolResult
 
     async def handle_screenshot(args: dict, ctx: ToolContext) -> ToolResult:
         image_data = await take_local_screenshot(args.get("region"))
-        return ToolResult(
-            success=True,
-            output=image_data,
-            tool_name=ctx.tool_name,
-            call_id=ctx.call_id,
-        )
+        return ToolResult(success=True, output=image_data,
+                          tool_name=ctx.tool_name, call_id=ctx.call_id)
 
     register_external_tool_handler("screenshot", handle_screenshot)
 
 
-Option B -- Register a single dispatcher for every tool owned by a source_app::
+Pattern 3 — ``register_external_app_handler`` (single dispatcher for all tools)
+---------------------------------------------------------------------------------
+Register one async function that receives every tool call for a source_app::
 
     from matrx_ai.tools import register_external_app_handler, ToolContext, ToolResult
 
     async def matrx_local_dispatcher(args: dict, ctx: ToolContext) -> ToolResult:
-        # ctx.tool_name identifies which tool was called.
         result_data = await local_tool_router(ctx.tool_name, args)
-        return ToolResult(
-            success=True,
-            output=result_data,
-            tool_name=ctx.tool_name,
-            call_id=ctx.call_id,
-        )
+        return ToolResult(success=True, output=result_data,
+                          tool_name=ctx.tool_name, call_id=ctx.call_id)
 
     register_external_app_handler("matrx_local", matrx_local_dispatcher)
 
 
 Resolution order (per execution)
 ---------------------------------
-1. Exact tool-name match  →  ``register_external_tool_handler``
-2. App-level fallback     →  ``register_external_app_handler`` (keyed on ``source_app``)
+1. Exact tool-name match  →  Pattern 2 / adapter per-tool handlers
+2. App-level fallback     →  Pattern 3 / adapter app-level dispatcher
 3. No handler found       →  structured error returned to the model (not a crash)
 
 ----
 
-Call the registration functions *before* the first AI request that could trigger
-the tool.  The registry is a process-level singleton so registrations persist for
-the lifetime of the process.
+Handler return values
+----------------------
+Handlers may return any of the following — all are normalised automatically:
+
+- ``ToolResult``          — passed through as-is (preferred)
+- ``dict``                — wrapped as ``ToolResult(success=True, output=...)``
+                            (if dict has ``"status": "error"`` it becomes a failure)
+- ``str`` / any other     — wrapped as ``ToolResult(success=True, output=value)``
+
+----
+
+Register handlers *before* the first AI request that could trigger the tool.
+The registry is a process-level singleton; registrations persist for the lifetime
+of the process.
 """
 
 from __future__ import annotations
 
+import functools
 import traceback
 from collections.abc import Awaitable, Callable
-from typing import Any
+from typing import Any, TypeVar
 
 from matrx_utils import vcprint
 
 from matrx_ai.tools.models import ToolContext, ToolError, ToolResult
 
 ExternalToolHandler = Callable[[dict[str, Any], ToolContext], Awaitable[ToolResult]]
+
+_F = TypeVar("_F", bound=Callable[..., Awaitable[Any]])
 
 
 class ExternalHandlerRegistry:
@@ -190,6 +219,255 @@ class ExternalHandlerRegistry:
 
 
 # ------------------------------------------------------------------
+# Decorator for use with ExternalToolAdapter
+# ------------------------------------------------------------------
+
+def external_tool(tool_name: str) -> Callable[[_F], _F]:
+    """Decorator that marks an ``ExternalToolAdapter`` method as the handler for a tool.
+
+    Args:
+        tool_name: The exact tool name as stored in the ``tools`` database table.
+
+    Usage::
+
+        class MyTools(ExternalToolAdapter):
+            source_app = "matrx_local"
+
+            @external_tool("screenshot")
+            async def take_screenshot(self, args: dict, ctx: ToolContext) -> dict:
+                return {"image": await capture_screen(args.get("region"))}
+
+    The method may return any value — ``ToolResult``, ``dict``, ``str``, or anything
+    else.  The adapter normalises the return value before it reaches the model.
+
+    The ``self`` argument receives the adapter instance, giving methods access to any
+    shared state or configuration stored on the class.
+    """
+    def decorator(func: _F) -> _F:
+        func._external_tool_name = tool_name  # type: ignore[attr-defined]
+
+        @functools.wraps(func)
+        async def wrapper(self: ExternalToolAdapter, args: dict[str, Any], ctx: ToolContext) -> Any:
+            return await func(self, args, ctx)
+
+        wrapper._external_tool_name = tool_name  # type: ignore[attr-defined]
+        return wrapper  # type: ignore[return-value]
+
+    return decorator
+
+
+# ------------------------------------------------------------------
+# High-level adapter class
+# ------------------------------------------------------------------
+
+class ExternalToolAdapter:
+    """High-level base class for integrating host-application tools with matrx-ai.
+
+    Subclass this, set ``source_app``, decorate methods with ``@external_tool``,
+    then call ``register()`` once at application startup.  The adapter auto-discovers
+    all decorated methods and registers them — no manual per-tool registration needed.
+
+    The adapter registers in two ways simultaneously:
+    - Each ``@external_tool``-decorated method is registered as a per-tool handler
+      (highest priority, exact name match).
+    - The adapter itself is registered as the app-level fallback dispatcher
+      (catches any tool from ``source_app`` that has no specific handler).
+
+    This means you can mix decorated methods with undecorated ones for custom routing
+    by overriding ``dispatch()``.
+
+    Minimal example::
+
+        from matrx_ai.tools import ExternalToolAdapter, external_tool, ToolContext
+
+        class MatrxLocalTools(ExternalToolAdapter):
+            source_app = "matrx_local"
+
+            @external_tool("screenshot")
+            async def take_screenshot(self, args: dict, ctx: ToolContext) -> dict:
+                image = await capture_screen(args.get("region"))
+                return {"image_base64": image}
+
+            @external_tool("open_file")
+            async def open_file(self, args: dict, ctx: ToolContext) -> dict:
+                content = await read_file(args["path"])
+                return {"content": content}
+
+        MatrxLocalTools().register()
+
+    Advanced — custom dispatch for unregistered tools::
+
+        class MatrxLocalTools(ExternalToolAdapter):
+            source_app = "matrx_local"
+
+            @external_tool("screenshot")
+            async def take_screenshot(self, args: dict, ctx: ToolContext) -> dict:
+                ...
+
+            async def dispatch(self, args: dict, ctx: ToolContext) -> ToolResult:
+                # Called for any tool from source_app NOT covered by @external_tool.
+                # ctx.tool_name tells you which tool was invoked.
+                result = await self._route_to_local_impl(ctx.tool_name, args)
+                return ToolResult(success=True, output=result,
+                                  tool_name=ctx.tool_name, call_id=ctx.call_id)
+    """
+
+    #: Must be set on the subclass to the value of the ``source_app`` DB column.
+    source_app: str = ""
+
+    def __init_subclass__(cls, **kwargs: Any) -> None:
+        super().__init_subclass__(**kwargs)
+        # Collect all @external_tool-decorated methods at class definition time.
+        cls._tool_methods: dict[str, str] = {}
+        for attr_name in dir(cls):
+            method = getattr(cls, attr_name, None)
+            tool_name = getattr(method, "_external_tool_name", None)
+            if tool_name is not None:
+                cls._tool_methods[tool_name] = attr_name
+
+    def register(self, registry: ExternalHandlerRegistry | None = None) -> None:
+        """Register all decorated methods and the app-level dispatcher.
+
+        Call once at application startup, after ``matrx_ai.initialize()``.
+
+        Args:
+            registry: Override the registry instance (defaults to the global singleton).
+                      Useful in tests.
+        """
+        if not self.source_app:
+            raise ValueError(
+                f"{type(self).__name__}.source_app must be set to the database source_app value "
+                "(e.g. 'matrx_local') before calling register()."
+            )
+
+        reg = registry or ExternalHandlerRegistry.get_instance()
+
+        # Register each decorated method as a per-tool handler.
+        for tool_name, method_name in self.__class__._tool_methods.items():
+            method = getattr(self, method_name)
+            reg.register(tool_name, self._make_handler(method, tool_name))
+
+        # Register the adapter itself as the app-level fallback.
+        reg.register_app_handler(self.source_app, self._app_dispatcher)
+
+        vcprint(
+            {
+                "source_app": self.source_app,
+                "registered_tools": list(self.__class__._tool_methods.keys()),
+            },
+            f"[ExternalToolAdapter] {type(self).__name__} registered",
+            color="cyan",
+        )
+
+    def _make_handler(
+        self, method: Callable[..., Awaitable[Any]], tool_name: str
+    ) -> ExternalToolHandler:
+        """Wrap a decorated method as a normalised ``ExternalToolHandler``."""
+        async def handler(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+            import time
+
+            started_at = time.time()
+            try:
+                raw = await method(args, ctx)
+            except Exception as exc:
+                return ToolResult(
+                    success=False,
+                    error=ToolError(
+                        error_type="external_handler_error",
+                        message=str(exc),
+                        traceback=traceback.format_exc(),
+                        is_retryable=False,
+                        suggested_action="The tool implementation raised an unexpected exception.",
+                    ),
+                    started_at=started_at,
+                    completed_at=time.time(),
+                    tool_name=tool_name,
+                    call_id=ctx.call_id,
+                )
+            return _normalise_result(raw, tool_name, ctx.call_id, started_at)
+
+        return handler
+
+    async def _app_dispatcher(self, args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+        """App-level fallback: routes to ``dispatch()`` for tools not covered by ``@external_tool``."""
+        return await self.dispatch(args, ctx)
+
+    async def dispatch(self, args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+        """Override to handle tools from ``source_app`` that have no ``@external_tool`` handler.
+
+        The default implementation returns an informative error so the model knows the
+        tool is not implemented in this adapter.  Override for custom routing logic.
+        """
+        import time
+
+        decorated = list(self.__class__._tool_methods.keys())
+        return ToolResult(
+            success=False,
+            error=ToolError(
+                error_type="not_implemented",
+                message=(
+                    f"Tool '{ctx.tool_name}' (source_app='{self.source_app}') has no handler "
+                    f"in {type(self).__name__}. "
+                    f"Decorated tools: {decorated or 'none'}. "
+                    f"Override dispatch() or add @external_tool('{ctx.tool_name}') to a method."
+                ),
+                is_retryable=False,
+                suggested_action=(
+                    "This tool is not available in the current environment. "
+                    "Inform the user and suggest an alternative approach."
+                ),
+            ),
+            started_at=time.time(),
+            completed_at=time.time(),
+            tool_name=ctx.tool_name,
+            call_id=ctx.call_id,
+        )
+
+
+# ------------------------------------------------------------------
+# Internal normalisation helper (shared by adapter + invoke_external_handler)
+# ------------------------------------------------------------------
+
+def _normalise_result(
+    raw: Any,
+    tool_name: str,
+    call_id: str,
+    started_at: float,
+) -> ToolResult:
+    """Convert any handler return value to a ``ToolResult``."""
+    import time
+
+    if isinstance(raw, ToolResult):
+        raw.started_at = raw.started_at or started_at
+        raw.completed_at = raw.completed_at or time.time()
+        raw.tool_name = raw.tool_name or tool_name
+        raw.call_id = raw.call_id or call_id
+        return raw
+
+    if isinstance(raw, dict) and raw.get("status") == "error":
+        return ToolResult(
+            success=False,
+            error=ToolError(
+                error_type="execution",
+                message=str(raw.get("error", raw.get("result", "Unknown error"))),
+            ),
+            started_at=started_at,
+            completed_at=time.time(),
+            tool_name=tool_name,
+            call_id=call_id,
+        )
+
+    return ToolResult(
+        success=True,
+        output=raw,
+        started_at=started_at,
+        completed_at=time.time(),
+        tool_name=tool_name,
+        call_id=call_id,
+    )
+
+
+# ------------------------------------------------------------------
 # Module-level helpers — the primary public API for host applications
 # ------------------------------------------------------------------
 
@@ -306,33 +584,4 @@ async def invoke_external_handler(
             call_id=ctx.call_id,
         )
 
-    # Normalise: if the handler already returned a ToolResult, pass it through.
-    if isinstance(raw_result, ToolResult):
-        raw_result.started_at = raw_result.started_at or started_at
-        raw_result.completed_at = raw_result.completed_at or time.time()
-        raw_result.tool_name = raw_result.tool_name or tool_name
-        raw_result.call_id = raw_result.call_id or ctx.call_id
-        return raw_result
-
-    # Legacy / simple return: wrap any non-ToolResult value.
-    if isinstance(raw_result, dict) and raw_result.get("status") == "error":
-        return ToolResult(
-            success=False,
-            error=ToolError(
-                error_type="execution",
-                message=str(raw_result.get("error", raw_result.get("result", "Unknown error"))),
-            ),
-            started_at=started_at,
-            completed_at=time.time(),
-            tool_name=tool_name,
-            call_id=ctx.call_id,
-        )
-
-    return ToolResult(
-        success=True,
-        output=raw_result,
-        started_at=started_at,
-        completed_at=time.time(),
-        tool_name=tool_name,
-        call_id=ctx.call_id,
-    )
+    return _normalise_result(raw_result, tool_name, ctx.call_id, started_at)
