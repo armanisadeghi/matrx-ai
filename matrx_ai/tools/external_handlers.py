@@ -326,7 +326,8 @@ class ExternalToolAdapter:
                 cls._tool_methods[tool_name] = attr_name
 
     def register(self, registry: ExternalHandlerRegistry | None = None) -> None:
-        """Register all decorated methods and the app-level dispatcher.
+        """Register all decorated methods, the app-level dispatcher, and the
+        conversation-cleanup callback with matrx-ai's ``ToolLifecycleManager``.
 
         Call once at application startup, after ``matrx_ai.initialize()``.
 
@@ -349,6 +350,16 @@ class ExternalToolAdapter:
 
         # Register the adapter itself as the app-level fallback.
         reg.register_app_handler(self.source_app, self._app_dispatcher)
+
+        # Wire on_conversation_end into ToolLifecycleManager so conversation-scoped
+        # resources (session pools, caches, etc.) are cleaned up automatically.
+        try:
+            from matrx_ai.tools.lifecycle import ToolLifecycleManager
+
+            lifecycle = ToolLifecycleManager.get_instance()
+            lifecycle.register_external_adapter_cleanup(self._on_conversation_end)
+        except Exception:
+            pass  # lifecycle is optional — adapter still functions without it
 
         vcprint(
             {
@@ -391,6 +402,45 @@ class ExternalToolAdapter:
     async def _app_dispatcher(self, args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         """App-level fallback: routes to ``dispatch()`` for tools not covered by ``@external_tool``."""
         return await self.dispatch(args, ctx)
+
+    async def _on_conversation_end(self, conversation_id: str) -> None:
+        """Called by ToolLifecycleManager when a conversation ends or times out.
+
+        Routes to ``on_conversation_end()`` which subclasses should override to
+        clean up conversation-scoped resources (session pools, open connections, etc.).
+        """
+        try:
+            await self.on_conversation_end(conversation_id)
+        except Exception as exc:
+            vcprint(
+                f"[ExternalToolAdapter] on_conversation_end raised for conversation "
+                f"'{conversation_id}': {exc}",
+                color="red",
+            )
+
+    async def on_conversation_end(self, conversation_id: str) -> None:
+        """Override to clean up conversation-scoped resources when a conversation ends.
+
+        This is called automatically by matrx-ai's ``ToolLifecycleManager`` when a
+        conversation ends (either explicitly via ``cleanup_conversation()`` or via the
+        idle-timeout sweep after 30 minutes of inactivity).
+
+        Use this to release any state keyed by ``conversation_id`` — session pools,
+        open browser instances, background processes, file handles, etc.
+
+        Example::
+
+            class MatrxLocalTools(ExternalToolAdapter):
+                source_app = "matrx_local"
+
+                def __init__(self):
+                    self._sessions: dict[str, ToolSession] = {}
+
+                async def on_conversation_end(self, conversation_id: str) -> None:
+                    session = self._sessions.pop(conversation_id, None)
+                    if session:
+                        await session.cleanup()
+        """
 
     async def dispatch(self, args: dict[str, Any], ctx: ToolContext) -> ToolResult:
         """Override to handle tools from ``source_app`` that have no ``@external_tool`` handler.

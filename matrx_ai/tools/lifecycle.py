@@ -10,6 +10,9 @@ from matrx_utils import vcprint
 
 CleanupFn = Callable[[], Coroutine[Any, Any, None]]
 
+# Signature for adapter-level cleanup: receives the conversation_id that ended.
+AdapterCleanupFn = Callable[[str], Coroutine[Any, Any, None]]
+
 
 class ToolLifecycleManager:
     """Manages resource cleanup for tool executions.
@@ -18,6 +21,11 @@ class ToolLifecycleManager:
       - A conversation ends (explicit or idle timeout)
       - The periodic cleanup sweep runs
       - The server shuts down gracefully
+
+    External adapters (``ExternalToolAdapter`` subclasses) can also register a
+    single process-level cleanup callback via ``register_external_adapter_cleanup``.
+    These receive the ``conversation_id`` so they can evict conversation-scoped
+    resources such as session pools, open browser instances, etc.
     """
 
     _instance: ToolLifecycleManager | None = None
@@ -28,6 +36,8 @@ class ToolLifecycleManager:
         self._idle_timeout_seconds: float = 1800  # 30 minutes
         self._sweep_interval_seconds: float = 300  # 5 minutes
         self._sweep_task: asyncio.Task[None] | None = None
+        # Adapter-level callbacks registered once at startup (not per-conversation).
+        self._adapter_cleanup_fns: list[AdapterCleanupFn] = []
 
     @classmethod
     def get_instance(cls) -> ToolLifecycleManager:
@@ -40,8 +50,23 @@ class ToolLifecycleManager:
     # ------------------------------------------------------------------
 
     def register_cleanup(self, conversation_id: str, cleanup_fn: CleanupFn) -> None:
+        """Register a zero-argument cleanup coroutine for a specific conversation."""
         self._cleanup_fns[conversation_id].append(cleanup_fn)
         self._last_activity[conversation_id] = time.time()
+
+    def register_external_adapter_cleanup(self, cleanup_fn: AdapterCleanupFn) -> None:
+        """Register a process-level cleanup callback for an ``ExternalToolAdapter``.
+
+        The callback receives the ``conversation_id`` that ended, allowing the adapter
+        to evict conversation-scoped resources (session pools, browser contexts, etc.).
+
+        Called automatically by ``ExternalToolAdapter.register()`` — host apps do not
+        need to call this directly.
+
+        Args:
+            cleanup_fn: ``async (conversation_id: str) -> None``
+        """
+        self._adapter_cleanup_fns.append(cleanup_fn)
 
     def touch(self, conversation_id: str) -> None:
         self._last_activity[conversation_id] = time.time()
@@ -51,16 +76,39 @@ class ToolLifecycleManager:
     # ------------------------------------------------------------------
 
     async def cleanup_conversation(self, conversation_id: str) -> int:
+        """Run all cleanup callbacks for a conversation and remove its activity record.
+
+        Runs both per-conversation callbacks (registered via ``register_cleanup``) and
+        adapter-level callbacks (registered via ``register_external_adapter_cleanup``).
+        """
         fns = self._cleanup_fns.pop(conversation_id, [])
         self._last_activity.pop(conversation_id, None)
         errors = 0
+
         for fn in fns:
             try:
                 await fn()
             except Exception as exc:
-                vcprint(f"Cleanup error for conversation '{conversation_id}': {exc}", "[ToolLifecycle] Cleanup callback failed", color="red")
+                vcprint(
+                    f"Cleanup error for conversation '{conversation_id}': {exc}",
+                    "[ToolLifecycle] Cleanup callback failed",
+                    color="red",
+                )
                 errors += 1
-        return len(fns) - errors
+
+        # Notify all registered external adapters so they can clean up their state.
+        for adapter_fn in self._adapter_cleanup_fns:
+            try:
+                await adapter_fn(conversation_id)
+            except Exception as exc:
+                vcprint(
+                    f"Adapter cleanup error for conversation '{conversation_id}': {exc}",
+                    "[ToolLifecycle] Adapter cleanup failed",
+                    color="red",
+                )
+                errors += 1
+
+        return max(0, len(fns) - errors)
 
     async def cleanup_idle(self) -> list[str]:
         now = time.time()
@@ -122,3 +170,7 @@ class ToolLifecycleManager:
     @property
     def pending_cleanups(self) -> int:
         return sum(len(fns) for fns in self._cleanup_fns.values())
+
+    @property
+    def registered_adapter_cleanups(self) -> int:
+        return len(self._adapter_cleanup_fns)

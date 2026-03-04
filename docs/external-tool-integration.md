@@ -148,6 +148,75 @@ class MatrxLocalTools(ExternalToolAdapter):
                 return await super().dispatch(args, ctx)
 ```
 
+### Conversation lifecycle cleanup
+
+Override `on_conversation_end()` to release any conversation-scoped resources
+(session objects, browser contexts, open file handles, background processes, etc.)
+when a conversation ends or times out.
+
+matrx-ai calls this automatically via `ToolLifecycleManager` — you don't need to
+wire it yourself, `register()` handles the hookup.
+
+```python
+class MatrxLocalTools(ExternalToolAdapter):
+    source_app = "matrx_local"
+
+    def __init__(self):
+        self._sessions: dict[str, ToolSession] = {}
+
+    def _get_session(self, conversation_id: str) -> ToolSession:
+        if conversation_id not in self._sessions:
+            self._sessions[conversation_id] = ToolSession()
+        return self._sessions[conversation_id]
+
+    @external_tool("open_file")
+    async def open_file(self, args: dict, ctx: ToolContext) -> dict:
+        session = self._get_session(ctx.conversation_id)
+        content = await read_file(session.resolve_path(args["path"]))
+        return {"content": content}
+
+    async def on_conversation_end(self, conversation_id: str) -> None:
+        # Called automatically when matrx-ai ends/times out the conversation.
+        session = self._sessions.pop(conversation_id, None)
+        if session:
+            await session.cleanup()
+```
+
+The default `on_conversation_end()` is a no-op, so you only need to override it
+if you have state to release.
+
+### Large tool sets: overriding `register()` directly
+
+When you have many tools (e.g. 79 OS tools), defining each as a separate
+`@external_tool` method is impractical. You can override `register()` to build
+handlers dynamically from a manifest, while still inheriting the lifecycle cleanup
+wiring:
+
+```python
+class MatrxLocalTools(ExternalToolAdapter):
+    source_app = "matrx_local"
+
+    def register(self, registry=None):
+        from matrx_ai.tools.external_handlers import ExternalHandlerRegistry
+
+        reg = registry or ExternalHandlerRegistry.get_instance()
+
+        for entry in MY_TOOL_MANIFEST:
+            handler = build_handler_for(entry)
+            reg.register(entry.name, handler)
+
+        reg.register_app_handler(self.source_app, self._app_dispatcher)
+
+        # Wire the lifecycle cleanup — call super() to get this for free.
+        try:
+            from matrx_ai.tools.lifecycle import ToolLifecycleManager
+            ToolLifecycleManager.get_instance().register_external_adapter_cleanup(
+                self._on_conversation_end
+            )
+        except Exception:
+            pass
+```
+
 ---
 
 ## Pattern 2 — Per-tool function registration
