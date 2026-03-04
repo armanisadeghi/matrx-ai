@@ -37,7 +37,7 @@ jobs:
 
       - name: Verify version matches __init__.py
         run: |
-          INIT_VERSION=$(grep '^__version__ = ' matrx_ai/__init__.py | sed 's/__version__ = "\(.*\)"/\1/')
+          INIT_VERSION=$(grep '^__version__ = "[0-9]' matrx_ai/__init__.py | sed 's/__version__ = "\(.*\)"/\1/')
           TAG_VERSION="${{ steps.get_version.outputs.VERSION }}"
           if [ "$TAG_VERSION" != "$INIT_VERSION" ]; then
             echo "❌ Error: Git tag version ($TAG_VERSION) doesn't match __init__.py version ($INIT_VERSION)"
