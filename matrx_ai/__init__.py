@@ -18,7 +18,7 @@ Quickstart (server mode — requires pip install matrx-ai[server]):
 
 from __future__ import annotations
 
-__version__ = "0.1.13"
+__version__ = "0.1.14"
 
 
 def _get_version() -> str:
