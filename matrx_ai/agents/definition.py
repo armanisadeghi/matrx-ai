@@ -227,8 +227,7 @@ class Agent:
         Use force=True to reapply variables.
 
         Uses values from variable_values (set via set_variable/set_variables).
-        Falls back to default_value from variable_defaults if value not set.
-        Raises ValueError if required variable has no value.
+        Variables with no value set become "" — no defaults are applied, no errors are raised.
 
         Args:
             force: If True, apply variables even if already applied

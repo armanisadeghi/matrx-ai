@@ -8,10 +8,10 @@ from typing import Any
 from matrx_utils import vcprint
 
 from matrx_ai.db import _setup
-from matrx_ai.db.custom.ai_models.ai_model_manager import AiModelManager
 
 _setup()
 
+from matrx_ai.db.custom.ai_models.ai_model_manager import AiModelManager
 
 
 class AiModelValidator(AiModelManager):
@@ -152,8 +152,7 @@ class AiModelValidator(AiModelManager):
                     f"{model_identifier}: Endpoints is neither a list nor a fixable string (type: {type(endpoints).__name__})"
                 )
 
-        # Print summary of fixes
-        self._print_fix_summary(fix_report)
+        self._print_fix_summary(fix_report, label="Endpoint")
         return fix_report
 
     def _validate_name(self, model: Any) -> str:
@@ -247,6 +246,70 @@ class AiModelValidator(AiModelManager):
             return f"JSONB fields returned as raw strings (unparsed): {', '.join(raw_fields)}"
         return ""
 
+    async def fix_malformed_capabilities(self) -> dict[str, list[str]]:
+        """
+        Checks all models for malformed capabilities (strings that should be lists/dicts)
+        and fixes them by JSON-parsing the raw string value.
+        Returns a report of fixes applied.
+        """
+        models = await self.load_all_models()
+        fix_report = {"fixed": [], "skipped": [], "errors": []}
+
+        for model in models:
+            model_identifier = f"Model '{model.name}' ({model.id})"
+
+            if not hasattr(model, "capabilities"):
+                fix_report["skipped"].append(f"{model_identifier}: No capabilities field")
+                continue
+
+            capabilities = model.capabilities
+
+            # Already a valid non-empty list or dict — nothing to do
+            if isinstance(capabilities, (list, dict)) and capabilities:
+                fix_report["skipped"].append(
+                    f"{model_identifier}: Capabilities already valid"
+                )
+                continue
+
+            if isinstance(capabilities, str):
+                try:
+                    parsed = json.loads(capabilities)
+
+                    if not isinstance(parsed, (list, dict)):
+                        fix_report["errors"].append(
+                            f"{model_identifier}: Parsed capabilities is not a list or dict"
+                        )
+                        continue
+
+                    await self.update_ai_model(model.id, capabilities=parsed)
+                    fix_report["fixed"].append(
+                        f"{model_identifier}: Fixed capabilities — "
+                        f"{type(parsed).__name__} with {len(parsed)} items: {parsed}"
+                    )
+                    vcprint(
+                        f"FIXED - {model_identifier}: Converted capabilities to {parsed}",
+                        color="green",
+                    )
+
+                except json.JSONDecodeError:
+                    fix_report["errors"].append(
+                        f"{model_identifier}: Could not parse capabilities string "
+                        f"'{capabilities[:100]}'"
+                    )
+                except Exception as e:
+                    fix_report["errors"].append(
+                        f"{model_identifier}: Error fixing capabilities — {str(e)}"
+                    )
+            else:
+                fix_report["errors"].append(
+                    f"{model_identifier}: Capabilities is neither a valid structure nor a "
+                    f"fixable string (type: {type(capabilities).__name__}, "
+                    f"value: {str(capabilities)[:60]})"
+                )
+
+        self._print_fix_summary(fix_report, label="Capabilities")
+        return fix_report
+
     def _print_validation_summary(self, report: dict[str, list[str]]) -> None:
         """Prints a summary of all validation issues found."""
         total_issues = sum(len(issues) for issues in report.values())
@@ -266,14 +329,14 @@ class AiModelValidator(AiModelManager):
                 for issue in issues:
                     vcprint(f"- {issue}", color="yellow")
 
-    def _print_fix_summary(self, report: dict[str, list[str]]) -> None:
-        """Prints a summary of all endpoint fixes applied."""
+    def _print_fix_summary(self, report: dict[str, list[str]], label: str = "Endpoint") -> None:
+        """Prints a summary of fixes applied for the given field label."""
         total_fixed = len(report["fixed"])
         total_skipped = len(report["skipped"])
         total_errors = len(report["errors"])
 
         vcprint(
-            f"Endpoint fix process completed: {total_fixed} fixed, {total_skipped} skipped, {total_errors} errors",
+            f"{label} fix process completed: {total_fixed} fixed, {total_skipped} skipped, {total_errors} errors",
             color="blue",
         )
         if total_fixed > 0:
@@ -294,9 +357,13 @@ async def validate_and_fix_endpoints():
         data=validation_report, title="Validation Report", pretty=True, color="blue"
     )
 
-    # Then run fixer
-    fix_report = await validator.fix_malformed_endpoints()
-    vcprint(data=fix_report, title="Fix Report", pretty=True, color="blue")
+    # Fix malformed endpoints
+    endpoint_fix_report = await validator.fix_malformed_endpoints()
+    vcprint(data=endpoint_fix_report, title="Endpoint Fix Report", pretty=True, color="blue")
+
+    # Fix malformed capabilities
+    capabilities_fix_report = await validator.fix_malformed_capabilities()
+    vcprint(data=capabilities_fix_report, title="Capabilities Fix Report", pretty=True, color="blue")
 
 
 async def main():
@@ -308,7 +375,6 @@ async def main():
 
 
 if __name__ == "__main__":
-    import os
-
-    os.system("cls")
+    from matrx_utils import clear_terminal
+    clear_terminal()
     asyncio.run(validate_and_fix_endpoints())

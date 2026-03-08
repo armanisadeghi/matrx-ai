@@ -24,7 +24,7 @@ class AiModelManager(AiModelBase):
     _instance: AiModelManager | None = None
 
     def __new__(cls, *args: Any, **kwargs: Any) -> AiModelManager:
-        if cls._instance is None:
+        if "_instance" not in cls.__dict__ or cls.__dict__["_instance"] is None:
             cls._instance = super().__new__(cls)
         return cls._instance
 

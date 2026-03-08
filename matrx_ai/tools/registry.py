@@ -339,10 +339,6 @@ class ToolRegistryV2:
             and "properties" in raw_params
         ):
             params = raw_params["properties"]
-            db_required = set(raw_params.get("required", []))
-            for pname, pschema in params.items():
-                if isinstance(pschema, dict) and "required" not in pschema:
-                    pschema["required"] = pname in db_required
         else:
             params = raw_params
 
@@ -396,14 +392,12 @@ class ToolRegistryV2:
         """Convert a Pydantic model into the internal parameter dict format."""
         schema = model_cls.model_json_schema()
         params: dict[str, Any] = {}
-        required_fields = set(schema.get("required", []))
         properties = schema.get("properties", {})
 
         for field_name, field_schema in properties.items():
             param: dict[str, Any] = {
                 "type": field_schema.get("type", "string"),
                 "description": field_schema.get("description", ""),
-                "required": field_name in required_fields,
             }
             for prop in (
                 "items",
