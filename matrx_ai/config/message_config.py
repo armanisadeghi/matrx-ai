@@ -1,12 +1,11 @@
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Optional, Union
 
+from db.models import CxMessage
 from matrx_utils import vcprint
 from openai.types.responses import (
     ResponseOutputItem as OpenAIResponseOutputItem,
 )
-
-from matrx_ai.db.models import CxMessage
 
 from .enums import Role
 from .extra_config import (
@@ -188,7 +187,7 @@ class UnifiedMessage:
     @classmethod
     def from_openai_item(
         cls, item: OpenAIResponseOutputItem
-    ) -> "UnifiedMessage | None":
+    ) -> Optional["UnifiedMessage"]:
         content = []
         assigned_role = "output"
 
@@ -227,7 +226,7 @@ class UnifiedMessage:
     @classmethod
     def from_anthropic_content(
         cls, role: str, content: list[dict[str, Any]], id: str
-    ) -> "UnifiedMessage | None":
+    ) -> Optional["UnifiedMessage"]:
         """Create UnifiedMessage from Anthropic content blocks"""
         content_blocks = []
 
@@ -278,7 +277,9 @@ class UnifiedMessage:
             "parts": parts,
         }
 
-    def to_openai_items(self) -> list[dict[str, Any]] | dict[str, Any] | None:
+    def to_openai_items(
+        self,
+    ) -> list[dict[str, Any]] | dict[str, Any] | None:
         """
         Convert message to OpenAI Responses API format items.
 
@@ -311,18 +312,35 @@ class UnifiedMessage:
                 converted.append(result)
 
         if converted and self.role in (Role.OUTPUT, Role.TOOL):
-            vcprint(converted, "[UNIFIED MESSAGE] to_openai_items converted output or tool role", color="yellow", verbose=True)
+            vcprint(
+                converted,
+                "[UNIFIED MESSAGE] to_openai_items converted output or tool role",
+                color="yellow",
+                verbose=True,
+            )
             return converted  # Returns list: [item1, item2, item3] & without role, etc.
 
         elif converted and self.role == Role.ASSISTANT and text_content_id:
             # Prior Responses API output — must be a raw output-object so it is
             # adjacent to any preceding reasoning item in the input array.
-            return [{"type": "message", "role": "assistant", "id": text_content_id, "content": converted}]
+            return [
+                {
+                    "type": "message",
+                    "role": "assistant",
+                    "id": text_content_id,
+                    "content": converted,
+                }
+            ]
 
         elif converted:
             return {"role": self.role, "content": converted}
         else:
-            vcprint(converted, "[UNIFIED MESSAGE] to_openai_items converted None role", color="red", verbose=True)
+            vcprint(
+                converted,
+                "[UNIFIED MESSAGE] to_openai_items converted None role",
+                color="red",
+                verbose=True,
+            )
             return None
 
     def to_anthropic_blocks(self) -> list[dict[str, Any]]:
@@ -436,13 +454,13 @@ class MessageList:
             value = UnifiedMessage.from_dict(value)
         self._messages[index] = value
 
-    def append(self, message: "UnifiedMessage | dict[str, Any]") -> None:
+    def append(self, message: Union["UnifiedMessage", dict[str, Any]]) -> None:
         """Append a message to the list"""
         if isinstance(message, dict):
             message = UnifiedMessage.from_dict(message)
         self._messages.append(message)
 
-    def extend(self, messages: "list[UnifiedMessage] | MessageList") -> None:
+    def extend(self, messages: Union[list["UnifiedMessage"], "MessageList"]) -> None:
         """Extend with multiple messages"""
         if isinstance(messages, MessageList):
             self._messages.extend(messages._messages)
@@ -451,7 +469,7 @@ class MessageList:
                 self.append(msg)
 
     def insert(
-        self, index: int, message: "UnifiedMessage | dict[str, Any]"
+        self, index: int, message: Union["UnifiedMessage", dict[str, Any]]
     ) -> None:
         """Insert a message at a specific position"""
         if isinstance(message, dict):
@@ -488,7 +506,7 @@ class MessageList:
         """Check if any message has the given role."""
         return any(msg.role == role for msg in self._messages)
 
-    def get_last_by_role(self, role: str) -> "UnifiedMessage | None":
+    def get_last_by_role(self, role: str) -> Optional["UnifiedMessage"]:
         """Get the last message with the given role, or None."""
         for msg in reversed(self._messages):
             if msg.role == role:

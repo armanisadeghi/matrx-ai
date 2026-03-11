@@ -6,6 +6,7 @@ Supports both transcription (any language to text) and translation (any language
 
 Recommended Model: whisper-large-v3-turbo (best price/performance with multilingual support)
 """
+from __future__ import annotations
 
 import base64
 import io
@@ -63,7 +64,6 @@ class TranscriptionUsage:
             "metadata": self.metadata,
         }
 
-
 @dataclass
 class TranscriptionResult:
     """Result from a transcription or translation request"""
@@ -99,7 +99,6 @@ class TranscriptionResult:
             "duration": self.duration,
             "quality_metrics": self.quality_metrics,
         }
-
 
 class GroqTranscription:
     """

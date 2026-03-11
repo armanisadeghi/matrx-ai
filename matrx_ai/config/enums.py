@@ -8,10 +8,10 @@
 # ============================================================================
 
 
-from enum import Enum
+from enum import StrEnum
 
 
-class Role(str, Enum):
+class Role(StrEnum):
     SYSTEM = "system"
     DEVELOPER = "developer"
     USER = "user"
@@ -19,11 +19,8 @@ class Role(str, Enum):
     TOOL = "tool"  # For OpenAI tool results
     OUTPUT = "output"
 
-    def __str__(self) -> str:
-        return self.value
 
-
-class ContentType(str, Enum):
+class ContentType(StrEnum):
     TEXT = "text"
     IMAGE = "image"
     AUDIO = "audio"
@@ -38,11 +35,8 @@ class ContentType(str, Enum):
     CODE_EXECUTION_RESULT = "code_execution_result"
     EXECUTABLE_CODE = "executable_code"
 
-    def __str__(self) -> str:
-        return self.value
 
-
-class Provider(str, Enum):
+class Provider(StrEnum):
     OPENAI = "openai"
     ANTHROPIC = "anthropic"
     GEMINI = "gemini"
@@ -51,6 +45,3 @@ class Provider(str, Enum):
     GROQ = "groq"
     CEREBRAS = "cerebras"
     OLLAMA = "ollama"
-
-    def __str__(self) -> str:
-        return self.value

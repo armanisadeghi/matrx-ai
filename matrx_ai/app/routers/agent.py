@@ -20,6 +20,7 @@ from matrx_ai.app.core.cancellation import CancellationRegistry
 from matrx_ai.app.core.response import create_streaming_response
 from matrx_ai.app.models.agent import AgentStartRequest
 from matrx_ai.context.app_context import AppContext, context_dep
+from matrx_ai.db.custom import ensure_conversation_exists, ensure_user_request_exists
 
 # Protected endpoints (require guest auth or above)
 router = APIRouter(prefix="/api/ai/agents", tags=["agent"])
@@ -65,6 +66,13 @@ async def start_agent(
 
     if request.user_input is not None:
         config.append_or_extend_user_input(request.user_input)
+
+    await ensure_conversation_exists(conversation_id=conversation_id, user_id=ctx.user_id)
+    await ensure_user_request_exists(
+        request_id=ctx.request_id,
+        conversation_id=conversation_id,
+        user_id=ctx.user_id,
+    )
 
     return create_streaming_response(
         ctx,

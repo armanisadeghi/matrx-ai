@@ -4,6 +4,7 @@ Audio Preprocessing for Unified Config
 Handles automatic transcription of audio content when the auto_transcribe flag is set
 OR when the target API doesn't support native audio input (automatic fallback).
 """
+from __future__ import annotations
 
 from matrx_utils import vcprint
 
@@ -206,7 +207,6 @@ def preprocess_audio_in_messages(
         )
 
     return MessageList(_messages=processed_messages), transcription_usage_list
-
 
 def should_preprocess_audio(messages: MessageList, api_class: str) -> bool:
     """

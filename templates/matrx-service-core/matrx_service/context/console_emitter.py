@@ -1,9 +1,3 @@
-"""Dev/test emitter — prints all events to stdout and optionally saves to disk.
-
-Satisfies the Emitter protocol without a running asyncio stream. Use this
-in tests, CLI scripts, and development notebooks instead of StreamEmitter.
-"""
-
 from __future__ import annotations
 
 import datetime
@@ -12,14 +6,15 @@ import os
 from pathlib import Path
 from typing import Any
 
-from matrx_service.context._log import log
+from matrx_utils import vcprint
+
 from matrx_service.context.events import (
     BrokerPayload,
     CompletionPayload,
     ToolEventPayload,
 )
 
-TEMP_DIR = Path(__file__).resolve().parent.parent.parent / "temp"
+TEMP_DIR = Path(__file__).resolve().parent.parent.parent.parent / "temp"
 DEFAULT_SAVE_DIR = TEMP_DIR / "emitter_responses"
 
 
@@ -48,7 +43,7 @@ class ConsoleEmitter:
             self._full_text = ""
 
     async def send_chunk(self, text: str) -> None:
-        log(text, color="green", chunks=True)
+        vcprint(data=text, verbose=True, color="green", chunks=True)
         if self.accumulate:
             self._full_text += text
             self._accumulated["chunks"].append(text)
@@ -66,18 +61,18 @@ class ConsoleEmitter:
             "user_message": user_message,
             "metadata": metadata,
         }
-        log(info, title=f"[{self.label}] status_update", color="cyan")
+        vcprint(data=info, verbose=True, title=f"[{self.label}] status_update", color="cyan")
         if self.accumulate:
             self._accumulated["status_updates"].append(info)
 
     async def send_data(self, data: Any) -> None:
-        log(data, title=f"[{self.label}] data", color="green")
+        vcprint(data=data, verbose=True, title=f"[{self.label}] data", color="green")
         if self.accumulate:
             self._accumulated["data"].append(data)
 
     async def send_completion(self, payload: CompletionPayload) -> None:
         dump = payload.model_dump()
-        log(dump, title=f"[{self.label}] completion", color="green")
+        vcprint(data=dump, verbose=True, title=f"[{self.label}] completion", color="green")
         if self.accumulate:
             self._accumulated["completions"].append(dump)
 
@@ -96,7 +91,7 @@ class ConsoleEmitter:
             "code": code,
             "details": details,
         }
-        log(error, title=f"[{self.label}] error", color="red")
+        vcprint(data=error, verbose=True, title=f"[{self.label}] error", color="red")
         if self.accumulate:
             self._accumulated["errors"].append(error)
 
@@ -105,19 +100,20 @@ class ConsoleEmitter:
             dump = event_data
         else:
             dump = event_data.model_dump()
-        log(dump, title=f"[{self.label}] tool_event", color="cyan")
+        vcprint(data=dump, verbose=True, title=f"[{self.label}] tool_event", color="cyan")
         if self.accumulate:
             self._accumulated["tool_events"].append(dump)
 
     async def send_broker(self, broker: BrokerPayload) -> None:
         dump = broker.model_dump()
-        log(dump, title=f"[{self.label}] broker", color="green")
+        vcprint(data=dump, verbose=True, title=f"[{self.label}] broker", color="green")
         if self.accumulate:
             self._accumulated["brokers"].append(dump)
 
     async def send_end(self, reason: str = "complete") -> None:
-        log(
-            f"End of transmission (reason={reason})",
+        vcprint(
+            data=f"End of transmission (reason={reason})",
+            verbose=True,
             title=f"[{self.label}] end",
             color="green",
         )
@@ -143,18 +139,6 @@ class ConsoleEmitter:
         await self.send_error(error_type, message, user_message, code, details)
         await self.send_end()
 
-    # ------------------------------------------------------------------
-    # Accumulation helpers
-    # ------------------------------------------------------------------
-
-    @property
-    def full_text(self) -> str:
-        return self._full_text if self.accumulate else ""
-
-    @property
-    def accumulated(self) -> dict[str, list[Any]]:
-        return self._accumulated if self.accumulate else {}
-
     async def _save_accumulated(self) -> None:
         if not self.accumulate:
             return
@@ -179,6 +163,6 @@ class ConsoleEmitter:
         try:
             with open(filepath, "w", encoding="utf-8") as f:
                 json.dump(output, f, indent=2, ensure_ascii=False, default=str)
-            log(f"[ConsoleEmitter] Saved to {filepath}", color="pink")
+            vcprint(f"[ConsoleEmitter] Saved to {filepath}", color="pink")
         except Exception as e:
-            log(f"[ConsoleEmitter] Failed to save: {e}", color="red")
+            vcprint(f"[ConsoleEmitter] Failed to save: {e}", color="red")

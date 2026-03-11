@@ -4,6 +4,7 @@ Audio Support Detection
 Tracks which AI providers/APIs support native audio input.
 Used to determine when audio needs to be transcribed vs. sent directly.
 """
+from __future__ import annotations
 
 # APIs that support native audio input
 AUDIO_SUPPORTED_APIS: set[str] = {
@@ -20,7 +21,6 @@ AUDIO_SUPPORTED_API_CLASSES: set[str] = {
     # Add others as they add audio support
 }
 
-
 def api_supports_audio(api: str) -> bool:
     """
     Check if an API supports native audio input.
@@ -33,7 +33,6 @@ def api_supports_audio(api: str) -> bool:
     """
     return api.lower() in AUDIO_SUPPORTED_APIS
 
-
 def api_class_supports_audio(api_class: str) -> bool:
     """
     Check if an API class supports native audio input.
@@ -45,7 +44,6 @@ def api_class_supports_audio(api_class: str) -> bool:
         True if the API class supports audio natively, False otherwise
     """
     return api_class.lower() in AUDIO_SUPPORTED_API_CLASSES
-
 
 def should_transcribe_audio(
     audio_auto_transcribe: bool,

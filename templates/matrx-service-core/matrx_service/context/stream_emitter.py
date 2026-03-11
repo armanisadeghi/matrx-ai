@@ -1,10 +1,3 @@
-"""Production NDJSON emitter.
-
-Uses an asyncio.Queue to buffer events and yields them from an async generator
-that drives FastAPI's StreamingResponse. Supports client-disconnect detection
-and optional heartbeat keepalive.
-"""
-
 from __future__ import annotations
 
 import asyncio
@@ -15,7 +8,8 @@ import json
 import uuid
 from typing import Any
 
-from matrx_service.context._log import log
+from matrx_utils import vcprint
+
 from matrx_service.context.events import (
     BrokerPayload,
     ChunkPayload,
@@ -32,6 +26,12 @@ from matrx_service.context.events import (
 
 
 class StreamEmitter:
+    """Production emitter that serialises events to JSONL for FastAPI StreamingResponse.
+
+    Uses an asyncio.Queue to buffer events and an async generator to yield them.
+    Supports client disconnect detection and optional heartbeat keepalive.
+    """
+
     def __init__(self, debug: bool = False, heartbeat_interval: float = 5.0):
         self.queue: asyncio.Queue[str | None] = asyncio.Queue()
         self.debug = debug
@@ -88,7 +88,7 @@ class StreamEmitter:
             self._stop_heartbeat()
 
     # ------------------------------------------------------------------
-    # Internal serialisation
+    # Internal emit
     # ------------------------------------------------------------------
 
     def _serialize(self, data: Any) -> Any:
@@ -138,10 +138,10 @@ class StreamEmitter:
         user_message: str | None = None,
         metadata: dict[str, Any] | None = None,
     ) -> None:
-        log(
+        vcprint(
             {"status": status, "system_message": system_message,
              "user_message": user_message, "metadata": metadata},
-            color="blue",
+            "[Stream Emitter] Status Update", color="blue",
         )
         event = build_event(
             EventType.STATUS_UPDATE,
@@ -158,7 +158,7 @@ class StreamEmitter:
         serialized = self._serialize(data)
         if not isinstance(serialized, dict):
             serialized = {"value": serialized}
-        log(serialized, color="blue")
+        vcprint(serialized, "[Stream Emitter] Data", color="blue")
         await self._emit_raw(EventType.DATA, serialized)
 
     async def send_completion(self, payload: CompletionPayload) -> None:
@@ -167,7 +167,7 @@ class StreamEmitter:
             else "red" if payload.status == "failed"
             else "blue"
         )
-        log(payload, color=color)
+        vcprint(payload, "[Stream Emitter] Completion", color=color)
         event = build_event(EventType.COMPLETION, payload)
         await self._emit_event(event)
 
@@ -201,19 +201,19 @@ class StreamEmitter:
             else "green" if payload.event == "tool_completed"
             else "blue"
         )
-        log(payload, color=color)
+        vcprint(payload, "[Stream Emitter] Tool Event", color=color)
         event = build_event(EventType.TOOL_EVENT, payload)
         await self._emit_event(event)
 
     async def send_broker(self, broker: BrokerPayload) -> None:
-        log(broker, color="blue")
+        vcprint(broker, "[Stream Emitter] Broker", color="blue")
         event = build_event(EventType.BROKER, broker)
         await self._emit_event(event)
 
     async def send_end(self, reason: str = "complete") -> None:
         if not self._ended:
             color = "green" if reason == "complete" else "blue"
-            log({"reason": reason}, color=color)
+            vcprint({"reason": reason}, "[Stream Emitter] End", color=color)
             event = build_event(EventType.END, EndPayload(reason=reason))
             await self._emit_event(event)
             await self.queue.put(None)

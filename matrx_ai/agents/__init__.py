@@ -29,6 +29,7 @@ __all__ = [
     "pm",
 ]
 
+
 def __getattr__(name: str):
     """Lazy import to avoid circular dependencies."""
     if name == "Agent":
@@ -72,4 +73,3 @@ def __getattr__(name: str):
 
         return pm
     raise AttributeError(f"module 'ai.agents' has no attribute '{name}'")
-

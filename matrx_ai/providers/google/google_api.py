@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import asyncio
 import os
 import traceback
-from collections.abc import Iterator
+from collections.abc import AsyncIterator
 
 import rich
 from google import genai
@@ -21,7 +23,6 @@ from matrx_ai.context.emitter_protocol import Emitter
 from .translator import GoogleProviderConfig, GoogleTranslator
 
 LOCAL_DEBUG = False
-
 
 class GoogleChat:
     """Google Gemini-specific endpoint implementation."""
@@ -59,15 +60,13 @@ class GoogleChat:
         if self.debug:
             rich.print(config_data)
 
-        response: Iterator[GenerateContentResponse] | GenerateContentResponse | None = None
-        accumulated_chunks: list[GenerateContentResponse]
-
         try:
-
             if unified_config.stream:
-                response = self.client.models.generate_content_stream(**config_data)
+                response: AsyncIterator[GenerateContentResponse] = (
+                    self.client.models.generate_content_stream(**config_data)
+                )
 
-                accumulated_chunks = []
+                accumulated_chunks: list[GenerateContentResponse] = []
 
                 chunk: GenerateContentResponse
                 for chunk in response:
@@ -86,42 +85,26 @@ class GoogleChat:
                 converted_response = self.translator.from_google(
                     accumulated_chunks, matrx_model_name
                 )
-
-                from tests.ai.translation_tests.response_capture import capture_provider_response
-                vcprint("\nCAPTURING PROVIDER RESPONSE - REMOVE AFTER TESTING\n", color="yellow")
-
-                capture_provider_response(
-                    "google",
-                    matrx_model_name,
-                    [c.model_dump() for c in accumulated_chunks],
-                    {"stream": True},
-                )
             else:
                 # Non-streaming mode - returns single GenerateContentResponse
-                response = self.client.models.generate_content(**config_data)
+                response: GenerateContentResponse = self.client.models.generate_content(
+                    **config_data
+                )
 
                 # Wrap the single response in a list to maintain consistency with to_unified_config
-                accumulated_chunks = [response]
+                accumulated_chunks: list[GenerateContentResponse] = [response]
 
                 # Send all content through emitter (same as streaming, but all at once)
                 if response.candidates:
+                    cand: Candidate
                     for cand in response.candidates:
                         if cand.content and cand.content.parts:
+                            part: Part
                             for part in cand.content.parts:
                                 await self._handle_part(part, emitter)
 
                 converted_response = self.translator.from_google(
                     accumulated_chunks, matrx_model_name
-                )
-
-                from tests.ai.translation_tests.response_capture import capture_provider_response
-                vcprint("\nCAPTURING PROVIDER RESPONSE - REMOVE AFTER TESTING\n", color="yellow")
-                
-                capture_provider_response(
-                    "google",
-                    matrx_model_name,
-                    [response.model_dump()],
-                    {"stream": False},
                 )
 
             return converted_response

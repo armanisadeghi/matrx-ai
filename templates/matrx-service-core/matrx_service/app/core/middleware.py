@@ -1,14 +1,3 @@
-"""Request context middleware — pure ASGI.
-
-Attaches a unique request ID to every HTTP/WebSocket request and logs
-method, path, status code, and elapsed time. Implemented as pure ASGI
-(not BaseHTTPMiddleware) so streaming responses are never buffered and
-exceptions inside async generators are never swallowed.
-
-The request ID is stored in scope["state"].request_id and is also
-emitted as the X-Request-ID response header (added by create_streaming_response).
-"""
-
 import logging
 import time
 import uuid
@@ -20,6 +9,13 @@ logger = logging.getLogger(__name__)
 
 
 class RequestContextMiddleware:
+    """Attaches a unique request ID and logs request/response metadata.
+
+    Implemented as a pure ASGI middleware (not BaseHTTPMiddleware) so that
+    streaming responses are never buffered and exceptions inside async
+    generators are never swallowed.
+    """
+
     def __init__(self, app: ASGIApp) -> None:
         self.app = app
 
@@ -30,6 +26,7 @@ class RequestContextMiddleware:
 
         request_id = str(uuid.uuid4())
         scope.setdefault("state", {})
+        # Starlette stores request.state as scope["state"]
         if hasattr(scope.get("state"), "__dict__"):
             scope["state"].request_id = request_id  # type: ignore[union-attr]
         else:

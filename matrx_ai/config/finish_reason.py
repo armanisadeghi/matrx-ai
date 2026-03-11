@@ -1,17 +1,14 @@
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 from matrx_utils import vcprint
 
 
-class FinishReason(str, Enum):
+class FinishReason(StrEnum):
     """Unified finish reasons across all providers"""
 
     # Success cases
     STOP = "stop"
-
-    def __str__(self) -> str:
-        return self.value
     MAX_TOKENS = "max_tokens"
 
     # Tool/function related

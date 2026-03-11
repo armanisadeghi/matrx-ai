@@ -20,6 +20,7 @@ from matrx_ai.app.core.response import create_streaming_response
 from matrx_ai.app.models.chat import ChatRequest
 from matrx_ai.config.unified_config import UnifiedConfig
 from matrx_ai.context.app_context import AppContext, context_dep
+from matrx_ai.db.custom import ensure_conversation_exists, ensure_user_request_exists
 
 router = APIRouter(prefix="/api/ai", tags=["chat"])
 
@@ -75,6 +76,13 @@ async def chat(
 
     if unrecognized:
         vcprint(f"[Chat] Unrecognized config keys (ignored): {unrecognized}", color="yellow")
+
+    await ensure_conversation_exists(conversation_id=conversation_id, user_id=ctx.user_id)
+    await ensure_user_request_exists(
+        request_id=ctx.request_id,
+        conversation_id=conversation_id,
+        user_id=ctx.user_id,
+    )
 
     return create_streaming_response(
         ctx,

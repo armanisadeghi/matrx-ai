@@ -4,7 +4,7 @@ import asyncio
 import logging
 import time
 import traceback as tb
-from typing import Any, cast
+from typing import Any
 from uuid import uuid4
 
 from matrx_utils import vcprint
@@ -265,7 +265,7 @@ class ToolExecutor:
                 content_results.append(err_result.to_tool_result_content())
                 full_results.append(err_result)
             else:
-                content_dict, full_result = cast(tuple[dict[str, Any], ToolResult], r)
+                content_dict, full_result = r
                 content_results.append(content_dict)
                 full_results.append(full_result)
 

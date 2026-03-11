@@ -1,23 +1,17 @@
-"""Low-level streaming primitives.
-
-Two patterns:
-  1. SSE (Server-Sent Events) — typed event stream, supported by EventSource
-     and most fetch clients.
-  2. NDJSON — newline-delimited JSON via StreamingResponse, preferred for
-     programmatic consumers (mobile apps, service-to-service calls).
-
-Most routes should use create_streaming_response() from response.py instead
-of these primitives directly. Use these only when you need a raw generator
-pipeline (e.g. proxying a third-party stream).
 """
+Core streaming primitives.
 
-from __future__ import annotations
+Two patterns are provided:
+  1. SSE (Server-Sent Events) — typed event stream over HTTP GET/POST,
+     supported by EventSource and most fetch clients.
+  2. NDJSON — newline-delimited JSON chunks via StreamingResponse,
+     useful for programmatic consumers that prefer plain JSON lines.
+"""
 
 import asyncio
 import json
 import logging
 from collections.abc import AsyncGenerator, AsyncIterator
-from contextlib import suppress
 from typing import Any
 
 import orjson
@@ -36,10 +30,14 @@ async def sse_generator(
     source: AsyncGenerator[dict[str, Any]],
     keepalive_interval: float = 15.0,
 ) -> AsyncGenerator[dict[str, Any]]:
-    """Wrap an async source, injecting SSE keepalive comments on idle connections.
-
-    Each yielded dict maps to SSE fields: event, data, id, retry.
     """
+    Wraps an async source and injects SSE keepalive comments so idle
+    connections don't time out through proxies / load balancers.
+
+    Each yielded dict maps directly to SSE fields:
+      { "event": "...", "data": "...", "id": "...", "retry": int }
+    """
+    keepalive_task: asyncio.Task[None] | None = None
     queue: asyncio.Queue[dict[str, Any] | None] = asyncio.Queue()
 
     async def _keepalive() -> None:
@@ -52,7 +50,7 @@ async def sse_generator(
             async for chunk in source:
                 await queue.put(chunk)
         finally:
-            await queue.put(None)
+            await queue.put(None)  # sentinel
 
     keepalive_task = asyncio.create_task(_keepalive())
     drain_task = asyncio.create_task(_drain_source())
@@ -81,20 +79,20 @@ def make_sse_response(
         media_type="text/event-stream",
         headers={
             "Cache-Control": "no-cache",
-            "X-Accel-Buffering": "no",
+            "X-Accel-Buffering": "no",  # disable nginx buffering
         },
     )
 
 
 # ---------------------------------------------------------------------------
-# NDJSON helpers
+# NDJSON streaming
 # ---------------------------------------------------------------------------
 
 
 async def ndjson_generator(
     source: AsyncIterator[dict[str, Any]],
 ) -> AsyncGenerator[bytes]:
-    """Serialise each dict as an orjson line terminated with \\n."""
+    """Serialise each dict as a JSON line terminated with \\n."""
     async for chunk in source:
         yield orjson.dumps(chunk) + b"\n"
 
@@ -113,7 +111,7 @@ def make_ndjson_response(
 
 
 # ---------------------------------------------------------------------------
-# Utility: convert a raw text-chunk generator into SSE
+# Utility: convert a regular async generator to an SSE data stream
 # ---------------------------------------------------------------------------
 
 
@@ -122,7 +120,10 @@ async def text_chunks_to_sse(
     event: str = "chunk",
     done_event: str = "done",
 ) -> AsyncGenerator[dict[str, Any]]:
-    """Convert a raw LLM text-chunk generator into structured SSE dicts."""
+    """
+    Convert a raw text-chunk generator (e.g. from an LLM SDK) into
+    properly structured SSE dicts.
+    """
     try:
         async for text in source:
             yield {"event": event, "data": json.dumps({"text": text})}
@@ -130,3 +131,7 @@ async def text_chunks_to_sse(
     except Exception as exc:
         logger.exception("Streaming error: %s", exc)
         yield {"event": "error", "data": json.dumps({"error": str(exc)})}
+
+
+# contextlib.suppress re-export so callers don't need an extra import
+from contextlib import suppress  # noqa: E402

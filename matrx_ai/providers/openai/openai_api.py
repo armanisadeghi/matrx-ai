@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import asyncio
 import os
 import traceback
@@ -17,7 +19,6 @@ from matrx_ai.context.emitter_protocol import Emitter
 from .translator import OpenAITranslator
 
 DEBUG_OVERRIDE = False
-
 
 class OpenAIChat:
     """OpenAI Responses API-specific endpoint implementation."""
@@ -113,16 +114,6 @@ class OpenAIChat:
             **config_data_copy
         )
 
-        from tests.ai.translation_tests.response_capture import capture_provider_response
-        vcprint("\nCAPTURING PROVIDER RESPONSE - REMOVE AFTER TESTING\n", color="yellow")
-
-        capture_provider_response(
-            "openai",
-            matrx_model_name,
-            response.model_dump(),
-            {"stream": False, "has_tools": bool(config_data_copy.get("tools"))},
-        )
-
         content = ""
         for item in response.output:
             item_type = item.type
@@ -155,6 +146,7 @@ class OpenAIChat:
         """Execute streaming OpenAI request"""
 
         accumulated_events = []
+        final_response = None
 
         # Clear reasoning tracking for this stream
         self._reasoning_started = {}
@@ -167,16 +159,6 @@ class OpenAIChat:
 
             # Get the final response with usage data
             final_response: OpenAIResponse = await stream.get_final_response()
-
-        from tests.ai.translation_tests.response_capture import capture_provider_response
-        vcprint("\nCAPTURING PROVIDER RESPONSE - REMOVE AFTER TESTING\n", color="yellow")
-
-        capture_provider_response(
-            "openai",
-            matrx_model_name,
-            final_response.model_dump(),
-            {"stream": True, "has_tools": bool(config_data.get("tools"))},
-        )
 
         return self.translator.from_openai(final_response, matrx_model_name)
 

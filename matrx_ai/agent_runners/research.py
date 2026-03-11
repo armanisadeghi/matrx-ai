@@ -7,7 +7,7 @@ from matrx_utils import vcprint
 from pydantic import BaseModel, Field
 
 from matrx_ai.agents.definition import Agent
-from matrx_ai.config.usage_config import TokenUsage
+from matrx_ai.config import TokenUsage
 from matrx_ai.context.app_context import (
     clear_app_context as clear_execution_context,
 )

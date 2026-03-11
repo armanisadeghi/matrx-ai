@@ -6,7 +6,7 @@ database second — so nothing outside this module needs to know how config
 is sourced.
 
 Usage:
-    from .conversation_resolver import ConversationResolver, AgentConfigResolver
+    from matrx_ai.conversation_resolver import ConversationResolver, AgentConfigResolver
 
     # Continuing an existing conversation:
     config = await ConversationResolver.from_conversation_id(
@@ -25,6 +25,7 @@ import traceback
 from copy import deepcopy
 from typing import Any
 
+from fastapi import HTTPException, status
 from matrx_utils import vcprint
 
 from matrx_ai.agents.cache import AgentCache
@@ -69,7 +70,9 @@ class ConversationResolver:
         agent = AgentCache.get(conversation_id)
 
         if agent is not None:
-            vcprint(f"[ConversationResolver] Cache hit: {conversation_id}", color="green")
+            vcprint(
+                f"[ConversationResolver] Cache hit: {conversation_id}", color="green"
+            )
             # Work on a copy so the cached Agent is never mutated by this execution
             config = deepcopy(agent.config)
         else:
@@ -79,19 +82,15 @@ class ConversationResolver:
             )
             try:
                 config = await cxm.get_conversation_unified_config(conversation_id)
-                vcprint(config, "[ConversationResolver] Config loaded", color="green")
             except Exception as exc:
-                traceback.print_exc()
                 tb_str = traceback.format_exc()
                 vcprint(
                     f"[ConversationResolver] DB load FAILED for {conversation_id}\n"
-                    f"  - Exception type : {type(exc).__name__}\n"
-                    f"  - Exception      : {exc}\n"
-                    f"  - Traceback:\n{tb_str}",
+                    f"  Exception type : {type(exc).__name__}\n"
+                    f"  Exception      : {exc}\n"
+                    f"  Traceback:\n{tb_str}",
                     color="red",
                 )
-                from fastapi import HTTPException, status
-
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
                     detail=f"Conversation not found: {conversation_id}",
@@ -167,14 +166,14 @@ class AgentConfigResolver:
         from matrx_ai.agents.definition import Agent
 
         try:
-            agent = await Agent.from_id(agent_id, variables=variables, config_overrides=overrides)
+            agent = await Agent.from_id(
+                agent_id, variables=variables, config_overrides=overrides
+            )
         except Exception as exc:
             vcprint(
                 f"[AgentConfigResolver] Load failed for {agent_id!r}: {exc}",
                 color="red",
             )
-            from fastapi import HTTPException, status
-
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Agent not found: {agent_id}",

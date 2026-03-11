@@ -2,19 +2,15 @@
 Unified AI API System for OpenAI, Anthropic, and Google Gemini
 Preserves ALL content types and metadata from all providers
 """
-
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Literal
+from typing import Any, Literal
 
+from matrix.ai_models.ai_model_manager import ai_model_manager_instance
 from matrx_utils import vcprint
 
 from matrx_ai.config import UnifiedResponse
-from matrx_ai.db.custom.ai_models.ai_model_manager import AiModelManager, ai_model_manager_instance
-from matrx_ai.db.models import AiModel
-
-if TYPE_CHECKING:
-    from matrx_ai.orchestrator.requests import AIMatrixRequest
+from matrx_ai.orchestrator.requests import AIMatrixRequest
 
 # ============================================================================
 # UNIFIED CLIENT
@@ -39,7 +35,6 @@ API_CLASS_TO_ENDPOINT = {
     "xai_standard": "xai_chat",
 }
 
-
 class UnifiedAIClient:
     """Unified client for all AI providers"""
 
@@ -54,7 +49,7 @@ class UnifiedAIClient:
             XAIChat,
         )
 
-        self.model_manager: AiModelManager = ai_model_manager_instance
+        self.model_manager = ai_model_manager_instance
         self.google_chat = GoogleChat()
         self.openai_chat = OpenAIChat()
         self.anthropic_chat = AnthropicChat()
@@ -66,7 +61,7 @@ class UnifiedAIClient:
     async def execute(
         self,
         request: AIMatrixRequest,
-    ) -> UnifiedResponse:
+    ) -> dict[str, Any]:
         from matrx_ai.processing.audio.audio_preprocessing import (
             preprocess_audio_in_messages,
             should_preprocess_audio,
@@ -78,7 +73,7 @@ class UnifiedAIClient:
         debug = request.debug
 
         # Get model details first (need to know API class for audio support check)
-        model_data: AiModel | None = await self.model_manager.load_model(model_id_or_name)
+        model_data = await self.model_manager.load_model(model_id_or_name)
 
         if not model_data:
             raise ValueError(f"Model not found: {model_id_or_name}")
@@ -162,10 +157,6 @@ class UnifiedAIClient:
         model_data = await self.model_manager.load_model(model_id_or_name)
 
         if not model_data:
-            vcprint(request, "Request", color="blue")
-            vcprint(config, "Config", color="blue")
-            vcprint(f"Model not found: {model_id_or_name}", "Unified Client", color="red")
-            vcprint(model_data, "Model Data", color="red")
             raise ValueError(f"Model not found: {model_id_or_name}")
 
         model_name = model_data.name

@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Any, Literal
+from typing import Any, Literal, Optional
 
 from google.genai.types import Part
 from matrx_utils import vcprint
@@ -153,7 +153,7 @@ class TextContent:
     @classmethod
     def from_openai(
         cls, content_item: OpenAIResponseOutputText, id: str
-    ) -> "TextContent | None":
+    ) -> Optional["TextContent"]:
         text = content_item.text
         metadata = content_item.model_dump(exclude={"text"})
         metadata["id"] = id
@@ -165,7 +165,7 @@ class TextContent:
         )
 
     @classmethod
-    def from_google(cls, part: Part) -> "TextContent | None":
+    def from_google(cls, part: Part) -> Optional["TextContent"]:
         """Create TextContent from Google Part object"""
         metadata = {}
         # Store Google's thought signature in metadata if present
@@ -177,7 +177,7 @@ class TextContent:
         )
 
     @classmethod
-    def from_anthropic(cls, content_block: dict[str, Any]) -> "TextContent | None":
+    def from_anthropic(cls, content_block: dict[str, Any]) -> Optional["TextContent"]:
         """Create TextContent from Anthropic content block"""
         metadata = {}
         citations = content_block.get("citations", [])
@@ -318,9 +318,7 @@ class ThinkingContent:
             "id": self.id,
             "summary": self.summary,
             "type": "reasoning",
-            # "content": self.text,
             "encrypted_content": self.signature,
-            # "status": self.metadata.get("status", None),
         }
 
     def to_anthropic(self) -> dict[str, Any] | None:
@@ -344,7 +342,7 @@ class ThinkingContent:
         return result
 
     @classmethod
-    def from_google(cls, part: Part) -> "ThinkingContent | None":
+    def from_google(cls, part: Part) -> Optional["ThinkingContent"]:
         """Create ThinkingContent from Google Part object"""
         # vcprint(part, "Google Part", color="yellow")
         return cls(
@@ -356,7 +354,7 @@ class ThinkingContent:
     @classmethod
     def from_anthropic(
         cls, content_block: dict[str, Any]
-    ) -> "ThinkingContent | None":
+    ) -> Optional["ThinkingContent"]:
         """Create ThinkingContent from Anthropic content block"""
         return cls(
             text=content_block["thinking"],
@@ -367,7 +365,7 @@ class ThinkingContent:
     @classmethod
     def from_openai(
         cls, item: OpenAIResponseReasoningItem
-    ) -> "ThinkingContent | None":
+    ) -> Optional["ThinkingContent"]:
         """Create ThinkingContent from OpenAI reasoning item"""
         # Extract encrypted_content from the item
         encrypted_content = getattr(item, "encrypted_content", None)
@@ -430,7 +428,7 @@ def reconstruct_content(block: dict[str, Any]) -> UnifiedContent:
         sig = block.get("signature")
         if sig and block.get("signature_encoding") == "base64":
             sig = base64.b64decode(sig)
-            
+
         id_from_metadata = block.get("metadata", {}).get("id")
         return ThinkingContent(
             text=block.get("text", ""),

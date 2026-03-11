@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import asyncio
 import time
 import traceback
@@ -16,16 +18,17 @@ from matrx_ai.config import (
 )
 from matrx_ai.context.app_context import get_app_context
 from matrx_ai.db.custom import (
-    create_pending_user_request,
     ensure_conversation_exists,
+    ensure_user_request_exists,
     update_conversation_status,
     update_user_request_status,
 )
+from matrx_ai.db.custom.cx_managers import cxm
 from matrx_ai.db.custom.persistence import persist_completed_request
 from matrx_ai.orchestrator.requests import AIMatrixRequest, CompletedRequest
 from matrx_ai.orchestrator.tracking import TimingUsage, ToolCallUsage
+from matrx_ai.providers import UnifiedAIClient
 from matrx_ai.providers.errors import RetryableError, classify_provider_error
-from matrx_ai.providers.unified_client import UnifiedAIClient
 from matrx_ai.tools.handle_tool_calls import handle_tool_calls_v2
 
 from .recovery_logic import handle_finish_reason
@@ -66,9 +69,25 @@ async def execute_ai_request(
     """
     ctx = get_app_context()
 
+    is_child_agent = ctx.is_internal_agent and not ctx.request_id
+
     # Sub-agent forks set request_id="" — generate a fresh one so every
     # execution always has a valid cx_user_request PK.
     request_id = ctx.request_id if ctx.request_id else str(uuid4())
+
+    # For child agents: the boundary layer never had a chance to call
+    # ensure_user_request_exists() because the fork happens mid-execution
+    # inside a tool call.  We create the row here so the defensive check
+    # in execute_until_complete() passes and the child's costs are tracked
+    # in their own cx_user_request row (linked via parent_conversation_id).
+    if is_child_agent:
+        await ensure_user_request_exists(
+            request_id=request_id,
+            conversation_id=ctx.conversation_id,
+            user_id=ctx.user_id,
+        )
+        # Update the context so the rest of the pipeline sees the generated id.
+        ctx.extend(request_id=request_id)
 
     request = AIMatrixRequest(
         conversation_id=ctx.conversation_id,
@@ -266,14 +285,26 @@ async def execute_until_complete(
         parent_conversation_id=exec_ctx.parent_conversation_id,
     )
 
-    # Use current_request.request_id as the authoritative PK for cx_user_request.
-    # This is what CompletedRequest.to_storage_dict() emits, so gate and
-    # persistence are guaranteed to reference the same row.
-    await create_pending_user_request(
-        request_id=current_request.request_id or exec_ctx.request_id,
-        conversation_id=exec_ctx.conversation_id,
-        user_id=exec_ctx.user_id,
-    )
+    # The cx_user_request row should already exist — boundary layers call
+    # ensure_user_request_exists() before reaching here.  If it's missing we
+    # create it now so execution is never blocked by a missing boundary call.
+    # A warning is logged so the gap can be found and fixed in the calling code.
+    _request_id = current_request.request_id or exec_ctx.request_id
+    if _request_id:
+        existing_ur = await cxm.user_request.filter_cx_user_requests(id=_request_id)
+        if not existing_ur:
+            vcprint(
+                f"[ExecuteUntilComplete] cx_user_request row missing for "
+                f"request_id={_request_id!r}. Auto-creating — boundary layer "
+                f"(API route, batch script, or workflow) should call "
+                f"ensure_user_request_exists() before invoking the AI engine.",
+                color="yellow",
+            )
+            await ensure_user_request_exists(
+                request_id=_request_id,
+                conversation_id=exec_ctx.conversation_id,
+                user_id=exec_ctx.user_id,
+            )
 
     # Track message positions for cx_user_request
     pre_execution_message_count = len(current_request.config.messages)
@@ -388,7 +419,7 @@ async def execute_until_complete(
 
                     error_info = classify_provider_error(provider, e)
 
-                # Handle retryable errors
+                # Handle retryable errors (error_info is now set)
                 if (
                     error_info.is_retryable
                     and retry_attempt < max_retries_per_iteration
@@ -460,11 +491,17 @@ async def execute_until_complete(
                 current_request.add_timing(current_timing)
 
             # Get error info from last_error if available
-            last_error_info: RetryableError | None = getattr(last_error, "error_info", None)
+            last_error_info: RetryableError | None = getattr(
+                last_error, "error_info", None
+            )
 
-            error_message = last_error_info.message if last_error_info else str(last_error)
+            error_message = (
+                last_error_info.message if last_error_info else str(last_error)
+            )
             error_type = (
-                last_error_info.error_type if last_error_info else type(last_error).__name__
+                last_error_info.error_type
+                if last_error_info
+                else type(last_error).__name__
             )
 
             return await _finalize_and_persist(
@@ -491,9 +528,14 @@ async def execute_until_complete(
             )
             current_timing.tool_execution_duration = time.time() - t0
 
-            # Add child agent usages to parent request so they appear in total_usage
-            for child_usage in child_token_usages:
-                current_request.add_usage(child_usage)
+            # Child agent token usages are intentionally NOT added to the parent's
+            # usage_history here.  Each child agent has its own cx_user_request row
+            # (created by execute_ai_request when is_internal_agent=True) and its
+            # own cx_request rows that are summed separately.  Adding them to the
+            # parent would cause double-counting in the aggregate query in
+            # persist_completed_request → load_cx_requests_by_user_request_id.
+            # Cost roll-up across parent/child is done at the reporting layer by
+            # walking the cx_conversation.parent_conversation_id chain.
 
             # Record completion of this iteration's main work
             current_timing.end_time = time.time()
@@ -634,7 +676,9 @@ async def execute_until_complete(
     return await _finalize_and_persist(
         current_request=current_request,
         iteration=iteration,
-        final_response=response if response is not None else UnifiedResponse(messages=[]),
+        final_response=response
+        if response is not None
+        else UnifiedResponse(messages=[]),
         metadata={
             "status": "max_iterations_exceeded",
             "max_iterations": max_iterations,

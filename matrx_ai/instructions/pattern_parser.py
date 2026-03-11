@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 from dataclasses import dataclass
 from typing import Any
@@ -28,7 +30,6 @@ class MatrxPattern:
     def __repr__(self):
         field_str = f", fields='{self.fields}'" if self.fields else ""
         return f"MatrxPattern(table='{self.table}', column='{self.column}', value='{self.value}'{field_str})"
-
 
 class MatrxPatternParser:
     """
@@ -229,10 +230,8 @@ class MatrxPatternParser:
         
         return result
 
-
 # Quick-check compiled regex: avoids importing MatrxFetcher when no patterns exist.
 _MATRX_QUICK_CHECK = re.compile(r'<<MATRX>>')
-
 
 def resolve_matrx_patterns(text: str) -> str:
     """

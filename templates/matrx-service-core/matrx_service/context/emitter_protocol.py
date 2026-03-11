@@ -7,15 +7,6 @@ from matrx_service.context.events import BrokerPayload, CompletionPayload, ToolE
 
 @runtime_checkable
 class Emitter(Protocol):
-    """Runtime-checkable protocol defining the full emitter API surface.
-
-    Both StreamEmitter (production) and ConsoleEmitter (dev/test) satisfy
-    this protocol. Service code always depends on Emitter, never on a
-    concrete implementation.
-
-    All methods are async — every emit queues a JSON line to the stream.
-    """
-
     async def send_chunk(self, text: str) -> None: ...
 
     async def send_status_update(

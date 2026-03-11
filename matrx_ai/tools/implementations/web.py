@@ -328,7 +328,7 @@ async def research_web(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
                 "condensing", "Conducting in-depth research analysis on scraped content"
             )
 
-            from .agent_runners.research import scrape_research_condenser_agent_1
+            from matrx_ai.agent_runners.research import scrape_research_condenser_agent_1
 
             queries_str = ", ".join(parsed.queries)
 

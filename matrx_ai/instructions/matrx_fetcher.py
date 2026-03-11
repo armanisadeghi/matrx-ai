@@ -4,11 +4,12 @@ MATRX Data Fetcher
 A robust, table-specific data fetching system that works with MATRX patterns.
 Each table has its own method with appropriate defaults and post-processing.
 """
+from __future__ import annotations
 
 import uuid
 from typing import Any
 
-from matrx_ai.db.models import ContentBlocks
+from db.models import ContentBlocks
 
 
 def is_valid_uuid(value: str) -> bool:
@@ -18,7 +19,6 @@ def is_valid_uuid(value: str) -> bool:
         return True
     except (ValueError, AttributeError):
         return False
-
 
 class MatrxFetcher:
     """
@@ -204,7 +204,6 @@ class MatrxFetcher:
                 result = result[:pattern.start_pos] + error_msg + result[pattern.end_pos:]
         
         return result
-
 
 if __name__ == "__main__":
     from matrx_utils import clear_terminal, vcprint

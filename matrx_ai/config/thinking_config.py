@@ -70,12 +70,14 @@ class ThinkingConfig:
         if self.reasoning_summary:
             # OpenAI only supports "auto" | "concise" | "detailed" — "never" omits the field,
             # "always" has no direct equivalent so maps to "detailed" (strongest always-on option).
-            summary_mapping: dict[str, Literal["auto", "concise", "detailed"] | None] = {
-                "auto":     "auto",
-                "concise":  "concise",
+            summary_mapping: dict[
+                str, Literal["auto", "concise", "detailed"] | None
+            ] = {
+                "auto": "auto",
+                "concise": "concise",
                 "detailed": "detailed",
-                "never":    None,
-                "always":   "detailed",
+                "never": None,
+                "always": "detailed",
             }
 
             summary: Literal["auto", "concise", "detailed"] | None = summary_mapping.get(self.reasoning_summary)

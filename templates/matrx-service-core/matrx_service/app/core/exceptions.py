@@ -116,6 +116,7 @@ async def matrx_exception_handler(request: Request, exc: MatrxException) -> ORJS
 
 
 async def http_exception_handler(request: Request, exc: HTTPException) -> ORJSONResponse:
+    """Log every HTTPException to stderr so 401/403/404 are never silent."""
     detail = exc.detail
     print(
         f"\n[HTTPException] {request.method} {request.url.path}"

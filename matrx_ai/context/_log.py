@@ -11,7 +11,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-_logger = logging.getLogger("matrx_service.emitter")
+_logger = logging.getLogger("matrx_ai.context")
 
 try:
     from matrx_utils import vcprint as _vcprint  # type: ignore[import-untyped]

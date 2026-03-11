@@ -4,14 +4,14 @@ import time
 from enum import StrEnum
 from typing import Any
 
+from db.managers.prompt_builtins import PromptBuiltinsBase
+from db.managers.prompts import PromptsBase
+from db.models import PromptBuiltins, Prompts
 from matrx_utils import vcprint
 
 from matrx_ai.agents.types import AgentConfig
 from matrx_ai.agents.variables import AgentVariable
 from matrx_ai.config.unified_config import UnifiedConfig
-from matrx_ai.db.managers.prompt_builtins import PromptBuiltinsBase
-from matrx_ai.db.managers.prompts import PromptsBase
-from matrx_ai.db.models import PromptBuiltins, Prompts
 
 
 class PromptType(StrEnum):
@@ -33,7 +33,9 @@ class PromptsManager(PromptsBase):
     async def to_config(self, prompt_id: str) -> AgentConfig:
         prompt: Prompts = await self.load_prompts_by_id(prompt_id)
 
-        settings: dict[str, Any] = prompt.settings if isinstance(prompt.settings, dict) else {}
+        settings: dict[str, Any] = (
+            prompt.settings if isinstance(prompt.settings, dict) else {}
+        )
         config_dict = {
             "messages": prompt.messages,
             "model": settings.get("model_id", ""),
@@ -67,7 +69,9 @@ class PromptBuiltinsManager(PromptBuiltinsBase):
     async def to_config(self, builtin_id: str) -> AgentConfig:
         builtin: PromptBuiltins = await self.load_prompt_builtins_by_id(builtin_id)
 
-        settings: dict[str, Any] = builtin.settings if isinstance(builtin.settings, dict) else {}
+        settings: dict[str, Any] = (
+            builtin.settings if isinstance(builtin.settings, dict) else {}
+        )
         config_dict = {
             "messages": builtin.messages,
             "model": settings.get("model_id", "") or settings.get("ai_model", ""),
@@ -92,7 +96,6 @@ class PromptBuiltinsManager(PromptBuiltinsBase):
 # ---------------------------------------------------------------------------
 _prompts_mgr = PromptsManager()
 _builtins_mgr = PromptBuiltinsManager()
-
 
 # ---------------------------------------------------------------------------
 # Aggregator — single access point for all prompt/builtin operations
@@ -239,6 +242,18 @@ class PromptManagers:
             self._cache(item.id, PromptType.BUILTIN)
         return item
 
+    async def update_prompt(self, prompt_id: str, **updates: Any) -> Prompts:
+        return await self._prompt.update_item(prompt_id, **updates)
+
+    async def update_builtin(self, builtin_id: str, **updates: Any) -> PromptBuiltins:
+        return await self._builtin.update_item(builtin_id, **updates)
+
+    async def update_by_id(self, item_id: str, **updates: Any) -> Prompts | PromptBuiltins:
+        cached_type = self._type_cache.get(item_id)
+        if cached_type == PromptType.BUILTIN:
+            return await self.update_builtin(item_id, **updates)
+        return await self.update_prompt(item_id, **updates)
+
     # -- Unified load (don't know the type) ---------------------------------
 
     async def load_by_id(self, item_id: str) -> Prompts | PromptBuiltins:
@@ -257,6 +272,15 @@ class PromptManagers:
         item = await self._builtin.load_by_id(item_id)
         self._cache(item_id, PromptType.BUILTIN)
         return item
+
+    async def load_without_cache(self, item_id: str) -> Prompts | PromptBuiltins:
+        cached_type = self._type_cache.get(item_id)
+        if cached_type == PromptType.PROMPT:
+            return await self._prompt.load_item(use_cache=False, id=item_id)
+        if cached_type == PromptType.BUILTIN:
+            return await self._builtin.load_item(use_cache=False, id=item_id)
+        return await self._prompt.load_item(use_cache=False, id=item_id)
+
 
     async def load_by_id_or_none(self, item_id: str) -> Prompts | PromptBuiltins | None:
         cached_type = self._type_cache.get(item_id)

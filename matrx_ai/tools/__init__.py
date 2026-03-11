@@ -14,15 +14,13 @@ Public API:
     ToolLifecycleManager      — Resource cleanup
     ToolExecutionLogger       — DB logging (two-phase: INSERT on start, UPDATE on finish)
 
-External tool integration (for apps consuming matrx-ai as a package):
+External tool integration (for apps consuming the ai package):
     ExternalToolAdapter       — Base class: subclass, decorate with @external_tool, call register()
     external_tool             — Decorator: marks a method as the handler for a named tool
     ExternalHandlerRegistry   — Underlying singleton registry (advanced use / testing)
     ExternalToolHandler       — Type alias for the handler callable signature
     register_external_tool_handler  — Register a standalone function for one tool
     register_external_app_handler   — Register a catch-all for all tools from a source_app
-
-See docs/external-tool-integration.md for the full integration guide.
 """
 
 from .agent_tool import execute_agent_tool, register_agent_as_tool

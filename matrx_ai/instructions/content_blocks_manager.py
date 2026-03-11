@@ -1,10 +1,9 @@
 import uuid
 from typing import Any
 
+from db.managers.content_blocks import ContentBlocksDTO
+from db.models import ContentBlocks
 from matrx_orm import BaseManager
-
-from matrx_ai.db.managers.content_blocks import ContentBlocksDTO
-from matrx_ai.db.models import ContentBlocks
 
 
 def is_valid_uuid(value):

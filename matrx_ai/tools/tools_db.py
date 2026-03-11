@@ -1,4 +1,4 @@
-from matrx_ai.db.managers.tools import ToolsBase
+from db.managers.tools import ToolsBase
 
 
 class ToolsManager(ToolsBase):

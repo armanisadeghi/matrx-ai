@@ -71,8 +71,10 @@ class AuthMiddleware:
 
         ctx = _build_context(request)
 
+        # For router handlers — context_dep reads this
         request.state.context = ctx
 
+        # For service / AI / tool code — get_app_context() reads this
         token = set_app_context(ctx)
         try:
             await self.app(scope, receive, send)
@@ -139,8 +141,8 @@ def _validate_token(
 
     if not jwt_secret:
         print(
-            "[AuthMiddleware] WARNING: SUPABASE_JWT_SECRET not set — "
-            "JWT tokens cannot be validated.",
+            "[AuthMiddleware] WARNING: supabase_jwt_secret not set — "
+            "JWT tokens cannot be validated. Set SUPABASE_JWT_SECRET in .env.",
             file=sys.stderr,
             flush=True,
         )

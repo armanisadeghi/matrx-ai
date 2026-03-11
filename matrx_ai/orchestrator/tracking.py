@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Any
 
@@ -14,7 +16,7 @@ class ToolCallUsage:
     """List of tool call details (name, success, etc.)"""
 
     @staticmethod
-    def aggregate(tool_call_list: list["ToolCallUsage"]) -> dict[str, Any]:
+    def aggregate(tool_call_list: list[ToolCallUsage]) -> dict[str, Any]:
         """Aggregate tool call statistics from a list of iteration tool calls.
 
         Returns a dictionary with comprehensive tool call analysis including:
@@ -93,7 +95,7 @@ class TimingUsage:
         )
 
     @staticmethod
-    def aggregate(timings: list["TimingUsage"]) -> dict[str, Any]:
+    def aggregate(timings: list[TimingUsage]) -> dict[str, Any]:
         """Aggregate timing statistics from a list of iteration timings.
 
         Returns a dictionary with comprehensive timing analysis including:

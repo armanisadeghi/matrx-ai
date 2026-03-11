@@ -165,17 +165,16 @@ class StreamEvent(BaseModel):
         return self.model_dump_json() + "\n"
 
 
-# ---------------------------------------------------------------------------
-# Builder + validator
-# ---------------------------------------------------------------------------
-
-
 class InvalidEventError(Exception):
     pass
 
 
+# ---------------------------------------------------------------------------
+# Constructors — always prefer these over building StreamEvent directly
+# ---------------------------------------------------------------------------
+
+
 def build_event(event_type: EventType, payload: BaseModel) -> StreamEvent:
-    """Construct a StreamEvent, validating that payload matches the event type."""
     expected_cls = PAYLOAD_REGISTRY.get(event_type)
     if expected_cls is None:
         raise InvalidEventError(
@@ -189,11 +188,13 @@ def build_event(event_type: EventType, payload: BaseModel) -> StreamEvent:
             f"'{expected_cls.__name__}', got '{type(payload).__name__}'"
         )
 
-    return StreamEvent(event=event_type, data=payload.model_dump())
+    return StreamEvent(
+        event=event_type,
+        data=payload.model_dump(),
+    )
 
 
 def validate_event_dict(event_name: str, data: dict[str, Any]) -> StreamEvent:
-    """Parse and validate a raw event dict (e.g. from an inbound stream)."""
     if event_name not in VALID_EVENT_TYPES:
         raise InvalidEventError(
             f"[EMITTER ERROR] Unsupported event type: '{event_name}'. "

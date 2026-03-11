@@ -1,12 +1,11 @@
 import asyncio
 
-from matrx_utils import cleanup_async_resources, clear_terminal, vcprint
-
 from ai.agents.definition import Agent
 from aidream.api.middleware.test_context import (
     create_test_app_context as create_test_execution_context,
 )
 from initialize_systems import initialize
+from matrx_utils import cleanup_async_resources, clear_terminal, vcprint
 
 initialize()
 _ctx_token = create_test_execution_context()

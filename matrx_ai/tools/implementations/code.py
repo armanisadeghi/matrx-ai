@@ -153,7 +153,7 @@ async def code_fetch_code(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     Use "signatures" for large modules where you just need the API surface.
     Use "clean" or "original" for focused editing or review of small modules.
     """
-    from matrx_ai.utils.code_context.code_context import CodeContextBuilder
+    from utils.code_context.code_context import CodeContextBuilder
 
     project_root_raw = args.get("project_root", "")
     subdirectory = args.get("subdirectory", "") or None
@@ -227,7 +227,7 @@ async def code_fetch_tree(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
     with no file content (~1% of full token cost). Ideal for orientation before deciding
     which subdirectory to fetch in full with code_fetch_code.
     """
-    from matrx_ai.utils.code_context.code_context import CodeContextBuilder
+    from utils.code_context.code_context import CodeContextBuilder
 
     project_root_raw = args.get("project_root", "")
     subdirectory = args.get("subdirectory", "") or None

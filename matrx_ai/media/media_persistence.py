@@ -9,9 +9,7 @@ import base64
 import uuid
 from typing import Literal
 
-from matrx_utils import FileManager
-
-# TODO: Figure out how to manage file handler with supabase buckets from matrx_utils
+from common.utils.file_handlers.file_handler import FileHandler
 
 # ============================================================================
 # AI MEDIA HANDLER
@@ -24,10 +22,9 @@ class AIMediaHandler:
     _instance = None
 
     def __init__(self):
-        self.file_manager = FileManager.get_instance(
+        self.file_handler = FileHandler.get_instance(
             app_name="ai_media"
         )
-        self.file_handler = self.file_manager.file_handler
 
     @classmethod
     def get_instance(cls):

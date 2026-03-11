@@ -47,8 +47,8 @@ class Agent:
 
     Core components:
     - config: UnifiedConfig (the actual dataclass, unmodified)
-    - variable_defaults: dict[str, AgentVariable] (defined variables)
-    - variable_values: dict[str, Any] (current values)
+    - variable_defaults: Dict[str, AgentVariable] (defined variables)
+    - variable_values: Dict[str, Any] (current values)
 
     Prompts/PromptBuiltins are sources to create agents, not core to the agent itself.
     """

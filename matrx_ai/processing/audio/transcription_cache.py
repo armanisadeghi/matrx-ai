@@ -7,6 +7,7 @@ the same audio files across different requests.
 Cache is keyed by (audio_source, model, language) to ensure we only reuse
 transcriptions that used the same settings.
 """
+from __future__ import annotations
 
 import hashlib
 from dataclasses import dataclass
@@ -22,7 +23,6 @@ class CachedTranscription:
     
     metadata: dict[str, Any]
     """Metadata from the transcription (usage, quality metrics, etc.)"""
-
 
 class TranscriptionCache:
     """
@@ -102,15 +102,12 @@ class TranscriptionCache:
         """Get number of cached transcriptions"""
         return len(self._cache)
 
-
 # Global cache instance
 _global_cache = TranscriptionCache()
-
 
 def get_cache() -> TranscriptionCache:
     """Get the global transcription cache instance"""
     return _global_cache
-
 
 def clear_cache() -> None:
     """Clear the global transcription cache"""

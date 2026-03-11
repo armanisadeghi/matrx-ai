@@ -1,15 +1,14 @@
-"""App Context & Emitter.
+"""App Context & Emitter Protocol.
 
-- AppContext: ContextVar-based request context (set by AuthMiddleware)
+- AppContext: ContextVar-based request context
 - Emitter: Runtime-checkable Protocol for streaming
 - EventType: Event types and payload models
 - ConsoleEmitter: Dev/test emitter
-- StreamEmitter: Production NDJSON emitter
 
 Usage:
-    from matrx_service.context.app_context import AppContext, get_app_context
+    from matrx_service.context.app_context import AppContext, get_app_context, set_app_context
     from matrx_service.context.emitter_protocol import Emitter
-    from matrx_service.context.events import EventType, build_event
+    from matrx_service.context.events import EventType
 """
 
 from matrx_service.context.app_context import (

@@ -1,4 +1,6 @@
-from typing import Any, TypedDict
+from __future__ import annotations
+
+from typing import TypedDict
 
 from google.genai import types
 from google.genai.types import (
@@ -34,14 +36,12 @@ from matrx_ai.tools.registry import ToolRegistryV2
 # GEMINI TRANSLATOR
 # ============================================================================
 
-
 class GoogleProviderConfig(TypedDict):
     """Type hint for Google API configuration dictionary"""
 
     model: str
     contents: list[Content]
     config: GenerateContentConfig
-
 
 class GoogleTranslator:
     """Translates between unified format and Google Gemini API"""
@@ -73,7 +73,7 @@ class GoogleTranslator:
         contents: list[Content] = []
 
         for msg in config.messages:
-            google_content: dict[str, Any] | None = msg.to_google_content()
+            google_content: Content | None = msg.to_google_content()
             if google_content:
                 contents.append(google_content)
 
@@ -308,7 +308,6 @@ class GoogleTranslator:
                 color="red",
             )
 
-        assert last_chunk is not None, "No chunks with a finish_reason were received from Google"
         raw_response = last_chunk
         last_chunk.candidates = all_candidates
 

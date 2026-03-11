@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 from datetime import datetime
 
@@ -34,7 +36,7 @@ class SystemInstruction:
         default_factory=list, init=False, repr=False
     )
 
-    async def load_content_blocks(self) -> "SystemInstruction":
+    async def load_content_blocks(self) -> SystemInstruction:
         """
         Fetch and cache content blocks from database.
         Call this before converting to string if you need content blocks.
@@ -122,7 +124,7 @@ class SystemInstruction:
         return str(self)
 
     @classmethod
-    def from_value(cls, value: "str | dict | SystemInstruction") -> "SystemInstruction":
+    def from_value(cls, value: str | dict | SystemInstruction) -> SystemInstruction:
         """
         Single entry point to create a SystemInstruction from any supported input.
 
@@ -167,7 +169,7 @@ class SystemInstruction:
         raise TypeError(f"Cannot create SystemInstruction from {type(value)}")
 
     @classmethod
-    async def from_dict(cls, data: dict) -> "SystemInstruction":
+    async def from_dict(cls, data: dict) -> SystemInstruction:
         """
         Create a SystemInstruction from a dict and load content blocks (async).
 
@@ -187,7 +189,7 @@ class SystemInstruction:
         return instance
 
     @classmethod
-    def for_code_review(cls, language: str = "TypeScript") -> "SystemInstruction":
+    def for_code_review(cls, language: str = "TypeScript") -> SystemInstruction:
         return cls(
             base_instruction=f"You are an expert {language} code reviewer",
             include_code_guidelines=True,
@@ -196,7 +198,7 @@ class SystemInstruction:
         )
 
     @classmethod
-    def for_ai_matrix(cls, additional_context: str = "") -> "SystemInstruction":
+    def for_ai_matrix(cls, additional_context: str = "") -> SystemInstruction:
         return cls(
             intro="You are 'AI MATRX Assistant'. The most advanced & intelligent assistant in the universe.",
             base_instruction="You are able to solve any problem, answer any question, and help with any task. Even though your knowledge cutoff may be months or years ago, you know today's date.",

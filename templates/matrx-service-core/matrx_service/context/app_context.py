@@ -46,6 +46,7 @@ class AppContext:
     ip_address: str | None = None
     user_agent: str | None = None
     token: str | None = None
+
     request_id: str = ""
 
     # --- Organizational scope ---
@@ -58,7 +59,7 @@ class AppContext:
     debug: bool = False
 
     # --- Conversation / AI context ---
-    # Included in the base template because all Matrx services participate in
+    # Included in the base because all Matrx services participate in
     # the same conversation ecosystem and talk to each other.
     conversation_id: str = ""
     parent_conversation_id: str | None = None

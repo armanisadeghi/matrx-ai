@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 from typing import Any
 
@@ -19,7 +21,6 @@ from matrx_ai.tools.registry import ToolRegistryV2
 # ============================================================================
 # GROQ TRANSLATOR
 # ============================================================================
-
 
 class GroqTranslator:
     """Translates between unified format and Groq API (OpenAI-style)"""

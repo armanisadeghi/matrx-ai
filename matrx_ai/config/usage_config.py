@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
@@ -37,7 +39,6 @@ class PricingTier:
     cache_write_5m_price: float | None = None  # 5-minute cache writes
     cache_write_1h_price: float | None = None  # 1-hour cache writes
     cache_hit_price: float | None = None  # Cache hits & refreshes
-
 
 @dataclass
 class ModelPricing:
@@ -98,7 +99,6 @@ class ModelPricing:
         # If we get here, use the last tier (highest tier)
         return self.tiers[-1]
 
-
 # Hard-coded pricing lookup for testing
 # In production, this will come from the database
 MODEL_PRICING: dict[str, ModelPricing] = {
@@ -111,7 +111,7 @@ MODEL_PRICING: dict[str, ModelPricing] = {
         tiers=[
             PricingTier(
                 max_tokens=None,
-                input_price=0.25,   # text, image, video input; audio input is $0.50/M
+                input_price=0.25,  # text, image, video input; audio input is $0.50/M
                 output_price=1.50,
                 cached_input_price=0.025,
             )
@@ -126,8 +126,8 @@ MODEL_PRICING: dict[str, ModelPricing] = {
         tiers=[
             PricingTier(
                 max_tokens=None,
-                input_price=0.25,   # text input per million tokens
-                output_price=0.067, # image output — price per image, resolution-dependent; see pricing page
+                input_price=0.25,  # text input per million tokens
+                output_price=0.067,  # image output — price per image, resolution-dependent; see pricing page
                 cached_input_price=0.025,
             )
         ],
@@ -173,8 +173,8 @@ MODEL_PRICING: dict[str, ModelPricing] = {
         tiers=[
             PricingTier(
                 max_tokens=None,
-                input_price=2.00,   # text input per million tokens
-                output_price=0.134, # image output — price per image, resolution-dependent; see pricing page
+                input_price=2.00,  # text input per million tokens
+                output_price=0.134,  # image output — price per image, resolution-dependent; see pricing page
                 cached_input_price=0.20,
             )
         ],
@@ -193,7 +193,7 @@ MODEL_PRICING: dict[str, ModelPricing] = {
             ),
             # Tier 2: prompts > 200k tokens
             PricingTier(
-                max_tokens=None,
+                max_tokens=None,  # Unlimited (highest tier)
                 input_price=4.00,
                 output_price=18.00,
                 cached_input_price=0.40,
@@ -613,7 +613,6 @@ MODEL_PRICING: dict[str, ModelPricing] = {
     ),
 }
 
-
 @dataclass
 class ModelUsageSummary:
     input_tokens: int = 0
@@ -623,7 +622,6 @@ class ModelUsageSummary:
     api: str = ""
     request_count: int = 0
     cost: float | None = 0.0
-
 
 @dataclass
 class UsageTotals:
@@ -635,7 +633,6 @@ class UsageTotals:
     unique_models: int = 0
     total_cost: float | None = None
 
-
 @dataclass
 class AggregatedUsage:
     by_model: dict[str, ModelUsageSummary] = field(default_factory=dict)
@@ -643,7 +640,6 @@ class AggregatedUsage:
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
-
 
 @dataclass
 class TokenUsage:
@@ -788,7 +784,7 @@ class TokenUsage:
         total_cost = input_cost + output_cost + cached_cost
         return total_cost
 
-    def __add__(self, other: "TokenUsage") -> "TokenUsage":
+    def __add__(self, other: TokenUsage) -> TokenUsage:
         """Allow easy aggregation across multiple requests.
 
         Preserves model/API info if both operands use the same model.
@@ -812,7 +808,7 @@ class TokenUsage:
     @classmethod
     def from_gemini(
         cls, usage_metadata: dict[str, Any], matrx_model_name: str = "", provider_model_name: str = "", response_id: str = ""
-    ) -> "TokenUsage":
+    ) -> TokenUsage:
         """Create TokenUsage from Google Gemini usage metadata.
 
         Args:
@@ -834,7 +830,7 @@ class TokenUsage:
     @classmethod
     def from_openai(
         cls, usage: OpenAIResponseUsage, matrx_model_name: str, provider_model_name: str, response_id: str = ""
-    ) -> "TokenUsage":
+    ) -> TokenUsage:
         """Create TokenUsage from OpenAI usage object.
 
         Args:
@@ -861,7 +857,7 @@ class TokenUsage:
     @classmethod
     def from_anthropic(
         cls, usage: AnthropicUsage, matrx_model_name: str,  response_id: str = ""
-    ) -> "TokenUsage":
+    ) -> TokenUsage:
         """Create TokenUsage from Anthropic usage object.
 
         Args:
@@ -881,7 +877,7 @@ class TokenUsage:
         )
 
     @staticmethod
-    def aggregate_by_model(usage_list: list["TokenUsage"]) -> AggregatedUsage:
+    def aggregate_by_model(usage_list: list[TokenUsage]) -> AggregatedUsage:
         """Aggregate token usage by model for clean reporting.
 
         Takes a list of TokenUsage objects and returns total usage grouped by model.

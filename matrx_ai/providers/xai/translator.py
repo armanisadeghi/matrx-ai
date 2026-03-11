@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 from typing import Any
 
@@ -19,7 +21,6 @@ from matrx_ai.tools.registry import ToolRegistryV2
 # ============================================================================
 # XAI TRANSLATOR
 # ============================================================================
-
 
 class XAITranslator:
     """Translates between unified format and xAI Grok API (OpenAI-compatible)"""

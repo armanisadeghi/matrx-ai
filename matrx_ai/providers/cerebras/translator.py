@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 from typing import Any
 
@@ -20,7 +22,6 @@ from matrx_ai.tools.registry import ToolRegistryV2
 # ============================================================================
 # CEREBRAS TRANSLATOR
 # ============================================================================
-
 
 class CerebrasTranslator:
     """Translates between unified format and Cerebras API (OpenAI-style)"""

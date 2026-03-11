@@ -11,6 +11,13 @@ from pydantic import BaseModel
 from matrx_ai.tools.models import ToolDefinition, ToolType
 from matrx_ai.tools.tools_db import tools_manager_instance as tools_manager
 
+# All source_app values that belong to this codebase.
+# Any tool whose source_app matches one of these is treated as LOCAL
+# (implementation resolved via function_path).
+# Tools with any *other* source_app are routed to an EXTERNAL_HANDLER
+# that must be registered at runtime by the host application.
+_NATIVE_SOURCE_APPS: frozenset[str] = frozenset({"ai", "matrx_ai"})
+
 
 class ToolRegistryV2:
     """Singleton registry: loads tool definitions from the database and
@@ -301,27 +308,21 @@ class ToolRegistryV2:
             prompt_id = function_path.split(":", 1)[1]
         elif function_path.startswith("mcp:"):
             tool_type = ToolType.EXTERNAL_MCP
-        elif source_app and source_app != "matrx_ai":
-            # Tool implementation lives in an external host application.
+        elif source_app and source_app not in _NATIVE_SOURCE_APPS:
+            # Tool implementation lives in an external host application
+            # (e.g. matrx_local, a third-party integration, etc.).
             # A handler must be registered at runtime via register_external_tool_handler
             # or register_external_app_handler before the first call.
             tool_type = ToolType.EXTERNAL_HANDLER
-            # vcprint(
-            #     f"[ToolRegistryV2] External-handler tool '{tool_name}' (source_app='{source_app}'). "
-            #     "Register a handler via register_external_tool_handler / register_external_app_handler.",
-            #     color="yellow",
-            # )
         else:
             tool_type = ToolType.LOCAL
-            if source_app == "matrx_ai":
-                # vcprint(f"[ToolRegistryV2] Local tool: {tool_name}", color="green")
-                pass
-            else:
+            if source_app not in _NATIVE_SOURCE_APPS:
                 # source_app is None or an unrecognised value — treat as local and
                 # let _resolve_callable raise if the function_path is invalid.
                 vcprint(
-                    f"[ToolRegistryV2] Tool '{tool_name}' has no recognised source_app "
-                    f"(got {source_app!r}); treating as local.",
+                    f"[ToolRegistryV2] Tool '{tool_name}' has unrecognised source_app "
+                    f"(got {source_app!r}); treating as local. "
+                    f"Add to _NATIVE_SOURCE_APPS if this is a first-party app.",
                     color="yellow",
                 )
 
@@ -376,12 +377,21 @@ class ToolRegistryV2:
         if function_path.startswith("ai."):
             function_path = function_path[3:]
         _LEGACY_FLAT_PREFIXES = (
-            "tools.", "agents.", "config.", "context.", "db.", "instructions.",
-            "media.", "orchestrator.", "processing.", "providers.", "utils.",
+            "tools.",
+            "agents.",
+            "config.",
+            "context.",
+            "db.",
+            "instructions.",
+            "media.",
+            "orchestrator.",
+            "processing.",
+            "providers.",
+            "utils.",
             "agent_runners.",
         )
         if any(function_path.startswith(p) for p in _LEGACY_FLAT_PREFIXES):
-            function_path = f"matrx_ai.{function_path}"
+            function_path = f"ai.{function_path}"
         module_path, func_name = function_path.rsplit(".", 1)
         module = importlib.import_module(module_path)
         func = getattr(module, func_name)

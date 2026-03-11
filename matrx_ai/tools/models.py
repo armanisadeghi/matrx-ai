@@ -185,8 +185,8 @@ class ToolDefinition(BaseModel):
     )
     source_app: str | None = Field(
         default=None,
-        description="The application that owns this tool's implementation (e.g. 'matrx_ai', 'matrx_local'). "
-        "Tools with source_app != 'matrx_ai' require an external handler registered at runtime.",
+        description="The application that owns this tool's implementation (e.g. 'ai', 'matrx_local'). "
+        "Tools with source_app != 'ai' require an external handler registered at runtime.",
     )
 
     category: str | None = None

@@ -3,6 +3,8 @@ Unified AI API System for OpenAI, Anthropic, and Google Gemini
 Preserves ALL content types and metadata from all providers
 """
 
+from __future__ import annotations
+
 import uuid
 from dataclasses import asdict, dataclass, field, replace
 from datetime import UTC, datetime
@@ -104,7 +106,7 @@ class AIMatrixRequest:
     @classmethod
     def from_dict(
         cls, data: dict[str, Any], emitter: Emitter | None = None
-    ) -> "AIMatrixRequest":
+    ) -> AIMatrixRequest:
         """Create AIMatrixRequest from dictionary.
 
         The ``emitter`` parameter is accepted for backward compatibility
@@ -136,10 +138,10 @@ class AIMatrixRequest:
     @classmethod
     def add_response(
         cls,
-        original_request: "AIMatrixRequest",
+        original_request: AIMatrixRequest,
         response: UnifiedResponse,
         tool_results: list[ToolResultContent] | None = None,
-    ) -> "AIMatrixRequest":
+    ) -> AIMatrixRequest:
         """Add response (and optionally tool results) to the conversation history.
 
         This is used both when continuing with tool results and when finishing

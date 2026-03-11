@@ -9,7 +9,7 @@
 # Tier 2 (external SDK deps only — safe unless those SDKs cause issues):
 #   usage_config, thinking_config, extra_config, tools_config
 #
-# Tier 3 (imports from ai.media, ai.instructions, db.models — heavy):
+# Tier 3 (imports from matrx_ai.media, ai.instructions, db.models — heavy):
 #   media_config, unified_config
 #
 # Rule: import only the tier you need. If you only need Role or TokenUsage,

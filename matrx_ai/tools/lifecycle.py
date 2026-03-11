@@ -170,7 +170,3 @@ class ToolLifecycleManager:
     @property
     def pending_cleanups(self) -> int:
         return sum(len(fns) for fns in self._cleanup_fns.values())
-
-    @property
-    def registered_adapter_cleanups(self) -> int:
-        return len(self._adapter_cleanup_fns)

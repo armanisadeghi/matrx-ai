@@ -1,17 +1,47 @@
+"""Structured exception hierarchy and FastAPI exception handlers.
+
+All exceptions that cross API boundaries should subclass MatrxException.
+This guarantees a consistent error response shape across every service:
+
+    {
+        "error":  "<human-readable message>",
+        "detail": { ... structured context ... },
+        "path":   "/api/..."
+    }
+
+Every handler writes directly to sys.stderr before returning a response
+so errors are never silenced by uvicorn log config or level filters.
+"""
+
 import sys
 import traceback
 
 from fastapi import HTTPException, Request
 from fastapi.responses import ORJSONResponse
-from matrx_utils import vcprint
+
+from matrx_ai.context._log import log
 
 
 class MatrxException(Exception):
-    def __init__(self, message: str, status_code: int = 500, detail: dict | None = None) -> None:
+    def __init__(
+        self,
+        message: str,
+        status_code: int = 500,
+        detail: dict | None = None,
+    ) -> None:
         self.message = message
         self.status_code = status_code
         self.detail = detail or {}
         super().__init__(message)
+
+
+class NotFoundError(MatrxException):
+    def __init__(self, resource: str, resource_id: str) -> None:
+        super().__init__(
+            message=f"{resource} '{resource_id}' not found",
+            status_code=404,
+            detail={"resource": resource, "id": resource_id},
+        )
 
 
 class ProviderError(MatrxException):
@@ -46,9 +76,22 @@ class StreamingError(MatrxException):
         super().__init__(message=f"Streaming error: {message}", status_code=500)
 
 
+class AuthorizationError(MatrxException):
+    def __init__(self, message: str = "Unauthorized") -> None:
+        super().__init__(message=message, status_code=401, detail={"error": "unauthorized"})
+
+
+class ForbiddenError(MatrxException):
+    def __init__(self, message: str = "Forbidden") -> None:
+        super().__init__(message=message, status_code=403, detail={"error": "forbidden"})
+
+
+# ---------------------------------------------------------------------------
+# Exception handlers — register all three in main.py
+# ---------------------------------------------------------------------------
+
+
 async def matrx_exception_handler(request: Request, exc: MatrxException) -> ORJSONResponse:
-    # Print directly to stderr — bypasses all logging infrastructure so this
-    # is never silenced by uvicorn log config, log level filters, or handlers.
     print(
         f"\n[MatrxException] {request.method} {request.url.path}"
         f"\n  status={exc.status_code}  message={exc.message}"
@@ -56,9 +99,10 @@ async def matrx_exception_handler(request: Request, exc: MatrxException) -> ORJS
         file=sys.stderr,
         flush=True,
     )
-    vcprint(
-        {"status_code": exc.status_code, "message": exc.message, "detail": exc.detail, "path": str(request.url.path)},
-        f"[Exception] {request.method} {request.url.path}",
+    log(
+        {"status_code": exc.status_code, "message": exc.message,
+         "detail": exc.detail, "path": str(request.url.path)},
+        title=f"[Exception] {request.method} {request.url.path}",
         color="red",
     )
     return ORJSONResponse(
@@ -80,9 +124,9 @@ async def http_exception_handler(request: Request, exc: HTTPException) -> ORJSON
         file=sys.stderr,
         flush=True,
     )
-    vcprint(
+    log(
         {"status_code": exc.status_code, "detail": detail, "path": str(request.url.path)},
-        f"[HTTPException] {request.method} {request.url.path}",
+        title=f"[HTTPException] {request.method} {request.url.path}",
         color="yellow",
     )
     return ORJSONResponse(
@@ -94,7 +138,6 @@ async def http_exception_handler(request: Request, exc: HTTPException) -> ORJSON
 
 async def unhandled_exception_handler(request: Request, exc: Exception) -> ORJSONResponse:
     tb = traceback.format_exc()
-    # Print directly to stderr — bypasses all logging infrastructure.
     print(
         f"\n[UNHANDLED EXCEPTION] {request.method} {request.url.path}"
         f"\n  {type(exc).__name__}: {exc}"
@@ -102,9 +145,9 @@ async def unhandled_exception_handler(request: Request, exc: Exception) -> ORJSO
         file=sys.stderr,
         flush=True,
     )
-    vcprint(
+    log(
         tb,
-        f"[Unhandled Exception] {request.method} {request.url.path} | {type(exc).__name__}: {exc}",
+        title=f"[Unhandled] {request.method} {request.url.path} | {type(exc).__name__}: {exc}",
         color="red",
     )
     return ORJSONResponse(

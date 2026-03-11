@@ -1,6 +1,6 @@
 import dataclasses
 from dataclasses import dataclass, field
-from typing import Any, Literal
+from typing import Any, Literal, Optional
 
 from google.genai.types import Part
 from matrx_utils import vcprint
@@ -109,7 +109,7 @@ class ImageContent:
         return None
 
     @classmethod
-    def from_google(cls, part: Part) -> "ImageContent | None":
+    def from_google(cls, part: Part) -> Optional["ImageContent"]:
         """Create ImageContent from Google Part object"""
         from matrx_ai.media import save_media
 
@@ -405,7 +405,7 @@ class AudioContent:
         return None
 
     @classmethod
-    def from_google(cls, part: Part) -> "AudioContent | None":
+    def from_google(cls, part: Part) -> Optional["AudioContent"]:
         """Create AudioContent from Google Part object"""
         from matrx_ai.media import save_media
 
@@ -539,7 +539,7 @@ class VideoContent:
         return None
 
     @classmethod
-    def from_google(cls, part: Part) -> "VideoContent | None":
+    def from_google(cls, part: Part) -> Optional["VideoContent"]:
         """Create VideoContent from Google Part object"""
         from matrx_ai.media import save_media
 
@@ -648,7 +648,7 @@ class YouTubeVideoContent:
         return None
 
     @classmethod
-    def from_google(cls, part: Part) -> "YouTubeVideoContent | None":
+    def from_google(cls, part: Part) -> Optional["YouTubeVideoContent"]:
         """
         Create YouTubeVideoContent from Google Part object.
 
@@ -796,7 +796,7 @@ class DocumentContent:
         return None
 
     @classmethod
-    def from_google(cls, part: Part) -> "DocumentContent | None":
+    def from_google(cls, part: Part) -> Optional["DocumentContent"]:
         """Create DocumentContent from Google Part object"""
         from matrx_ai.media import save_media
 

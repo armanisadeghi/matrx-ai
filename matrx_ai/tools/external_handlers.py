@@ -1,11 +1,11 @@
-"""External tool handler registry for matrx-ai.
+"""External tool handler registry for ai.
 
-When matrx-ai is consumed as a package by an external application (e.g. Matrx Local),
+When the ai package is consumed as a package by an external application (e.g. Matrx Local),
 some tools in the database have implementations that live in the host application, not
-in this codebase. These tools carry ``source_app != "matrx_ai"`` in the database.
+in this codebase. These tools carry ``source_app != "ai"`` in the database.
 
 The ``ExternalHandlerRegistry`` allows host applications to register async callables
-that matrx-ai will dispatch to when the AI model calls one of those tools. The result
+that the executor will dispatch to when the AI model calls one of those tools. The result
 flows back through the same guardrails, streaming, persistence, and model-feedback
 pipeline as any native tool -- the model cannot tell the difference.
 
@@ -261,7 +261,7 @@ def external_tool(tool_name: str) -> Callable[[_F], _F]:
 # ------------------------------------------------------------------
 
 class ExternalToolAdapter:
-    """High-level base class for integrating host-application tools with matrx-ai.
+    """High-level base class for integrating host-application tools with the ai package.
 
     Subclass this, set ``source_app``, decorate methods with ``@external_tool``,
     then call ``register()`` once at application startup.  The adapter auto-discovers
@@ -327,9 +327,9 @@ class ExternalToolAdapter:
 
     def register(self, registry: ExternalHandlerRegistry | None = None) -> None:
         """Register all decorated methods, the app-level dispatcher, and the
-        conversation-cleanup callback with matrx-ai's ``ToolLifecycleManager``.
+        conversation-cleanup callback with the ``ToolLifecycleManager``.
 
-        Call once at application startup, after ``matrx_ai.initialize()``.
+        Call once at application startup.
 
         Args:
             registry: Override the registry instance (defaults to the global singleton).
@@ -421,7 +421,7 @@ class ExternalToolAdapter:
     async def on_conversation_end(self, conversation_id: str) -> None:
         """Override to clean up conversation-scoped resources when a conversation ends.
 
-        This is called automatically by matrx-ai's ``ToolLifecycleManager`` when a
+        This is called automatically by ``ToolLifecycleManager`` when a
         conversation ends (either explicitly via ``cleanup_conversation()`` or via the
         idle-timeout sweep after 30 minutes of inactivity).
 

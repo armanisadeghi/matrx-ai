@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 import asyncio
 import os
 import traceback
 from typing import Any
 
-from cerebras.cloud.sdk import AsyncCerebras, AsyncStream
-from cerebras.cloud.sdk.types.chat import ChatCompletion as CerebrasCompletion
+from cerebras.cloud.sdk import AsyncCerebras
 from matrx_utils import vcprint
 
 from matrx_ai.config import (
@@ -19,7 +20,6 @@ from matrx_ai.context.emitter_protocol import Emitter
 from .translator import CerebrasTranslator
 
 DEBUG_OVERRIDE = False
-
 
 class CerebrasChat:
     """Cerebras API-specific endpoint implementation (OpenAI-style)."""
@@ -108,16 +108,6 @@ class CerebrasChat:
         vcprint("[Cerebras] API call completed, processing response...", color="cyan")
         vcprint(response, "Cerebras Response", color="green", verbose=self.debug)
 
-        from tests.ai.translation_tests.response_capture import capture_provider_response
-        vcprint("\nCAPTURING PROVIDER RESPONSE - REMOVE AFTER TESTING\n", color="yellow")
-
-        capture_provider_response(
-            "cerebras",
-            model,
-            response.model_dump(),
-            {"stream": False, "has_tools": bool(config_data.get("tools"))},
-        )
-
         # Convert to unified format first
         vcprint("[Cerebras] Converting to unified format...", color="cyan")
         converted_response = self.to_unified_response(response, model)
@@ -161,7 +151,7 @@ class CerebrasChat:
         vcprint("[Cerebras] Starting API call (streaming)...", color="cyan")
 
         # Native async streaming - stream=True already in config_data from translator
-        stream: AsyncStream[CerebrasCompletion] = await self.client.chat.completions.create(**config_data)  # type: ignore[assignment]
+        stream = await self.client.chat.completions.create(**config_data)
 
         vcprint(
             "[Cerebras] Stream connection established, processing chunks...",
@@ -193,9 +183,7 @@ class CerebrasChat:
             response_model = chunk.model  # Always present
 
             # Choices is always a list with one item
-            assert chunk.choices, "Cerebras streaming chunk missing choices"
             choice = chunk.choices[0]
-            assert choice.delta is not None, "Cerebras streaming choice missing delta"
             delta = choice.delta
 
             # Handle reasoning chunks (delta.reasoning can be null or string)
@@ -249,25 +237,6 @@ class CerebrasChat:
         # Close reasoning tag if still open
         if accumulated_reasoning and not first_reasoning_chunk:
             await emitter.send_chunk("\n</reasoning>\n")
-
-        from tests.ai.translation_tests.response_capture import capture_provider_response
-        vcprint("\nCAPTURING PROVIDER RESPONSE - REMOVE AFTER TESTING\n", color="yellow")
-        
-        capture_provider_response(
-            "cerebras",
-            model,
-            {
-                "id": response_id,
-                "created": response_created,
-                "model": response_model,
-                "content": accumulated_content,
-                "reasoning": accumulated_reasoning,
-                "tool_calls": accumulated_tool_calls,
-                "finish_reason": finish_reason,
-                "usage": usage_data.model_dump() if usage_data else None,
-            },
-            {"stream": True},
-        )
 
         # Reconstruct a ChatCompletion-like response object to pass through translator
         # This ensures consistency with non-streaming path and keeps conversion logic in one place

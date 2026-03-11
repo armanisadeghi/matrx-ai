@@ -1,5 +1,10 @@
 # File: db/models.py
+from dataclasses import dataclass
+from typing import ClassVar
+
 from matrx_orm import (
+    BaseDTO,
+    BaseManager,
     BigIntegerField,
     BooleanField,
     CharField,
@@ -14,12 +19,7 @@ from matrx_orm import (
     TextField,
     UUIDField,
     model_registry,
-    BaseDTO,
-    BaseManager,
 )
-from enum import Enum
-from dataclasses import dataclass
-from typing import ClassVar
 
 
 class Users(Model):

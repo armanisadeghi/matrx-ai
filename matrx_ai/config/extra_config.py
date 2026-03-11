@@ -1,6 +1,6 @@
 import json
 from dataclasses import dataclass, field
-from typing import Any, Literal
+from typing import Any, Literal, Optional
 
 from google.genai.types import Part
 
@@ -41,7 +41,7 @@ class CodeExecutionContent:
         return result
 
     @classmethod
-    def from_google(cls, part: Part) -> "CodeExecutionContent | None":
+    def from_google(cls, part: Part) -> Optional["CodeExecutionContent"]:
         """Create CodeExecutionContent from Google Part object"""
         if hasattr(part, "executable_code") and part.executable_code:
             return cls(
@@ -87,7 +87,7 @@ class CodeExecutionResultContent:
         return result
 
     @classmethod
-    def from_google(cls, part: Part) -> "CodeExecutionResultContent | None":
+    def from_google(cls, part: Part) -> Optional["CodeExecutionResultContent"]:
         """Create CodeExecutionResultContent from Google Part object"""
         if hasattr(part, "code_execution_result") and part.code_execution_result:
             return cls(
@@ -115,7 +115,7 @@ class WebSearchCallContent:
     @classmethod
     def from_openai(
         cls, content_item: OpenAIResponseFunctionWebSearch
-    ) -> "WebSearchCallContent | None":
+    ) -> Optional["WebSearchCallContent"]:
         id = content_item.id
         status = content_item.status
         action = content_item.action

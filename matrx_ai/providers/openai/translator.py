@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Any
 
 import rich
@@ -17,7 +19,6 @@ from matrx_ai.tools.registry import ToolRegistryV2
 # ============================================================================
 # OPENAI TRANSLATOR
 # ============================================================================
-
 
 class OpenAITranslator:
     """Translates between unified format and OpenAI Responses API"""
@@ -51,11 +52,10 @@ class OpenAITranslator:
             rich.print(converted)
 
             if converted:
-                # Lists are extended flat: OUTPUT/TOOL items, reasoning items,
-                # and prior-turn assistant messages (raw output-objects).
+                # If it's a list (OUTPUT/TOOL role), extend messages with all items
                 if isinstance(converted, list):
                     messages.extend(converted)
-                # Otherwise it's a chat-style wrapped message, append it directly.
+                # Otherwise it's a single wrapped message, append it
                 else:
                     messages.append(converted)
 
@@ -145,7 +145,7 @@ class OpenAITranslator:
         Convert OpenAI Responses API response to unified format.
 
         """
-        vcprint(response, "[OPENAI TRANSLATOR] from_openai Response before conversion", color="yellow", verbose=True)
+        vcprint(response, "OpenAI Response", color="blue", verbose=False)
 
         # messages = self._from_openai_messages(response.output)
         messages = []

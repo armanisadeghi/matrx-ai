@@ -1281,8 +1281,8 @@ requires-dist = [
     { name = "groq" },
     { name = "httpx", specifier = ">=0.28.0" },
     { name = "httpx", marker = "extra == 'dev'", specifier = ">=0.28.0" },
-    { name = "matrx-orm", specifier = ">=3.0.13" },
-    { name = "matrx-utils", specifier = ">=1.0.13" },
+    { name = "matrx-orm", specifier = ">=3.0.20" },
+    { name = "matrx-utils", specifier = ">=1.0.16" },
     { name = "openai" },
     { name = "orjson", marker = "extra == 'server'", specifier = ">=3.10.0" },
     { name = "pip", specifier = ">=26.0.1" },
@@ -1323,7 +1323,7 @@ server = [
 
 [[package]]
 name = "matrx-orm"
-version = "3.0.13"
+version = "3.0.22"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "asyncpg" },
@@ -1333,14 +1333,14 @@ dependencies = [
     { name = "psycopg-pool" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/cd/dd/ff60889eb9b9d15316903f5705172be3132bfa93e70757b5ded4a742a97b/matrx_orm-3.0.13.tar.gz", hash = "sha256:ea3470e4eb7297ed08ff071d454b681a675891006811dcb1eda7235ea2069138", size = 435386, upload-time = "2026-03-03T22:10:09.241Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/8c/e4/8614b0e32261df0650afae16d084336d0ac640cf40f1524a4e31ff7021cd/matrx_orm-3.0.22.tar.gz", hash = "sha256:3cc20e55f79d1b980f3a057d9a2f264369e231cb934b249b684efe6bae065ef5", size = 466186, upload-time = "2026-03-11T08:00:40.178Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e0/94/114d0e7c0c725e42d369c90cbf1106def6e3ec9594404bf1ef64ca37f2ef/matrx_orm-3.0.13-py3-none-any.whl", hash = "sha256:7d257db0413fb51215680c1b709dc8162936cde83d2792fd7f6a7543dad84886", size = 270260, upload-time = "2026-03-03T22:10:07.222Z" },
+    { url = "https://files.pythonhosted.org/packages/62/e7/42c0b5de0b63e29e5490a012e0806e0d423468466edf0bb1ade97d0d5b8b/matrx_orm-3.0.22-py3-none-any.whl", hash = "sha256:1cfcd2930f773cdc0f5badfb9709bdf4c0767b916da636ca46ab082531b7e398", size = 289199, upload-time = "2026-03-11T08:00:38.186Z" },
 ]
 
 [[package]]
 name = "matrx-utils"
-version = "1.0.13"
+version = "1.0.16"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "boto3" },
@@ -1357,9 +1357,9 @@ dependencies = [
     { name = "requests" },
     { name = "supabase" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/98/c8/64289194d6c19f9f121cd520fb60a4ce4877e7443e1e4405b793ba7244f5/matrx_utils-1.0.13.tar.gz", hash = "sha256:8c150f8da91004fac5987bbab0d08d8ff6efa4da345d2a3dd279db13fa12cd0f", size = 4232697, upload-time = "2026-03-02T20:09:16.576Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/02/7b/b886046d495e61c989c67b9dea8032d8f53373843da5acd1dadf5f210fe4/matrx_utils-1.0.16.tar.gz", hash = "sha256:6e264b7d4e16dfb08b6a9e9fd60ccc944ae15dd8e6f741476d83e3e8e06e64d0", size = 4236978, upload-time = "2026-03-11T00:44:35.804Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3a/2d/3d96a1aa111be6f6e42ec94b77eca272dde4f2c43b79818752d81a6512c7/matrx_utils-1.0.13-py3-none-any.whl", hash = "sha256:49b0a67f50c13d37d618b2d010fdff87610493c34f59c783ead80839676686b6", size = 4317666, upload-time = "2026-03-02T20:09:13.783Z" },
+    { url = "https://files.pythonhosted.org/packages/22/ab/d13357eaaad2ebb1a5536331fcabcc981f0b2326d34b2cb1f87453f46fa8/matrx_utils-1.0.16-py3-none-any.whl", hash = "sha256:f4496965acf65b378fab1dd8eeb17b4556541c961e90b6a38df25e134e57b3c3", size = 4317999, upload-time = "2026-03-11T00:44:32.904Z" },
 ]
 
 [[package]]

@@ -1,24 +1,3 @@
-"""In-memory request cancellation registry.
-
-Long-running task loops poll is_cancelled() between iterations.
-Cancellation endpoints call cancel(request_id) to set the flag.
-Entries auto-expire after ttl_seconds to prevent unbounded memory growth.
-
-Usage
------
-    registry = CancellationRegistry.get_instance()
-
-    # In a cancellation endpoint:
-    await registry.cancel(request_id)
-
-    # In a task loop:
-    for iteration in range(max_iterations):
-        if registry.is_cancelled(ctx.request_id):
-            await emitter.send_cancelled()
-            return
-        ...
-"""
-
 from __future__ import annotations
 
 import asyncio
@@ -26,6 +5,15 @@ import time
 
 
 class CancellationRegistry:
+    """In-memory registry for request cancellation.
+
+    Endpoints set a cancellation flag via ``cancel(request_id)``.
+    Long-running loops (e.g. ``execute_until_complete``) poll via
+    ``is_cancelled(request_id)`` between iterations.
+
+    Entries auto-expire after ``ttl_seconds`` to prevent memory leaks.
+    """
+
     _instance: CancellationRegistry | None = None
 
     def __init__(self, ttl_seconds: float = 60.0):

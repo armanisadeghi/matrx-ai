@@ -1,3 +1,10 @@
+"""Streaming event contract — identical across all Matrx services.
+
+All services emit and consume this exact set of event types. Never add
+service-specific event types here; extend by adding fields to existing
+payloads or by using the `metadata` / `data` dict fields.
+"""
+
 from __future__ import annotations
 
 import time
@@ -5,6 +12,11 @@ from enum import StrEnum
 from typing import Any, Literal
 
 from pydantic import BaseModel, Field
+
+
+# ---------------------------------------------------------------------------
+# Event type registry
+# ---------------------------------------------------------------------------
 
 
 class EventType(StrEnum):
@@ -22,12 +34,21 @@ class EventType(StrEnum):
 VALID_EVENT_TYPES: frozenset[str] = frozenset(e.value for e in EventType)
 
 
+# ---------------------------------------------------------------------------
+# Payload models — one per EventType, validated on emit
+# ---------------------------------------------------------------------------
+
+
 class ChunkPayload(BaseModel):
+    """Streaming text chunk — emitted as the LLM generates tokens."""
+
     model_config = {"extra": "forbid"}
     text: str
 
 
 class StatusUpdatePayload(BaseModel):
+    """Human-readable status update. system_message is for logs; user_message for UI."""
+
     model_config = {"extra": "forbid"}
     status: str
     system_message: str | None = None
@@ -36,10 +57,14 @@ class StatusUpdatePayload(BaseModel):
 
 
 class DataPayload(BaseModel):
+    """Arbitrary structured data payload. Extra fields allowed — use for service-specific data."""
+
     model_config = {"extra": "allow"}
 
 
 class CompletionPayload(BaseModel):
+    """Final completion event. Sent once per request, immediately before END."""
+
     model_config = {"extra": "forbid"}
     status: Literal["complete", "failed", "max_iterations_exceeded"] = "complete"
     output: Any = None
@@ -52,6 +77,8 @@ class CompletionPayload(BaseModel):
 
 
 class ErrorPayload(BaseModel):
+    """Structured error. user_message is safe to display to end users."""
+
     model_config = {"extra": "forbid"}
     error_type: str
     message: str
@@ -71,6 +98,8 @@ ToolEventType = Literal[
 
 
 class ToolEventPayload(BaseModel):
+    """Tool lifecycle event. Emitted by the tool executor during tool calls."""
+
     model_config = {"extra": "forbid"}
     event: ToolEventType
     call_id: str
@@ -82,6 +111,8 @@ class ToolEventPayload(BaseModel):
 
 
 class BrokerPayload(BaseModel):
+    """Cross-service value delivery. broker_id identifies the subscriber."""
+
     model_config = {"extra": "forbid"}
     broker_id: str
     value: Any
@@ -90,14 +121,22 @@ class BrokerPayload(BaseModel):
 
 
 class HeartbeatPayload(BaseModel):
+    """Keepalive ping sent on idle connections to prevent proxy timeouts."""
+
     model_config = {"extra": "forbid"}
     timestamp: float = Field(default_factory=time.time)
 
 
 class EndPayload(BaseModel):
+    """Stream termination signal. Always the last event in a stream."""
+
     model_config = {"extra": "forbid"}
     reason: str = "complete"
 
+
+# ---------------------------------------------------------------------------
+# Registry — maps EventType → expected payload class
+# ---------------------------------------------------------------------------
 
 PAYLOAD_REGISTRY: dict[EventType, type[BaseModel]] = {
     EventType.CHUNK: ChunkPayload,
@@ -112,6 +151,11 @@ PAYLOAD_REGISTRY: dict[EventType, type[BaseModel]] = {
 }
 
 
+# ---------------------------------------------------------------------------
+# StreamEvent — the wire format
+# ---------------------------------------------------------------------------
+
+
 class StreamEvent(BaseModel):
     model_config = {"extra": "forbid"}
     event: EventType
@@ -123,6 +167,11 @@ class StreamEvent(BaseModel):
 
 class InvalidEventError(Exception):
     pass
+
+
+# ---------------------------------------------------------------------------
+# Constructors — always prefer these over building StreamEvent directly
+# ---------------------------------------------------------------------------
 
 
 def build_event(event_type: EventType, payload: BaseModel) -> StreamEvent:

@@ -1,22 +1,36 @@
+"""Auth middleware — pure ASGI, no BaseHTTPMiddleware.
+
+BaseHTTPMiddleware buffers the full response body and silently swallows
+exceptions raised inside streaming async generators. Pure ASGI middleware
+does neither: it passes scope/receive/send straight through to the route
+handler without buffering anything.
+
+Auth resolution order per request
+----------------------------------
+1. Bearer JWT   → decode with Supabase secret → authenticated user
+2. Admin token  → static token match          → admin user
+3. Fingerprint  → X-Fingerprint-ID header     → guest user
+4. None of the above                           → anonymous
+
+Sets both:
+  - request.state.context  → consumed by FastAPI Depends(context_dep)
+  - ContextVar             → consumed by get_app_context() anywhere in the stack
+"""
+
 from __future__ import annotations
 
+import sys
+
 import jwt
-from matrx_utils import vcprint
 from starlette.requests import Request
 from starlette.types import ASGIApp, Receive, Scope, Send
 
 from matrx_ai.app.config import get_settings
+from matrx_ai.context._log import log
 from matrx_ai.context.app_context import AppContext, clear_app_context, set_app_context
 
 
 class AuthMiddleware:
-    """Pure ASGI auth middleware.
-
-    BaseHTTPMiddleware buffers the full response body and silently swallows
-    exceptions raised inside streaming async generators. Pure ASGI middleware
-    does neither — it passes scope/receive/send straight through.
-    """
-
     def __init__(self, app: ASGIApp) -> None:
         self.app = app
 
@@ -33,11 +47,13 @@ class AuthMiddleware:
             parts = raw_auth.split(None, 1)
             if len(parts) == 2:
                 scheme, tok = parts
-                redacted_auth = f"{scheme} {tok[:6]}…{tok[-4:]}" if len(tok) > 10 else f"{scheme} [redacted]"
+                redacted_auth = (
+                    f"{scheme} {tok[:6]}…{tok[-4:]}" if len(tok) > 10 else f"{scheme} [redacted]"
+                )
             else:
                 redacted_auth = "[redacted]"
 
-        vcprint(
+        log(
             {
                 "method": request.method,
                 "path": request.url.path,
@@ -49,7 +65,7 @@ class AuthMiddleware:
                 "content_type": request.headers.get("content-type"),
                 "content_length": request.headers.get("content-length"),
             },
-            "[AuthMiddleware] __call__ Request Received",
+            title="[AuthMiddleware] Request",
             color="blue",
         )
 
@@ -100,10 +116,10 @@ def _validate_token(
     try:
         scheme, token = authorization.split(None, 1)
         if scheme.lower() != "bearer":
-            vcprint(f"[AuthMiddleware] Non-bearer scheme rejected: {scheme!r}", color="yellow")
+            log(f"[AuthMiddleware] Non-bearer scheme rejected: {scheme!r}", color="yellow")
             return None
     except ValueError:
-        vcprint("[AuthMiddleware] Malformed authorization header", color="yellow")
+        log("[AuthMiddleware] Malformed authorization header", color="yellow")
         return None
 
     settings = get_settings()
@@ -111,7 +127,7 @@ def _validate_token(
     admin_user_id = settings.admin_user_id
 
     if admin_token and admin_user_id and token == admin_token:
-        vcprint(f"[AuthMiddleware] Admin token accepted: user={admin_user_id}", color="green")
+        log(f"[AuthMiddleware] Admin token accepted: user={admin_user_id}", color="green")
         ctx.user_id = admin_user_id
         ctx.auth_type = "token"
         ctx.is_authenticated = True
@@ -121,16 +137,16 @@ def _validate_token(
         ctx.fingerprint_id = fingerprint_id
         return ctx
 
-    jwt_secret = settings.supabase_matrix_jwt_secret
+    jwt_secret = settings.supabase_jwt_secret
 
     if not jwt_secret:
         print(
-            "[AuthMiddleware] WARNING: supabase_matrix_jwt_secret not set — "
-            "JWT tokens cannot be validated. Set SUPABASE_MATRIX_JWT_SECRET in .env.",
-            file=__import__("sys").stderr,
+            "[AuthMiddleware] WARNING: supabase_jwt_secret not set — "
+            "JWT tokens cannot be validated. Set SUPABASE_JWT_SECRET in .env.",
+            file=sys.stderr,
             flush=True,
         )
-        vcprint("[AuthMiddleware] JWT secret missing — cannot validate token", color="red")
+        log("[AuthMiddleware] JWT secret missing — cannot validate token", color="red")
         return None
 
     try:
@@ -141,7 +157,7 @@ def _validate_token(
             options={"verify_aud": False},
         )
         user_id = decoded.get("sub", "")
-        vcprint(f"[AuthMiddleware] JWT accepted: user={user_id}", color="green")
+        log(f"[AuthMiddleware] JWT accepted: user={user_id}", color="green")
         ctx.user_id = user_id
         ctx.auth_type = "token"
         ctx.is_authenticated = True
@@ -153,8 +169,8 @@ def _validate_token(
     except jwt.InvalidTokenError as e:
         print(
             f"[AuthMiddleware] JWT validation FAILED: {type(e).__name__}: {e}",
-            file=__import__("sys").stderr,
+            file=sys.stderr,
             flush=True,
         )
-        vcprint(f"[AuthMiddleware] JWT rejected: {type(e).__name__}: {e}", color="red")
+        log(f"[AuthMiddleware] JWT rejected: {type(e).__name__}: {e}", color="red")
         return None
