@@ -4,15 +4,14 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-import dotenv
+import matrx_ai
+
+matrx_ai.initialize()
+
 import rich
 from matrx_utils import cleanup_async_resources, clear_terminal, to_matrx_json, vcprint
 
-import matrx_ai
 from matrx_ai.orchestrator import CompletedRequest
-
-dotenv.load_dotenv()
-matrx_ai.initialize()
 
 LOCAL_USER_ID = os.getenv("LOCAL_USER_ID")
 
@@ -492,7 +491,7 @@ if __name__ == "__main__":
     
     # cerebras xai together groq
     
-    settings_to_use["config"]["model"] = together
+    settings_to_use["config"]["model"] = "gpt-5.4"
     new_conversation = True
     # settings_to_use["debug"] = True
 

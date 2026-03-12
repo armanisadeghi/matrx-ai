@@ -9,7 +9,7 @@ import base64
 import uuid
 from typing import Literal
 
-from common.utils.file_handlers.file_handler import FileHandler
+from matrx_utils import FileHandler
 
 # ============================================================================
 # AI MEDIA HANDLER

@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
-from matrix.ai_models.ai_model_manager import ai_model_manager_instance
+from matrx_ai.db.custom.ai_models.ai_model_manager import ai_model_manager_instance
 from matrx_utils import vcprint
 
 from matrx_ai.config import UnifiedResponse

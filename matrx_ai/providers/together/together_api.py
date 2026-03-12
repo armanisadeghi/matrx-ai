@@ -194,11 +194,12 @@ class TogetherChat:
                     vcprint(delta, "Together Tool Calls", color="magenta")
                 for tc in delta.tool_calls:
                     # Handle both dict and object formats
-                    tc_index = (
+                    tc_index_raw = (
                         tc.get("index")
                         if isinstance(tc, dict)
                         else getattr(tc, "index", None)
                     )
+                    tc_index = int(tc_index_raw) if tc_index_raw is not None else None
                     tc_id = (
                         tc.get("id")
                         if isinstance(tc, dict)

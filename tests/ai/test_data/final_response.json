@@ -1,10 +1,10 @@
 {
     "request": {
-        "conversation_id": "1180a165-122b-4c07-b54e-75966e2c09f9",
+        "conversation_id": "78a9947c-96b5-4f59-b56a-219fe906ab19",
         "user_id": "4cf62e4e-2679-484f-b652-034e697418df",
         "debug": false,
         "config": {
-            "model": "llama-3.3-70b-versatile",
+            "model": "gpt-5.4",
             "messages": [
                 {
                     "role": "user",
@@ -37,46 +37,100 @@
                     ]
                 },
                 {
-                    "role": "assistant",
+                    "role": "output",
                     "content": [
                         {
-                            "type": "tool_call",
-                            "id": "8k2n292h8",
-                            "call_id": "",
-                            "name": "news_get_headlines",
-                            "arguments": {
-                                "country": "us"
+                            "type": "thinking",
+                            "text": "",
+                            "id": "rs_0dfcacaff5480a560069b1f8e2cdbc8194a3f8662bacb0a3a4",
+                            "provider": "openai",
+                            "signature": "gAAAAABpsfjjnvXHMSl6AQO8C55dCjT2rpn10xhUbCdizG_0WGu8oEs_ppIe_AIvrszFp73gpgJmHkBT4xzXPZ2_toQn0UdlHuitraMhmb_yrb4m8pzt7BQQgGtOJVMpuLVRzt6vPOR3127N3dEq1haxHZz0mfq-FZWqo4l4EsewdDjEIHHO1D1nA0F8QOnInqjygBqUas1u7xLhBALVU-HtFd2mwJjKs5B5_YjkoKt6emlhgs35oC6PiV1mLAUYsOFYsJI47mmZ4RaPsiM0Y0KC7QS8QyY-_J841pobQQjEdtlAOKISpI_SkPwiUpIwzgaDThjD6sol4zieqcgIaXKUaE0GIVbunOsQ4LW-8tDnuWQfvZM6fiAkTUo9YqS5xZZH78h3h-Dq0zgVT4jCpn5m5gFmTM11aZTU8Iz3COCPKXhgk236xaBhOM8M0jiuW_yQl-ZU7DO9N8-ntkpp4P09B9ZZN-8WliXT1mH0UPdV8RLUfTCv3VJTtV4b8siO2pgFUjntJdX_h0stx5qb8tf1bZx2-uzVjK3cynDwUFvHCzlkpXWr5tr8IbdV_it5j1yBwFpESQu0yZdfh4S-PGncp34hWm24zJxsDR39ps8ovQlR8BjF1fiesGvklM5RWQ7whKs-ldtgmRoApnGI_OcoDklfhOI2XdJG75UO8s1xhbek-b8M85MLAVjh7LOOauLaGcs6CFL3tYnO8OqhpYZRg5WhRIJTgOE3J2YCyHCUbsiQEhM6oxh5fuWKIx6eHepT_sgERa4mgh6hM5o5WAFC8Frk6aUX7JhBA1wfb7YLSqcG_cPHm5loZLOQjtCS13AKDZq9WujEDMhA2mkW-75Sv9TNcah2Q_C5ZRWDPVfuVJGjG-a-nn4=",
+                            "metadata": {
+                                "id": "rs_0dfcacaff5480a560069b1f8e2cdbc8194a3f8662bacb0a3a4"
                             }
                         }
                     ],
-                    "id": "chatcmpl-df75b186-06a4-49bd-a807-4a2be67210d9"
+                    "id": "rs_0dfcacaff5480a560069b1f8e2cdbc8194a3f8662bacb0a3a4"
+                },
+                {
+                    "role": "tool",
+                    "content": [
+                        {
+                            "type": "tool_call",
+                            "id": "fc_0dfcacaff5480a560069b1f8e340948194838f0d9579ece7b8",
+                            "call_id": "call_uZS8Z88UpqmHAj8JTuOp0b4V",
+                            "name": "news_get_headlines",
+                            "arguments": {
+                                "query": "",
+                                "country": "us",
+                                "sources": "",
+                                "category": "general",
+                                "language": "en"
+                            },
+                            "metadata": {
+                                "type": "function_call",
+                                "status": "completed",
+                                "parsed_arguments": null
+                            }
+                        }
+                    ],
+                    "id": "fc_0dfcacaff5480a560069b1f8e340948194838f0d9579ece7b8"
                 },
                 {
                     "role": "tool",
                     "content": [
                         {
                             "type": "tool_result",
-                            "tool_use_id": "8k2n292h8",
-                            "call_id": "8k2n292h8",
+                            "tool_use_id": "call_uZS8Z88UpqmHAj8JTuOp0b4V",
+                            "call_id": "call_uZS8Z88UpqmHAj8JTuOp0b4V",
                             "name": "news_get_headlines",
-                            "content": "TOOL ERROR [execution]: No module named 'newsapi'\nSuggested action: Check the error details and try with different parameters.\nTechnical details:\nTraceback (most recent call last):\n  File \"/home/arman/projects/matrx-ai/matrx_ai/tools/executor.py\", line 158, in execute\n    result = await asyncio.wait_for(\n             ^^^^^^^^^^^^^^^^^^^^^^^\n    ...<2 lines>...\n    )\n    ^\n  File \"/home/arman/.local/share/uv/python/cpython-3.13.10-linux-x86_64-gnu/lib/python3.13/asyncio/tasks.py\", line 507, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/home/arman/projects/matrx-ai/matrx_ai/tools/executor.py\", line 287, in _dispatch\n    return await self._execute_local(tool_def, args, ctx, stream)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/arman/projects/matrx-ai/matrx_ai/tools/executor.py\", line 329, in _execute_local\n    raw_result = await func(args, ctx)\n                 ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/arman/projects/matrx-ai/matrx_ai/tools/implementations/news.py\", line 11, in news_get_headlines\n    from api_management.news.news_api import get_top_headlines\n  File \"/home/arman/projects/aidream/api_management/news/news_api.py\", line 3, in <module>\n    from newsapi import NewsApiClient\nModuleNotFoundError: No module named 'newsapi'\n",
+                            "content": "TOOL ERROR [execution]: No module named 'api_management'\nSuggested action: Check the error details and try with different parameters.\nTechnical details:\nTraceback (most recent call last):\n  File \"/Users/armanisadeghi/code/matrx-ai/matrx_ai/tools/executor.py\", line 158, in execute\n    result = await asyncio.wait_for(\n             ^^^^^^^^^^^^^^^^^^^^^^^\n    ...<2 lines>...\n    )\n    ^\n  File \"/Users/armanisadeghi/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/asyncio/tasks.py\", line 507, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/Users/armanisadeghi/code/matrx-ai/matrx_ai/tools/executor.py\", line 287, in _dispatch\n    return await self._execute_local(tool_def, args, ctx, stream)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/armanisadeghi/code/matrx-ai/matrx_ai/tools/executor.py\", line 329, in _execute_local\n    raw_result = await func(args, ctx)\n                 ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/armanisadeghi/code/matrx-ai/matrx_ai/tools/implementations/news.py\", line 11, in news_get_headlines\n    from api_management.news.news_api import get_top_headlines\nModuleNotFoundError: No module named 'api_management'\n",
                             "is_error": true
                         }
                     ]
+                },
+                {
+                    "role": "output",
+                    "content": [
+                        {
+                            "type": "thinking",
+                            "text": "",
+                            "id": "rs_0dfcacaff5480a560069b1f8e65ce8819480e0f3f69e005dcb",
+                            "summary": [
+                                {
+                                    "text": "**Handling failure gracefully**\n\nI think I need to address failure honestly, maybe by offering the user a chance to retry later. I could also ask if they want to discuss general topics based on what I already know since I can\u2019t browse right now. It's essential to keep the conversation open and encouraging, even when things don't go as planned. Let\u2019s see how I can support the user moving forward!",
+                                    "type": "summary_text"
+                                }
+                            ],
+                            "provider": "openai",
+                            "signature": "gAAAAABpsfjpWdWjSXHEG0hTZORmiuwWDCPs8pF6Au2TJk9nixE0HymgSEUsbo5r-yrCPXlaM91mMZjaKTJ2hOpOgMDbg_Iq3aYdWt6qtyTJnkSK5AJUanHfqJwzDpuExs95I8OBgGHDxdzHXwHGtzHqHlA9dlEU-JYQjoRvwc-rKEMYlYwC8Uw5Gfk9pZrrCDXqIXypqAXt0oLr--jPX_Vs_d2hefaRQ0BiCZP3z-ElyrL_EcORu8IDxXx5cMKx3PJO8pBpHgGVukPHXdzQTbg6mcfFbD2zt0xVx3bOqDzlIrbHk9YPYryYFJKBWjyimc9_DuBPiu0e7JqnYEt6yAUx-_x9Xm9M98ub12o91BDHAW3me4hYAOzt7PIv7ENujYqM74nBs9Lb1jGYBMIMcEeJDZsFCMck_hlh4IvFVWIh4_dA_S5cMUYeukX-9qqd5NU6ID-_OrtBoFemzgGPjDzGrQT6_APMwp-2V3aCiHWn_05SdX7w58GE3mHscarFTEMbaZmRcM5hZd1iV7SmzvLl2bPIzF0y7mKv6hFFNWHvPx-xA7WdbN4fJf7a6VSj2GhXhU3uxDcAZEwtS7ak1bpxP9IApNmJyYd47TgMDWPVtkIu_IfPkIXQFlBNyj8X0XOoyXDyY6BrMVex-gkj2YNeAq0HRw0CSSvCui3psMEUB48sjupu7qhVdk3S1jp_3Xb_3k8iJL8j1kWVRX5-588QvbzoYl2FZLI4KsXGQni2rMj6LxsTc8bdtuHIaylGrp2WGMs2OmEEm3qdgDossj8_3udwxGw0yEy_mkKHRrxoANvRKOOWTesVHAt21AbE5eny_nANUyxTaKt8rFKGpttys9yda92-K1IdkkI5rn6p1S_3e5B_v_Fkc6B6m6PCLOz8UfronKAfG3rXFCzDkcH3T6aV3rj_nJH1aWNb5nB3bs9stT52zQuP9x9n46sUlhYyQ2tG7VmXMwfasQOOCWYs_CU2WWr20ipjUCtQ8wQnXdaxhpET0Ks=",
+                            "metadata": {
+                                "id": "rs_0dfcacaff5480a560069b1f8e65ce8819480e0f3f69e005dcb"
+                            }
+                        }
+                    ],
+                    "id": "rs_0dfcacaff5480a560069b1f8e65ce8819480e0f3f69e005dcb"
                 },
                 {
                     "role": "assistant",
                     "content": [
                         {
                             "type": "text",
-                            "text": "The news_get_headlines function failed to execute due to a missing 'newsapi' module. Let's try searching the news instead.",
-                            "id": ""
+                            "text": "I\u2019m sorry, but my live news lookup tool is currently unavailable, so I can\u2019t reliably give you today\u2019s up-to-date US headlines right now.\n\nIf you want, I can still help by:\n- suggesting the best places to check live US headlines quickly,\n- summarizing a news article if you paste a link or text,\n- or trying again later if the news tool becomes available.\n\nGood quick sources for current US headlines:\n- AP News\n- Reuters US\n- NPR\n- CNN\n- The New York Times\n- Google News (US)\n\nIf you\u2019d like, I can also give you a clean \u201ctop stories to watch today\u201d template you can use while checking those sources.",
+                            "id": "msg_0dfcacaff5480a560069b1f8e8d7e88194a1a56c06986db42b",
+                            "metadata": {
+                                "annotations": [],
+                                "type": "output_text",
+                                "logprobs": [],
+                                "parsed": null,
+                                "id": "msg_0dfcacaff5480a560069b1f8e8d7e88194a1a56c06986db42b"
+                            }
                         }
                     ],
-                    "id": "chatcmpl-05e1dcba-36e2-4efd-99ad-9d751c4832a6"
+                    "id": "msg_0dfcacaff5480a560069b1f8e8d7e88194a1a56c06986db42b"
                 }
             ],
-            "system_instruction": "You're a helpful assistant. Think through your response step by step and use the many tools you have available to you. You have tools to get the latest news headlines. Today's Date: 2026-03-03",
+            "system_instruction": "You're a helpful assistant. Think through your response step by step and use the many tools you have available to you. You have tools to get the latest news headlines. Today's Date: 2026-03-11",
             "stream": true,
             "tools": [
                 "news_get_headlines"
@@ -91,8 +145,8 @@
             "count": 1,
             "metadata": {}
         },
-        "request_id": "6c98d5cb-0bbf-406b-b0ca-bab0a3fe4b2b",
-        "created_at": "2026-03-04T04:30:34.355859+00:00",
+        "request_id": "a7c0cb5b-4e4f-4c78-bfe4-cc55db4010be",
+        "created_at": "2026-03-11T23:21:04.436461+00:00",
         "created_by": null,
         "status": null,
         "metadata": {}
@@ -101,16 +155,48 @@
     "final_response": {
         "messages": [
             {
+                "role": "output",
+                "content": [
+                    {
+                        "type": "thinking",
+                        "text": "",
+                        "id": "rs_0dfcacaff5480a560069b1f8e65ce8819480e0f3f69e005dcb",
+                        "summary": [
+                            {
+                                "text": "**Handling failure gracefully**\n\nI think I need to address failure honestly, maybe by offering the user a chance to retry later. I could also ask if they want to discuss general topics based on what I already know since I can\u2019t browse right now. It's essential to keep the conversation open and encouraging, even when things don't go as planned. Let\u2019s see how I can support the user moving forward!",
+                                "type": "summary_text"
+                            }
+                        ],
+                        "provider": "openai",
+                        "signature": "gAAAAABpsfjpWdWjSXHEG0hTZORmiuwWDCPs8pF6Au2TJk9nixE0HymgSEUsbo5r-yrCPXlaM91mMZjaKTJ2hOpOgMDbg_Iq3aYdWt6qtyTJnkSK5AJUanHfqJwzDpuExs95I8OBgGHDxdzHXwHGtzHqHlA9dlEU-JYQjoRvwc-rKEMYlYwC8Uw5Gfk9pZrrCDXqIXypqAXt0oLr--jPX_Vs_d2hefaRQ0BiCZP3z-ElyrL_EcORu8IDxXx5cMKx3PJO8pBpHgGVukPHXdzQTbg6mcfFbD2zt0xVx3bOqDzlIrbHk9YPYryYFJKBWjyimc9_DuBPiu0e7JqnYEt6yAUx-_x9Xm9M98ub12o91BDHAW3me4hYAOzt7PIv7ENujYqM74nBs9Lb1jGYBMIMcEeJDZsFCMck_hlh4IvFVWIh4_dA_S5cMUYeukX-9qqd5NU6ID-_OrtBoFemzgGPjDzGrQT6_APMwp-2V3aCiHWn_05SdX7w58GE3mHscarFTEMbaZmRcM5hZd1iV7SmzvLl2bPIzF0y7mKv6hFFNWHvPx-xA7WdbN4fJf7a6VSj2GhXhU3uxDcAZEwtS7ak1bpxP9IApNmJyYd47TgMDWPVtkIu_IfPkIXQFlBNyj8X0XOoyXDyY6BrMVex-gkj2YNeAq0HRw0CSSvCui3psMEUB48sjupu7qhVdk3S1jp_3Xb_3k8iJL8j1kWVRX5-588QvbzoYl2FZLI4KsXGQni2rMj6LxsTc8bdtuHIaylGrp2WGMs2OmEEm3qdgDossj8_3udwxGw0yEy_mkKHRrxoANvRKOOWTesVHAt21AbE5eny_nANUyxTaKt8rFKGpttys9yda92-K1IdkkI5rn6p1S_3e5B_v_Fkc6B6m6PCLOz8UfronKAfG3rXFCzDkcH3T6aV3rj_nJH1aWNb5nB3bs9stT52zQuP9x9n46sUlhYyQ2tG7VmXMwfasQOOCWYs_CU2WWr20ipjUCtQ8wQnXdaxhpET0Ks=",
+                        "metadata": {
+                            "id": "rs_0dfcacaff5480a560069b1f8e65ce8819480e0f3f69e005dcb"
+                        }
+                    }
+                ],
+                "id": "rs_0dfcacaff5480a560069b1f8e65ce8819480e0f3f69e005dcb",
+                "name": null,
+                "timestamp": null,
+                "status": "active",
+                "metadata": {}
+            },
+            {
                 "role": "assistant",
                 "content": [
                     {
                         "type": "text",
-                        "text": "The news_get_headlines function failed to execute due to a missing 'newsapi' module. Let's try searching the news instead.",
-                        "id": "",
-                        "metadata": {}
+                        "text": "I\u2019m sorry, but my live news lookup tool is currently unavailable, so I can\u2019t reliably give you today\u2019s up-to-date US headlines right now.\n\nIf you want, I can still help by:\n- suggesting the best places to check live US headlines quickly,\n- summarizing a news article if you paste a link or text,\n- or trying again later if the news tool becomes available.\n\nGood quick sources for current US headlines:\n- AP News\n- Reuters US\n- NPR\n- CNN\n- The New York Times\n- Google News (US)\n\nIf you\u2019d like, I can also give you a clean \u201ctop stories to watch today\u201d template you can use while checking those sources.",
+                        "id": "msg_0dfcacaff5480a560069b1f8e8d7e88194a1a56c06986db42b",
+                        "metadata": {
+                            "annotations": [],
+                            "type": "output_text",
+                            "logprobs": [],
+                            "parsed": null,
+                            "id": "msg_0dfcacaff5480a560069b1f8e8d7e88194a1a56c06986db42b"
+                        }
                     }
                 ],
-                "id": "chatcmpl-05e1dcba-36e2-4efd-99ad-9d751c4832a6",
+                "id": "msg_0dfcacaff5480a560069b1f8e8d7e88194a1a56c06986db42b",
                 "name": null,
                 "timestamp": null,
                 "status": "active",
@@ -118,49 +204,226 @@
             }
         ],
         "usage": {
-            "input_tokens": 1021,
-            "output_tokens": 28,
+            "input_tokens": 864,
+            "output_tokens": 173,
             "cached_input_tokens": 0,
-            "matrx_model_name": "llama-3.3-70b-versatile",
-            "provider_model_name": "llama-3.3-70b-versatile",
-            "api": "groq",
-            "response_id": "chatcmpl-05e1dcba-36e2-4efd-99ad-9d751c4832a6",
+            "matrx_model_name": "gpt-5.4",
+            "provider_model_name": "gpt-5.4-2026-03-05",
+            "api": "openai",
+            "response_id": "resp_0dfcacaff5480a560069b1f8e5c2bc8194b462a033feeaaebb",
             "metadata": {}
         },
-        "stop_reason": "stop",
         "finish_reason": "stop",
+        "raw_response": {
+            "id": "resp_0dfcacaff5480a560069b1f8e5c2bc8194b462a033feeaaebb",
+            "created_at": 1773271269.0,
+            "error": null,
+            "incomplete_details": null,
+            "instructions": null,
+            "metadata": {},
+            "model": "gpt-5.4-2026-03-05",
+            "object": "response",
+            "output": [
+                {
+                    "id": "rs_0dfcacaff5480a560069b1f8e65ce8819480e0f3f69e005dcb",
+                    "summary": [
+                        {
+                            "text": "**Handling failure gracefully**\n\nI think I need to address failure honestly, maybe by offering the user a chance to retry later. I could also ask if they want to discuss general topics based on what I already know since I can\u2019t browse right now. It's essential to keep the conversation open and encouraging, even when things don't go as planned. Let\u2019s see how I can support the user moving forward!",
+                            "type": "summary_text"
+                        }
+                    ],
+                    "type": "reasoning",
+                    "encrypted_content": "gAAAAABpsfjpWdWjSXHEG0hTZORmiuwWDCPs8pF6Au2TJk9nixE0HymgSEUsbo5r-yrCPXlaM91mMZjaKTJ2hOpOgMDbg_Iq3aYdWt6qtyTJnkSK5AJUanHfqJwzDpuExs95I8OBgGHDxdzHXwHGtzHqHlA9dlEU-JYQjoRvwc-rKEMYlYwC8Uw5Gfk9pZrrCDXqIXypqAXt0oLr--jPX_Vs_d2hefaRQ0BiCZP3z-ElyrL_EcORu8IDxXx5cMKx3PJO8pBpHgGVukPHXdzQTbg6mcfFbD2zt0xVx3bOqDzlIrbHk9YPYryYFJKBWjyimc9_DuBPiu0e7JqnYEt6yAUx-_x9Xm9M98ub12o91BDHAW3me4hYAOzt7PIv7ENujYqM74nBs9Lb1jGYBMIMcEeJDZsFCMck_hlh4IvFVWIh4_dA_S5cMUYeukX-9qqd5NU6ID-_OrtBoFemzgGPjDzGrQT6_APMwp-2V3aCiHWn_05SdX7w58GE3mHscarFTEMbaZmRcM5hZd1iV7SmzvLl2bPIzF0y7mKv6hFFNWHvPx-xA7WdbN4fJf7a6VSj2GhXhU3uxDcAZEwtS7ak1bpxP9IApNmJyYd47TgMDWPVtkIu_IfPkIXQFlBNyj8X0XOoyXDyY6BrMVex-gkj2YNeAq0HRw0CSSvCui3psMEUB48sjupu7qhVdk3S1jp_3Xb_3k8iJL8j1kWVRX5-588QvbzoYl2FZLI4KsXGQni2rMj6LxsTc8bdtuHIaylGrp2WGMs2OmEEm3qdgDossj8_3udwxGw0yEy_mkKHRrxoANvRKOOWTesVHAt21AbE5eny_nANUyxTaKt8rFKGpttys9yda92-K1IdkkI5rn6p1S_3e5B_v_Fkc6B6m6PCLOz8UfronKAfG3rXFCzDkcH3T6aV3rj_nJH1aWNb5nB3bs9stT52zQuP9x9n46sUlhYyQ2tG7VmXMwfasQOOCWYs_CU2WWr20ipjUCtQ8wQnXdaxhpET0Ks="
+                },
+                {
+                    "id": "msg_0dfcacaff5480a560069b1f8e8d7e88194a1a56c06986db42b",
+                    "content": [
+                        {
+                            "annotations": [],
+                            "text": "I\u2019m sorry, but my live news lookup tool is currently unavailable, so I can\u2019t reliably give you today\u2019s up-to-date US headlines right now.\n\nIf you want, I can still help by:\n- suggesting the best places to check live US headlines quickly,\n- summarizing a news article if you paste a link or text,\n- or trying again later if the news tool becomes available.\n\nGood quick sources for current US headlines:\n- AP News\n- Reuters US\n- NPR\n- CNN\n- The New York Times\n- Google News (US)\n\nIf you\u2019d like, I can also give you a clean \u201ctop stories to watch today\u201d template you can use while checking those sources.",
+                            "type": "output_text",
+                            "logprobs": [],
+                            "parsed": null
+                        }
+                    ],
+                    "role": "assistant",
+                    "status": "completed",
+                    "type": "message",
+                    "phase": "final_answer"
+                }
+            ],
+            "parallel_tool_calls": true,
+            "temperature": 1.0,
+            "tool_choice": "auto",
+            "tools": [
+                {
+                    "name": "news_get_headlines",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "query": {
+                                "type": "string",
+                                "description": "Keyword or phrase to search within headlines."
+                            },
+                            "country": {
+                                "type": "string",
+                                "description": "Two-letter ISO 3166-1 country code.",
+                                "enum": [
+                                    "us",
+                                    "gb",
+                                    "fr",
+                                    "de",
+                                    "ca",
+                                    "au",
+                                    "in",
+                                    "jp",
+                                    "br",
+                                    "mx",
+                                    "it",
+                                    "es",
+                                    "nl",
+                                    "se",
+                                    "no",
+                                    "za",
+                                    "ar",
+                                    "eg",
+                                    "kr",
+                                    "tw",
+                                    "hk",
+                                    "sg",
+                                    "nz",
+                                    "ie",
+                                    "at",
+                                    "ch",
+                                    "be",
+                                    "pt",
+                                    "pl",
+                                    "ru"
+                                ]
+                            },
+                            "sources": {
+                                "type": "string",
+                                "description": "Comma-separated news source IDs (e.g. bbc-news,cnn). Mutually exclusive with country and category \u2014 cannot be used alongside either. If country or category is also provided, sources will be ignored."
+                            },
+                            "category": {
+                                "type": "string",
+                                "description": "News category to filter by.",
+                                "enum": [
+                                    "business",
+                                    "entertainment",
+                                    "general",
+                                    "health",
+                                    "science",
+                                    "sports",
+                                    "technology"
+                                ]
+                            },
+                            "language": {
+                                "type": "string",
+                                "description": "Two-letter language code for results.",
+                                "default": "en",
+                                "enum": [
+                                    "en",
+                                    "es",
+                                    "fr",
+                                    "de",
+                                    "it",
+                                    "pt",
+                                    "nl",
+                                    "sv",
+                                    "no",
+                                    "ar",
+                                    "he",
+                                    "zh",
+                                    "ru"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "query",
+                            "country",
+                            "sources",
+                            "category",
+                            "language"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "strict": true,
+                    "type": "function",
+                    "description": "Fetch current top news headlines. Filter by country, category, sources, or keyword query. Returns article titles, sources, descriptions, and URLs. At least one of country, sources, or category is required. Sources cannot be combined with country or category \u2014 if all three are provided, country and category take priority and sources is ignored."
+                }
+            ],
+            "top_p": 0.98,
+            "background": false,
+            "completed_at": 1773271273.0,
+            "max_output_tokens": null,
+            "max_tool_calls": null,
+            "previous_response_id": null,
+            "prompt_cache_key": null,
+            "prompt_cache_retention": null,
+            "reasoning": {
+                "effort": "low",
+                "summary": "detailed"
+            },
+            "safety_identifier": null,
+            "service_tier": "default",
+            "status": "completed",
+            "text": {
+                "format": {
+                    "type": "text"
+                },
+                "verbosity": "medium"
+            },
+            "top_logprobs": 0,
+            "truncation": "disabled",
+            "usage": {
+                "input_tokens": 864,
+                "input_tokens_details": {
+                    "cached_tokens": 0
+                },
+                "output_tokens": 173,
+                "output_tokens_details": {
+                    "reasoning_tokens": 26
+                },
+                "total_tokens": 1037
+            },
+            "user": null,
+            "frequency_penalty": 0.0,
+            "presence_penalty": 0.0,
+            "store": true
+        },
         "metadata": {}
     },
     "total_usage": {
         "by_model": {
-            "llama-3.3-70b-versatile": {
-                "input_tokens": 1675,
-                "output_tokens": 45,
+            "gpt-5.4": {
+                "input_tokens": 1357,
+                "output_tokens": 215,
                 "cached_input_tokens": 0,
-                "total_tokens": 1720,
-                "api": "groq",
+                "total_tokens": 1572,
+                "api": "openai",
                 "request_count": 2,
-                "cost": null
+                "cost": 0.00384625
             }
         },
         "total": {
-            "input_tokens": 1675,
-            "output_tokens": 45,
+            "input_tokens": 1357,
+            "output_tokens": 215,
             "cached_input_tokens": 0,
-            "total_tokens": 1720,
+            "total_tokens": 1572,
             "total_requests": 2,
             "unique_models": 1,
-            "total_cost": null
+            "total_cost": 0.00384625
         }
     },
     "timing_stats": {
-        "total_duration": 1.3466041088104248,
-        "sum_duration": 1.346524715423584,
-        "api_duration": 1.1766293048858643,
-        "tool_duration": 0.09616756439208984,
-        "processing_duration": 0.0738072395324707,
+        "total_duration": 8.122933149337769,
+        "sum_duration": 8.122872114181519,
+        "api_duration": 7.95787501335144,
+        "tool_duration": 0.0960381031036377,
+        "processing_duration": 0.06902003288269043,
         "iterations": 2,
-        "avg_iteration_duration": 0.6733020544052124
+        "avg_iteration_duration": 4.061466574668884
     },
     "tool_call_stats": {
         "total_tool_calls": 1,
@@ -175,8 +438,8 @@
     },
     "metadata": {
         "finish_reason": "stop",
-        "response_id": "chatcmpl-05e1dcba-36e2-4efd-99ad-9d751c4832a6",
-        "matrx_model_name": "llama-3.3-70b-versatile",
-        "provider_model_name": "llama-3.3-70b-versatile"
+        "response_id": "resp_0dfcacaff5480a560069b1f8e5c2bc8194b462a033feeaaebb",
+        "matrx_model_name": "gpt-5.4",
+        "provider_model_name": "gpt-5.4-2026-03-05"
     }
 }

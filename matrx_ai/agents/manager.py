@@ -4,9 +4,9 @@ import time
 from enum import StrEnum
 from typing import Any
 
-from db.managers.prompt_builtins import PromptBuiltinsBase
-from db.managers.prompts import PromptsBase
-from db.models import PromptBuiltins, Prompts
+from matrx_ai.db.managers.prompt_builtins import PromptBuiltinsBase
+from matrx_ai.db.managers.prompts import PromptsBase
+from matrx_ai.db.models import PromptBuiltins, Prompts
 from matrx_utils import vcprint
 
 from matrx_ai.agents.types import AgentConfig

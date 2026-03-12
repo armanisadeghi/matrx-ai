@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 def _get_async_supabase():
-    from common.supabase.supabase_client import get_async_supabase_client
+    from matrx_ai.utils.supabase_client import get_async_supabase_client
 
     return get_async_supabase_client()
 

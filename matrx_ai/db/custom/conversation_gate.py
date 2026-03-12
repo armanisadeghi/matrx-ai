@@ -301,6 +301,71 @@ async def create_pending_user_request(
         )
 
 
+async def ensure_user_request_exists(
+    request_id: str,
+    conversation_id: str,
+    user_id: str,
+) -> None:
+    """Ensure a cx_user_request row exists for the given request_id.
+
+    Idempotent: creates with status='pending' if missing, no-op if already
+    present.  Analogous to ``ensure_conversation_exists()``.
+
+    The boundary layer (API route, batch script, workflow trigger) calls
+    this ONCE per user action before handing off to the AI engine.  All N
+    AI API calls that result from that user action share this single row,
+    which persistence updates with aggregate totals on completion.
+
+    Fire-and-forget safe — logs errors but never raises.
+    """
+    if not _is_valid_uuid(request_id):
+        vcprint(
+            f"[ConversationGate] Cannot ensure user_request: "
+            f"request_id is not a valid UUID: {request_id!r}",
+            color="yellow",
+        )
+        return
+
+    safe_user_id = _require_valid_user_id(user_id, "ensure_user_request_exists")
+    safe_conversation_id = conversation_id if _is_valid_uuid(conversation_id) else None
+
+    existing = await cxm.user_request.filter_cx_user_requests(id=request_id)
+    if existing:
+        return
+
+    create_kwargs: dict[str, Any] = {
+        "id": request_id,
+        "user_id": safe_user_id,
+        "status": "pending",
+        "iterations": 0,
+        "total_input_tokens": 0,
+        "total_output_tokens": 0,
+        "total_cached_tokens": 0,
+        "total_tokens": 0,
+        "total_cost": 0,
+        "total_tool_calls": 0,
+        "metadata": {},
+    }
+
+    if safe_conversation_id:
+        create_kwargs["conversation_id"] = safe_conversation_id
+
+    try:
+        await cxm.user_request.create_cx_user_request(**create_kwargs)
+        vcprint(
+            f"[ConversationGate] Ensured user_request: {request_id}...",
+            color="green",
+        )
+    except Exception as exc:
+        recheck = await cxm.user_request.filter_cx_user_requests(id=request_id)
+        if recheck:
+            return
+        vcprint(
+            f"[ConversationGate] Failed to ensure user_request: {exc}",
+            color="yellow",
+        )
+
+
 async def update_user_request_status(
     request_id: str,
     status: str,

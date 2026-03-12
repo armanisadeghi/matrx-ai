@@ -1,5 +1,5 @@
 .PHONY: install dev run lint fmt typecheck test \
-        sync sync-dry sync-push \
+        sync sync-dry sync-push sync-verify \
         sync-core sync-core-dry \
         sync-all sync-template sync-template-dry \
         clean
@@ -43,6 +43,10 @@ sync-dry:
 # Push AI engine changes from matrx-ai → aidream
 sync-push:
 	python3 scripts/sync_from_aidream.py --direction matrx-to-aidream
+
+# Verify all aidream imports translate cleanly — run before/after adding new imports
+sync-verify:
+	python3 scripts/sync_from_aidream.py --verify
 
 ## ── API core sync (matrx-ai → aidream) ──────────────────────────────────────
 

@@ -411,7 +411,7 @@ async def usertable_delete_row(args: dict[str, Any], ctx: ToolContext) -> ToolRe
         )
 
     try:
-        from common.supabase.supabase_client import get_async_supabase_client
+        from matrx_ai.utils.supabase_client import get_async_supabase_client
 
         client = get_async_supabase_client()
         response = await (

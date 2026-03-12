@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Any, Optional, Union
 
-from db.models import CxMessage
+from matrx_ai.db.models import CxMessage
 from matrx_utils import vcprint
 from openai.types.responses import (
     ResponseOutputItem as OpenAIResponseOutputItem,

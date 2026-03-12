@@ -19,11 +19,16 @@ matrx-ai/matrx_ai/app/dependencies/auth.py →  aidream/aidream/api/dependencies
 
 IMPORT SUBSTITUTION RULES (aidream → matrx-ai)
 -----------------------------------------------
-  ai.<pkg>                    →  matrx_ai.<pkg>
-  aidream.api.emitter_protocol →  matrx_ai.context.emitter_protocol
-  aidream.api.events           →  matrx_ai.context.events
-  ai.db.                       →  matrx_ai.db.custom.
-  ai.db import                 →  matrx_ai.db.custom import
+  ai.<pkg>                     →  matrx_ai.<pkg>
+  aidream.api.emitter_protocol  →  matrx_ai.context.emitter_protocol
+  aidream.api.events            →  matrx_ai.context.events
+  ai.db.*                       →  matrx_ai.db.custom.*
+  db.models                     →  matrx_ai.db.models
+  db.managers.*                 →  matrx_ai.db.managers.*
+  db.custom.*                   →  matrx_ai.db.custom.*
+  matrix.ai_models.*            →  matrx_ai.db.custom.ai_models.*
+  common.utils...FileHandler    →  matrx_utils.FileHandler
+  f"ai.{function_path}"         →  f"matrx_ai.{function_path}"  (tool registry)
 
 Reverse substitutions are applied automatically when direction is matrx-ai → aidream.
 
@@ -116,9 +121,33 @@ AIDREAM_TO_MATRX: list[tuple[str, str]] = [
     ("from ai.db.conversation_rebuild import", "from matrx_ai.db.custom.conversation_rebuild import"),
     ("from ai.db import", "from matrx_ai.db.custom import"),
     ("import ai.db.", "import matrx_ai.db.custom."),
+    # Bare `matrix.` imports — aidream has matrix/ at repo root; matrx-ai has it under matrx_ai/db/custom/
+    ("from matrix.ai_models.ai_model_manager import", "from matrx_ai.db.custom.ai_models.ai_model_manager import"),
+    ("from matrix.ai_models.", "from matrx_ai.db.custom.ai_models."),
+    ("from matrix.", "from matrx_ai.db.custom."),
+    ("import matrix.", "import matrx_ai.db.custom."),
+    # Bare `db.` imports — aidream has db/ at repo root; matrx-ai has it under matrx_ai/db/
+    ("from db.managers.prompt_builtins import", "from matrx_ai.db.managers.prompt_builtins import"),
+    ("from db.managers.prompts import", "from matrx_ai.db.managers.prompts import"),
+    ("from db.managers.content_blocks import", "from matrx_ai.db.managers.content_blocks import"),
+    ("from db.managers.tools import", "from matrx_ai.db.managers.tools import"),
+    ("from db.managers.table_fields import", "from matrx_ai.db.managers.table_fields import"),
+    ("from db.managers.table_data import", "from matrx_ai.db.managers.table_data import"),
+    ("from db.managers.user_tables import", "from matrx_ai.db.managers.user_tables import"),
+    ("from db.managers.ai_model import", "from matrx_ai.db.managers.ai_model import"),
+    ("from db.managers.", "from matrx_ai.db.managers."),
+    ("from db.models import", "from matrx_ai.db.models import"),
+    ("from db.custom.", "from matrx_ai.db.custom."),
+    ("import db.models", "import matrx_ai.db.models"),
+    ("import db.managers", "import matrx_ai.db.managers"),
+    # aidream common.utils → matrx_utils / matrx_ai.utils
+    ("from common.utils.file_handlers.file_handler import FileHandler", "from matrx_utils import FileHandler"),
+    ("from common.supabase.supabase_client import", "from matrx_ai.utils.supabase_client import"),
     # Root package rename: ai. → matrx_ai.
     ("from ai.", "from matrx_ai."),
     ("import ai.", "import matrx_ai."),
+    # f-string package prefix in tool registry path resolution
+    ('f"ai.{function_path}"', 'f"matrx_ai.{function_path}"'),
 ]
 
 # matrx-ai → aidream (exact reversal)
@@ -132,8 +161,23 @@ MATRX_TO_AIDREAM: list[tuple[str, str]] = [
     ("from matrx_ai.db.custom.conversation_rebuild import", "from ai.db.conversation_rebuild import"),
     ("from matrx_ai.db.custom import", "from ai.db import"),
     ("import matrx_ai.db.custom.", "import ai.db."),
+    # Reverse matrix.* rules
+    ("from matrx_ai.db.custom.ai_models.ai_model_manager import", "from matrix.ai_models.ai_model_manager import"),
+    ("from matrx_ai.db.custom.ai_models.", "from matrix.ai_models."),
+    ("from matrx_ai.db.custom.", "from matrix."),
+    # Reverse bare db.* rules
+    ("from matrx_ai.db.managers.", "from db.managers."),
+    ("from matrx_ai.db.models import", "from db.models import"),
+    ("from matrx_ai.db.custom.", "from db.custom."),
+    ("import matrx_ai.db.models", "import db.models"),
+    ("import matrx_ai.db.managers", "import db.managers"),
+    # matrx_utils → common.utils
+    ("from matrx_utils import FileHandler", "from common.utils.file_handlers.file_handler import FileHandler"),
+    ("from matrx_ai.utils.supabase_client import", "from common.supabase.supabase_client import"),
     ("from matrx_ai.", "from ai."),
     ("import matrx_ai.", "import ai."),
+    # f-string package prefix in tool registry path resolution
+    ('f"matrx_ai.{function_path}"', 'f"ai.{function_path}"'),
 ]
 
 # matrx-ai → aidream/api/ (core layer sync — keeps aidream.api.* paths)
@@ -398,7 +442,62 @@ def main() -> None:
             "Only applies to aidream-to-matrx direction."
         ),
     )
+    parser.add_argument(
+        "--verify",
+        action="store_true",
+        help=(
+            "Simulate aidream→matrx substitutions on every synced file and report any "
+            "imports that would survive untranslated (bare 'ai.', 'db.', 'matrix.', "
+            "'common.', or f\"ai.\" string literals). Exits non-zero if any are found. "
+            "Does not write files."
+        ),
+    )
     args = parser.parse_args()
+
+    # ------------------------------------------------------------------
+    # --verify: simulate substitutions and report any leaking imports
+    # ------------------------------------------------------------------
+    if args.verify:
+        aidream_ai = AIDREAM_ROOT / "ai"
+        broken: list[tuple[str, list[str]]] = []
+        for subdir in SHARED_SUBDIRS:
+            src_dir = aidream_ai / subdir
+            if not src_dir.exists():
+                continue
+            for py_file in src_dir.rglob("*.py"):
+                if "__pycache__" in py_file.parts or "tests" in py_file.parts:
+                    continue
+                src = py_file.read_text()
+                transformed = src
+                for old, new in AIDREAM_TO_MATRX:
+                    transformed = transformed.replace(old, new)
+                bad = [
+                    line.strip()
+                    for line in transformed.splitlines()
+                    if (
+                        "from ai." in line
+                        or "from db." in line
+                        or "from matrix." in line
+                        or "from common." in line
+                        or 'f"ai.' in line
+                    )
+                    and not line.strip().startswith("#")
+                ]
+                if bad:
+                    rel = py_file.relative_to(aidream_ai)
+                    broken.append((str(rel), bad))
+
+        if broken:
+            print("\n[VERIFY] FAIL — these imports would survive sync untranslated:\n")
+            for rel, lines in broken:
+                print(f"  {rel}")
+                for ln in lines:
+                    print(f"    !! {ln}")
+            print(f"\n{len(broken)} file(s) need new substitution rules in AIDREAM_TO_MATRX.")
+            sys.exit(1)
+        else:
+            print("[VERIFY] PASS — all aidream imports translate cleanly to matrx_ai.")
+            sys.exit(0)
 
     # Validate paths
     if not AIDREAM_ROOT.exists():

@@ -374,8 +374,10 @@ class ToolRegistryV2:
             or function_path.startswith("mcp:")
         ):
             raise ValueError(f"Cannot resolve non-local function_path: {function_path}")
+        # Remap legacy aidream `ai.` paths → `matrx_ai.`
         if function_path.startswith("ai."):
-            function_path = function_path[3:]
+            function_path = "matrx_ai." + function_path[3:]
+        # Remap bare sub-package paths (no top-level prefix) → `matrx_ai.`
         _LEGACY_FLAT_PREFIXES = (
             "tools.",
             "agents.",
@@ -391,7 +393,7 @@ class ToolRegistryV2:
             "agent_runners.",
         )
         if any(function_path.startswith(p) for p in _LEGACY_FLAT_PREFIXES):
-            function_path = f"ai.{function_path}"
+            function_path = f"matrx_ai.{function_path}"
         module_path, func_name = function_path.rsplit(".", 1)
         module = importlib.import_module(module_path)
         func = getattr(module, func_name)

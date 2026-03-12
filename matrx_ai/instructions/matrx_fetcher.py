@@ -9,7 +9,7 @@ from __future__ import annotations
 import uuid
 from typing import Any
 
-from db.models import ContentBlocks
+from matrx_ai.db.models import ContentBlocks
 
 
 def is_valid_uuid(value: str) -> bool:
