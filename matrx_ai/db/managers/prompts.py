@@ -135,19 +135,41 @@ class PromptsBase(BaseManager[Prompts]):
             return prompts
         return await super().filter_items(**kwargs)
 
+    async def _client_mode_fetch_by_id(self, id: Any) -> Any:
+        import types
+        from matrx_ai.client_mode import get_api_client, get_jwt
+        jwt = get_jwt()
+        if not jwt:
+            return None
+        prompts = await get_api_client().get_user_prompts(jwt)
+        for p in prompts:
+            if str(p.get("id", "")) == str(id):
+                return types.SimpleNamespace(**p) if isinstance(p, dict) else p
+        return None
+
     async def load_by_id(self, id: Any) -> Any:
         from matrx_ai.db import is_client_mode
         if is_client_mode():
-            from matrx_ai.client_mode import get_api_client, get_jwt
-            jwt = get_jwt()
-            if not jwt:
-                return None
-            prompts = await get_api_client().get_user_prompts(jwt)
-            for p in prompts:
-                if str(p.get("id", "")) == str(id):
-                    return p
-            return None
+            return await self._client_mode_fetch_by_id(id)
         return await super().load_by_id(id)
+
+    async def load_item(self, use_cache: bool = True, **kwargs: Any) -> Any:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            id_val = kwargs.get("id")
+            if id_val is not None:
+                return await self._client_mode_fetch_by_id(id_val)
+            return None
+        return await super().load_item(use_cache, **kwargs)
+
+    async def load_item_or_none(self, **kwargs: Any) -> Any:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            id_val = kwargs.get("id")
+            if id_val is not None:
+                return await self._client_mode_fetch_by_id(id_val)
+            return None
+        return await super().load_item_or_none(**kwargs)
 
     async def _initialize_runtime_data(self, item: Prompts) -> None:
         pass
