@@ -101,7 +101,20 @@ async def persist_completed_request(
                 "message_ids": list[str],
                 "request_ids": list[str],
             }
+
+    In client mode (desktop app / PostgREST + RLS), persistence is skipped
+    and an empty result dict is returned. The user's session and conversation
+    data are managed via their JWT and RLS policies on the Supabase side.
     """
+    from matrx_ai.db import is_client_mode
+    if is_client_mode():
+        return {
+            "conversation_id": conversation_id or "",
+            "user_request_id": "",
+            "message_ids": [],
+            "request_ids": [],
+        }
+
     # vcprint(
     #     completed,
     #     "[CX PERSISTENCE PERSIST COMPLETED REQUEST] Before to storage dict",

@@ -46,6 +46,11 @@ class Settings(BaseSettings):
     supabase_service_role_key: str = ""
     supabase_jwt_secret: str = ""
 
+    # Client mode — set MATRX_AI_CLIENT_MODE=true when matrx-ai is embedded
+    # in a desktop app. Switches from asyncpg to Supabase PostgREST + RLS.
+    # supabase_url and supabase_anon_key above are reused for the connection.
+    matrx_ai_client_mode: bool = False
+
     # Admin auth
     admin_api_token: str = ""
     admin_user_id: str = ""

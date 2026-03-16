@@ -135,7 +135,20 @@ async def ensure_conversation_exists(
     are no-ops and never overwrite them.
 
     Fire-and-forget safe — logs errors but never raises.
+
+    In client mode (desktop app / PostgREST + RLS), this is a no-op —
+    conversation rows are managed via the user's JWT and RLS policies,
+    not pre-created server-side.
     """
+    from matrx_ai.db import is_client_mode
+    if is_client_mode():
+        vcprint(
+            f"[ConversationGate] client_mode=True — skipping ensure_conversation_exists "
+            f"for {conversation_id!r}",
+            color="cyan",
+        )
+        return
+
     if not _is_valid_uuid(conversation_id):
         vcprint(
             f"[ConversationGate] Cannot ensure conversation: "
@@ -227,7 +240,12 @@ async def update_conversation_status(
     """Update the status field on an existing cx_conversation row.
 
     Fire-and-forget safe — logs errors but never raises.
+    In client mode, this is a no-op.
     """
+    from matrx_ai.db import is_client_mode
+    if is_client_mode():
+        return
+
     if not _is_valid_uuid(conversation_id):
         return
     try:
@@ -259,7 +277,18 @@ async def create_pending_user_request(
     becomes the PK so downstream systems can reference it immediately.
 
     Fire-and-forget safe — logs errors but never raises.
+
+    In client mode (desktop app / PostgREST + RLS), this is a no-op.
     """
+    from matrx_ai.db import is_client_mode
+    if is_client_mode():
+        vcprint(
+            f"[ConversationGate] client_mode=True — skipping create_pending_user_request "
+            f"for request {request_id!r}",
+            color="cyan",
+        )
+        return
+
     if not _is_valid_uuid(request_id):
         vcprint(
             f"[ConversationGate] Cannot create pending user_request: "
@@ -317,7 +346,12 @@ async def ensure_user_request_exists(
     which persistence updates with aggregate totals on completion.
 
     Fire-and-forget safe — logs errors but never raises.
+    In client mode, this is a no-op.
     """
+    from matrx_ai.db import is_client_mode
+    if is_client_mode():
+        return
+
     if not _is_valid_uuid(request_id):
         vcprint(
             f"[ConversationGate] Cannot ensure user_request: "
@@ -374,7 +408,12 @@ async def update_user_request_status(
     """Update the status (and optionally error) on an existing cx_user_request.
 
     Fire-and-forget safe — logs errors but never raises.
+    In client mode, this is a no-op.
     """
+    from matrx_ai.db import is_client_mode
+    if is_client_mode():
+        return
+
     if not _is_valid_uuid(request_id):
         return
 
