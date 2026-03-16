@@ -263,8 +263,9 @@ class ToolRegistryV2:
         from matrx_ai.db import is_client_mode
         if is_client_mode():
             try:
-                from matrx_ai.client_mode import get_api_client
-                rows = await get_api_client().get_tools()
+                from matrx_ai.client_mode import get_api_client, get_config
+                source_app = get_config().source_app
+                rows = await get_api_client().get_tools(source_app=source_app)
                 return rows if isinstance(rows, list) else []
             except Exception as exc:
                 vcprint(
@@ -297,8 +298,9 @@ class ToolRegistryV2:
         if is_client_mode():
             import asyncio
             try:
-                from matrx_ai.client_mode import get_api_client
-                rows = asyncio.run(get_api_client().get_tools())
+                from matrx_ai.client_mode import get_api_client, get_config
+                source_app = get_config().source_app
+                rows = asyncio.run(get_api_client().get_tools(source_app=source_app))
                 return rows if isinstance(rows, list) else []
             except Exception as exc:
                 vcprint(

@@ -133,6 +133,14 @@ class ClientModeConfig:
         An object implementing the ConversationHandler protocol. All
         conversation persistence (gate, persistence, tool logging) is
         delegated to this object instead of writing to the cloud DB directly.
+
+    source_app:
+        Optional. When set, only tools with this source_app value are fetched
+        from the server via GET /api/ai-tools/app/{source_app}. When None,
+        all tools are fetched via GET /api/ai-tools.
+        e.g. "matrx_local" to fetch only tools belonging to the desktop app.
+        This prevents the registry from attempting to import server-side tool
+        modules (like mcp_server.*) that don't exist in the desktop environment.
     """
 
     server_url: str = field(default_factory=lambda: os.environ.get("AIDREAM_SERVER_URL_LIVE", ""))
@@ -140,6 +148,7 @@ class ClientModeConfig:
     supabase_anon_key: str = ""
     get_jwt: Any = None  # Callable[[], str | None]
     conversation_handler: Any = None  # ConversationHandler
+    source_app: str | None = None  # e.g. "matrx_local" — filters tools fetched from API
 
     def validate(self) -> None:
         """Validate all required fields. Raises ClientModeConfigError if anything is missing."""
