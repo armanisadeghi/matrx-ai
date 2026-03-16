@@ -106,7 +106,35 @@ class PromptBuiltinsBase(BaseManager[PromptBuiltins]):
         super().__init__(PromptBuiltins, dto_class=dto_class or PromptBuiltinsDTO)
 
     def _initialize_manager(self) -> None:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            return
         super()._initialize_manager()
+
+    async def load_items(self, **kwargs: Any) -> list[Any]:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            from matrx_ai.client_mode import get_api_client
+            return await get_api_client().get_prompt_builtins()
+        return await super().load_items(**kwargs)
+
+    async def filter_items(self, **kwargs: Any) -> list[Any]:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            from matrx_ai.client_mode import get_api_client
+            return await get_api_client().get_prompt_builtins()
+        return await super().filter_items(**kwargs)
+
+    async def load_by_id(self, id: Any) -> Any:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            from matrx_ai.client_mode import get_api_client
+            all_builtins = await get_api_client().get_prompt_builtins()
+            for item in all_builtins:
+                if str(item.get("id", "")) == str(id):
+                    return item
+            return None
+        return await super().load_by_id(id)
 
     async def _initialize_runtime_data(self, item: PromptBuiltins) -> None:
         pass

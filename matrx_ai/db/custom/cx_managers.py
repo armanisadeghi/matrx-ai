@@ -25,6 +25,14 @@ from matrx_ai.db.models import (
 from .conversation_rebuild import rebuild_conversation_messages
 
 
+def _cx_initialize_manager_guard(manager_instance: Any) -> None:
+    """Skip asyncpg pool creation in client mode for all cx_ managers."""
+    from matrx_ai.db import is_client_mode
+    if is_client_mode():
+        return
+    super(type(manager_instance), manager_instance)._initialize_manager()
+
+
 class CxToolCallManager(CxToolCallBase):
     _instance: CxToolCallManager | None = None
 
@@ -35,6 +43,12 @@ class CxToolCallManager(CxToolCallBase):
 
     def __init__(self) -> None:
         super().__init__()
+
+    def _initialize_manager(self) -> None:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            return
+        super()._initialize_manager()
 
     async def _initialize_runtime_data(self, item: CxToolCall) -> None:
         pass
@@ -51,6 +65,12 @@ class CxConversationManager(CxConversationBase):
     def __init__(self) -> None:
         super().__init__()
 
+    def _initialize_manager(self) -> None:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            return
+        super()._initialize_manager()
+
     async def _initialize_runtime_data(self, item: CxConversation) -> None:
         pass
 
@@ -65,6 +85,12 @@ class CxMediaManager(CxMediaBase):
 
     def __init__(self) -> None:
         super().__init__()
+
+    def _initialize_manager(self) -> None:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            return
+        super()._initialize_manager()
 
     async def _initialize_runtime_data(self, item: CxMedia) -> None:
         pass
@@ -81,6 +107,12 @@ class CxMessageManager(CxMessageBase):
     def __init__(self) -> None:
         super().__init__()
 
+    def _initialize_manager(self) -> None:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            return
+        super()._initialize_manager()
+
     async def _initialize_runtime_data(self, item: CxMessage) -> None:
         pass
 
@@ -95,6 +127,12 @@ class CxUserRequestManager(CxUserRequestBase):
 
     def __init__(self) -> None:
         super().__init__()
+
+    def _initialize_manager(self) -> None:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            return
+        super()._initialize_manager()
 
     async def _initialize_runtime_data(self, item: CxUserRequest) -> None:
         pass
@@ -111,6 +149,12 @@ class CxRequestManager(CxRequestBase):
     def __init__(self) -> None:
         super().__init__()
 
+    def _initialize_manager(self) -> None:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            return
+        super()._initialize_manager()
+
     async def _initialize_runtime_data(self, item: CxRequest) -> None:
         pass
 
@@ -125,6 +169,12 @@ class CxAgentMemoryManager(CxAgentMemoryBase):
 
     def __init__(self) -> None:
         super().__init__()
+
+    def _initialize_manager(self) -> None:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            return
+        super()._initialize_manager()
 
     async def _initialize_runtime_data(self, item: CxAgentMemory) -> None:
         pass
@@ -155,6 +205,31 @@ class CxManagers:
         self.user_request: CxUserRequestManager = cx_user_request_manager_instance
         self.request: CxRequestManager = cx_request_manager_instance
         self.agent_memory: CxAgentMemoryManager = cx_agent_memory_manager_instance
+
+    async def get_conversation_unified_config(
+        self, conversation_id: str
+    ) -> UnifiedConfig:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            from matrx_ai.client_mode import get_conversation_handler
+            handler = get_conversation_handler()
+            config_dict = await handler.get_conversation_config(conversation_id)
+            return UnifiedConfig.from_dict(config_dict)
+        # Server-mode path (defined again below, but we need it here to avoid
+        # calling the method before its full definition when client_mode=False).
+        conversation_data = await self.get_conversation_data(conversation_id)
+        conversation: CxConversation = conversation_data["conversation"]
+        messages: list[CxMessage] = conversation_data["messages"]
+        tool_calls: list[CxToolCall] = conversation_data["tool_calls"]
+        media: list[CxMedia] = conversation_data["media"]
+        messages_rebuilt = await rebuild_conversation_messages(messages, tool_calls, media)
+        config_dict = dict(conversation.config)
+        config_dict.update({
+            "model": conversation.ai_model_id,
+            "system_instruction": conversation.system_instruction,
+            "messages": messages_rebuilt,
+        })
+        return UnifiedConfig.from_dict(config_dict)
 
     async def get_conversation_data(self, conversation_id: str) -> dict[str, Any]:
         item, all_related = await self.conversation.get_cx_conversation_with_all_related(
@@ -204,31 +279,6 @@ class CxManagers:
         vcprint(unified_config, "[CX MANAGERS] Unified Config", color="cyan")
 
         return unified_config
-
-    async def get_conversation_unified_config(
-        self, conversation_id: str
-    ) -> UnifiedConfig:
-        conversation_data = await self.get_conversation_data(conversation_id)
-
-        # vcprint(conversation_data, "[CX MANAGERS] Conversation Data", color="cyan")
-        conversation: CxConversation = conversation_data["conversation"]
-        messages: list[CxMessage] = conversation_data["messages"]
-        tool_calls: list[CxToolCall] = conversation_data["tool_calls"]
-        media: list[CxMedia] = conversation_data["media"]
-
-        messages_rebuilt = await rebuild_conversation_messages(
-            messages, tool_calls, media
-        )
-        
-        config_dict = dict(conversation.config)
-
-        config_dict.update({
-            "model": conversation.ai_model_id,
-            "system_instruction": conversation.system_instruction,
-            "messages": messages_rebuilt,
-        })
-
-        return UnifiedConfig.from_dict(config_dict)
 
     async def get_full_conversation(self, conversation_id: str) -> dict[str, Any]:
         conversation_data = await self.get_conversation_data(conversation_id)

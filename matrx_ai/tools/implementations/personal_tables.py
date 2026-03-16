@@ -5,6 +5,15 @@ Provides full CRUD access to a user's personal data tables
 
 These tables are user-owned structured datasets created by the AI on behalf
 of the user. All operations are scoped to ctx.user_id automatically.
+
+# CLIENT_MODE_DEFERRED
+#
+# This tool uses direct asyncpg / matrx-orm queries that require a live
+# PostgreSQL connection. In client mode (desktop app), no DB connection is
+# available. A future implementation could proxy these operations through a
+# JWT-scoped server endpoint that enforces user ownership server-side.
+# Until that endpoint exists, all personal_tables tools are disabled in
+# client mode and raise NotImplementedError.
 """
 
 from __future__ import annotations
@@ -15,6 +24,22 @@ import traceback
 from typing import Any
 
 from matrx_ai.tools.models import ToolContext, ToolError, ToolResult
+
+# ---------------------------------------------------------------------------
+# Client mode guard
+# ---------------------------------------------------------------------------
+
+
+def _raise_if_client_mode(tool_name: str) -> None:
+    from matrx_ai.db import is_client_mode
+    if is_client_mode():
+        raise NotImplementedError(
+            f"The '{tool_name}' tool is not available in client mode. "
+            "Personal tables require direct database access which is unavailable "
+            "in a desktop application. A JWT-scoped server proxy endpoint is needed "
+            "before this tool can run client-side. (CLIENT_MODE_DEFERRED)"
+        )
+
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -43,6 +68,7 @@ def _run_batch(
 
 
 async def usertable_get_all(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+    _raise_if_client_mode("usertable_get_all")
     try:
         rows = await asyncio.to_thread(
             _run_query,
@@ -75,6 +101,7 @@ async def usertable_get_all(args: dict[str, Any], ctx: ToolContext) -> ToolResul
 
 
 async def usertable_get_metadata(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+    _raise_if_client_mode("usertable_get_metadata")
     table_id = args.get("table_id", "").strip()
     if not table_id:
         return ToolResult(
@@ -126,6 +153,7 @@ async def usertable_get_metadata(args: dict[str, Any], ctx: ToolContext) -> Tool
 
 
 async def usertable_get_fields(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+    _raise_if_client_mode("usertable_get_fields")
     table_id = args.get("table_id", "").strip()
     if not table_id:
         return ToolResult(
@@ -166,6 +194,7 @@ async def usertable_get_fields(args: dict[str, Any], ctx: ToolContext) -> ToolRe
 
 
 async def usertable_get_data(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+    _raise_if_client_mode("usertable_get_data")
     table_id = args.get("table_id", "").strip()
     if not table_id:
         return ToolResult(
@@ -227,6 +256,7 @@ async def usertable_get_data(args: dict[str, Any], ctx: ToolContext) -> ToolResu
 
 
 async def usertable_search_data(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+    _raise_if_client_mode("usertable_search_data")
     table_id = args.get("table_id", "").strip()
     search_term = args.get("search_term", "").strip()
     if not table_id:
@@ -289,6 +319,7 @@ async def usertable_search_data(args: dict[str, Any], ctx: ToolContext) -> ToolR
 
 
 async def usertable_add_rows(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+    _raise_if_client_mode("usertable_add_rows")
     table_id = args.get("table_id", "").strip()
     rows_input = args.get("rows")
     if not table_id:
@@ -339,6 +370,7 @@ async def usertable_add_rows(args: dict[str, Any], ctx: ToolContext) -> ToolResu
 
 
 async def usertable_update_row(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+    _raise_if_client_mode("usertable_update_row")
     row_id = args.get("row_id", "").strip()
     table_id = args.get("table_id", "").strip()
     data = args.get("data")
@@ -397,6 +429,7 @@ async def usertable_update_row(args: dict[str, Any], ctx: ToolContext) -> ToolRe
 
 
 async def usertable_delete_row(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+    _raise_if_client_mode("usertable_delete_row")
     row_id = args.get("row_id", "").strip()
     table_id = args.get("table_id", "").strip()
     if not row_id:
@@ -449,6 +482,7 @@ async def usertable_delete_row(args: dict[str, Any], ctx: ToolContext) -> ToolRe
 async def usertable_create_advanced(
     args: dict[str, Any], ctx: ToolContext
 ) -> ToolResult:
+    _raise_if_client_mode("usertable_create_advanced")
     from user_data.table_creator import UserTableCreator
 
     table_name = args.get("table_name", "").strip()

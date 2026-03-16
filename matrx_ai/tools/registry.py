@@ -260,6 +260,23 @@ class ToolRegistryV2:
 
     @staticmethod
     async def _fetch_tools_async() -> list[dict[str, Any]]:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            try:
+                from matrx_ai.client_mode import get_api_client
+                rows = await get_api_client().get_tools()
+                return rows if isinstance(rows, list) else []
+            except Exception as exc:
+                vcprint(
+                    {
+                        "error": str(exc),
+                        "traceback": traceback.format_exc(),
+                    },
+                    "[ToolRegistryV2] Failed to fetch tools from API (client mode). No tools will be available.",
+                    color="red",
+                )
+                return []
+
         try:
             items = await tools_manager.filter_tool(is_active=True)
             return [item.to_dict() for item in items]
@@ -276,6 +293,24 @@ class ToolRegistryV2:
 
     @staticmethod
     def _fetch_tools_via_orm_sync() -> list[dict[str, Any]]:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            import asyncio
+            try:
+                from matrx_ai.client_mode import get_api_client
+                rows = asyncio.run(get_api_client().get_tools())
+                return rows if isinstance(rows, list) else []
+            except Exception as exc:
+                vcprint(
+                    {
+                        "error": str(exc),
+                        "traceback": traceback.format_exc(),
+                    },
+                    "[ToolRegistryV2] Failed to fetch tools from API sync (client mode). No tools will be available.",
+                    color="red",
+                )
+                return []
+
         try:
             items = tools_manager.filter_items_sync(is_active=True)
             return [

@@ -142,11 +142,22 @@ async def ensure_conversation_exists(
     """
     from matrx_ai.db import is_client_mode
     if is_client_mode():
-        vcprint(
-            f"[ConversationGate] client_mode=True — skipping ensure_conversation_exists "
-            f"for {conversation_id!r}",
-            color="cyan",
-        )
+        from matrx_ai.client_mode import get_conversation_handler
+        from matrx_ai.context.app_context import try_get_app_context
+        ctx = try_get_app_context()
+        try:
+            await get_conversation_handler().ensure_conversation_exists(
+                conversation_id=conversation_id,
+                user_id=user_id,
+                parent_conversation_id=parent_conversation_id,
+                variables=ctx.initial_variables if ctx else {},
+                overrides=ctx.initial_overrides if ctx else {},
+            )
+        except Exception as exc:
+            vcprint(
+                f"[ConversationGate] ConversationHandler.ensure_conversation_exists failed: {exc}",
+                color="yellow",
+            )
         return
 
     if not _is_valid_uuid(conversation_id):
@@ -282,11 +293,18 @@ async def create_pending_user_request(
     """
     from matrx_ai.db import is_client_mode
     if is_client_mode():
-        vcprint(
-            f"[ConversationGate] client_mode=True — skipping create_pending_user_request "
-            f"for request {request_id!r}",
-            color="cyan",
-        )
+        from matrx_ai.client_mode import get_conversation_handler
+        try:
+            await get_conversation_handler().create_pending_user_request(
+                request_id=request_id,
+                conversation_id=conversation_id,
+                user_id=user_id,
+            )
+        except Exception as exc:
+            vcprint(
+                f"[ConversationGate] ConversationHandler.create_pending_user_request failed: {exc}",
+                color="yellow",
+            )
         return
 
     if not _is_valid_uuid(request_id):

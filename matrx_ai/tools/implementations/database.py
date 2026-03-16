@@ -1,3 +1,20 @@
+"""
+# CLIENT_MODE_DEFERRED
+#
+# This tool uses a Supabase service-role key (full DB access, bypasses RLS) to
+# execute raw queries against arbitrary tables. A service-role key must NEVER
+# be distributed inside a desktop app — it grants unrestricted access to the
+# entire database.
+#
+# When matrx-ai is used in client mode (desktop app), this tool is disabled and
+# raises NotImplementedError on every entry point.
+#
+# Future path: add a JWT-scoped proxy endpoint to the server that accepts query
+# requests, validates the JWT, enforces RLS, and executes only on behalf of the
+# authenticated user. Until that endpoint exists, this tool cannot work in
+# client mode.
+"""
+
 from __future__ import annotations
 
 import logging
@@ -14,6 +31,17 @@ from matrx_ai.tools.arg_models.db_args import (
 from matrx_ai.tools.models import ToolContext, ToolError, ToolResult
 
 logger = logging.getLogger(__name__)
+
+
+def _raise_if_client_mode(tool_name: str) -> None:
+    from matrx_ai.db import is_client_mode
+    if is_client_mode():
+        raise NotImplementedError(
+            f"The '{tool_name}' tool is not available in client mode. "
+            "It requires a service-role Supabase key which cannot be distributed "
+            "in a desktop application. A JWT-scoped server proxy endpoint is needed "
+            "before this tool can run client-side. (CLIENT_MODE_DEFERRED)"
+        )
 
 
 def _get_async_supabase():
@@ -59,6 +87,7 @@ def _is_safe_select(query: str) -> bool:
 
 
 async def db_query(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+    _raise_if_client_mode("db_query")
     started_at = time.time()
     parsed = DbQueryArgs(**args)
 
@@ -120,6 +149,7 @@ async def db_query(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
 
 
 async def db_insert(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+    _raise_if_client_mode("db_insert")
     started_at = time.time()
     parsed = DbInsertArgs(**args)
 
@@ -179,6 +209,7 @@ async def db_insert(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
 
 
 async def db_update(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+    _raise_if_client_mode("db_update")
     started_at = time.time()
     parsed = DbUpdateArgs(**args)
 
@@ -236,6 +267,7 @@ async def db_update(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
 
 
 async def db_schema(args: dict[str, Any], ctx: ToolContext) -> ToolResult:
+    _raise_if_client_mode("db_schema")
     started_at = time.time()
     parsed = DbSchemaArgs(**args)
 

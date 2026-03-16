@@ -106,7 +106,38 @@ class ToolsBase(BaseManager[Tools]):
         super().__init__(Tools, dto_class=dto_class or ToolsDTO)
 
     def _initialize_manager(self) -> None:
+        # Skip asyncpg auto-fetch when running in client mode — no DB config
+        # is registered in client mode, so attempting to create a connection
+        # pool raises DatabaseConfigError. Data is fetched via ApiClient instead.
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            return
         super()._initialize_manager()
+
+    async def filter_tool(self, **kwargs: Any) -> list[Tools]:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            from matrx_ai.client_mode import get_api_client
+            rows = await get_api_client().get_tools()
+            return rows  # type: ignore[return-value]
+        return await self.filter_items(**kwargs)
+
+    def filter_items_sync(self, **kwargs: Any) -> list[Any]:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            import asyncio
+            from matrx_ai.client_mode import get_api_client
+            try:
+                loop = asyncio.get_event_loop()
+                if loop.is_running():
+                    import concurrent.futures
+                    with concurrent.futures.ThreadPoolExecutor() as pool:
+                        future = pool.submit(asyncio.run, get_api_client().get_tools())
+                        return future.result()
+                return loop.run_until_complete(get_api_client().get_tools())
+            except Exception:
+                return asyncio.run(get_api_client().get_tools())
+        return super().filter_items_sync(**kwargs)
 
     async def _initialize_runtime_data(self, item: Tools) -> None:
         pass
@@ -131,9 +162,6 @@ class ToolsBase(BaseManager[Tools]):
 
     async def load_tool(self, **kwargs: Any) -> list[Tools]:
         return await self.load_items(**kwargs)
-
-    async def filter_tool(self, **kwargs: Any) -> list[Tools]:
-        return await self.filter_items(**kwargs)
 
     async def get_or_create_tools(self, defaults: dict[str, Any] | None = None, **kwargs: Any) -> Tools | None:
         return await self.get_or_create(defaults, **kwargs)

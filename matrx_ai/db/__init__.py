@@ -3,11 +3,10 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from matrx_orm.client import SupabaseAuth, SupabaseClientConfig
+    from matrx_ai.client_mode.config import ClientModeConfig
 
 # Module-level state — set once during initialize(), then read-only.
 _client_mode: bool = False
-_client_singleton: tuple[SupabaseClientConfig, SupabaseAuth] | None = None
 
 
 def _setup(
@@ -18,20 +17,26 @@ def _setup(
     additional_schemas: list[str] | None = None,
     env_var_overrides: dict[str, str] | None = None,
     client_mode: bool = False,
+    client_config: ClientModeConfig | None = None,
+    # Legacy keyword arguments kept for backwards-compatibility with any
+    # callers that still pass supabase_url / supabase_anon_key directly.
+    # These are silently ignored when client_config is provided.
     supabase_url: str = "",
     supabase_anon_key: str = "",
 ) -> None:
-    """Connect the ORM to a PostgreSQL instance, or configure the Supabase client adapter.
+    """Connect the ORM to a PostgreSQL instance, or activate client mode.
 
     Called by matrx_ai.initialize() or directly when you want full control
     over the database configuration without relying on .env auto-loading.
 
-    When client_mode=True, skips the asyncpg connection entirely and sets up
-    the Supabase PostgREST adapter (anon key + user JWT + RLS). Use this when
-    matrx-ai is embedded in a desktop app distributed to end users.
+    When client_mode=True:
+        - asyncpg connection is never opened.
+        - client_config is validated fail-fast (all errors listed upfront).
+        - The validated config + ApiClient singleton are stored in
+          matrx_ai.client_mode for use by every subsystem.
     """
     if client_mode:
-        _setup_client_mode(supabase_url, supabase_anon_key)
+        _setup_client_mode(client_config, supabase_url=supabase_url, supabase_anon_key=supabase_anon_key)
         return
 
     from dotenv import load_dotenv
@@ -46,48 +51,49 @@ def _setup(
     )
 
 
-def _setup_client_mode(url: str, anon_key: str) -> None:
-    """Initialize the Supabase PostgREST adapter for client-side (desktop) use.
+def _setup_client_mode(
+    config: ClientModeConfig | None,
+    *,
+    supabase_url: str = "",
+    supabase_anon_key: str = "",
+) -> None:
+    """Validate ClientModeConfig and activate client mode.
 
-    Stores a (SupabaseClientConfig, SupabaseAuth) singleton that can be
-    retrieved via get_client_singleton(). No asyncpg connection is opened.
-    The anon key is safe to embed in desktop apps — per-user RLS policies
-    enforce data isolation via the user's JWT.
+    If config is None but legacy supabase_url/anon_key were passed, builds a
+    minimal ClientModeConfig from them (backwards-compat only — missing
+    conversation_handler means any conversation operation will raise at runtime).
+
+    Stores the validated config and creates the ApiClient singleton in
+    matrx_ai.client_mode. Sets the module-level _client_mode flag.
     """
-    from matrx_orm.client import SupabaseAuth, SupabaseClientConfig
+    from matrx_ai.client_mode.config import ClientModeConfig as _ClientModeConfig
 
-    global _client_mode, _client_singleton
+    global _client_mode
 
-    if not url:
-        raise ValueError(
-            "client_mode=True requires supabase_url. "
-            "Set SUPABASE_URL in .env or pass it explicitly to initialize()."
+    if config is None:
+        # Legacy path: caller passed supabase_url + supabase_anon_key directly.
+        # Build a partial config — missing get_jwt and conversation_handler will
+        # cause errors at runtime, not at init time. This path is deprecated.
+        import os
+        config = _ClientModeConfig(
+            server_url=os.environ.get("AIDREAM_SERVER_URL_LIVE", ""),
+            supabase_url=supabase_url,
+            supabase_anon_key=supabase_anon_key,
+            get_jwt=lambda: None,
+            conversation_handler=None,
         )
-    if not anon_key:
-        raise ValueError(
-            "client_mode=True requires supabase_anon_key. "
-            "Set SUPABASE_PUBLISHABLE_KEY in .env or pass it explicitly to initialize()."
-        )
 
-    config = SupabaseClientConfig(url=url, anon_key=anon_key)
-    auth = SupabaseAuth(config)
-    _client_singleton = (config, auth)
+    # Validate all required fields upfront — fail loudly with a full list of
+    # every missing field before doing anything else.
+    config.validate()
+
+    # Activate the client_mode module state.
+    from matrx_ai.client_mode import _activate
+    _activate(config)
+
     _client_mode = True
 
 
 def is_client_mode() -> bool:
-    """Return True if matrx-ai was initialized in client (PostgREST) mode."""
+    """Return True if matrx-ai was initialized in client (desktop) mode."""
     return _client_mode
-
-
-def get_client_singleton() -> tuple[SupabaseClientConfig, SupabaseAuth]:
-    """Return the (SupabaseClientConfig, SupabaseAuth) singleton.
-
-    Raises RuntimeError if not initialized in client mode.
-    """
-    if _client_singleton is None:
-        raise RuntimeError(
-            "matrx-ai is not initialized in client mode. "
-            "Call matrx_ai.initialize(client_mode=True, ...) first."
-        )
-    return _client_singleton

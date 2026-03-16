@@ -106,7 +106,48 @@ class PromptsBase(BaseManager[Prompts]):
         super().__init__(Prompts, dto_class=dto_class or PromptsDTO)
 
     def _initialize_manager(self) -> None:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            return
         super()._initialize_manager()
+
+    async def load_items(self, **kwargs: Any) -> list[Any]:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            from matrx_ai.client_mode import get_api_client, get_jwt
+            jwt = get_jwt()
+            if not jwt:
+                return []
+            return await get_api_client().get_user_prompts(jwt)
+        return await super().load_items(**kwargs)
+
+    async def filter_items(self, **kwargs: Any) -> list[Any]:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            from matrx_ai.client_mode import get_api_client, get_jwt
+            jwt = get_jwt()
+            if not jwt:
+                return []
+            prompts = await get_api_client().get_user_prompts(jwt)
+            # Apply basic in-memory filtering for any kwargs passed
+            for key, value in kwargs.items():
+                prompts = [p for p in prompts if p.get(key) == value]
+            return prompts
+        return await super().filter_items(**kwargs)
+
+    async def load_by_id(self, id: Any) -> Any:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            from matrx_ai.client_mode import get_api_client, get_jwt
+            jwt = get_jwt()
+            if not jwt:
+                return None
+            prompts = await get_api_client().get_user_prompts(jwt)
+            for p in prompts:
+                if str(p.get("id", "")) == str(id):
+                    return p
+            return None
+        return await super().load_by_id(id)
 
     async def _initialize_runtime_data(self, item: Prompts) -> None:
         pass

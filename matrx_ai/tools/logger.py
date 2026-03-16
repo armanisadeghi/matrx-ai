@@ -57,6 +57,20 @@ class ToolExecutionLogger:
             "metadata": {},
         }
 
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            from matrx_ai.client_mode import get_conversation_handler
+            try:
+                await get_conversation_handler().log_tool_call_start(row_id, data)
+                return row_id
+            except Exception as exc:
+                vcprint(
+                    f"ConversationHandler.log_tool_call_start failed: {exc}\n{traceback.format_exc()}",
+                    "[ToolLogger] client-mode INSERT failed",
+                    color="red",
+                )
+                return ""
+
         try:
             await cxm.tool_call.create_cx_tool_call(**data)
             return row_id
@@ -158,6 +172,12 @@ class ToolExecutionLogger:
         conversation_id: str,
         message_id: str,
     ) -> None:
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            # In client mode, message backfill is handled by the host
+            # ConversationHandler which owns the local storage schema.
+            return
+
         try:
             matches = await cxm.tool_call.filter_cx_tool_calls(
                 call_id=call_id,
@@ -181,6 +201,20 @@ class ToolExecutionLogger:
     async def _update_row(self, row_id: str, data: dict[str, Any]) -> None:
         if not row_id:
             return
+
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            from matrx_ai.client_mode import get_conversation_handler
+            try:
+                await get_conversation_handler().log_tool_call_update(row_id, data)
+            except Exception as exc:
+                vcprint(
+                    f"ConversationHandler.log_tool_call_update failed for {row_id}: {exc}\n{traceback.format_exc()}",
+                    "[ToolLogger] client-mode UPDATE failed",
+                    color="red",
+                )
+            return
+
         try:
             await cxm.tool_call.update_cx_tool_call(row_id, **data)
         except Exception as exc:

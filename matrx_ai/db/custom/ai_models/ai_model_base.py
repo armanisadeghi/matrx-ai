@@ -33,6 +33,12 @@ class AiModelBase(BaseManager[AiModel]):
         )
 
     def _initialize_manager(self) -> None:
+        # Skip asyncpg auto-fetch in client mode — no DB config is registered,
+        # so attempting to create a connection pool raises DatabaseConfigError.
+        # Model data is fetched via ApiClient instead.
+        from matrx_ai.db import is_client_mode
+        if is_client_mode():
+            return
         super()._initialize_manager()
 
     async def _initialize_runtime_data(self, item: AiModel) -> None:

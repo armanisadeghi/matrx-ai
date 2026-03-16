@@ -108,12 +108,22 @@ async def persist_completed_request(
     """
     from matrx_ai.db import is_client_mode
     if is_client_mode():
-        return {
-            "conversation_id": conversation_id or "",
-            "user_request_id": "",
-            "message_ids": [],
-            "request_ids": [],
-        }
+        from matrx_ai.client_mode import get_conversation_handler
+        try:
+            return await get_conversation_handler().persist_completed_request(
+                completed, conversation_id=conversation_id
+            )
+        except Exception as exc:
+            vcprint(
+                f"[CX PERSISTENCE] ConversationHandler.persist_completed_request failed: {exc}",
+                color="red",
+            )
+            return {
+                "conversation_id": conversation_id or "",
+                "user_request_id": "",
+                "message_ids": [],
+                "request_ids": [],
+            }
 
     # vcprint(
     #     completed,
