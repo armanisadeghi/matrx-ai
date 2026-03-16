@@ -42,7 +42,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from matrx_ai.client_mode.config import ClientModeConfig
 
-__version__ = "0.1.19"
+__version__ = "0.1.20"
 
 
 def _get_version() -> str:
