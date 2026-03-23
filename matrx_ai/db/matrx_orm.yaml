@@ -67,6 +67,10 @@ generate:
   - database: supabase_automation_matrix
     schema: public
     include_tables:
+      - organizations
+      - workspaces
+      - projects
+      - tasks
       - cx_conversation
       - cx_message
       - cx_agent_memory

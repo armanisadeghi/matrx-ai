@@ -91,6 +91,26 @@ def _setup_client_mode(
     from matrx_ai.client_mode import _activate
     _activate(config)
 
+    # Register the PostgRESTClientAdapter so that all BaseManager / QueryBuilder
+    # operations transparently route through Supabase PostgREST instead of
+    # trying to open an asyncpg connection.
+    try:
+        from matrx_orm.adapters import AdapterRegistry
+        from matrx_orm.adapters.postgrest_client_adapter import PostgRESTClientAdapter
+        adapter = PostgRESTClientAdapter(
+            url=config.supabase_url,
+            anon_key=config.supabase_anon_key,
+            get_jwt=config.get_jwt,
+        )
+        AdapterRegistry.register("supabase_automation_matrix", adapter)
+    except Exception as _exc:  # pragma: no cover
+        import logging as _logging
+        _logging.getLogger("matrx_ai.db").warning(
+            "Could not register PostgRESTClientAdapter: %s — "
+            "BaseManager auto-fetch will be skipped in client mode.",
+            _exc,
+        )
+
     _client_mode = True
 
 

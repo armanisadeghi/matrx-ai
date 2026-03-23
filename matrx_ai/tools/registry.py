@@ -380,6 +380,9 @@ class ToolRegistryV2:
         else:
             params = raw_params
 
+        raw_version = row.get("version", "1.0.0")
+        version = str(raw_version) if raw_version is not None else "1.0.0"
+
         return ToolDefinition(
             name=row["name"],
             description=row.get("description", ""),
@@ -393,7 +396,7 @@ class ToolRegistryV2:
             tags=row.get("tags") or [],
             icon=row.get("icon"),
             is_active=row.get("is_active", True),
-            version=row.get("version", "1.0.0"),
+            version=version,
             prompt_id=prompt_id,
             max_calls_per_conversation=guardrail_config.get(
                 "max_calls_per_conversation"

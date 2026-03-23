@@ -44,7 +44,7 @@ class ToolExecutionLogger:
             "id": row_id,
             "conversation_id": ctx.conversation_id,
             "user_id": ctx.user_id,
-            "request_id": ctx.request_id if ctx.request_id else None,
+            "user_request_id": ctx.request_id if ctx.request_id else None,
             "tool_name": tool_def.name,
             "tool_type": tool_def.tool_type.value,
             "call_id": ctx.call_id,

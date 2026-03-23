@@ -1269,7 +1269,7 @@ requires-dist = [
     { name = "groq" },
     { name = "httpx", specifier = ">=0.28.0" },
     { name = "httpx", marker = "extra == 'dev'", specifier = ">=0.28.0" },
-    { name = "matrx-orm", specifier = ">=3.0.25" },
+    { name = "matrx-orm", specifier = ">=3.0.28" },
     { name = "matrx-utils", specifier = ">=1.0.19" },
     { name = "openai" },
     { name = "orjson", marker = "extra == 'server'", specifier = ">=3.10.0" },
@@ -1312,7 +1312,7 @@ server = [
 
 [[package]]
 name = "matrx-orm"
-version = "3.0.25"
+version = "3.0.28"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "asyncpg" },
@@ -1322,8 +1322,9 @@ dependencies = [
     { name = "psycopg-pool" },
     { name = "pyyaml" },
 ]
+sdist = { url = "https://files.pythonhosted.org/packages/a9/25/c0eaa1c28f10875be246691f6aa38e05714469258abb0b735eac73aad52c/matrx_orm-3.0.28.tar.gz", hash = "sha256:07bf413898120baef4c2db43aca1451b0ca59787bd4cf9f56eec5d48f6189da5", size = 501472, upload-time = "2026-03-23T23:36:02.187Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/39/2f/f2b4a1614c29e2152f735e5e2b0312b373f64657e737f55ac7cde583ab95/matrx_orm-3.0.25-py3-none-any.whl", hash = "sha256:e5301f63ccda5007a157adb8186f97aaae05b8b4a0ee6c140a02bc86cd85d708", size = 300641, upload-time = "2026-03-16T04:45:08.215Z" },
+    { url = "https://files.pythonhosted.org/packages/c8/88/1f67009dd2e92eb58f22338d5a376db39985c859eac0185454700eb22e51/matrx_orm-3.0.28-py3-none-any.whl", hash = "sha256:528d4ac0807603d6b9b8737949d9d432b5f8334a5e701f6d125dfdb96e277769", size = 313731, upload-time = "2026-03-23T23:36:00.295Z" },
 ]
 
 [[package]]
