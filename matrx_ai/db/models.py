@@ -1,5 +1,5 @@
 # File: db/models.py
-from matrx_orm import BigIntegerField, BooleanField, CharField, DateTimeField, DecimalField, FloatField, ForeignKey, IntegerField, JSONBField, Model, SmallIntegerField, TextArrayField, TextField, UUIDField, model_registry, BaseDTO, BaseManager
+from matrx_orm import BigIntegerField, BooleanField, CharField, DateField, DateTimeField, DecimalField, EnumField, FloatField, ForeignKey, IntegerField, JSONBField, Model, SmallIntegerField, TextArrayField, TextField, UUIDField, model_registry, BaseDTO, BaseManager
 from enum import Enum
 from dataclasses import dataclass
 from typing import ClassVar
@@ -38,6 +38,21 @@ class CxAgentMemory(Model):
     updated_at = DateTimeField(null=False)
     deleted_at = DateTimeField()
     _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {}
+    _database = "supabase_automation_matrix"
+
+class Organizations(Model):
+    id = UUIDField(primary_key=True, null=False)
+    name = TextField(null=False)
+    slug = TextField(null=False, unique=True)
+    description = TextField()
+    logo_url = TextField()
+    website = TextField()
+    created_at = DateTimeField()
+    updated_at = DateTimeField()
+    created_by = ForeignKey(to_model=Users, to_column='id', to_schema='auth', )
+    is_personal = BooleanField(default=False)
+    settings = JSONBField(default={})
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {'workspaces': {'from_model': 'Workspaces', 'from_field': 'organization_id', 'referenced_field': 'id', 'related_name': 'workspaces'}, 'context_variables': {'from_model': 'ContextVariables', 'from_field': 'organization_id', 'referenced_field': 'id', 'related_name': 'context_variables'}, 'permissions': {'from_model': 'Permissions', 'from_field': 'granted_to_organization_id', 'referenced_field': 'id', 'related_name': 'permissions'}, 'organization_members': {'from_model': 'OrganizationMembers', 'from_field': 'organization_id', 'referenced_field': 'id', 'related_name': 'organization_members'}, 'user_active_context': {'from_model': 'UserActiveContext', 'from_field': 'organization_id', 'referenced_field': 'id', 'related_name': 'user_active_context'}, 'broker_values': {'from_model': 'BrokerValues', 'from_field': 'organization_id', 'referenced_field': 'id', 'related_name': 'broker_values'}, 'user_files': {'from_model': 'UserFiles', 'from_field': 'organization_id', 'referenced_field': 'id', 'related_name': 'user_files'}, 'projects': {'from_model': 'Projects', 'from_field': 'organization_id', 'referenced_field': 'id', 'related_name': 'projects'}, 'organization_invitations': {'from_model': 'OrganizationInvitations', 'from_field': 'organization_id', 'referenced_field': 'id', 'related_name': 'organization_invitations'}, 'cx_conversation': {'from_model': 'CxConversation', 'from_field': 'organization_id', 'referenced_field': 'id', 'related_name': 'cx_conversation'}, 'sandbox_instances': {'from_model': 'SandboxInstances', 'from_field': 'organization_id', 'referenced_field': 'id', 'related_name': 'sandbox_instances'}, 'context_items': {'from_model': 'ContextItems', 'from_field': 'organization_id', 'referenced_field': 'id', 'related_name': 'context_items'}, 'app_instances': {'from_model': 'AppInstances', 'from_field': 'organization_id', 'referenced_field': 'id', 'related_name': 'app_instances'}, 'notes': {'from_model': 'Notes', 'from_field': 'organization_id', 'referenced_field': 'id', 'related_name': 'notes'}, 'user_tables': {'from_model': 'UserTables', 'from_field': 'organization_id', 'referenced_field': 'id', 'related_name': 'user_tables'}, 'transcripts': {'from_model': 'Transcripts', 'from_field': 'organization_id', 'referenced_field': 'id', 'related_name': 'transcripts'}, 'workflow': {'from_model': 'Workflow', 'from_field': 'organization_id', 'referenced_field': 'id', 'related_name': 'workflow'}, 'canvas_items': {'from_model': 'CanvasItems', 'from_field': 'organization_id', 'referenced_field': 'id', 'related_name': 'canvas_items'}, 'prompts': {'from_model': 'Prompts', 'from_field': 'organization_id', 'referenced_field': 'id', 'related_name': 'prompts'}}
     _database = "supabase_automation_matrix"
 
 class ShortcutCategories(Model):
@@ -109,6 +124,59 @@ class ContentBlocks(Model):
     _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {}
     _database = "supabase_automation_matrix"
 
+class Workspaces(Model):
+    id = UUIDField(primary_key=True, null=False)
+    organization_id = ForeignKey(to_model=Organizations, to_column='id', null=False)
+    parent_workspace_id = ForeignKey(to_model='Workspaces', to_column='id', )
+    name = TextField(null=False)
+    description = TextField()
+    settings = JSONBField(default={})
+    created_at = DateTimeField()
+    updated_at = DateTimeField()
+    created_by = ForeignKey(to_model=Users, to_column='id', to_schema='auth', )
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {'context_variables': {'from_model': 'ContextVariables', 'from_field': 'workspace_id', 'referenced_field': 'id', 'related_name': 'context_variables'}, 'user_active_context': {'from_model': 'UserActiveContext', 'from_field': 'workspace_id', 'referenced_field': 'id', 'related_name': 'user_active_context'}, 'broker_values': {'from_model': 'BrokerValues', 'from_field': 'workspace_id', 'referenced_field': 'id', 'related_name': 'broker_values'}, 'user_files': {'from_model': 'UserFiles', 'from_field': 'workspace_id', 'referenced_field': 'id', 'related_name': 'user_files'}, 'projects': {'from_model': 'Projects', 'from_field': 'workspace_id', 'referenced_field': 'id', 'related_name': 'projects'}, 'cx_conversation': {'from_model': 'CxConversation', 'from_field': 'workspace_id', 'referenced_field': 'id', 'related_name': 'cx_conversation'}, 'sandbox_instances': {'from_model': 'SandboxInstances', 'from_field': 'workspace_id', 'referenced_field': 'id', 'related_name': 'sandbox_instances'}, 'context_items': {'from_model': 'ContextItems', 'from_field': 'workspace_id', 'referenced_field': 'id', 'related_name': 'context_items'}, 'app_instances': {'from_model': 'AppInstances', 'from_field': 'workspace_id', 'referenced_field': 'id', 'related_name': 'app_instances'}, 'notes': {'from_model': 'Notes', 'from_field': 'workspace_id', 'referenced_field': 'id', 'related_name': 'notes'}, 'workspace_members': {'from_model': 'WorkspaceMembers', 'from_field': 'workspace_id', 'referenced_field': 'id', 'related_name': 'workspace_members'}, 'workspace_invitations': {'from_model': 'WorkspaceInvitations', 'from_field': 'workspace_id', 'referenced_field': 'id', 'related_name': 'workspace_invitations'}, 'user_tables': {'from_model': 'UserTables', 'from_field': 'workspace_id', 'referenced_field': 'id', 'related_name': 'user_tables'}, 'transcripts': {'from_model': 'Transcripts', 'from_field': 'workspace_id', 'referenced_field': 'id', 'related_name': 'transcripts'}, 'workflow': {'from_model': 'Workflow', 'from_field': 'workspace_id', 'referenced_field': 'id', 'related_name': 'workflow'}, 'canvas_items': {'from_model': 'CanvasItems', 'from_field': 'workspace_id', 'referenced_field': 'id', 'related_name': 'canvas_items'}, 'prompts': {'from_model': 'Prompts', 'from_field': 'workspace_id', 'referenced_field': 'id', 'related_name': 'prompts'}}
+    _database = "supabase_automation_matrix"
+
+class Projects(Model):
+    id = UUIDField(primary_key=True, null=False)
+    name = TextField(null=False)
+    description = TextField()
+    created_at = DateTimeField()
+    updated_at = DateTimeField()
+    created_by = ForeignKey(to_model=Users, to_column='id', to_schema='auth', )
+    organization_id = ForeignKey(to_model=Organizations, to_column='id', unique=True)
+    slug = TextField(unique=True)
+    settings = JSONBField(default={})
+    is_personal = BooleanField(default=False)
+    workspace_id = ForeignKey(to_model=Workspaces, to_column='id', )
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {'context_variables': {'from_model': 'ContextVariables', 'from_field': 'project_id', 'referenced_field': 'id', 'related_name': 'context_variables'}, 'tasks': {'from_model': 'Tasks', 'from_field': 'project_id', 'referenced_field': 'id', 'related_name': 'tasks'}, 'user_active_context': {'from_model': 'UserActiveContext', 'from_field': 'project_id', 'referenced_field': 'id', 'related_name': 'user_active_context'}, 'broker_values': {'from_model': 'BrokerValues', 'from_field': 'project_id', 'referenced_field': 'id', 'related_name': 'broker_values'}, 'user_files': {'from_model': 'UserFiles', 'from_field': 'project_id', 'referenced_field': 'id', 'related_name': 'user_files'}, 'cx_conversation': {'from_model': 'CxConversation', 'from_field': 'project_id', 'referenced_field': 'id', 'related_name': 'cx_conversation'}, 'project_members': {'from_model': 'ProjectMembers', 'from_field': 'project_id', 'referenced_field': 'id', 'related_name': 'project_members'}, 'project_invitations': {'from_model': 'ProjectInvitations', 'from_field': 'project_id', 'referenced_field': 'id', 'related_name': 'project_invitations'}, 'sandbox_instances': {'from_model': 'SandboxInstances', 'from_field': 'project_id', 'referenced_field': 'id', 'related_name': 'sandbox_instances'}, 'context_items': {'from_model': 'ContextItems', 'from_field': 'project_id', 'referenced_field': 'id', 'related_name': 'context_items'}, 'app_instances': {'from_model': 'AppInstances', 'from_field': 'project_id', 'referenced_field': 'id', 'related_name': 'app_instances'}, 'notes': {'from_model': 'Notes', 'from_field': 'project_id', 'referenced_field': 'id', 'related_name': 'notes'}, 'rs_topic': {'from_model': 'RsTopic', 'from_field': 'project_id', 'referenced_field': 'id', 'related_name': 'rs_topic'}, 'user_tables': {'from_model': 'UserTables', 'from_field': 'project_id', 'referenced_field': 'id', 'related_name': 'user_tables'}, 'transcripts': {'from_model': 'Transcripts', 'from_field': 'project_id', 'referenced_field': 'id', 'related_name': 'transcripts'}, 'workflow': {'from_model': 'Workflow', 'from_field': 'project_id', 'referenced_field': 'id', 'related_name': 'workflow'}, 'canvas_items': {'from_model': 'CanvasItems', 'from_field': 'project_id', 'referenced_field': 'id', 'related_name': 'canvas_items'}, 'prompts': {'from_model': 'Prompts', 'from_field': 'project_id', 'referenced_field': 'id', 'related_name': 'prompts'}}
+    _database = "supabase_automation_matrix"
+
+
+
+class TaskPriority(str, Enum):
+    HIGH = "high"
+    LOW = "low"
+    MEDIUM = "medium"
+
+class Tasks(Model):
+    id = UUIDField(primary_key=True, null=False)
+    title = TextField(null=False)
+    description = TextField()
+    project_id = ForeignKey(to_model=Projects, to_column='id', )
+    status = TextField(null=False, default='incomplete')
+    due_date = DateField()
+    created_at = DateTimeField()
+    updated_at = DateTimeField()
+    user_id = ForeignKey(to_model=Users, to_column='id', to_schema='auth', )
+    authenticated_read = BooleanField(default=False)
+    parent_task_id = ForeignKey(to_model='Tasks', to_column='id', )
+    priority = EnumField(enum_class=TaskPriority, )
+    assignee_id = ForeignKey(to_model=Users, to_column='id', to_schema='auth', )
+    settings = JSONBField(null=False, default={})
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {'task_assignments': {'from_model': 'TaskAssignments', 'from_field': 'task_id', 'referenced_field': 'id', 'related_name': 'task_assignments'}, 'task_attachments': {'from_model': 'TaskAttachments', 'from_field': 'task_id', 'referenced_field': 'id', 'related_name': 'task_attachments'}, 'context_variables': {'from_model': 'ContextVariables', 'from_field': 'task_id', 'referenced_field': 'id', 'related_name': 'context_variables'}, 'task_comments': {'from_model': 'TaskComments', 'from_field': 'task_id', 'referenced_field': 'id', 'related_name': 'task_comments'}, 'user_active_context': {'from_model': 'UserActiveContext', 'from_field': 'task_id', 'referenced_field': 'id', 'related_name': 'user_active_context'}, 'broker_values': {'from_model': 'BrokerValues', 'from_field': 'task_id', 'referenced_field': 'id', 'related_name': 'broker_values'}, 'user_files': {'from_model': 'UserFiles', 'from_field': 'task_id', 'referenced_field': 'id', 'related_name': 'user_files'}, 'cx_conversation': {'from_model': 'CxConversation', 'from_field': 'task_id', 'referenced_field': 'id', 'related_name': 'cx_conversation'}, 'sandbox_instances': {'from_model': 'SandboxInstances', 'from_field': 'task_id', 'referenced_field': 'id', 'related_name': 'sandbox_instances'}, 'context_items': {'from_model': 'ContextItems', 'from_field': 'task_id', 'referenced_field': 'id', 'related_name': 'context_items'}, 'app_instances': {'from_model': 'AppInstances', 'from_field': 'task_id', 'referenced_field': 'id', 'related_name': 'app_instances'}, 'notes': {'from_model': 'Notes', 'from_field': 'task_id', 'referenced_field': 'id', 'related_name': 'notes'}, 'user_tables': {'from_model': 'UserTables', 'from_field': 'task_id', 'referenced_field': 'id', 'related_name': 'user_tables'}, 'transcripts': {'from_model': 'Transcripts', 'from_field': 'task_id', 'referenced_field': 'id', 'related_name': 'transcripts'}, 'workflow': {'from_model': 'Workflow', 'from_field': 'task_id', 'referenced_field': 'id', 'related_name': 'workflow'}, 'prompts': {'from_model': 'Prompts', 'from_field': 'task_id', 'referenced_field': 'id', 'related_name': 'prompts'}}
+    _database = "supabase_automation_matrix"
+
 class CxConversation(Model):
     id = UUIDField(primary_key=True, null=False)
     user_id = ForeignKey(to_model=Users, to_column='id', to_schema='auth', null=False)
@@ -166,7 +234,7 @@ class Prompts(Model):
 
 class UserTables(Model):
     id = UUIDField(primary_key=True, null=False)
-    table_name = CharField(null=False, max_length=255, unique=True)
+    table_name = CharField(null=False, max_length=255, unique=True)  # type: ignore[override]
     description = TextField()
     version = IntegerField(null=False, default=1)
     user_id = ForeignKey(to_model=Users, to_column='id', to_schema='auth', null=False, unique=True)
@@ -343,10 +411,14 @@ model_registry.register_all(
 [
         AiProvider,
         CxAgentMemory,
+        Organizations,
         ShortcutCategories,
         Tools,
         AiModel,
         ContentBlocks,
+        Workspaces,
+        Projects,
+        Tasks,
         CxConversation,
         Prompts,
         UserTables,
@@ -401,6 +473,27 @@ class CxAgentMemoryManager(BaseManager):
         super()._initialize_manager()
 
     async def _initialize_runtime_data(self, item: CxAgentMemory) -> None:
+        pass
+    
+
+
+@dataclass
+class OrganizationsDTO(BaseDTO):
+    id: str
+
+    @classmethod
+    async def from_model(cls, model: Organizations):
+        return cls(id=str(model.id))
+
+
+class OrganizationsManager(BaseManager):
+    def __init__(self):
+        super().__init__(Organizations, OrganizationsDTO)
+
+    def _initialize_manager(self):
+        super()._initialize_manager()
+
+    async def _initialize_runtime_data(self, item: Organizations) -> None:
         pass
     
 
@@ -485,6 +578,69 @@ class ContentBlocksManager(BaseManager):
         super()._initialize_manager()
 
     async def _initialize_runtime_data(self, item: ContentBlocks) -> None:
+        pass
+    
+
+
+@dataclass
+class WorkspacesDTO(BaseDTO):
+    id: str
+
+    @classmethod
+    async def from_model(cls, model: Workspaces):
+        return cls(id=str(model.id))
+
+
+class WorkspacesManager(BaseManager):
+    def __init__(self):
+        super().__init__(Workspaces, WorkspacesDTO)
+
+    def _initialize_manager(self):
+        super()._initialize_manager()
+
+    async def _initialize_runtime_data(self, item: Workspaces) -> None:
+        pass
+    
+
+
+@dataclass
+class ProjectsDTO(BaseDTO):
+    id: str
+
+    @classmethod
+    async def from_model(cls, model: Projects):
+        return cls(id=str(model.id))
+
+
+class ProjectsManager(BaseManager):
+    def __init__(self):
+        super().__init__(Projects, ProjectsDTO)
+
+    def _initialize_manager(self):
+        super()._initialize_manager()
+
+    async def _initialize_runtime_data(self, item: Projects) -> None:
+        pass
+    
+
+
+@dataclass
+class TasksDTO(BaseDTO):
+    id: str
+
+    @classmethod
+    async def from_model(cls, model: Tasks):
+        return cls(id=str(model.id))
+
+
+class TasksManager(BaseManager):
+    def __init__(self):
+        super().__init__(Tasks, TasksDTO)
+
+    def _initialize_manager(self):
+        super()._initialize_manager()
+
+    async def _initialize_runtime_data(self, item: Tasks) -> None:
         pass
     
 

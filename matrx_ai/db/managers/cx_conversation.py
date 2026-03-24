@@ -4,9 +4,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from matrx_orm import BaseDTO, BaseManager, ModelView
+from matrx_orm import BaseManager, BaseDTO, ModelView, build_output_schema
+from matrx_utils import vcprint
 
-from matrx_ai.db.models import CxConversation
+from db.models import CxConversation
+
 
 # ---------------------------------------------------------------------------
 # ModelView (new) — opt-in projection layer.
@@ -43,6 +45,26 @@ class CxConversationView(ModelView[CxConversation]):
     # Errors in computed fields are logged and stored as None —           #
     # they never abort the load.                                          #
     # ------------------------------------------------------------------ #
+
+
+# ---------------------------------------------------------------------------
+# Pydantic output schema (optional, requires pydantic v2).
+# Auto-generated from the model's field definitions.  Useful for:
+#   - FastAPI response_model type annotation
+#   - JSON Schema generation: CxConversationSchema.model_json_schema()
+#   - Typed API responses: CxConversationSchema.model_validate(item.to_dict())
+#
+# Usage example:
+#   @app.get("/{id}", response_model=CxConversationSchema)
+#   async def get_cx_conversation(id: str):
+#       item = await cx_conversation_manager_instance.load_by_id(id)
+#       return item.to_dict()
+# ---------------------------------------------------------------------------
+
+try:
+    CxConversationSchema = build_output_schema(CxConversation)
+except ImportError:
+    CxConversationSchema = None  # type: ignore[assignment]  # pydantic not installed
 
 
 # ---------------------------------------------------------------------------
@@ -138,17 +160,41 @@ class CxConversationBase(BaseManager[CxConversation]):
     async def get_or_create_cx_conversation(self, defaults: dict[str, Any] | None = None, **kwargs: Any) -> CxConversation | None:
         return await self.get_or_create(defaults, **kwargs)
 
+    async def get_cx_conversation_with_self_reference(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'self_reference')
+
+    async def get_cx_conversations_with_self_reference(self) -> list[Any]:
+        return await self.get_items_with_related('self_reference')
+
     async def get_cx_conversation_with_ai_model(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'ai_model')
 
     async def get_cx_conversations_with_ai_model(self) -> list[Any]:
         return await self.get_items_with_related('ai_model')
 
-    async def get_cx_conversation_with_self_reference(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'self_reference')
+    async def get_cx_conversation_with_organizations(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'organizations')
 
-    async def get_cx_conversations_with_self_reference(self) -> list[Any]:
-        return await self.get_items_with_related('self_reference')
+    async def get_cx_conversations_with_organizations(self) -> list[Any]:
+        return await self.get_items_with_related('organizations')
+
+    async def get_cx_conversation_with_projects(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'projects')
+
+    async def get_cx_conversations_with_projects(self) -> list[Any]:
+        return await self.get_items_with_related('projects')
+
+    async def get_cx_conversation_with_tasks(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'tasks')
+
+    async def get_cx_conversations_with_tasks(self) -> list[Any]:
+        return await self.get_items_with_related('tasks')
+
+    async def get_cx_conversation_with_workspaces(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'workspaces')
+
+    async def get_cx_conversations_with_workspaces(self) -> list[Any]:
+        return await self.get_items_with_related('workspaces')
 
     async def get_cx_conversation_with_cx_tool_call(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'cx_tool_call')
@@ -180,6 +226,12 @@ class CxConversationBase(BaseManager[CxConversation]):
     async def get_cx_conversations_with_cx_request(self) -> list[Any]:
         return await self.get_items_with_related('cx_request')
 
+    async def get_cx_conversation_with_canvas_items(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'canvas_items')
+
+    async def get_cx_conversations_with_canvas_items(self) -> list[Any]:
+        return await self.get_items_with_related('canvas_items')
+
     async def load_cx_conversations_by_user_id(self, user_id: Any) -> list[Any]:
         return await self.load_items(user_id=user_id)
 
@@ -192,17 +244,47 @@ class CxConversationBase(BaseManager[CxConversation]):
     async def filter_cx_conversations_by_forked_from_id(self, forked_from_id: Any) -> list[Any]:
         return await self.filter_items(forked_from_id=forked_from_id)
 
-    async def load_cx_conversations_by_ai_model_id(self, ai_model_id: Any) -> list[Any]:
-        return await self.load_items(ai_model_id=ai_model_id)
+    async def load_cx_conversations_by_last_model_id(self, last_model_id: Any) -> list[Any]:
+        return await self.load_items(last_model_id=last_model_id)
 
-    async def filter_cx_conversations_by_ai_model_id(self, ai_model_id: Any) -> list[Any]:
-        return await self.filter_items(ai_model_id=ai_model_id)
+    async def filter_cx_conversations_by_last_model_id(self, last_model_id: Any) -> list[Any]:
+        return await self.filter_items(last_model_id=last_model_id)
 
     async def load_cx_conversations_by_parent_conversation_id(self, parent_conversation_id: Any) -> list[Any]:
         return await self.load_items(parent_conversation_id=parent_conversation_id)
 
     async def filter_cx_conversations_by_parent_conversation_id(self, parent_conversation_id: Any) -> list[Any]:
         return await self.filter_items(parent_conversation_id=parent_conversation_id)
+
+    async def load_cx_conversations_by_keywords(self, keywords: Any) -> list[Any]:
+        return await self.load_items(keywords=keywords)
+
+    async def filter_cx_conversations_by_keywords(self, keywords: Any) -> list[Any]:
+        return await self.filter_items(keywords=keywords)
+
+    async def load_cx_conversations_by_organization_id(self, organization_id: Any) -> list[Any]:
+        return await self.load_items(organization_id=organization_id)
+
+    async def filter_cx_conversations_by_organization_id(self, organization_id: Any) -> list[Any]:
+        return await self.filter_items(organization_id=organization_id)
+
+    async def load_cx_conversations_by_workspace_id(self, workspace_id: Any) -> list[Any]:
+        return await self.load_items(workspace_id=workspace_id)
+
+    async def filter_cx_conversations_by_workspace_id(self, workspace_id: Any) -> list[Any]:
+        return await self.filter_items(workspace_id=workspace_id)
+
+    async def load_cx_conversations_by_project_id(self, project_id: Any) -> list[Any]:
+        return await self.load_items(project_id=project_id)
+
+    async def filter_cx_conversations_by_project_id(self, project_id: Any) -> list[Any]:
+        return await self.filter_items(project_id=project_id)
+
+    async def load_cx_conversations_by_task_id(self, task_id: Any) -> list[Any]:
+        return await self.load_items(task_id=task_id)
+
+    async def filter_cx_conversations_by_task_id(self, task_id: Any) -> list[Any]:
+        return await self.filter_items(task_id=task_id)
 
     async def load_cx_conversations_by_ids(self, ids: list[Any]) -> list[Any]:
         return await self.load_items_by_ids(ids)

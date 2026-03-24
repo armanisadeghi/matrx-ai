@@ -4,9 +4,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from matrx_orm import BaseDTO, BaseManager, ModelView
+from matrx_orm import BaseManager, BaseDTO, ModelView, build_output_schema
+from matrx_utils import vcprint
 
-from matrx_ai.db.models import Tools
+from db.models import Tools
+
 
 # ---------------------------------------------------------------------------
 # ModelView (new) — opt-in projection layer.
@@ -43,6 +45,26 @@ class ToolsView(ModelView[Tools]):
     # Errors in computed fields are logged and stored as None —           #
     # they never abort the load.                                          #
     # ------------------------------------------------------------------ #
+
+
+# ---------------------------------------------------------------------------
+# Pydantic output schema (optional, requires pydantic v2).
+# Auto-generated from the model's field definitions.  Useful for:
+#   - FastAPI response_model type annotation
+#   - JSON Schema generation: ToolsSchema.model_json_schema()
+#   - Typed API responses: ToolsSchema.model_validate(item.to_dict())
+#
+# Usage example:
+#   @app.get("/{id}", response_model=ToolsSchema)
+#   async def get_tools(id: str):
+#       item = await tools_manager_instance.load_by_id(id)
+#       return item.to_dict()
+# ---------------------------------------------------------------------------
+
+try:
+    ToolsSchema = build_output_schema(Tools)
+except ImportError:
+    ToolsSchema = None  # type: ignore[assignment]  # pydantic not installed
 
 
 # ---------------------------------------------------------------------------
@@ -106,38 +128,7 @@ class ToolsBase(BaseManager[Tools]):
         super().__init__(Tools, dto_class=dto_class or ToolsDTO)
 
     def _initialize_manager(self) -> None:
-        # Skip asyncpg auto-fetch when running in client mode — no DB config
-        # is registered in client mode, so attempting to create a connection
-        # pool raises DatabaseConfigError. Data is fetched via ApiClient instead.
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            return
         super()._initialize_manager()
-
-    async def filter_tool(self, **kwargs: Any) -> list[Tools]:
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            from matrx_ai.client_mode import get_api_client
-            rows = await get_api_client().get_tools()
-            return rows  # type: ignore[return-value]
-        return await self.filter_items(**kwargs)
-
-    def filter_items_sync(self, **kwargs: Any) -> list[Any]:
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            import asyncio
-            from matrx_ai.client_mode import get_api_client
-            try:
-                loop = asyncio.get_event_loop()
-                if loop.is_running():
-                    import concurrent.futures
-                    with concurrent.futures.ThreadPoolExecutor() as pool:
-                        future = pool.submit(asyncio.run, get_api_client().get_tools())
-                        return future.result()
-                return loop.run_until_complete(get_api_client().get_tools())
-            except Exception:
-                return asyncio.run(get_api_client().get_tools())
-        return super().filter_items_sync(**kwargs)
 
     async def _initialize_runtime_data(self, item: Tools) -> None:
         pass
@@ -160,31 +151,40 @@ class ToolsBase(BaseManager[Tools]):
     async def update_tools(self, id: Any, **updates: Any) -> Tools:
         return await self.update_item(id, **updates)
 
-    async def load_tool(self, **kwargs: Any) -> list[Tools]:
+    async def load_tools(self, **kwargs: Any) -> list[Tools]:
         return await self.load_items(**kwargs)
+
+    async def filter_tools(self, **kwargs: Any) -> list[Tools]:
+        return await self.filter_items(**kwargs)
 
     async def get_or_create_tools(self, defaults: dict[str, Any] | None = None, **kwargs: Any) -> Tools | None:
         return await self.get_or_create(defaults, **kwargs)
 
+    async def get_tools_with_tool_versions(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'tool_versions')
+
+    async def get_tools_with_tool_versions(self) -> list[Any]:
+        return await self.get_items_with_related('tool_versions')
+
     async def get_tools_with_tool_test_samples(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'tool_test_samples')
 
-    async def get_tool_with_tool_test_samples(self) -> list[Any]:
+    async def get_tools_with_tool_test_samples(self) -> list[Any]:
         return await self.get_items_with_related('tool_test_samples')
 
     async def get_tools_with_tool_ui_components(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'tool_ui_components')
 
-    async def get_tool_with_tool_ui_components(self) -> list[Any]:
+    async def get_tools_with_tool_ui_components(self) -> list[Any]:
         return await self.get_items_with_related('tool_ui_components')
 
-    async def load_tool_by_tags(self, tags: Any) -> list[Any]:
+    async def load_tools_by_tags(self, tags: Any) -> list[Any]:
         return await self.load_items(tags=tags)
 
-    async def filter_tool_by_tags(self, tags: Any) -> list[Any]:
+    async def filter_tools_by_tags(self, tags: Any) -> list[Any]:
         return await self.filter_items(tags=tags)
 
-    async def load_tool_by_ids(self, ids: list[Any]) -> list[Any]:
+    async def load_tools_by_ids(self, ids: list[Any]) -> list[Any]:
         return await self.load_items_by_ids(ids)
 
     def add_computed_field(self, field: str) -> None:

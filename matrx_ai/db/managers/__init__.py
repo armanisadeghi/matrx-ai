@@ -1,21 +1,21 @@
 # File: db/managers/__init__.py
-# from .ai_model import AiModelBase, AiModelDTO, AiModelView
-from .ai_provider import AiProviderBase, AiProviderDTO, AiProviderView
-from .content_blocks import ContentBlocksBase, ContentBlocksDTO, ContentBlocksView
-from .cx_agent_memory import CxAgentMemoryBase, CxAgentMemoryDTO, CxAgentMemoryView
-from .cx_conversation import CxConversationBase, CxConversationDTO, CxConversationView
-from .cx_media import CxMediaBase, CxMediaDTO, CxMediaView
-from .cx_message import CxMessageBase, CxMessageDTO, CxMessageView
-from .cx_request import CxRequestBase, CxRequestDTO, CxRequestView
-from .cx_tool_call import CxToolCallBase, CxToolCallDTO, CxToolCallView
-from .cx_user_request import CxUserRequestBase, CxUserRequestDTO, CxUserRequestView
-from .prompt_builtins import PromptBuiltinsBase, PromptBuiltinsDTO, PromptBuiltinsView
-from .prompts import PromptsBase, PromptsDTO, PromptsView
-from .shortcut_categories import (
-    ShortcutCategoriesBase,
-    ShortcutCategoriesDTO,
-    ShortcutCategoriesView,
-)
-from .table_data import TableDataBase, TableDataDTO, TableDataView
-from .tools import ToolsBase, ToolsDTO, ToolsView
-from .user_tables import UserTablesBase, UserTablesDTO, UserTablesView
+from .ai_provider import AiProviderView, AiProviderDTO, AiProviderBase
+from .cx_agent_memory import CxAgentMemoryView, CxAgentMemoryDTO, CxAgentMemoryBase
+from .organizations import OrganizationsView, OrganizationsDTO, OrganizationsBase
+from .shortcut_categories import ShortcutCategoriesView, ShortcutCategoriesDTO, ShortcutCategoriesBase
+from .tools import ToolsView, ToolsDTO, ToolsBase
+from .ai_model import AiModelView, AiModelDTO, AiModelBase
+from .content_blocks import ContentBlocksView, ContentBlocksDTO, ContentBlocksBase
+from .workspaces import WorkspacesView, WorkspacesDTO, WorkspacesBase
+from .projects import ProjectsView, ProjectsDTO, ProjectsBase
+from .tasks import TasksView, TasksDTO, TasksBase
+from .cx_conversation import CxConversationView, CxConversationDTO, CxConversationBase
+from .prompts import PromptsView, PromptsDTO, PromptsBase
+from .user_tables import UserTablesView, UserTablesDTO, UserTablesBase
+from .cx_media import CxMediaView, CxMediaDTO, CxMediaBase
+from .cx_message import CxMessageView, CxMessageDTO, CxMessageBase
+from .cx_user_request import CxUserRequestView, CxUserRequestDTO, CxUserRequestBase
+from .prompt_builtins import PromptBuiltinsView, PromptBuiltinsDTO, PromptBuiltinsBase
+from .table_data import TableDataView, TableDataDTO, TableDataBase
+from .cx_request import CxRequestView, CxRequestDTO, CxRequestBase
+from .cx_tool_call import CxToolCallView, CxToolCallDTO, CxToolCallBase

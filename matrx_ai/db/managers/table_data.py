@@ -4,9 +4,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from matrx_orm import BaseDTO, BaseManager, ModelView
+from matrx_orm import BaseManager, BaseDTO, ModelView, build_output_schema
+from matrx_utils import vcprint
 
-from matrx_ai.db.models import TableData
+from db.models import TableData
+
 
 # ---------------------------------------------------------------------------
 # ModelView (new) — opt-in projection layer.
@@ -43,6 +45,26 @@ class TableDataView(ModelView[TableData]):
     # Errors in computed fields are logged and stored as None —           #
     # they never abort the load.                                          #
     # ------------------------------------------------------------------ #
+
+
+# ---------------------------------------------------------------------------
+# Pydantic output schema (optional, requires pydantic v2).
+# Auto-generated from the model's field definitions.  Useful for:
+#   - FastAPI response_model type annotation
+#   - JSON Schema generation: TableDataSchema.model_json_schema()
+#   - Typed API responses: TableDataSchema.model_validate(item.to_dict())
+#
+# Usage example:
+#   @app.get("/{id}", response_model=TableDataSchema)
+#   async def get_table_data(id: str):
+#       item = await table_data_manager_instance.load_by_id(id)
+#       return item.to_dict()
+# ---------------------------------------------------------------------------
+
+try:
+    TableDataSchema = build_output_schema(TableData)
+except ImportError:
+    TableDataSchema = None  # type: ignore[assignment]  # pydantic not installed
 
 
 # ---------------------------------------------------------------------------
@@ -129,10 +151,10 @@ class TableDataBase(BaseManager[TableData]):
     async def update_table_data(self, id: Any, **updates: Any) -> TableData:
         return await self.update_item(id, **updates)
 
-    async def load_table_datas(self, **kwargs: Any) -> list[TableData]:
+    async def load_table_data(self, **kwargs: Any) -> list[TableData]:
         return await self.load_items(**kwargs)
 
-    async def filter_table_datas(self, **kwargs: Any) -> list[TableData]:
+    async def filter_table_data(self, **kwargs: Any) -> list[TableData]:
         return await self.filter_items(**kwargs)
 
     async def get_or_create_table_data(self, defaults: dict[str, Any] | None = None, **kwargs: Any) -> TableData | None:
@@ -141,22 +163,22 @@ class TableDataBase(BaseManager[TableData]):
     async def get_table_data_with_user_tables(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'user_tables')
 
-    async def get_table_datas_with_user_tables(self) -> list[Any]:
+    async def get_table_data_with_user_tables(self) -> list[Any]:
         return await self.get_items_with_related('user_tables')
 
-    async def load_table_datas_by_table_id(self, table_id: Any) -> list[Any]:
+    async def load_table_data_by_table_id(self, table_id: Any) -> list[Any]:
         return await self.load_items(table_id=table_id)
 
-    async def filter_table_datas_by_table_id(self, table_id: Any) -> list[Any]:
+    async def filter_table_data_by_table_id(self, table_id: Any) -> list[Any]:
         return await self.filter_items(table_id=table_id)
 
-    async def load_table_datas_by_user_id(self, user_id: Any) -> list[Any]:
+    async def load_table_data_by_user_id(self, user_id: Any) -> list[Any]:
         return await self.load_items(user_id=user_id)
 
-    async def filter_table_datas_by_user_id(self, user_id: Any) -> list[Any]:
+    async def filter_table_data_by_user_id(self, user_id: Any) -> list[Any]:
         return await self.filter_items(user_id=user_id)
 
-    async def load_table_datas_by_ids(self, ids: list[Any]) -> list[Any]:
+    async def load_table_data_by_ids(self, ids: list[Any]) -> list[Any]:
         return await self.load_items_by_ids(ids)
 
     def add_computed_field(self, field: str) -> None:

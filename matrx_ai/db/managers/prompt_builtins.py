@@ -4,9 +4,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from matrx_orm import BaseDTO, BaseManager, ModelView
+from matrx_orm import BaseManager, BaseDTO, ModelView, build_output_schema
+from matrx_utils import vcprint
 
-from matrx_ai.db.models import PromptBuiltins
+from db.models import PromptBuiltins
+
 
 # ---------------------------------------------------------------------------
 # ModelView (new) — opt-in projection layer.
@@ -43,6 +45,26 @@ class PromptBuiltinsView(ModelView[PromptBuiltins]):
     # Errors in computed fields are logged and stored as None —           #
     # they never abort the load.                                          #
     # ------------------------------------------------------------------ #
+
+
+# ---------------------------------------------------------------------------
+# Pydantic output schema (optional, requires pydantic v2).
+# Auto-generated from the model's field definitions.  Useful for:
+#   - FastAPI response_model type annotation
+#   - JSON Schema generation: PromptBuiltinsSchema.model_json_schema()
+#   - Typed API responses: PromptBuiltinsSchema.model_validate(item.to_dict())
+#
+# Usage example:
+#   @app.get("/{id}", response_model=PromptBuiltinsSchema)
+#   async def get_prompt_builtins(id: str):
+#       item = await prompt_builtins_manager_instance.load_by_id(id)
+#       return item.to_dict()
+# ---------------------------------------------------------------------------
+
+try:
+    PromptBuiltinsSchema = build_output_schema(PromptBuiltins)
+except ImportError:
+    PromptBuiltinsSchema = None  # type: ignore[assignment]  # pydantic not installed
 
 
 # ---------------------------------------------------------------------------
@@ -106,57 +128,7 @@ class PromptBuiltinsBase(BaseManager[PromptBuiltins]):
         super().__init__(PromptBuiltins, dto_class=dto_class or PromptBuiltinsDTO)
 
     def _initialize_manager(self) -> None:
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            return
         super()._initialize_manager()
-
-    async def load_items(self, **kwargs: Any) -> list[Any]:
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            from matrx_ai.client_mode import get_api_client
-            return await get_api_client().get_prompt_builtins()
-        return await super().load_items(**kwargs)
-
-    async def filter_items(self, **kwargs: Any) -> list[Any]:
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            from matrx_ai.client_mode import get_api_client
-            return await get_api_client().get_prompt_builtins()
-        return await super().filter_items(**kwargs)
-
-    async def _client_mode_fetch_by_id(self, id: Any) -> Any:
-        import types
-        from matrx_ai.client_mode import get_api_client
-        all_builtins = await get_api_client().get_prompt_builtins()
-        for item in all_builtins:
-            if str(item.get("id", "")) == str(id):
-                return types.SimpleNamespace(**item) if isinstance(item, dict) else item
-        return None
-
-    async def load_by_id(self, id: Any) -> Any:
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            return await self._client_mode_fetch_by_id(id)
-        return await super().load_by_id(id)
-
-    async def load_item(self, use_cache: bool = True, **kwargs: Any) -> Any:
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            id_val = kwargs.get("id")
-            if id_val is not None:
-                return await self._client_mode_fetch_by_id(id_val)
-            return None
-        return await super().load_item(use_cache, **kwargs)
-
-    async def load_item_or_none(self, **kwargs: Any) -> Any:
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            id_val = kwargs.get("id")
-            if id_val is not None:
-                return await self._client_mode_fetch_by_id(id_val)
-            return None
-        return await super().load_item_or_none(**kwargs)
 
     async def _initialize_runtime_data(self, item: PromptBuiltins) -> None:
         pass
@@ -179,46 +151,70 @@ class PromptBuiltinsBase(BaseManager[PromptBuiltins]):
     async def update_prompt_builtins(self, id: Any, **updates: Any) -> PromptBuiltins:
         return await self.update_item(id, **updates)
 
-    async def load_prompt_builtin(self, **kwargs: Any) -> list[PromptBuiltins]:
+    async def load_prompt_builtins(self, **kwargs: Any) -> list[PromptBuiltins]:
         return await self.load_items(**kwargs)
 
-    async def filter_prompt_builtin(self, **kwargs: Any) -> list[PromptBuiltins]:
+    async def filter_prompt_builtins(self, **kwargs: Any) -> list[PromptBuiltins]:
         return await self.filter_items(**kwargs)
 
     async def get_or_create_prompt_builtins(self, defaults: dict[str, Any] | None = None, **kwargs: Any) -> PromptBuiltins | None:
         return await self.get_or_create(defaults, **kwargs)
 
+    async def get_prompt_builtins_with_ai_model(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'ai_model')
+
+    async def get_prompt_builtins_with_ai_model(self) -> list[Any]:
+        return await self.get_items_with_related('ai_model')
+
     async def get_prompt_builtins_with_prompts(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'prompts')
 
-    async def get_prompt_builtin_with_prompts(self) -> list[Any]:
+    async def get_prompt_builtins_with_prompts(self) -> list[Any]:
         return await self.get_items_with_related('prompts')
 
     async def get_prompt_builtins_with_prompt_shortcuts(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'prompt_shortcuts')
 
-    async def get_prompt_builtin_with_prompt_shortcuts(self) -> list[Any]:
+    async def get_prompt_builtins_with_prompt_shortcuts(self) -> list[Any]:
         return await self.get_items_with_related('prompt_shortcuts')
 
     async def get_prompt_builtins_with_prompt_actions(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'prompt_actions')
 
-    async def get_prompt_builtin_with_prompt_actions(self) -> list[Any]:
+    async def get_prompt_builtins_with_prompt_actions(self) -> list[Any]:
         return await self.get_items_with_related('prompt_actions')
 
-    async def load_prompt_builtin_by_created_by_user_id(self, created_by_user_id: Any) -> list[Any]:
+    async def get_prompt_builtins_with_prompt_builtin_versions(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'prompt_builtin_versions')
+
+    async def get_prompt_builtins_with_prompt_builtin_versions(self) -> list[Any]:
+        return await self.get_items_with_related('prompt_builtin_versions')
+
+    async def load_prompt_builtins_by_created_by_user_id(self, created_by_user_id: Any) -> list[Any]:
         return await self.load_items(created_by_user_id=created_by_user_id)
 
-    async def filter_prompt_builtin_by_created_by_user_id(self, created_by_user_id: Any) -> list[Any]:
+    async def filter_prompt_builtins_by_created_by_user_id(self, created_by_user_id: Any) -> list[Any]:
         return await self.filter_items(created_by_user_id=created_by_user_id)
 
-    async def load_prompt_builtin_by_source_prompt_id(self, source_prompt_id: Any) -> list[Any]:
+    async def load_prompt_builtins_by_source_prompt_id(self, source_prompt_id: Any) -> list[Any]:
         return await self.load_items(source_prompt_id=source_prompt_id)
 
-    async def filter_prompt_builtin_by_source_prompt_id(self, source_prompt_id: Any) -> list[Any]:
+    async def filter_prompt_builtins_by_source_prompt_id(self, source_prompt_id: Any) -> list[Any]:
         return await self.filter_items(source_prompt_id=source_prompt_id)
 
-    async def load_prompt_builtin_by_ids(self, ids: list[Any]) -> list[Any]:
+    async def load_prompt_builtins_by_tags(self, tags: Any) -> list[Any]:
+        return await self.load_items(tags=tags)
+
+    async def filter_prompt_builtins_by_tags(self, tags: Any) -> list[Any]:
+        return await self.filter_items(tags=tags)
+
+    async def load_prompt_builtins_by_model_id(self, model_id: Any) -> list[Any]:
+        return await self.load_items(model_id=model_id)
+
+    async def filter_prompt_builtins_by_model_id(self, model_id: Any) -> list[Any]:
+        return await self.filter_items(model_id=model_id)
+
+    async def load_prompt_builtins_by_ids(self, ids: list[Any]) -> list[Any]:
         return await self.load_items_by_ids(ids)
 
     def add_computed_field(self, field: str) -> None:

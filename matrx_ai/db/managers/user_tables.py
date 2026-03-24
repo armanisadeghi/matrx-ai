@@ -4,9 +4,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from matrx_orm import BaseDTO, BaseManager, ModelView
+from matrx_orm import BaseManager, BaseDTO, ModelView, build_output_schema
+from matrx_utils import vcprint
 
-from matrx_ai.db.models import UserTables
+from db.models import UserTables
+
 
 # ---------------------------------------------------------------------------
 # ModelView (new) — opt-in projection layer.
@@ -43,6 +45,26 @@ class UserTablesView(ModelView[UserTables]):
     # Errors in computed fields are logged and stored as None —           #
     # they never abort the load.                                          #
     # ------------------------------------------------------------------ #
+
+
+# ---------------------------------------------------------------------------
+# Pydantic output schema (optional, requires pydantic v2).
+# Auto-generated from the model's field definitions.  Useful for:
+#   - FastAPI response_model type annotation
+#   - JSON Schema generation: UserTablesSchema.model_json_schema()
+#   - Typed API responses: UserTablesSchema.model_validate(item.to_dict())
+#
+# Usage example:
+#   @app.get("/{id}", response_model=UserTablesSchema)
+#   async def get_user_tables(id: str):
+#       item = await user_tables_manager_instance.load_by_id(id)
+#       return item.to_dict()
+# ---------------------------------------------------------------------------
+
+try:
+    UserTablesSchema = build_output_schema(UserTables)
+except ImportError:
+    UserTablesSchema = None  # type: ignore[assignment]  # pydantic not installed
 
 
 # ---------------------------------------------------------------------------
@@ -129,34 +151,82 @@ class UserTablesBase(BaseManager[UserTables]):
     async def update_user_tables(self, id: Any, **updates: Any) -> UserTables:
         return await self.update_item(id, **updates)
 
-    async def load_user_table(self, **kwargs: Any) -> list[UserTables]:
+    async def load_user_tables(self, **kwargs: Any) -> list[UserTables]:
         return await self.load_items(**kwargs)
 
-    async def filter_user_table(self, **kwargs: Any) -> list[UserTables]:
+    async def filter_user_tables(self, **kwargs: Any) -> list[UserTables]:
         return await self.filter_items(**kwargs)
 
     async def get_or_create_user_tables(self, defaults: dict[str, Any] | None = None, **kwargs: Any) -> UserTables | None:
         return await self.get_or_create(defaults, **kwargs)
 
+    async def get_user_tables_with_organizations(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'organizations')
+
+    async def get_user_tables_with_organizations(self) -> list[Any]:
+        return await self.get_items_with_related('organizations')
+
+    async def get_user_tables_with_projects(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'projects')
+
+    async def get_user_tables_with_projects(self) -> list[Any]:
+        return await self.get_items_with_related('projects')
+
+    async def get_user_tables_with_tasks(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'tasks')
+
+    async def get_user_tables_with_tasks(self) -> list[Any]:
+        return await self.get_items_with_related('tasks')
+
+    async def get_user_tables_with_workspaces(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'workspaces')
+
+    async def get_user_tables_with_workspaces(self) -> list[Any]:
+        return await self.get_items_with_related('workspaces')
+
     async def get_user_tables_with_table_data(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'table_data')
 
-    async def get_user_table_with_table_data(self) -> list[Any]:
+    async def get_user_tables_with_table_data(self) -> list[Any]:
         return await self.get_items_with_related('table_data')
 
     async def get_user_tables_with_table_fields(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'table_fields')
 
-    async def get_user_table_with_table_fields(self) -> list[Any]:
+    async def get_user_tables_with_table_fields(self) -> list[Any]:
         return await self.get_items_with_related('table_fields')
 
-    async def load_user_table_by_user_id(self, user_id: Any) -> list[Any]:
+    async def load_user_tables_by_user_id(self, user_id: Any) -> list[Any]:
         return await self.load_items(user_id=user_id)
 
-    async def filter_user_table_by_user_id(self, user_id: Any) -> list[Any]:
+    async def filter_user_tables_by_user_id(self, user_id: Any) -> list[Any]:
         return await self.filter_items(user_id=user_id)
 
-    async def load_user_table_by_ids(self, ids: list[Any]) -> list[Any]:
+    async def load_user_tables_by_organization_id(self, organization_id: Any) -> list[Any]:
+        return await self.load_items(organization_id=organization_id)
+
+    async def filter_user_tables_by_organization_id(self, organization_id: Any) -> list[Any]:
+        return await self.filter_items(organization_id=organization_id)
+
+    async def load_user_tables_by_workspace_id(self, workspace_id: Any) -> list[Any]:
+        return await self.load_items(workspace_id=workspace_id)
+
+    async def filter_user_tables_by_workspace_id(self, workspace_id: Any) -> list[Any]:
+        return await self.filter_items(workspace_id=workspace_id)
+
+    async def load_user_tables_by_project_id(self, project_id: Any) -> list[Any]:
+        return await self.load_items(project_id=project_id)
+
+    async def filter_user_tables_by_project_id(self, project_id: Any) -> list[Any]:
+        return await self.filter_items(project_id=project_id)
+
+    async def load_user_tables_by_task_id(self, task_id: Any) -> list[Any]:
+        return await self.load_items(task_id=task_id)
+
+    async def filter_user_tables_by_task_id(self, task_id: Any) -> list[Any]:
+        return await self.filter_items(task_id=task_id)
+
+    async def load_user_tables_by_ids(self, ids: list[Any]) -> list[Any]:
         return await self.load_items_by_ids(ids)
 
     def add_computed_field(self, field: str) -> None:

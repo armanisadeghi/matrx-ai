@@ -4,9 +4,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from matrx_orm import BaseDTO, BaseManager, ModelView
+from matrx_orm import BaseManager, BaseDTO, ModelView, build_output_schema
+from matrx_utils import vcprint
 
-from matrx_ai.db.models import Prompts
+from db.models import Prompts
+
 
 # ---------------------------------------------------------------------------
 # ModelView (new) — opt-in projection layer.
@@ -43,6 +45,26 @@ class PromptsView(ModelView[Prompts]):
     # Errors in computed fields are logged and stored as None —           #
     # they never abort the load.                                          #
     # ------------------------------------------------------------------ #
+
+
+# ---------------------------------------------------------------------------
+# Pydantic output schema (optional, requires pydantic v2).
+# Auto-generated from the model's field definitions.  Useful for:
+#   - FastAPI response_model type annotation
+#   - JSON Schema generation: PromptsSchema.model_json_schema()
+#   - Typed API responses: PromptsSchema.model_validate(item.to_dict())
+#
+# Usage example:
+#   @app.get("/{id}", response_model=PromptsSchema)
+#   async def get_prompts(id: str):
+#       item = await prompts_manager_instance.load_by_id(id)
+#       return item.to_dict()
+# ---------------------------------------------------------------------------
+
+try:
+    PromptsSchema = build_output_schema(Prompts)
+except ImportError:
+    PromptsSchema = None  # type: ignore[assignment]  # pydantic not installed
 
 
 # ---------------------------------------------------------------------------
@@ -106,70 +128,7 @@ class PromptsBase(BaseManager[Prompts]):
         super().__init__(Prompts, dto_class=dto_class or PromptsDTO)
 
     def _initialize_manager(self) -> None:
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            return
         super()._initialize_manager()
-
-    async def load_items(self, **kwargs: Any) -> list[Any]:
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            from matrx_ai.client_mode import get_api_client, get_jwt
-            jwt = get_jwt()
-            if not jwt:
-                return []
-            return await get_api_client().get_user_prompts(jwt)
-        return await super().load_items(**kwargs)
-
-    async def filter_items(self, **kwargs: Any) -> list[Any]:
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            from matrx_ai.client_mode import get_api_client, get_jwt
-            jwt = get_jwt()
-            if not jwt:
-                return []
-            prompts = await get_api_client().get_user_prompts(jwt)
-            # Apply basic in-memory filtering for any kwargs passed
-            for key, value in kwargs.items():
-                prompts = [p for p in prompts if p.get(key) == value]
-            return prompts
-        return await super().filter_items(**kwargs)
-
-    async def _client_mode_fetch_by_id(self, id: Any) -> Any:
-        import types
-        from matrx_ai.client_mode import get_api_client, get_jwt
-        jwt = get_jwt()
-        if not jwt:
-            return None
-        prompts = await get_api_client().get_user_prompts(jwt)
-        for p in prompts:
-            if str(p.get("id", "")) == str(id):
-                return types.SimpleNamespace(**p) if isinstance(p, dict) else p
-        return None
-
-    async def load_by_id(self, id: Any) -> Any:
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            return await self._client_mode_fetch_by_id(id)
-        return await super().load_by_id(id)
-
-    async def load_item(self, use_cache: bool = True, **kwargs: Any) -> Any:
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            id_val = kwargs.get("id")
-            if id_val is not None:
-                return await self._client_mode_fetch_by_id(id_val)
-            return None
-        return await super().load_item(use_cache, **kwargs)
-
-    async def load_item_or_none(self, **kwargs: Any) -> Any:
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            id_val = kwargs.get("id")
-            if id_val is not None:
-                return await self._client_mode_fetch_by_id(id_val)
-            return None
-        return await super().load_item_or_none(**kwargs)
 
     async def _initialize_runtime_data(self, item: Prompts) -> None:
         pass
@@ -192,52 +151,124 @@ class PromptsBase(BaseManager[Prompts]):
     async def update_prompts(self, id: Any, **updates: Any) -> Prompts:
         return await self.update_item(id, **updates)
 
-    async def load_prompt(self, **kwargs: Any) -> list[Prompts]:
+    async def load_prompts(self, **kwargs: Any) -> list[Prompts]:
         return await self.load_items(**kwargs)
 
-    async def filter_prompt(self, **kwargs: Any) -> list[Prompts]:
+    async def filter_prompts(self, **kwargs: Any) -> list[Prompts]:
         return await self.filter_items(**kwargs)
 
     async def get_or_create_prompts(self, defaults: dict[str, Any] | None = None, **kwargs: Any) -> Prompts | None:
         return await self.get_or_create(defaults, **kwargs)
 
-    async def get_prompts_with_prompt_apps(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'prompt_apps')
+    async def get_prompts_with_ai_model(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'ai_model')
 
-    async def get_prompt_with_prompt_apps(self) -> list[Any]:
-        return await self.get_items_with_related('prompt_apps')
+    async def get_prompts_with_ai_model(self) -> list[Any]:
+        return await self.get_items_with_related('ai_model')
+
+    async def get_prompts_with_organizations(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'organizations')
+
+    async def get_prompts_with_organizations(self) -> list[Any]:
+        return await self.get_items_with_related('organizations')
+
+    async def get_prompts_with_projects(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'projects')
+
+    async def get_prompts_with_projects(self) -> list[Any]:
+        return await self.get_items_with_related('projects')
+
+    async def get_prompts_with_tasks(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'tasks')
+
+    async def get_prompts_with_tasks(self) -> list[Any]:
+        return await self.get_items_with_related('tasks')
+
+    async def get_prompts_with_workspaces(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'workspaces')
+
+    async def get_prompts_with_workspaces(self) -> list[Any]:
+        return await self.get_items_with_related('workspaces')
 
     async def get_prompts_with_system_prompts_new(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'system_prompts_new')
 
-    async def get_prompt_with_system_prompts_new(self) -> list[Any]:
+    async def get_prompts_with_system_prompts_new(self) -> list[Any]:
         return await self.get_items_with_related('system_prompts_new')
-
-    async def get_prompts_with_prompt_builtins(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'prompt_builtins')
-
-    async def get_prompt_with_prompt_builtins(self) -> list[Any]:
-        return await self.get_items_with_related('prompt_builtins')
 
     async def get_prompts_with_prompt_actions(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'prompt_actions')
 
-    async def get_prompt_with_prompt_actions(self) -> list[Any]:
+    async def get_prompts_with_prompt_actions(self) -> list[Any]:
         return await self.get_items_with_related('prompt_actions')
 
     async def get_prompts_with_system_prompts(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'system_prompts')
 
-    async def get_prompt_with_system_prompts(self) -> list[Any]:
+    async def get_prompts_with_system_prompts(self) -> list[Any]:
         return await self.get_items_with_related('system_prompts')
 
-    async def load_prompt_by_user_id(self, user_id: Any) -> list[Any]:
+    async def get_prompts_with_prompt_versions(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'prompt_versions')
+
+    async def get_prompts_with_prompt_versions(self) -> list[Any]:
+        return await self.get_items_with_related('prompt_versions')
+
+    async def get_prompts_with_prompt_builtins(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'prompt_builtins')
+
+    async def get_prompts_with_prompt_builtins(self) -> list[Any]:
+        return await self.get_items_with_related('prompt_builtins')
+
+    async def get_prompts_with_prompt_apps(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'prompt_apps')
+
+    async def get_prompts_with_prompt_apps(self) -> list[Any]:
+        return await self.get_items_with_related('prompt_apps')
+
+    async def load_prompts_by_user_id(self, user_id: Any) -> list[Any]:
         return await self.load_items(user_id=user_id)
 
-    async def filter_prompt_by_user_id(self, user_id: Any) -> list[Any]:
+    async def filter_prompts_by_user_id(self, user_id: Any) -> list[Any]:
         return await self.filter_items(user_id=user_id)
 
-    async def load_prompt_by_ids(self, ids: list[Any]) -> list[Any]:
+    async def load_prompts_by_tags(self, tags: Any) -> list[Any]:
+        return await self.load_items(tags=tags)
+
+    async def filter_prompts_by_tags(self, tags: Any) -> list[Any]:
+        return await self.filter_items(tags=tags)
+
+    async def load_prompts_by_model_id(self, model_id: Any) -> list[Any]:
+        return await self.load_items(model_id=model_id)
+
+    async def filter_prompts_by_model_id(self, model_id: Any) -> list[Any]:
+        return await self.filter_items(model_id=model_id)
+
+    async def load_prompts_by_organization_id(self, organization_id: Any) -> list[Any]:
+        return await self.load_items(organization_id=organization_id)
+
+    async def filter_prompts_by_organization_id(self, organization_id: Any) -> list[Any]:
+        return await self.filter_items(organization_id=organization_id)
+
+    async def load_prompts_by_workspace_id(self, workspace_id: Any) -> list[Any]:
+        return await self.load_items(workspace_id=workspace_id)
+
+    async def filter_prompts_by_workspace_id(self, workspace_id: Any) -> list[Any]:
+        return await self.filter_items(workspace_id=workspace_id)
+
+    async def load_prompts_by_project_id(self, project_id: Any) -> list[Any]:
+        return await self.load_items(project_id=project_id)
+
+    async def filter_prompts_by_project_id(self, project_id: Any) -> list[Any]:
+        return await self.filter_items(project_id=project_id)
+
+    async def load_prompts_by_task_id(self, task_id: Any) -> list[Any]:
+        return await self.load_items(task_id=task_id)
+
+    async def filter_prompts_by_task_id(self, task_id: Any) -> list[Any]:
+        return await self.filter_items(task_id=task_id)
+
+    async def load_prompts_by_ids(self, ids: list[Any]) -> list[Any]:
         return await self.load_items_by_ids(ids)
 
     def add_computed_field(self, field: str) -> None:

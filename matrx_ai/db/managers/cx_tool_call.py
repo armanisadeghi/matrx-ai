@@ -4,9 +4,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from matrx_orm import BaseDTO, BaseManager, ModelView
+from matrx_orm import BaseManager, BaseDTO, ModelView, build_output_schema
+from matrx_utils import vcprint
 
-from matrx_ai.db.models import CxToolCall
+from db.models import CxToolCall
+
 
 # ---------------------------------------------------------------------------
 # ModelView (new) — opt-in projection layer.
@@ -43,6 +45,26 @@ class CxToolCallView(ModelView[CxToolCall]):
     # Errors in computed fields are logged and stored as None —           #
     # they never abort the load.                                          #
     # ------------------------------------------------------------------ #
+
+
+# ---------------------------------------------------------------------------
+# Pydantic output schema (optional, requires pydantic v2).
+# Auto-generated from the model's field definitions.  Useful for:
+#   - FastAPI response_model type annotation
+#   - JSON Schema generation: CxToolCallSchema.model_json_schema()
+#   - Typed API responses: CxToolCallSchema.model_validate(item.to_dict())
+#
+# Usage example:
+#   @app.get("/{id}", response_model=CxToolCallSchema)
+#   async def get_cx_tool_call(id: str):
+#       item = await cx_tool_call_manager_instance.load_by_id(id)
+#       return item.to_dict()
+# ---------------------------------------------------------------------------
+
+try:
+    CxToolCallSchema = build_output_schema(CxToolCall)
+except ImportError:
+    CxToolCallSchema = None  # type: ignore[assignment]  # pydantic not installed
 
 
 # ---------------------------------------------------------------------------
@@ -180,11 +202,11 @@ class CxToolCallBase(BaseManager[CxToolCall]):
     async def filter_cx_tool_calls_by_user_id(self, user_id: Any) -> list[Any]:
         return await self.filter_items(user_id=user_id)
 
-    async def load_cx_tool_calls_by_request_id(self, request_id: Any) -> list[Any]:
-        return await self.load_items(request_id=request_id)
+    async def load_cx_tool_calls_by_user_request_id(self, user_request_id: Any) -> list[Any]:
+        return await self.load_items(user_request_id=user_request_id)
 
-    async def filter_cx_tool_calls_by_request_id(self, request_id: Any) -> list[Any]:
-        return await self.filter_items(request_id=request_id)
+    async def filter_cx_tool_calls_by_user_request_id(self, user_request_id: Any) -> list[Any]:
+        return await self.filter_items(user_request_id=user_request_id)
 
     async def load_cx_tool_calls_by_parent_call_id(self, parent_call_id: Any) -> list[Any]:
         return await self.load_items(parent_call_id=parent_call_id)

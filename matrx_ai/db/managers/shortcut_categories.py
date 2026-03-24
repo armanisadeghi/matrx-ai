@@ -4,9 +4,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from matrx_orm import BaseDTO, BaseManager, ModelView
+from matrx_orm import BaseManager, BaseDTO, ModelView, build_output_schema
+from matrx_utils import vcprint
 
-from matrx_ai.db.models import ShortcutCategories
+from db.models import ShortcutCategories
+
 
 # ---------------------------------------------------------------------------
 # ModelView (new) — opt-in projection layer.
@@ -43,6 +45,26 @@ class ShortcutCategoriesView(ModelView[ShortcutCategories]):
     # Errors in computed fields are logged and stored as None —           #
     # they never abort the load.                                          #
     # ------------------------------------------------------------------ #
+
+
+# ---------------------------------------------------------------------------
+# Pydantic output schema (optional, requires pydantic v2).
+# Auto-generated from the model's field definitions.  Useful for:
+#   - FastAPI response_model type annotation
+#   - JSON Schema generation: ShortcutCategoriesSchema.model_json_schema()
+#   - Typed API responses: ShortcutCategoriesSchema.model_validate(item.to_dict())
+#
+# Usage example:
+#   @app.get("/{id}", response_model=ShortcutCategoriesSchema)
+#   async def get_shortcut_categories(id: str):
+#       item = await shortcut_categories_manager_instance.load_by_id(id)
+#       return item.to_dict()
+# ---------------------------------------------------------------------------
+
+try:
+    ShortcutCategoriesSchema = build_output_schema(ShortcutCategories)
+except ImportError:
+    ShortcutCategoriesSchema = None  # type: ignore[assignment]  # pydantic not installed
 
 
 # ---------------------------------------------------------------------------
@@ -129,10 +151,10 @@ class ShortcutCategoriesBase(BaseManager[ShortcutCategories]):
     async def update_shortcut_categories(self, id: Any, **updates: Any) -> ShortcutCategories:
         return await self.update_item(id, **updates)
 
-    async def load_shortcut_category(self, **kwargs: Any) -> list[ShortcutCategories]:
+    async def load_shortcut_categories(self, **kwargs: Any) -> list[ShortcutCategories]:
         return await self.load_items(**kwargs)
 
-    async def filter_shortcut_category(self, **kwargs: Any) -> list[ShortcutCategories]:
+    async def filter_shortcut_categories(self, **kwargs: Any) -> list[ShortcutCategories]:
         return await self.filter_items(**kwargs)
 
     async def get_or_create_shortcut_categories(self, defaults: dict[str, Any] | None = None, **kwargs: Any) -> ShortcutCategories | None:
@@ -141,34 +163,34 @@ class ShortcutCategoriesBase(BaseManager[ShortcutCategories]):
     async def get_shortcut_categories_with_self_reference(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'self_reference')
 
-    async def get_shortcut_category_with_self_reference(self) -> list[Any]:
+    async def get_shortcut_categories_with_self_reference(self) -> list[Any]:
         return await self.get_items_with_related('self_reference')
 
     async def get_shortcut_categories_with_content_blocks(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'content_blocks')
 
-    async def get_shortcut_category_with_content_blocks(self) -> list[Any]:
+    async def get_shortcut_categories_with_content_blocks(self) -> list[Any]:
         return await self.get_items_with_related('content_blocks')
 
     async def get_shortcut_categories_with_prompt_shortcuts(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'prompt_shortcuts')
 
-    async def get_shortcut_category_with_prompt_shortcuts(self) -> list[Any]:
+    async def get_shortcut_categories_with_prompt_shortcuts(self) -> list[Any]:
         return await self.get_items_with_related('prompt_shortcuts')
 
     async def get_shortcut_categories_with_system_prompts_new(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'system_prompts_new')
 
-    async def get_shortcut_category_with_system_prompts_new(self) -> list[Any]:
+    async def get_shortcut_categories_with_system_prompts_new(self) -> list[Any]:
         return await self.get_items_with_related('system_prompts_new')
 
-    async def load_shortcut_category_by_parent_category_id(self, parent_category_id: Any) -> list[Any]:
+    async def load_shortcut_categories_by_parent_category_id(self, parent_category_id: Any) -> list[Any]:
         return await self.load_items(parent_category_id=parent_category_id)
 
-    async def filter_shortcut_category_by_parent_category_id(self, parent_category_id: Any) -> list[Any]:
+    async def filter_shortcut_categories_by_parent_category_id(self, parent_category_id: Any) -> list[Any]:
         return await self.filter_items(parent_category_id=parent_category_id)
 
-    async def load_shortcut_category_by_ids(self, ids: list[Any]) -> list[Any]:
+    async def load_shortcut_categories_by_ids(self, ids: list[Any]) -> list[Any]:
         return await self.load_items_by_ids(ids)
 
     def add_computed_field(self, field: str) -> None:

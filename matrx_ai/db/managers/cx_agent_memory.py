@@ -4,9 +4,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from matrx_orm import BaseDTO, BaseManager, ModelView
+from matrx_orm import BaseManager, BaseDTO, ModelView, build_output_schema
+from matrx_utils import vcprint
 
-from matrx_ai.db.models import CxAgentMemory
+from db.models import CxAgentMemory
+
 
 # ---------------------------------------------------------------------------
 # ModelView (new) — opt-in projection layer.
@@ -43,6 +45,26 @@ class CxAgentMemoryView(ModelView[CxAgentMemory]):
     # Errors in computed fields are logged and stored as None —           #
     # they never abort the load.                                          #
     # ------------------------------------------------------------------ #
+
+
+# ---------------------------------------------------------------------------
+# Pydantic output schema (optional, requires pydantic v2).
+# Auto-generated from the model's field definitions.  Useful for:
+#   - FastAPI response_model type annotation
+#   - JSON Schema generation: CxAgentMemorySchema.model_json_schema()
+#   - Typed API responses: CxAgentMemorySchema.model_validate(item.to_dict())
+#
+# Usage example:
+#   @app.get("/{id}", response_model=CxAgentMemorySchema)
+#   async def get_cx_agent_memory(id: str):
+#       item = await cx_agent_memory_manager_instance.load_by_id(id)
+#       return item.to_dict()
+# ---------------------------------------------------------------------------
+
+try:
+    CxAgentMemorySchema = build_output_schema(CxAgentMemory)
+except ImportError:
+    CxAgentMemorySchema = None  # type: ignore[assignment]  # pydantic not installed
 
 
 # ---------------------------------------------------------------------------

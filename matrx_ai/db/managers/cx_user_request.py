@@ -4,9 +4,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from matrx_orm import BaseDTO, BaseManager, ModelView
+from matrx_orm import BaseManager, BaseDTO, ModelView, build_output_schema
+from matrx_utils import vcprint
 
-from matrx_ai.db.models import CxUserRequest
+from db.models import CxUserRequest
+
 
 # ---------------------------------------------------------------------------
 # ModelView (new) — opt-in projection layer.
@@ -43,6 +45,26 @@ class CxUserRequestView(ModelView[CxUserRequest]):
     # Errors in computed fields are logged and stored as None —           #
     # they never abort the load.                                          #
     # ------------------------------------------------------------------ #
+
+
+# ---------------------------------------------------------------------------
+# Pydantic output schema (optional, requires pydantic v2).
+# Auto-generated from the model's field definitions.  Useful for:
+#   - FastAPI response_model type annotation
+#   - JSON Schema generation: CxUserRequestSchema.model_json_schema()
+#   - Typed API responses: CxUserRequestSchema.model_validate(item.to_dict())
+#
+# Usage example:
+#   @app.get("/{id}", response_model=CxUserRequestSchema)
+#   async def get_cx_user_request(id: str):
+#       item = await cx_user_request_manager_instance.load_by_id(id)
+#       return item.to_dict()
+# ---------------------------------------------------------------------------
+
+try:
+    CxUserRequestSchema = build_output_schema(CxUserRequest)
+except ImportError:
+    CxUserRequestSchema = None  # type: ignore[assignment]  # pydantic not installed
 
 
 # ---------------------------------------------------------------------------
@@ -138,12 +160,6 @@ class CxUserRequestBase(BaseManager[CxUserRequest]):
     async def get_or_create_cx_user_request(self, defaults: dict[str, Any] | None = None, **kwargs: Any) -> CxUserRequest | None:
         return await self.get_or_create(defaults, **kwargs)
 
-    async def get_cx_user_request_with_ai_model(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'ai_model')
-
-    async def get_cx_user_requests_with_ai_model(self) -> list[Any]:
-        return await self.get_items_with_related('ai_model')
-
     async def get_cx_user_request_with_cx_conversation(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'cx_conversation')
 
@@ -173,12 +189,6 @@ class CxUserRequestBase(BaseManager[CxUserRequest]):
 
     async def filter_cx_user_requests_by_user_id(self, user_id: Any) -> list[Any]:
         return await self.filter_items(user_id=user_id)
-
-    async def load_cx_user_requests_by_ai_model_id(self, ai_model_id: Any) -> list[Any]:
-        return await self.load_items(ai_model_id=ai_model_id)
-
-    async def filter_cx_user_requests_by_ai_model_id(self, ai_model_id: Any) -> list[Any]:
-        return await self.filter_items(ai_model_id=ai_model_id)
 
     async def load_cx_user_requests_by_ids(self, ids: list[Any]) -> list[Any]:
         return await self.load_items_by_ids(ids)

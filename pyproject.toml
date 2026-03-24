@@ -64,7 +64,7 @@ dependencies = [
     "supabase",
     # --- Matrx ecosystem ---
     "matrx-utils>=1.0.19",
-    "matrx-orm>=3.0.28",
+    "matrx-orm>=3.0.29",
     # --- Utilities ---
     "rich",
     "tiktoken",

@@ -4,9 +4,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from matrx_orm import BaseDTO, BaseManager, ModelView
+from matrx_orm import BaseManager, BaseDTO, ModelView, build_output_schema
+from matrx_utils import vcprint
 
-from matrx_ai.db.models import ContentBlocks
+from db.models import ContentBlocks
+
 
 # ---------------------------------------------------------------------------
 # ModelView (new) — opt-in projection layer.
@@ -43,6 +45,26 @@ class ContentBlocksView(ModelView[ContentBlocks]):
     # Errors in computed fields are logged and stored as None —           #
     # they never abort the load.                                          #
     # ------------------------------------------------------------------ #
+
+
+# ---------------------------------------------------------------------------
+# Pydantic output schema (optional, requires pydantic v2).
+# Auto-generated from the model's field definitions.  Useful for:
+#   - FastAPI response_model type annotation
+#   - JSON Schema generation: ContentBlocksSchema.model_json_schema()
+#   - Typed API responses: ContentBlocksSchema.model_validate(item.to_dict())
+#
+# Usage example:
+#   @app.get("/{id}", response_model=ContentBlocksSchema)
+#   async def get_content_blocks(id: str):
+#       item = await content_blocks_manager_instance.load_by_id(id)
+#       return item.to_dict()
+# ---------------------------------------------------------------------------
+
+try:
+    ContentBlocksSchema = build_output_schema(ContentBlocks)
+except ImportError:
+    ContentBlocksSchema = None  # type: ignore[assignment]  # pydantic not installed
 
 
 # ---------------------------------------------------------------------------
@@ -106,36 +128,7 @@ class ContentBlocksBase(BaseManager[ContentBlocks]):
         super().__init__(ContentBlocks, dto_class=dto_class or ContentBlocksDTO)
 
     def _initialize_manager(self) -> None:
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            return
         super()._initialize_manager()
-
-    async def load_items(self, **kwargs: Any) -> list[Any]:
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            from matrx_ai.client_mode import get_api_client
-            return await get_api_client().get_content_blocks()
-        return await super().load_items(**kwargs)
-
-    async def filter_items(self, **kwargs: Any) -> list[Any]:
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            from matrx_ai.client_mode import get_api_client
-            category_id = kwargs.get("category_id")
-            if category_id:
-                return await get_api_client().get_content_blocks_by_category(str(category_id))
-            return await get_api_client().get_content_blocks()
-        return await super().filter_items(**kwargs)
-
-    async def load_items_by_ids(self, ids: list[Any]) -> list[Any]:
-        from matrx_ai.db import is_client_mode
-        if is_client_mode():
-            from matrx_ai.client_mode import get_api_client
-            all_blocks = await get_api_client().get_content_blocks()
-            id_set = {str(i) for i in ids}
-            return [b for b in all_blocks if str(b.get("id", "")) in id_set]
-        return await super().load_items_by_ids(ids)
 
     async def _initialize_runtime_data(self, item: ContentBlocks) -> None:
         pass
@@ -158,10 +151,10 @@ class ContentBlocksBase(BaseManager[ContentBlocks]):
     async def update_content_blocks(self, id: Any, **updates: Any) -> ContentBlocks:
         return await self.update_item(id, **updates)
 
-    async def load_content_block(self, **kwargs: Any) -> list[ContentBlocks]:
+    async def load_content_blocks(self, **kwargs: Any) -> list[ContentBlocks]:
         return await self.load_items(**kwargs)
 
-    async def filter_content_block(self, **kwargs: Any) -> list[ContentBlocks]:
+    async def filter_content_blocks(self, **kwargs: Any) -> list[ContentBlocks]:
         return await self.filter_items(**kwargs)
 
     async def get_or_create_content_blocks(self, defaults: dict[str, Any] | None = None, **kwargs: Any) -> ContentBlocks | None:
@@ -170,16 +163,16 @@ class ContentBlocksBase(BaseManager[ContentBlocks]):
     async def get_content_blocks_with_shortcut_categories(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'shortcut_categories')
 
-    async def get_content_block_with_shortcut_categories(self) -> list[Any]:
+    async def get_content_blocks_with_shortcut_categories(self) -> list[Any]:
         return await self.get_items_with_related('shortcut_categories')
 
-    async def load_content_block_by_category_id(self, category_id: Any) -> list[Any]:
+    async def load_content_blocks_by_category_id(self, category_id: Any) -> list[Any]:
         return await self.load_items(category_id=category_id)
 
-    async def filter_content_block_by_category_id(self, category_id: Any) -> list[Any]:
+    async def filter_content_blocks_by_category_id(self, category_id: Any) -> list[Any]:
         return await self.filter_items(category_id=category_id)
 
-    async def load_content_block_by_ids(self, ids: list[Any]) -> list[Any]:
+    async def load_content_blocks_by_ids(self, ids: list[Any]) -> list[Any]:
         return await self.load_items_by_ids(ids)
 
     def add_computed_field(self, field: str) -> None:

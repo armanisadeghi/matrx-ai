@@ -4,9 +4,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from matrx_orm import BaseDTO, BaseManager, ModelView
+from matrx_orm import BaseManager, BaseDTO, ModelView, build_output_schema
+from matrx_utils import vcprint
 
-from matrx_ai.db.models import CxMedia
+from db.models import CxMedia
+
 
 # ---------------------------------------------------------------------------
 # ModelView (new) — opt-in projection layer.
@@ -43,6 +45,26 @@ class CxMediaView(ModelView[CxMedia]):
     # Errors in computed fields are logged and stored as None —           #
     # they never abort the load.                                          #
     # ------------------------------------------------------------------ #
+
+
+# ---------------------------------------------------------------------------
+# Pydantic output schema (optional, requires pydantic v2).
+# Auto-generated from the model's field definitions.  Useful for:
+#   - FastAPI response_model type annotation
+#   - JSON Schema generation: CxMediaSchema.model_json_schema()
+#   - Typed API responses: CxMediaSchema.model_validate(item.to_dict())
+#
+# Usage example:
+#   @app.get("/{id}", response_model=CxMediaSchema)
+#   async def get_cx_media(id: str):
+#       item = await cx_media_manager_instance.load_by_id(id)
+#       return item.to_dict()
+# ---------------------------------------------------------------------------
+
+try:
+    CxMediaSchema = build_output_schema(CxMedia)
+except ImportError:
+    CxMediaSchema = None  # type: ignore[assignment]  # pydantic not installed
 
 
 # ---------------------------------------------------------------------------
@@ -129,10 +151,10 @@ class CxMediaBase(BaseManager[CxMedia]):
     async def update_cx_media(self, id: Any, **updates: Any) -> CxMedia:
         return await self.update_item(id, **updates)
 
-    async def load_cx_medias(self, **kwargs: Any) -> list[CxMedia]:
+    async def load_cx_media(self, **kwargs: Any) -> list[CxMedia]:
         return await self.load_items(**kwargs)
 
-    async def filter_cx_medias(self, **kwargs: Any) -> list[CxMedia]:
+    async def filter_cx_media(self, **kwargs: Any) -> list[CxMedia]:
         return await self.filter_items(**kwargs)
 
     async def get_or_create_cx_media(self, defaults: dict[str, Any] | None = None, **kwargs: Any) -> CxMedia | None:
@@ -141,22 +163,22 @@ class CxMediaBase(BaseManager[CxMedia]):
     async def get_cx_media_with_cx_conversation(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'cx_conversation')
 
-    async def get_cx_medias_with_cx_conversation(self) -> list[Any]:
+    async def get_cx_media_with_cx_conversation(self) -> list[Any]:
         return await self.get_items_with_related('cx_conversation')
 
-    async def load_cx_medias_by_conversation_id(self, conversation_id: Any) -> list[Any]:
+    async def load_cx_media_by_conversation_id(self, conversation_id: Any) -> list[Any]:
         return await self.load_items(conversation_id=conversation_id)
 
-    async def filter_cx_medias_by_conversation_id(self, conversation_id: Any) -> list[Any]:
+    async def filter_cx_media_by_conversation_id(self, conversation_id: Any) -> list[Any]:
         return await self.filter_items(conversation_id=conversation_id)
 
-    async def load_cx_medias_by_user_id(self, user_id: Any) -> list[Any]:
+    async def load_cx_media_by_user_id(self, user_id: Any) -> list[Any]:
         return await self.load_items(user_id=user_id)
 
-    async def filter_cx_medias_by_user_id(self, user_id: Any) -> list[Any]:
+    async def filter_cx_media_by_user_id(self, user_id: Any) -> list[Any]:
         return await self.filter_items(user_id=user_id)
 
-    async def load_cx_medias_by_ids(self, ids: list[Any]) -> list[Any]:
+    async def load_cx_media_by_ids(self, ids: list[Any]) -> list[Any]:
         return await self.load_items_by_ids(ids)
 
     def add_computed_field(self, field: str) -> None:
