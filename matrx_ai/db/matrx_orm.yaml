@@ -87,7 +87,9 @@ generate:
       - ai_provider
       - shortcut_categories
       - user_tables
+      - org_hierarchy_levels
     manager_flags:
+      models_module_path: "matrx_ai.db.models"
       include_core_relations: true      # FK/IFK fetch methods
       include_filter_fields: true       # filter_by_* methods
       include_active_relations: false

@@ -125,6 +125,23 @@ class ContentBlocks(Model):
     _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {}
     _database = "supabase_automation_matrix"
 
+class OrgHierarchyLevels(Model):
+    id = UUIDField(primary_key=True, null=False)
+    organization_id = ForeignKey(to_model=Organizations, to_column='id', null=False, unique=True)
+    depth = SmallIntegerField(null=False, unique=True)
+    label_singular = TextField(null=False)
+    label_plural = TextField(null=False)
+    icon = TextField(null=False, default='folder')
+    description = TextField(null=False)
+    color = TextField(null=False)
+    is_required = BooleanField(null=False, default=False)
+    allow_custom_below = BooleanField(null=False, default=True)
+    default_variable_keys = TextArrayField(null=False, default=[])
+    created_at = DateTimeField(null=False)
+    updated_at = DateTimeField(null=False)
+    _inverse_foreign_keys: ClassVar[dict[str, dict[str, str]]] = {'workspaces': {'from_model': 'Workspaces', 'from_field': 'hierarchy_level_id', 'referenced_field': 'id', 'related_name': 'workspaces'}}
+    _database = "supabase_automation_matrix"
+
 class Workspaces(Model):
     id = UUIDField(primary_key=True, null=False)
     organization_id = ForeignKey(to_model=Organizations, to_column='id', null=False)
@@ -418,6 +435,7 @@ model_registry.register_all(
         Tools,
         AiModel,
         ContentBlocks,
+        OrgHierarchyLevels,
         Workspaces,
         Projects,
         Tasks,
@@ -580,6 +598,27 @@ class ContentBlocksManager(BaseManager):
         super()._initialize_manager()
 
     async def _initialize_runtime_data(self, item: ContentBlocks) -> None:
+        pass
+    
+
+
+@dataclass
+class OrgHierarchyLevelsDTO(BaseDTO):
+    id: str
+
+    @classmethod
+    async def from_model(cls, model: OrgHierarchyLevels):
+        return cls(id=str(model.id))
+
+
+class OrgHierarchyLevelsManager(BaseManager):
+    def __init__(self):
+        super().__init__(OrgHierarchyLevels, OrgHierarchyLevelsDTO)
+
+    def _initialize_manager(self):
+        super()._initialize_manager()
+
+    async def _initialize_runtime_data(self, item: OrgHierarchyLevels) -> None:
         pass
     
 

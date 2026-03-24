@@ -7,7 +7,7 @@ from typing import Any
 from matrx_orm import BaseManager, BaseDTO, ModelView, build_output_schema
 from matrx_utils import vcprint
 
-from db.models import CxMedia
+from matrx_ai.db.models import CxMedia
 
 
 # ---------------------------------------------------------------------------

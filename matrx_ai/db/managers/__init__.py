@@ -6,6 +6,7 @@ from .shortcut_categories import ShortcutCategoriesView, ShortcutCategoriesDTO, 
 from .tools import ToolsView, ToolsDTO, ToolsBase
 from .ai_model import AiModelView, AiModelDTO, AiModelBase
 from .content_blocks import ContentBlocksView, ContentBlocksDTO, ContentBlocksBase
+from .org_hierarchy_levels import OrgHierarchyLevelsView, OrgHierarchyLevelsDTO, OrgHierarchyLevelsBase
 from .workspaces import WorkspacesView, WorkspacesDTO, WorkspacesBase
 from .projects import ProjectsView, ProjectsDTO, ProjectsBase
 from .tasks import TasksView, TasksDTO, TasksBase

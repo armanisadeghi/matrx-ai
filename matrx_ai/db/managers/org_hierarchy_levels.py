@@ -1,4 +1,4 @@
-# File: db/managers/ai_provider.py
+# File: db/managers/org_hierarchy_levels.py
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -7,20 +7,20 @@ from typing import Any
 from matrx_orm import BaseManager, BaseDTO, ModelView, build_output_schema
 from matrx_utils import vcprint
 
-from matrx_ai.db.models import AiProvider
+from matrx_ai.db.models import OrgHierarchyLevels
 
 
 # ---------------------------------------------------------------------------
 # ModelView (new) — opt-in projection layer.
 # Stores results flat on the model instance; no duplication, no nesting.
-# To activate: set view_class = AiProviderView on your manager subclass,
-# or pass view_class=AiProviderView to super().__init__().
+# To activate: set view_class = OrgHierarchyLevelsView on your manager subclass,
+# or pass view_class=OrgHierarchyLevelsView to super().__init__().
 # When active, the DTO path below is skipped automatically.
 # ---------------------------------------------------------------------------
 
-class AiProviderView(ModelView[AiProvider]):
+class OrgHierarchyLevelsView(ModelView[OrgHierarchyLevels]):
     """
-    Declarative view for AiProvider.
+    Declarative view for OrgHierarchyLevels.
 
     Configure what gets fetched and shaped automatically on every load:
 
@@ -31,7 +31,7 @@ class AiProviderView(ModelView[AiProvider]):
 
     Add async methods (no leading underscore) for computed fields:
 
-        async def display_name(self, model: AiProvider) -> str:
+        async def display_name(self, model: OrgHierarchyLevels) -> str:
             return model.name.title()
     """
 
@@ -51,20 +51,20 @@ class AiProviderView(ModelView[AiProvider]):
 # Pydantic output schema (optional, requires pydantic v2).
 # Auto-generated from the model's field definitions.  Useful for:
 #   - FastAPI response_model type annotation
-#   - JSON Schema generation: AiProviderSchema.model_json_schema()
-#   - Typed API responses: AiProviderSchema.model_validate(item.to_dict())
+#   - JSON Schema generation: OrgHierarchyLevelsSchema.model_json_schema()
+#   - Typed API responses: OrgHierarchyLevelsSchema.model_validate(item.to_dict())
 #
 # Usage example:
-#   @app.get("/{id}", response_model=AiProviderSchema)
-#   async def get_ai_provider(id: str):
-#       item = await ai_provider_manager_instance.load_by_id(id)
+#   @app.get("/{id}", response_model=OrgHierarchyLevelsSchema)
+#   async def get_org_hierarchy_levels(id: str):
+#       item = await org_hierarchy_levels_manager_instance.load_by_id(id)
 #       return item.to_dict()
 # ---------------------------------------------------------------------------
 
 try:
-    AiProviderSchema = build_output_schema(AiProvider)
+    OrgHierarchyLevelsSchema = build_output_schema(OrgHierarchyLevels)
 except ImportError:
-    AiProviderSchema = None  # type: ignore[assignment]  # pydantic not installed
+    OrgHierarchyLevelsSchema = None  # type: ignore[assignment]  # pydantic not installed
 
 
 # ---------------------------------------------------------------------------
@@ -75,10 +75,10 @@ except ImportError:
 # ---------------------------------------------------------------------------
 
 @dataclass
-class AiProviderDTO(BaseDTO[AiProvider]):
+class OrgHierarchyLevelsDTO(BaseDTO[OrgHierarchyLevels]):
     id: str
 
-    async def _initialize_dto(self, model: AiProvider) -> None:
+    async def _initialize_dto(self, model: OrgHierarchyLevels) -> None:
         '''Override to populate DTO fields from the model.'''
         self.id = str(model.id)
         await self._process_core_data(model)
@@ -86,15 +86,15 @@ class AiProviderDTO(BaseDTO[AiProvider]):
         await self._initial_validation(model)
         self.initialized = True
 
-    async def _process_core_data(self, model: AiProvider) -> None:
+    async def _process_core_data(self, model: OrgHierarchyLevels) -> None:
         '''Process core data from the model item.'''
         pass
 
-    async def _process_metadata(self, model: AiProvider) -> None:
+    async def _process_metadata(self, model: OrgHierarchyLevels) -> None:
         '''Process metadata from the model item.'''
         pass
 
-    async def _initial_validation(self, model: AiProvider) -> None:
+    async def _initial_validation(self, model: OrgHierarchyLevels) -> None:
         '''Validate fields from the model item.'''
         pass
 
@@ -111,12 +111,12 @@ class AiProviderDTO(BaseDTO[AiProvider]):
 # ---------------------------------------------------------------------------
 # Manager — DTO is active by default for full backward compatibility.
 # To switch to the View (opt-in):
-#   1. Quick: set view_class = AiProviderView  (replaces DTO automatically)
-#   2. Explicit: super().__init__(AiProvider, view_class=AiProviderView)
+#   1. Quick: set view_class = OrgHierarchyLevelsView  (replaces DTO automatically)
+#   2. Explicit: super().__init__(OrgHierarchyLevels, view_class=OrgHierarchyLevelsView)
 # ---------------------------------------------------------------------------
 
-class AiProviderBase(BaseManager[AiProvider]):
-    view_class = None  # DTO is used by default; set to AiProviderView to opt in
+class OrgHierarchyLevelsBase(BaseManager[OrgHierarchyLevels]):
+    view_class = None  # DTO is used by default; set to OrgHierarchyLevelsView to opt in
 
     def __init__(
         self,
@@ -125,54 +125,66 @@ class AiProviderBase(BaseManager[AiProvider]):
     ) -> None:
         if view_class is not None:
             self.view_class = view_class
-        super().__init__(AiProvider, dto_class=dto_class or AiProviderDTO)
+        super().__init__(OrgHierarchyLevels, dto_class=dto_class or OrgHierarchyLevelsDTO)
 
     def _initialize_manager(self) -> None:
         super()._initialize_manager()
 
-    async def _initialize_runtime_data(self, item: AiProvider) -> None:
+    async def _initialize_runtime_data(self, item: OrgHierarchyLevels) -> None:
         pass
 
-    async def create_ai_provider(self, **data: Any) -> AiProvider:
+    async def create_org_hierarchy_levels(self, **data: Any) -> OrgHierarchyLevels:
         return await self.create_item(**data)
 
-    async def delete_ai_provider(self, id: Any) -> bool:
+    async def delete_org_hierarchy_levels(self, id: Any) -> bool:
         return await self.delete_item(id)
 
-    async def get_ai_provider_with_all_related(self, id: Any) -> tuple[AiProvider, Any]:
+    async def get_org_hierarchy_levels_with_all_related(self, id: Any) -> tuple[OrgHierarchyLevels, Any]:
         return await self.get_item_with_all_related(id)
 
-    async def load_ai_provider_by_id(self, id: Any) -> AiProvider:
+    async def load_org_hierarchy_levels_by_id(self, id: Any) -> OrgHierarchyLevels:
         return await self.load_by_id(id)
 
-    async def load_ai_provider(self, use_cache: bool = True, **kwargs: Any) -> AiProvider:
+    async def load_org_hierarchy_levels(self, use_cache: bool = True, **kwargs: Any) -> OrgHierarchyLevels:
         return await self.load_item(use_cache, **kwargs)
 
-    async def update_ai_provider(self, id: Any, **updates: Any) -> AiProvider:
+    async def update_org_hierarchy_levels(self, id: Any, **updates: Any) -> OrgHierarchyLevels:
         return await self.update_item(id, **updates)
 
-    async def load_ai_providers(self, **kwargs: Any) -> list[AiProvider]:
+    async def load_org_hierarchy_levels(self, **kwargs: Any) -> list[OrgHierarchyLevels]:
         return await self.load_items(**kwargs)
 
-    async def filter_ai_providers(self, **kwargs: Any) -> list[AiProvider]:
+    async def filter_org_hierarchy_levels(self, **kwargs: Any) -> list[OrgHierarchyLevels]:
         return await self.filter_items(**kwargs)
 
-    async def get_or_create_ai_provider(self, defaults: dict[str, Any] | None = None, **kwargs: Any) -> AiProvider | None:
+    async def get_or_create_org_hierarchy_levels(self, defaults: dict[str, Any] | None = None, **kwargs: Any) -> OrgHierarchyLevels | None:
         return await self.get_or_create(defaults, **kwargs)
 
-    async def get_ai_provider_with_ai_model(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'ai_model')
+    async def get_org_hierarchy_levels_with_organizations(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'organizations')
 
-    async def get_ai_providers_with_ai_model(self) -> list[Any]:
-        return await self.get_items_with_related('ai_model')
+    async def get_org_hierarchy_levels_with_organizations(self) -> list[Any]:
+        return await self.get_items_with_related('organizations')
 
-    async def get_ai_provider_with_ai_settings(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'ai_settings')
+    async def get_org_hierarchy_levels_with_workspaces(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'workspaces')
 
-    async def get_ai_providers_with_ai_settings(self) -> list[Any]:
-        return await self.get_items_with_related('ai_settings')
+    async def get_org_hierarchy_levels_with_workspaces(self) -> list[Any]:
+        return await self.get_items_with_related('workspaces')
 
-    async def load_ai_providers_by_ids(self, ids: list[Any]) -> list[Any]:
+    async def load_org_hierarchy_levels_by_organization_id(self, organization_id: Any) -> list[Any]:
+        return await self.load_items(organization_id=organization_id)
+
+    async def filter_org_hierarchy_levels_by_organization_id(self, organization_id: Any) -> list[Any]:
+        return await self.filter_items(organization_id=organization_id)
+
+    async def load_org_hierarchy_levels_by_default_variable_keys(self, default_variable_keys: Any) -> list[Any]:
+        return await self.load_items(default_variable_keys=default_variable_keys)
+
+    async def filter_org_hierarchy_levels_by_default_variable_keys(self, default_variable_keys: Any) -> list[Any]:
+        return await self.filter_items(default_variable_keys=default_variable_keys)
+
+    async def load_org_hierarchy_levels_by_ids(self, ids: list[Any]) -> list[Any]:
         return await self.load_items_by_ids(ids)
 
     def add_computed_field(self, field: str) -> None:
@@ -182,15 +194,15 @@ class AiProviderBase(BaseManager[AiProvider]):
         super().add_relation_field(field)
 
     @property
-    def active_ai_provider_ids(self) -> set[Any]:
+    def active_org_hierarchy_levels_ids(self) -> set[Any]:
         return self.active_item_ids
 
 
 
-class AiProviderManager(AiProviderBase):
-    _instance: AiProviderManager | None = None
+class OrgHierarchyLevelsManager(OrgHierarchyLevelsBase):
+    _instance: OrgHierarchyLevelsManager | None = None
 
-    def __new__(cls, *args: Any, **kwargs: Any) -> AiProviderManager:
+    def __new__(cls, *args: Any, **kwargs: Any) -> OrgHierarchyLevelsManager:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
@@ -198,7 +210,7 @@ class AiProviderManager(AiProviderBase):
     def __init__(self) -> None:
         super().__init__()
 
-    async def _initialize_runtime_data(self, item: AiProvider) -> None:
+    async def _initialize_runtime_data(self, item: OrgHierarchyLevels) -> None:
         pass
 
-ai_provider_manager_instance = AiProviderManager()
+org_hierarchy_levels_manager_instance = OrgHierarchyLevelsManager()
