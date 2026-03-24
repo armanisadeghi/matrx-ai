@@ -172,23 +172,11 @@ class ProjectsBase(BaseManager[Projects]):
     async def get_projects_with_workspaces(self) -> list[Any]:
         return await self.get_items_with_related('workspaces')
 
-    async def get_projects_with_context_variables(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'context_variables')
+    async def get_projects_with_app_instances(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'app_instances')
 
-    async def get_projects_with_context_variables(self) -> list[Any]:
-        return await self.get_items_with_related('context_variables')
-
-    async def get_projects_with_tasks(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'tasks')
-
-    async def get_projects_with_tasks(self) -> list[Any]:
-        return await self.get_items_with_related('tasks')
-
-    async def get_projects_with_user_active_context(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'user_active_context')
-
-    async def get_projects_with_user_active_context(self) -> list[Any]:
-        return await self.get_items_with_related('user_active_context')
+    async def get_projects_with_app_instances(self) -> list[Any]:
+        return await self.get_items_with_related('app_instances')
 
     async def get_projects_with_broker_values(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'broker_values')
@@ -196,35 +184,11 @@ class ProjectsBase(BaseManager[Projects]):
     async def get_projects_with_broker_values(self) -> list[Any]:
         return await self.get_items_with_related('broker_values')
 
-    async def get_projects_with_user_files(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'user_files')
+    async def get_projects_with_canvas_items(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'canvas_items')
 
-    async def get_projects_with_user_files(self) -> list[Any]:
-        return await self.get_items_with_related('user_files')
-
-    async def get_projects_with_cx_conversation(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'cx_conversation')
-
-    async def get_projects_with_cx_conversation(self) -> list[Any]:
-        return await self.get_items_with_related('cx_conversation')
-
-    async def get_projects_with_project_members(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'project_members')
-
-    async def get_projects_with_project_members(self) -> list[Any]:
-        return await self.get_items_with_related('project_members')
-
-    async def get_projects_with_project_invitations(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'project_invitations')
-
-    async def get_projects_with_project_invitations(self) -> list[Any]:
-        return await self.get_items_with_related('project_invitations')
-
-    async def get_projects_with_sandbox_instances(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'sandbox_instances')
-
-    async def get_projects_with_sandbox_instances(self) -> list[Any]:
-        return await self.get_items_with_related('sandbox_instances')
+    async def get_projects_with_canvas_items(self) -> list[Any]:
+        return await self.get_items_with_related('canvas_items')
 
     async def get_projects_with_context_items(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'context_items')
@@ -232,11 +196,17 @@ class ProjectsBase(BaseManager[Projects]):
     async def get_projects_with_context_items(self) -> list[Any]:
         return await self.get_items_with_related('context_items')
 
-    async def get_projects_with_app_instances(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'app_instances')
+    async def get_projects_with_context_variables(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'context_variables')
 
-    async def get_projects_with_app_instances(self) -> list[Any]:
-        return await self.get_items_with_related('app_instances')
+    async def get_projects_with_context_variables(self) -> list[Any]:
+        return await self.get_items_with_related('context_variables')
+
+    async def get_projects_with_cx_conversation(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'cx_conversation')
+
+    async def get_projects_with_cx_conversation(self) -> list[Any]:
+        return await self.get_items_with_related('cx_conversation')
 
     async def get_projects_with_notes(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'notes')
@@ -244,17 +214,41 @@ class ProjectsBase(BaseManager[Projects]):
     async def get_projects_with_notes(self) -> list[Any]:
         return await self.get_items_with_related('notes')
 
+    async def get_projects_with_project_invitations(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'project_invitations')
+
+    async def get_projects_with_project_invitations(self) -> list[Any]:
+        return await self.get_items_with_related('project_invitations')
+
+    async def get_projects_with_project_members(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'project_members')
+
+    async def get_projects_with_project_members(self) -> list[Any]:
+        return await self.get_items_with_related('project_members')
+
+    async def get_projects_with_prompts(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'prompts')
+
+    async def get_projects_with_prompts(self) -> list[Any]:
+        return await self.get_items_with_related('prompts')
+
     async def get_projects_with_rs_topic(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'rs_topic')
 
     async def get_projects_with_rs_topic(self) -> list[Any]:
         return await self.get_items_with_related('rs_topic')
 
-    async def get_projects_with_user_tables(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'user_tables')
+    async def get_projects_with_sandbox_instances(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'sandbox_instances')
 
-    async def get_projects_with_user_tables(self) -> list[Any]:
-        return await self.get_items_with_related('user_tables')
+    async def get_projects_with_sandbox_instances(self) -> list[Any]:
+        return await self.get_items_with_related('sandbox_instances')
+
+    async def get_projects_with_tasks(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'tasks')
+
+    async def get_projects_with_tasks(self) -> list[Any]:
+        return await self.get_items_with_related('tasks')
 
     async def get_projects_with_transcripts(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'transcripts')
@@ -262,23 +256,29 @@ class ProjectsBase(BaseManager[Projects]):
     async def get_projects_with_transcripts(self) -> list[Any]:
         return await self.get_items_with_related('transcripts')
 
+    async def get_projects_with_user_active_context(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'user_active_context')
+
+    async def get_projects_with_user_active_context(self) -> list[Any]:
+        return await self.get_items_with_related('user_active_context')
+
+    async def get_projects_with_user_files(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'user_files')
+
+    async def get_projects_with_user_files(self) -> list[Any]:
+        return await self.get_items_with_related('user_files')
+
+    async def get_projects_with_user_tables(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'user_tables')
+
+    async def get_projects_with_user_tables(self) -> list[Any]:
+        return await self.get_items_with_related('user_tables')
+
     async def get_projects_with_workflow(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'workflow')
 
     async def get_projects_with_workflow(self) -> list[Any]:
         return await self.get_items_with_related('workflow')
-
-    async def get_projects_with_canvas_items(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'canvas_items')
-
-    async def get_projects_with_canvas_items(self) -> list[Any]:
-        return await self.get_items_with_related('canvas_items')
-
-    async def get_projects_with_prompts(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'prompts')
-
-    async def get_projects_with_prompts(self) -> list[Any]:
-        return await self.get_items_with_related('prompts')
 
     async def load_projects_by_created_by(self, created_by: Any) -> list[Any]:
         return await self.load_items(created_by=created_by)

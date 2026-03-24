@@ -160,17 +160,17 @@ class AiProviderBase(BaseManager[AiProvider]):
     async def get_or_create_ai_provider(self, defaults: dict[str, Any] | None = None, **kwargs: Any) -> AiProvider | None:
         return await self.get_or_create(defaults, **kwargs)
 
-    async def get_ai_provider_with_ai_settings(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'ai_settings')
-
-    async def get_ai_providers_with_ai_settings(self) -> list[Any]:
-        return await self.get_items_with_related('ai_settings')
-
     async def get_ai_provider_with_ai_model(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'ai_model')
 
     async def get_ai_providers_with_ai_model(self) -> list[Any]:
         return await self.get_items_with_related('ai_model')
+
+    async def get_ai_provider_with_ai_settings(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'ai_settings')
+
+    async def get_ai_providers_with_ai_settings(self) -> list[Any]:
+        return await self.get_items_with_related('ai_settings')
 
     async def load_ai_providers_by_ids(self, ids: list[Any]) -> list[Any]:
         return await self.load_items_by_ids(ids)

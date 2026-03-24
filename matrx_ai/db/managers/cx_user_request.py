@@ -166,17 +166,17 @@ class CxUserRequestBase(BaseManager[CxUserRequest]):
     async def get_cx_user_requests_with_cx_conversation(self) -> list[Any]:
         return await self.get_items_with_related('cx_conversation')
 
-    async def get_cx_user_request_with_cx_tool_call(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'cx_tool_call')
-
-    async def get_cx_user_requests_with_cx_tool_call(self) -> list[Any]:
-        return await self.get_items_with_related('cx_tool_call')
-
     async def get_cx_user_request_with_cx_request(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'cx_request')
 
     async def get_cx_user_requests_with_cx_request(self) -> list[Any]:
         return await self.get_items_with_related('cx_request')
+
+    async def get_cx_user_request_with_cx_tool_call(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'cx_tool_call')
+
+    async def get_cx_user_requests_with_cx_tool_call(self) -> list[Any]:
+        return await self.get_items_with_related('cx_tool_call')
 
     async def load_cx_user_requests_by_conversation_id(self, conversation_id: Any) -> list[Any]:
         return await self.load_items(conversation_id=conversation_id)

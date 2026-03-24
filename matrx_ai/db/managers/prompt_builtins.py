@@ -172,12 +172,6 @@ class PromptBuiltinsBase(BaseManager[PromptBuiltins]):
     async def get_prompt_builtins_with_prompts(self) -> list[Any]:
         return await self.get_items_with_related('prompts')
 
-    async def get_prompt_builtins_with_prompt_shortcuts(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'prompt_shortcuts')
-
-    async def get_prompt_builtins_with_prompt_shortcuts(self) -> list[Any]:
-        return await self.get_items_with_related('prompt_shortcuts')
-
     async def get_prompt_builtins_with_prompt_actions(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'prompt_actions')
 
@@ -189,6 +183,12 @@ class PromptBuiltinsBase(BaseManager[PromptBuiltins]):
 
     async def get_prompt_builtins_with_prompt_builtin_versions(self) -> list[Any]:
         return await self.get_items_with_related('prompt_builtin_versions')
+
+    async def get_prompt_builtins_with_prompt_shortcuts(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'prompt_shortcuts')
+
+    async def get_prompt_builtins_with_prompt_shortcuts(self) -> list[Any]:
+        return await self.get_items_with_related('prompt_shortcuts')
 
     async def load_prompt_builtins_by_created_by_user_id(self, created_by_user_id: Any) -> list[Any]:
         return await self.load_items(created_by_user_id=created_by_user_id)

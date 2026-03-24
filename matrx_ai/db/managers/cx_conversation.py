@@ -196,17 +196,11 @@ class CxConversationBase(BaseManager[CxConversation]):
     async def get_cx_conversations_with_workspaces(self) -> list[Any]:
         return await self.get_items_with_related('workspaces')
 
-    async def get_cx_conversation_with_cx_tool_call(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'cx_tool_call')
+    async def get_cx_conversation_with_canvas_items(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'canvas_items')
 
-    async def get_cx_conversations_with_cx_tool_call(self) -> list[Any]:
-        return await self.get_items_with_related('cx_tool_call')
-
-    async def get_cx_conversation_with_cx_message(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'cx_message')
-
-    async def get_cx_conversations_with_cx_message(self) -> list[Any]:
-        return await self.get_items_with_related('cx_message')
+    async def get_cx_conversations_with_canvas_items(self) -> list[Any]:
+        return await self.get_items_with_related('canvas_items')
 
     async def get_cx_conversation_with_cx_media(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'cx_media')
@@ -214,11 +208,11 @@ class CxConversationBase(BaseManager[CxConversation]):
     async def get_cx_conversations_with_cx_media(self) -> list[Any]:
         return await self.get_items_with_related('cx_media')
 
-    async def get_cx_conversation_with_cx_user_request(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'cx_user_request')
+    async def get_cx_conversation_with_cx_message(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'cx_message')
 
-    async def get_cx_conversations_with_cx_user_request(self) -> list[Any]:
-        return await self.get_items_with_related('cx_user_request')
+    async def get_cx_conversations_with_cx_message(self) -> list[Any]:
+        return await self.get_items_with_related('cx_message')
 
     async def get_cx_conversation_with_cx_request(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'cx_request')
@@ -226,11 +220,17 @@ class CxConversationBase(BaseManager[CxConversation]):
     async def get_cx_conversations_with_cx_request(self) -> list[Any]:
         return await self.get_items_with_related('cx_request')
 
-    async def get_cx_conversation_with_canvas_items(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'canvas_items')
+    async def get_cx_conversation_with_cx_tool_call(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'cx_tool_call')
 
-    async def get_cx_conversations_with_canvas_items(self) -> list[Any]:
-        return await self.get_items_with_related('canvas_items')
+    async def get_cx_conversations_with_cx_tool_call(self) -> list[Any]:
+        return await self.get_items_with_related('cx_tool_call')
+
+    async def get_cx_conversation_with_cx_user_request(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'cx_user_request')
+
+    async def get_cx_conversations_with_cx_user_request(self) -> list[Any]:
+        return await self.get_items_with_related('cx_user_request')
 
     async def load_cx_conversations_by_user_id(self, user_id: Any) -> list[Any]:
         return await self.load_items(user_id=user_id)

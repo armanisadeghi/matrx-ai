@@ -172,53 +172,11 @@ class WorkspacesBase(BaseManager[Workspaces]):
     async def get_workspaces_with_self_reference(self) -> list[Any]:
         return await self.get_items_with_related('self_reference')
 
-    async def get_workspaces_with_context_variables(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'context_variables')
+    async def get_workspaces_with_org_hierarchy_levels(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'org_hierarchy_levels')
 
-    async def get_workspaces_with_context_variables(self) -> list[Any]:
-        return await self.get_items_with_related('context_variables')
-
-    async def get_workspaces_with_user_active_context(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'user_active_context')
-
-    async def get_workspaces_with_user_active_context(self) -> list[Any]:
-        return await self.get_items_with_related('user_active_context')
-
-    async def get_workspaces_with_broker_values(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'broker_values')
-
-    async def get_workspaces_with_broker_values(self) -> list[Any]:
-        return await self.get_items_with_related('broker_values')
-
-    async def get_workspaces_with_user_files(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'user_files')
-
-    async def get_workspaces_with_user_files(self) -> list[Any]:
-        return await self.get_items_with_related('user_files')
-
-    async def get_workspaces_with_projects(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'projects')
-
-    async def get_workspaces_with_projects(self) -> list[Any]:
-        return await self.get_items_with_related('projects')
-
-    async def get_workspaces_with_cx_conversation(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'cx_conversation')
-
-    async def get_workspaces_with_cx_conversation(self) -> list[Any]:
-        return await self.get_items_with_related('cx_conversation')
-
-    async def get_workspaces_with_sandbox_instances(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'sandbox_instances')
-
-    async def get_workspaces_with_sandbox_instances(self) -> list[Any]:
-        return await self.get_items_with_related('sandbox_instances')
-
-    async def get_workspaces_with_context_items(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'context_items')
-
-    async def get_workspaces_with_context_items(self) -> list[Any]:
-        return await self.get_items_with_related('context_items')
+    async def get_workspaces_with_org_hierarchy_levels(self) -> list[Any]:
+        return await self.get_items_with_related('org_hierarchy_levels')
 
     async def get_workspaces_with_app_instances(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'app_instances')
@@ -226,41 +184,11 @@ class WorkspacesBase(BaseManager[Workspaces]):
     async def get_workspaces_with_app_instances(self) -> list[Any]:
         return await self.get_items_with_related('app_instances')
 
-    async def get_workspaces_with_notes(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'notes')
+    async def get_workspaces_with_broker_values(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'broker_values')
 
-    async def get_workspaces_with_notes(self) -> list[Any]:
-        return await self.get_items_with_related('notes')
-
-    async def get_workspaces_with_workspace_members(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'workspace_members')
-
-    async def get_workspaces_with_workspace_members(self) -> list[Any]:
-        return await self.get_items_with_related('workspace_members')
-
-    async def get_workspaces_with_workspace_invitations(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'workspace_invitations')
-
-    async def get_workspaces_with_workspace_invitations(self) -> list[Any]:
-        return await self.get_items_with_related('workspace_invitations')
-
-    async def get_workspaces_with_user_tables(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'user_tables')
-
-    async def get_workspaces_with_user_tables(self) -> list[Any]:
-        return await self.get_items_with_related('user_tables')
-
-    async def get_workspaces_with_transcripts(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'transcripts')
-
-    async def get_workspaces_with_transcripts(self) -> list[Any]:
-        return await self.get_items_with_related('transcripts')
-
-    async def get_workspaces_with_workflow(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'workflow')
-
-    async def get_workspaces_with_workflow(self) -> list[Any]:
-        return await self.get_items_with_related('workflow')
+    async def get_workspaces_with_broker_values(self) -> list[Any]:
+        return await self.get_items_with_related('broker_values')
 
     async def get_workspaces_with_canvas_items(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'canvas_items')
@@ -268,11 +196,89 @@ class WorkspacesBase(BaseManager[Workspaces]):
     async def get_workspaces_with_canvas_items(self) -> list[Any]:
         return await self.get_items_with_related('canvas_items')
 
+    async def get_workspaces_with_context_items(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'context_items')
+
+    async def get_workspaces_with_context_items(self) -> list[Any]:
+        return await self.get_items_with_related('context_items')
+
+    async def get_workspaces_with_context_variables(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'context_variables')
+
+    async def get_workspaces_with_context_variables(self) -> list[Any]:
+        return await self.get_items_with_related('context_variables')
+
+    async def get_workspaces_with_cx_conversation(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'cx_conversation')
+
+    async def get_workspaces_with_cx_conversation(self) -> list[Any]:
+        return await self.get_items_with_related('cx_conversation')
+
+    async def get_workspaces_with_notes(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'notes')
+
+    async def get_workspaces_with_notes(self) -> list[Any]:
+        return await self.get_items_with_related('notes')
+
+    async def get_workspaces_with_projects(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'projects')
+
+    async def get_workspaces_with_projects(self) -> list[Any]:
+        return await self.get_items_with_related('projects')
+
     async def get_workspaces_with_prompts(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'prompts')
 
     async def get_workspaces_with_prompts(self) -> list[Any]:
         return await self.get_items_with_related('prompts')
+
+    async def get_workspaces_with_sandbox_instances(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'sandbox_instances')
+
+    async def get_workspaces_with_sandbox_instances(self) -> list[Any]:
+        return await self.get_items_with_related('sandbox_instances')
+
+    async def get_workspaces_with_transcripts(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'transcripts')
+
+    async def get_workspaces_with_transcripts(self) -> list[Any]:
+        return await self.get_items_with_related('transcripts')
+
+    async def get_workspaces_with_user_active_context(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'user_active_context')
+
+    async def get_workspaces_with_user_active_context(self) -> list[Any]:
+        return await self.get_items_with_related('user_active_context')
+
+    async def get_workspaces_with_user_files(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'user_files')
+
+    async def get_workspaces_with_user_files(self) -> list[Any]:
+        return await self.get_items_with_related('user_files')
+
+    async def get_workspaces_with_user_tables(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'user_tables')
+
+    async def get_workspaces_with_user_tables(self) -> list[Any]:
+        return await self.get_items_with_related('user_tables')
+
+    async def get_workspaces_with_workflow(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'workflow')
+
+    async def get_workspaces_with_workflow(self) -> list[Any]:
+        return await self.get_items_with_related('workflow')
+
+    async def get_workspaces_with_workspace_invitations(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'workspace_invitations')
+
+    async def get_workspaces_with_workspace_invitations(self) -> list[Any]:
+        return await self.get_items_with_related('workspace_invitations')
+
+    async def get_workspaces_with_workspace_members(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'workspace_members')
+
+    async def get_workspaces_with_workspace_members(self) -> list[Any]:
+        return await self.get_items_with_related('workspace_members')
 
     async def load_workspaces_by_organization_id(self, organization_id: Any) -> list[Any]:
         return await self.load_items(organization_id=organization_id)
@@ -291,6 +297,12 @@ class WorkspacesBase(BaseManager[Workspaces]):
 
     async def filter_workspaces_by_created_by(self, created_by: Any) -> list[Any]:
         return await self.filter_items(created_by=created_by)
+
+    async def load_workspaces_by_hierarchy_level_id(self, hierarchy_level_id: Any) -> list[Any]:
+        return await self.load_items(hierarchy_level_id=hierarchy_level_id)
+
+    async def filter_workspaces_by_hierarchy_level_id(self, hierarchy_level_id: Any) -> list[Any]:
+        return await self.filter_items(hierarchy_level_id=hierarchy_level_id)
 
     async def load_workspaces_by_ids(self, ids: list[Any]) -> list[Any]:
         return await self.load_items_by_ids(ids)

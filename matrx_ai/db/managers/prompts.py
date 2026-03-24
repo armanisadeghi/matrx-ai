@@ -190,29 +190,17 @@ class PromptsBase(BaseManager[Prompts]):
     async def get_prompts_with_workspaces(self) -> list[Any]:
         return await self.get_items_with_related('workspaces')
 
-    async def get_prompts_with_system_prompts_new(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'system_prompts_new')
-
-    async def get_prompts_with_system_prompts_new(self) -> list[Any]:
-        return await self.get_items_with_related('system_prompts_new')
-
     async def get_prompts_with_prompt_actions(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'prompt_actions')
 
     async def get_prompts_with_prompt_actions(self) -> list[Any]:
         return await self.get_items_with_related('prompt_actions')
 
-    async def get_prompts_with_system_prompts(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'system_prompts')
+    async def get_prompts_with_prompt_apps(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'prompt_apps')
 
-    async def get_prompts_with_system_prompts(self) -> list[Any]:
-        return await self.get_items_with_related('system_prompts')
-
-    async def get_prompts_with_prompt_versions(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'prompt_versions')
-
-    async def get_prompts_with_prompt_versions(self) -> list[Any]:
-        return await self.get_items_with_related('prompt_versions')
+    async def get_prompts_with_prompt_apps(self) -> list[Any]:
+        return await self.get_items_with_related('prompt_apps')
 
     async def get_prompts_with_prompt_builtins(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'prompt_builtins')
@@ -220,11 +208,23 @@ class PromptsBase(BaseManager[Prompts]):
     async def get_prompts_with_prompt_builtins(self) -> list[Any]:
         return await self.get_items_with_related('prompt_builtins')
 
-    async def get_prompts_with_prompt_apps(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'prompt_apps')
+    async def get_prompts_with_prompt_versions(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'prompt_versions')
 
-    async def get_prompts_with_prompt_apps(self) -> list[Any]:
-        return await self.get_items_with_related('prompt_apps')
+    async def get_prompts_with_prompt_versions(self) -> list[Any]:
+        return await self.get_items_with_related('prompt_versions')
+
+    async def get_prompts_with_system_prompts_new(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'system_prompts_new')
+
+    async def get_prompts_with_system_prompts_new(self) -> list[Any]:
+        return await self.get_items_with_related('system_prompts_new')
+
+    async def get_prompts_with_system_prompts(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'system_prompts')
+
+    async def get_prompts_with_system_prompts(self) -> list[Any]:
+        return await self.get_items_with_related('system_prompts')
 
     async def load_prompts_by_user_id(self, user_id: Any) -> list[Any]:
         return await self.load_items(user_id=user_id)

@@ -172,6 +172,54 @@ class TasksBase(BaseManager[Tasks]):
     async def get_tasks_with_projects(self) -> list[Any]:
         return await self.get_items_with_related('projects')
 
+    async def get_tasks_with_app_instances(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'app_instances')
+
+    async def get_tasks_with_app_instances(self) -> list[Any]:
+        return await self.get_items_with_related('app_instances')
+
+    async def get_tasks_with_broker_values(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'broker_values')
+
+    async def get_tasks_with_broker_values(self) -> list[Any]:
+        return await self.get_items_with_related('broker_values')
+
+    async def get_tasks_with_context_items(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'context_items')
+
+    async def get_tasks_with_context_items(self) -> list[Any]:
+        return await self.get_items_with_related('context_items')
+
+    async def get_tasks_with_context_variables(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'context_variables')
+
+    async def get_tasks_with_context_variables(self) -> list[Any]:
+        return await self.get_items_with_related('context_variables')
+
+    async def get_tasks_with_cx_conversation(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'cx_conversation')
+
+    async def get_tasks_with_cx_conversation(self) -> list[Any]:
+        return await self.get_items_with_related('cx_conversation')
+
+    async def get_tasks_with_notes(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'notes')
+
+    async def get_tasks_with_notes(self) -> list[Any]:
+        return await self.get_items_with_related('notes')
+
+    async def get_tasks_with_prompts(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'prompts')
+
+    async def get_tasks_with_prompts(self) -> list[Any]:
+        return await self.get_items_with_related('prompts')
+
+    async def get_tasks_with_sandbox_instances(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'sandbox_instances')
+
+    async def get_tasks_with_sandbox_instances(self) -> list[Any]:
+        return await self.get_items_with_related('sandbox_instances')
+
     async def get_tasks_with_task_assignments(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'task_assignments')
 
@@ -184,71 +232,11 @@ class TasksBase(BaseManager[Tasks]):
     async def get_tasks_with_task_attachments(self) -> list[Any]:
         return await self.get_items_with_related('task_attachments')
 
-    async def get_tasks_with_context_variables(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'context_variables')
-
-    async def get_tasks_with_context_variables(self) -> list[Any]:
-        return await self.get_items_with_related('context_variables')
-
     async def get_tasks_with_task_comments(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'task_comments')
 
     async def get_tasks_with_task_comments(self) -> list[Any]:
         return await self.get_items_with_related('task_comments')
-
-    async def get_tasks_with_user_active_context(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'user_active_context')
-
-    async def get_tasks_with_user_active_context(self) -> list[Any]:
-        return await self.get_items_with_related('user_active_context')
-
-    async def get_tasks_with_broker_values(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'broker_values')
-
-    async def get_tasks_with_broker_values(self) -> list[Any]:
-        return await self.get_items_with_related('broker_values')
-
-    async def get_tasks_with_user_files(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'user_files')
-
-    async def get_tasks_with_user_files(self) -> list[Any]:
-        return await self.get_items_with_related('user_files')
-
-    async def get_tasks_with_cx_conversation(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'cx_conversation')
-
-    async def get_tasks_with_cx_conversation(self) -> list[Any]:
-        return await self.get_items_with_related('cx_conversation')
-
-    async def get_tasks_with_sandbox_instances(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'sandbox_instances')
-
-    async def get_tasks_with_sandbox_instances(self) -> list[Any]:
-        return await self.get_items_with_related('sandbox_instances')
-
-    async def get_tasks_with_context_items(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'context_items')
-
-    async def get_tasks_with_context_items(self) -> list[Any]:
-        return await self.get_items_with_related('context_items')
-
-    async def get_tasks_with_app_instances(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'app_instances')
-
-    async def get_tasks_with_app_instances(self) -> list[Any]:
-        return await self.get_items_with_related('app_instances')
-
-    async def get_tasks_with_notes(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'notes')
-
-    async def get_tasks_with_notes(self) -> list[Any]:
-        return await self.get_items_with_related('notes')
-
-    async def get_tasks_with_user_tables(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'user_tables')
-
-    async def get_tasks_with_user_tables(self) -> list[Any]:
-        return await self.get_items_with_related('user_tables')
 
     async def get_tasks_with_transcripts(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'transcripts')
@@ -256,17 +244,29 @@ class TasksBase(BaseManager[Tasks]):
     async def get_tasks_with_transcripts(self) -> list[Any]:
         return await self.get_items_with_related('transcripts')
 
+    async def get_tasks_with_user_active_context(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'user_active_context')
+
+    async def get_tasks_with_user_active_context(self) -> list[Any]:
+        return await self.get_items_with_related('user_active_context')
+
+    async def get_tasks_with_user_files(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'user_files')
+
+    async def get_tasks_with_user_files(self) -> list[Any]:
+        return await self.get_items_with_related('user_files')
+
+    async def get_tasks_with_user_tables(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'user_tables')
+
+    async def get_tasks_with_user_tables(self) -> list[Any]:
+        return await self.get_items_with_related('user_tables')
+
     async def get_tasks_with_workflow(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'workflow')
 
     async def get_tasks_with_workflow(self) -> list[Any]:
         return await self.get_items_with_related('workflow')
-
-    async def get_tasks_with_prompts(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'prompts')
-
-    async def get_tasks_with_prompts(self) -> list[Any]:
-        return await self.get_items_with_related('prompts')
 
     async def load_tasks_by_project_id(self, project_id: Any) -> list[Any]:
         return await self.load_items(project_id=project_id)

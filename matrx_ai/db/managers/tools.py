@@ -160,12 +160,6 @@ class ToolsBase(BaseManager[Tools]):
     async def get_or_create_tools(self, defaults: dict[str, Any] | None = None, **kwargs: Any) -> Tools | None:
         return await self.get_or_create(defaults, **kwargs)
 
-    async def get_tools_with_tool_versions(self, id: Any) -> tuple[Any, Any]:
-        return await self.get_item_with_related(id, 'tool_versions')
-
-    async def get_tools_with_tool_versions(self) -> list[Any]:
-        return await self.get_items_with_related('tool_versions')
-
     async def get_tools_with_tool_test_samples(self, id: Any) -> tuple[Any, Any]:
         return await self.get_item_with_related(id, 'tool_test_samples')
 
@@ -177,6 +171,12 @@ class ToolsBase(BaseManager[Tools]):
 
     async def get_tools_with_tool_ui_components(self) -> list[Any]:
         return await self.get_items_with_related('tool_ui_components')
+
+    async def get_tools_with_tool_versions(self, id: Any) -> tuple[Any, Any]:
+        return await self.get_item_with_related(id, 'tool_versions')
+
+    async def get_tools_with_tool_versions(self) -> list[Any]:
+        return await self.get_items_with_related('tool_versions')
 
     async def load_tools_by_tags(self, tags: Any) -> list[Any]:
         return await self.load_items(tags=tags)
