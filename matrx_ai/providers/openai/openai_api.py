@@ -11,10 +11,16 @@ from openai import AsyncOpenAI
 from openai.types.responses import Response as OpenAIResponse
 
 from matrx_ai.config import (
+    AudioContent,
+    TokenUsage,
     UnifiedConfig,
+    UnifiedMessage,
     UnifiedResponse,
 )
 from matrx_ai.context.emitter_protocol import Emitter
+from matrx_ai.media.media_persistence import save_media
+
+from .translator import OpenAITranslator
 
 from .translator import OpenAITranslator
 
@@ -30,7 +36,7 @@ class OpenAIChat:
     def __init__(self, debug: bool = False):
         self.client = AsyncOpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
         self.endpoint_name = "[OPENAI CHAT]"
-        self.translator = OpenAITranslator()
+        self.translator = OpenAITranslator(debug=debug)
         self.debug = debug
         self._event_samples = {}
         self._reasoning_started = {}  # Track reasoning items that have received content
@@ -43,10 +49,10 @@ class OpenAIChat:
     ) -> dict[str, Any]:
         return self.translator.to_openai(config, api_class)
 
-    def to_unified_response(self, response: OpenAIResponse) -> UnifiedResponse:
+    def to_unified_response(self, response: OpenAIResponse, matrx_model_name: str) -> UnifiedResponse:
         """Convert OpenAI API response to unified format"""
 
-        return self.translator.from_openai(response)
+        return self.translator.from_openai(response, matrx_model_name)
 
     async def execute(
         self,
@@ -59,12 +65,19 @@ class OpenAIChat:
         emitter = get_app_context().emitter
 
         self.debug = debug
+        if DEBUG_OVERRIDE:
+            self.debug = True
+        self.translator.debug = debug
         matrx_model_name = unified_config.model
+
+        vcprint(f"[OpenAI Chat] executing api_class={api_class}, debug={self.debug}", color="blue")
+
+        if api_class == "openai_tts":
+            return await self._execute_tts(unified_config, emitter, matrx_model_name)
 
         # Build provider-specific config
         config_data = self.to_provider_config(unified_config, api_class)
 
-        vcprint(f"[OpenAI Chat] executing, with debug: {self.debug}", color="blue")
         if self.debug:
             rich.print(config_data)
 
@@ -96,6 +109,81 @@ class OpenAIChat:
             # Re-raise with error classification attached
             e.error_info = error_info
             raise
+
+    async def _execute_tts(
+        self,
+        unified_config: UnifiedConfig,
+        emitter: Emitter,
+        matrx_model_name: str,
+    ) -> UnifiedResponse:
+        """Execute OpenAI TTS request via client.audio.speech.create."""
+        from matrx_ai.config.tts_config import OpenAITTSRegistry
+
+        tts = unified_config.tts_voice_config
+        model, voice = OpenAITTSRegistry.resolve(
+            model=unified_config.model,
+            voice=tts._primary_voice() if tts else None,
+        )
+
+        # OpenAI TTS supports: mp3, opus, aac, flac, wav, pcm
+        valid_formats = {"mp3", "opus", "aac", "flac", "wav", "pcm"}
+        audio_format = (unified_config.audio_format or "mp3").lower()
+        if audio_format not in valid_formats:
+            audio_format = "mp3"
+
+        text_parts: list[str] = []
+        for msg in unified_config.messages:
+            if hasattr(msg, "content"):
+                for c in msg.content:
+                    if hasattr(c, "text") and c.text:
+                        text_parts.append(c.text)
+        input_text = " ".join(text_parts).strip() or "."
+
+        # Multi-speaker configs collapse to a single voice for OpenAI.
+        # Strip speaker labels (e.g. "Alex: ") so they aren't read aloud.
+        if tts:
+            input_text = tts.strip_speaker_labels(input_text)
+
+        vcprint(f"[OpenAI TTS] model={model} voice={voice} format={audio_format}", color="blue")
+
+        response = await self.client.audio.speech.create(
+            model=model,
+            voice=voice,
+            input=input_text,
+            response_format=audio_format,
+        )
+
+        audio_bytes = response.content
+
+        mime_map = {
+            "mp3": "audio/mpeg",
+            "opus": "audio/opus",
+            "aac": "audio/aac",
+            "flac": "audio/flac",
+            "wav": "audio/wav",
+            "pcm": "audio/pcm",
+        }
+        mime_type = mime_map.get(audio_format, "audio/mpeg")
+
+        url = save_media(content=audio_bytes, mime_type=mime_type, audio_format=audio_format)
+
+        audio_content = AudioContent(url=url, mime_type=mime_type)
+        msg = UnifiedMessage(role="assistant", content=[audio_content])
+
+        usage = TokenUsage(
+            input_tokens=0,
+            output_tokens=0,
+            matrx_model_name=matrx_model_name,
+            provider_model_name=model,
+            api="openai",
+        )
+
+        unified_response = UnifiedResponse(messages=[msg], usage=usage)
+
+        await emitter.send_data({"type": "audio_output", "url": url, "mime_type": mime_type})
+        await asyncio.sleep(0)
+
+        return unified_response
 
     async def _execute_non_streaming(
         self,
@@ -135,7 +223,7 @@ class OpenAIChat:
 
         await emitter.send_chunk(content)
 
-        return self.translator.from_openai(response, matrx_model_name)
+        return self.to_unified_response(response, matrx_model_name)
 
     async def _execute_streaming(
         self,
@@ -160,7 +248,7 @@ class OpenAIChat:
             # Get the final response with usage data
             final_response: OpenAIResponse = await stream.get_final_response()
 
-        return self.translator.from_openai(final_response, matrx_model_name)
+        return self.to_unified_response(final_response, matrx_model_name)
 
     async def _handle_event(self, event: Any, emitter: Emitter):
         """Handle individual streaming event"""
@@ -219,7 +307,7 @@ class OpenAIChat:
 
         # Stream lifecycle events
         elif event_type == "response.created":
-            vcprint("OpenAI Response Stream Started", color="cyan")
+            vcprint("\n\n[OPENAI API CHAT] Response Stream Started", color="cyan")
 
         elif event_type == "response.completed":
             if self.debug:

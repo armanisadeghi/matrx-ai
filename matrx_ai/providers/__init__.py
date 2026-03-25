@@ -15,6 +15,7 @@ Provider-specific API implementations for different AI services:
 
 from .anthropic import AnthropicChat, AnthropicTranslator
 from .cerebras import CerebrasChat, CerebrasTranslator
+from .eleven_labs import ElevenLabsChat
 from .errors import (
     RetryableError,
     classify_anthropic_error,
@@ -22,7 +23,8 @@ from .errors import (
     classify_openai_error,
     classify_provider_error,
 )
-from .google import GoogleChat, GoogleProviderConfig, GoogleTranslator
+from .generic_openai import GenericOpenAIChat, GenericOpenAITranslator, HuggingFaceChat
+from .google import GoogleChat, GoogleProviderConfig, GoogleTranslator, GoogleVideoGeneration
 from .groq import GroqChat, GroqTranslator
 from .openai import OpenAIChat, OpenAITranslator
 from .together import TogetherChat, TogetherTranslator
@@ -34,11 +36,17 @@ __all__ = [
     "AnthropicTranslator",
     "CerebrasChat",
     "CerebrasTranslator",
+    "ElevenLabsChat",
+    "GenericOpenAIChat",
+    "GenericOpenAITranslator",
     "GoogleChat",
     "GoogleProviderConfig",
     "GoogleTranslator",
+    "GoogleVideoGeneration",
     "GroqChat",
+    "GroqTTS",
     "GroqTranslator",
+    "HuggingFaceChat",
     "OpenAIChat",
     "OpenAITranslator",
     "RetryableError",

@@ -1,7 +1,3 @@
-"""
-Unified AI API System for OpenAI, Anthropic, and Google Gemini
-Preserves ALL content types and metadata from all providers
-"""
 from __future__ import annotations
 
 from typing import Any, Literal
@@ -20,19 +16,27 @@ from matrx_ai.orchestrator.requests import AIMatrixRequest
 API_CLASS_TO_ENDPOINT = {
     "openai_standard": "openai_chat",
     "openai_reasoning": "openai_chat",
+    "openai_tts": "openai_chat",
     "google_standard": "google_chat",
     "google_thinking": "google_chat",
     "google_thinking_3": "google_chat",
     "google_image_generation": "google_chat",
+    "google_video_generation": "google_video",
+    "google_tts": "google_chat",
     "anthropic_standard": "anthropic_chat",
     "anthropic_adaptive": "anthropic_chat",
     "together_text_standard": "together_chat",
     "together_image": "together_image",
     "together_video": "together_video",
     "groq_standard": "groq_chat",
+    "groq_tts": "groq_chat",
+    "elevenlabs_tts": "elevenlabs_chat",
     "cerebras_standard": "cerebras_chat",
     "cerebras_reasoning": "cerebras_chat",
     "xai_standard": "xai_chat",
+    "xai_tts": "xai_chat",
+    "huggingface_standard": "huggingface_chat",
+    "generic_openai_standard": "huggingface_chat",
 }
 
 class UnifiedAIClient:
@@ -42,8 +46,11 @@ class UnifiedAIClient:
         from matrx_ai.providers import (
             AnthropicChat,
             CerebrasChat,
+            ElevenLabsChat,
             GoogleChat,
+            GoogleVideoGeneration,
             GroqChat,
+            HuggingFaceChat,
             OpenAIChat,
             TogetherChat,
             XAIChat,
@@ -51,12 +58,15 @@ class UnifiedAIClient:
 
         self.model_manager = ai_model_manager_instance
         self.google_chat = GoogleChat()
+        self.google_video = GoogleVideoGeneration()
         self.openai_chat = OpenAIChat()
         self.anthropic_chat = AnthropicChat()
         self.cerebras_chat = CerebrasChat()
         self.together_chat = TogetherChat()
         self.groq_chat = GroqChat()
         self.xai_chat = XAIChat()
+        self.huggingface_chat = HuggingFaceChat()
+        self.elevenlabs_chat = ElevenLabsChat()
 
     async def execute(
         self,
@@ -124,14 +134,20 @@ class UnifiedAIClient:
             return await self.anthropic_chat.execute(config, api_class, debug)
         elif endpoint == "google_chat":
             return await self.google_chat.execute(config, api_class, debug)
+        elif endpoint == "google_video":
+            return await self.google_video.execute(config, api_class, debug)
         elif endpoint == "cerebras_chat":
             return await self.cerebras_chat.execute(config, api_class, debug)
-        elif endpoint == "together_chat":
+        elif endpoint in ("together_chat", "together_image", "together_video"):
             return await self.together_chat.execute(config, api_class, debug)
         elif endpoint == "groq_chat":
             return await self.groq_chat.execute(config, api_class, debug)
         elif endpoint == "xai_chat":
             return await self.xai_chat.execute(config, api_class, debug)
+        elif endpoint == "huggingface_chat":
+            return await self.huggingface_chat.execute(config, api_class, debug)
+        elif endpoint == "elevenlabs_chat":
+            return await self.elevenlabs_chat.execute(config, api_class, debug)
         else:
             raise ValueError(f"No execution method for api_class: {api_class}")
 
@@ -143,6 +159,7 @@ class UnifiedAIClient:
         from matrx_ai.providers import (
             AnthropicTranslator,
             CerebrasTranslator,
+            GenericOpenAITranslator,
             GoogleTranslator,
             GroqTranslator,
             OpenAITranslator,
@@ -194,13 +211,16 @@ class UnifiedAIClient:
             return GroqTranslator().to_groq(config, api_class)
         elif api_class == "xai_standard":
             return XAITranslator().to_xai(config, api_class)
+        elif api_class in ("huggingface_standard", "generic_openai_standard"):
+            return GenericOpenAITranslator().to_generic_openai(config, api_class)
         else:
             raise ValueError(f"Unknown provider: {endpoint}")
 
     def translate_response(
         self,
         provider: Literal[
-            "openai", "anthropic", "gemini", "together", "groq", "xai", "cerebras"
+            "openai", "anthropic", "gemini", "together", "groq", "xai", "cerebras",
+            "huggingface", "generic_openai"
         ],
         response: dict[str, Any],
     ) -> UnifiedResponse:
@@ -208,6 +228,7 @@ class UnifiedAIClient:
         from matrx_ai.providers import (
             AnthropicTranslator,
             CerebrasTranslator,
+            GenericOpenAITranslator,
             GoogleTranslator,
             GroqTranslator,
             OpenAITranslator,
@@ -229,5 +250,7 @@ class UnifiedAIClient:
             return XAITranslator().from_xai(response)
         elif provider.startswith("cerebras"):
             return CerebrasTranslator().from_cerebras(response)
+        elif provider.startswith("huggingface") or provider.startswith("generic_openai"):
+            return GenericOpenAITranslator().from_generic_openai(response, provider)
         else:
             raise ValueError(f"Unknown provider: {provider}")

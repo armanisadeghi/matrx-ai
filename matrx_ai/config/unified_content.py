@@ -31,6 +31,11 @@ from .tools_config import ToolCallContent, ToolResultContent
 # These types are completely independent of AI Matrix
 # ============================================================================
 
+# Sentinel strings that bracket ephemeral content blocks on TextContent.
+# These are stripped by detach_ephemeral() and never written to the DB.
+_EPHEMERAL_START = "\n\n<!-- EPHEMERAL_CONTEXT_START -->\n"
+_EPHEMERAL_END = "\n<!-- EPHEMERAL_CONTEXT_END -->"
+
 
 @dataclass
 class TextContent:
@@ -63,6 +68,27 @@ class TextContent:
             separator: Separator between existing and new text (default: newline)
         """
         self.text += f"{separator}{text}"
+
+    def attach_ephemeral(self, block: str) -> None:
+        """Append an ephemeral block to this text content, preserving the original.
+
+        The original text is saved in metadata["original_text"] so it can be
+        restored exactly via detach_ephemeral(). Calling attach_ephemeral a
+        second time replaces the previous ephemeral block without accumulating.
+        """
+        if "original_text" not in self.metadata:
+            self.metadata["original_text"] = self.text
+        self.text = (
+            self.metadata["original_text"]
+            + _EPHEMERAL_START
+            + block
+            + _EPHEMERAL_END
+        )
+
+    def detach_ephemeral(self) -> None:
+        """Remove the ephemeral block and restore the original text."""
+        if "original_text" in self.metadata:
+            self.text = self.metadata.pop("original_text")
 
     def to_google(self) -> dict[str, Any]:
         """Convert to Google Gemini format"""
@@ -163,6 +189,19 @@ class TextContent:
             text=text,
             metadata=metadata,
         )
+
+    @classmethod
+    def from_openai_modified(
+        cls, content_item: dict[str, Any]
+    ) -> Optional["TextContent"]:
+        text = content_item.get("content")
+        metadata = content_item.get("metadata")
+        return cls(
+            text=text,
+            metadata=metadata,
+        )
+
+
 
     @classmethod
     def from_google(cls, part: Part) -> Optional["TextContent"]:
@@ -367,11 +406,11 @@ class ThinkingContent:
         cls, item: OpenAIResponseReasoningItem
     ) -> Optional["ThinkingContent"]:
         """Create ThinkingContent from OpenAI reasoning item"""
-        # Extract encrypted_content from the item
         encrypted_content = getattr(item, "encrypted_content", None)
+        summary = [s.model_dump() if hasattr(s, "model_dump") else s for s in item.summary] if item.summary else []
 
         return cls(
-            summary=item.summary,
+            summary=summary,
             id=item.id,
             provider="openai",
             signature=encrypted_content,
@@ -446,8 +485,7 @@ def reconstruct_content(block: dict[str, Any]) -> UnifiedContent:
 
     elif block_type == "tool_call":
         return ToolCallContent(
-            id=block.get("id", ""),
-            call_id=block.get("call_id", ""),
+            id=block.get("id", "") or block.get("call_id", ""),
             name=block.get("name", ""),
             arguments=block.get("arguments", {}),
         )

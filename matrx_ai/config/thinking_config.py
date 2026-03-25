@@ -24,6 +24,11 @@ class ThinkingConfig:
     thinking_level: Literal["minimal", "low", "medium", "high"] | None = None
     include_thoughts: bool | None = None
 
+    # Cerebras-specific controls (carried here so ThinkingConfig is the single
+    # source of truth for all thinking/reasoning decisions at translation time)
+    disable_reasoning: bool | None = None
+    clear_thinking: bool | None = None
+
     def to_openai_reasoning(self) -> Reasoning:
         """
         Convert to OpenAI Reasoning API format.
@@ -250,24 +255,20 @@ class ThinkingConfig:
                 "budget_tokens": thinking_budget,
             }
             
-            # Validate max_tokens vs thinking_budget
+            # Anthropic requires max_tokens > thinking.budget_tokens.
+            # When no explicit limit is set, use a large permissive default so the model
+            # is never arbitrarily truncated. When a limit is set but too small, bump it
+            # just enough to satisfy the constraint.
+            THINKING_DEFAULT_MAX_TOKENS = 32768
             if current_max_tokens is None:
-                # If no max_tokens provided, set a reasonable value
-                # Must be greater than thinking_budget
-                validated_max_tokens = thinking_budget + 2048
-                vcprint(
-                    f"⚠️  Anthropic thinking enabled (budget: {thinking_budget}) but no max_tokens set. Setting max_tokens to {validated_max_tokens}",
-                    color="yellow"
-                )
+                validated_max_tokens = max(thinking_budget + 2048, THINKING_DEFAULT_MAX_TOKENS)
             elif current_max_tokens <= thinking_budget:
-                # max_tokens too small - adjust it
                 validated_max_tokens = thinking_budget + 2048
                 vcprint(
                     f"⚠️  Anthropic requires max_tokens ({current_max_tokens}) > thinking.budget_tokens ({thinking_budget}). Automatically adjusting max_tokens to {validated_max_tokens}",
                     color="yellow"
                 )
             else:
-                # max_tokens is valid
                 validated_max_tokens = current_max_tokens
             
             return {
@@ -349,9 +350,10 @@ class ThinkingConfig:
         if effort is None:
             return None
 
-        # Adaptive thinking has no budget_tokens constraint on max_tokens,
-        # so we just ensure max_tokens is set to a reasonable value.
-        max_tokens = current_max_tokens if current_max_tokens is not None else 8000
+        # Adaptive thinking has no budget_tokens constraint on max_tokens.
+        # Return None here — the translator owns the max_tokens fallback decision
+        # and will apply a large permissive default when the caller hasn't set one.
+        max_tokens = current_max_tokens
 
         return {
             "thinking": {"type": "adaptive"},
@@ -363,9 +365,16 @@ class ThinkingConfig:
         """
         Convert to Cerebras reasoning_effort format.
 
+        disable_reasoning=True is always the highest-priority override and
+        short-circuits to None regardless of any other settings.
+
         Returns:
             "low" | "medium" | "high" or None
         """
+        # Highest-priority override: caller explicitly disabled reasoning
+        if self.disable_reasoning is True:
+            return None
+
         reasoning_effort = None
 
         # Priority 1: reasoning_effort (NEW STANDARD)
@@ -405,21 +414,84 @@ class ThinkingConfig:
 
         return reasoning_effort
 
+    def to_cerebras_thinking_params(self) -> dict[str, Any]:
+        """
+        Convert to Cerebras-specific thinking/reasoning parameters.
+
+        Cerebras supports two unique controls that have no direct equivalent on
+        other providers:
+          - reasoning_effort: "low" | "medium" | "high" (or omitted for no reasoning)
+          - clear_thinking: bool — strip <thinking> blocks from the response
+
+        The method also handles `disable_reasoning`:
+          - disable_reasoning=True  → suppress reasoning (reasoning_effort omitted)
+          - disable_reasoning=False → use whatever reasoning_effort resolves to (default "medium")
+
+        Returns a dict containing zero or more of:
+            {
+                "reasoning_effort": "low" | "medium" | "high",  # if reasoning enabled
+                "clear_thinking": True | False,                  # if explicitly set
+            }
+        """
+        params: dict[str, Any] = {}
+
+        # disable_reasoning=True is an explicit override that suppresses all reasoning
+        if self.disable_reasoning is True:
+            # Explicitly disabled — do not set reasoning_effort
+            pass
+        else:
+            # Resolve reasoning_effort via existing logic
+            effort = self.to_cerebras_reasoning()
+            if effort is not None:
+                params["reasoning_effort"] = effort
+
+        # clear_thinking is a Cerebras-only flag; pass through only when explicitly set
+        if self.clear_thinking is not None:
+            params["clear_thinking"] = self.clear_thinking
+
+        return params
+
     @classmethod
     def from_settings(cls, settings: Any) -> "ThinkingConfig":
         """
-        Factory method to create ThinkingConfig from AISettingsData.
+        Factory method to create ThinkingConfig from any settings object (UnifiedConfig,
+        LLMParams, AISettingsData, etc.).
 
-        Args:
-            settings: AISettingsData instance
+        disable_reasoning normalisation
+        --------------------------------
+        disable_reasoning is a Cerebras-native boolean that maps to the unified
+        reasoning_effort vocabulary so that all provider translators automatically
+        honour the intent:
 
-        Returns:
-            ThinkingConfig instance with all relevant fields populated
+          disable_reasoning=True  → reasoning_effort="none"  (suppress reasoning)
+          disable_reasoning=False → reasoning_effort defaults to "medium" when no
+                                    explicit reasoning_effort was provided, meaning
+                                    "the caller wants reasoning ON at a sensible level"
+
+        The raw disable_reasoning and clear_thinking values are also carried through
+        so Cerebras' to_cerebras_thinking_params() can use them directly.
         """
+        raw_reasoning_effort = getattr(settings, "reasoning_effort", None)
+        disable_reasoning = getattr(settings, "disable_reasoning", None)
+
+        # Normalise disable_reasoning into reasoning_effort so every provider
+        # translator sees a consistent unified value.
+        if disable_reasoning is True:
+            # Override: disable reasoning regardless of any other setting
+            resolved_reasoning_effort = "none"
+        elif disable_reasoning is False and raw_reasoning_effort is None:
+            # Caller says "reasoning ON" but hasn't picked a level — default to medium
+            resolved_reasoning_effort = "medium"
+        else:
+            # No disable_reasoning signal — use whatever was explicitly set (may be None)
+            resolved_reasoning_effort = raw_reasoning_effort
+
         return cls(
-            reasoning_effort=getattr(settings, "reasoning_effort", None),
+            reasoning_effort=resolved_reasoning_effort,
             reasoning_summary=getattr(settings, "reasoning_summary", None),
             thinking_budget=getattr(settings, "thinking_budget", None),
             thinking_level=getattr(settings, "thinking_level", None),
             include_thoughts=getattr(settings, "include_thoughts", None),
+            disable_reasoning=disable_reasoning,
+            clear_thinking=getattr(settings, "clear_thinking", None),
         )

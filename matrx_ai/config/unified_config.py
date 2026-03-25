@@ -8,6 +8,8 @@ from typing import Any, Literal
 
 from matrx_utils import vcprint
 
+from matrx_ai.config.llm_params import LLMParams
+from matrx_ai.config.tts_config import TTSVoiceConfig
 from matrx_ai.instructions.core import SystemInstruction
 from matrx_ai.instructions.pattern_parser import resolve_matrx_patterns
 
@@ -56,6 +58,12 @@ class UnifiedConfig:
     # Anthropic thinking & legacy Google Gemini 2 thinking format
     thinking_budget: int | None = None
 
+    # Cerebras-specific thinking controls
+    # clear_thinking: strip <thinking> blocks from the final Cerebras response
+    # disable_reasoning: when True, suppress reasoning entirely; maps to reasoning_effort="none" cross-provider
+    clear_thinking: bool | None = None
+    disable_reasoning: bool | None = None
+
     response_format: dict[str, Any] | None = None
     stop_sequences: list = field(default_factory=list)
 
@@ -71,9 +79,12 @@ class UnifiedConfig:
     quality: str | None = None
     count: int = 1
 
-    # Audio settings
-    audio_voice: str | None = None
-    audio_format: str | None = None
+    # Audio / TTS settings
+    # tts_voice: str → single-speaker voice name (e.g. "Orus")
+    # tts_voice: list[dict] → multi-speaker [{"name": "Alex", "voice": "Orus"}, ...]
+    # Use the tts_voice_config property to get the fully-typed TTSVoiceConfig object.
+    tts_voice: str | list[dict[str, str]] | None = None
+    audio_format: str | None = None  # desired output format: "wav", "mp3", "ogg"
 
     # Video generation settings
     seconds: str | None = None
@@ -88,6 +99,7 @@ class UnifiedConfig:
     height: int | None = None
     frame_images: list | None = None
     reference_images: list | None = None
+    image_loras: list | None = None
     disable_safety_checker: bool | None = None
 
     custom_configs: dict[str, Any] | None = None
@@ -98,12 +110,13 @@ class UnifiedConfig:
         Normalize messages and system_instruction.
 
         System instruction normalization:
-        - str: Wrapped in SystemInstruction (date auto-injected by default), resolved to string.
-        - dict: Converted to SystemInstruction from keys (content, include_date, etc.), resolved to string.
-        - SystemInstruction: Resolved to string directly.
+        - str: Wrapped in SystemInstruction (date auto-injected by default).
+        - dict: Converted to SystemInstruction via from_value().
+        - SystemInstruction: Kept as-is.
         - None: Left as None.
 
-        After __post_init__, system_instruction is always str | None.
+        After __post_init__, system_instruction is always SystemInstruction | None.
+        Providers must use resolved_system_instruction (str | None) when sending to APIs.
         """
         # Convert messages to MessageList if needed
         if not isinstance(self.messages, MessageList):
@@ -115,10 +128,19 @@ class UnifiedConfig:
                 )
 
         self.tool_choice = self._normalize_tool_choice(self.tool_choice)
-        self.system_instruction = self._resolve_system_instruction(
+        self.system_instruction = self._normalize_system_instruction(
             self.system_instruction
         )
         self._resolve_message_patterns()
+
+    @property
+    def tts_voice_config(self) -> TTSVoiceConfig | None:
+        """Return a fully-typed TTSVoiceConfig built from tts_voice.
+
+        Returns None when no TTS voice is configured.
+        Providers should use this property instead of reading tts_voice directly.
+        """
+        return TTSVoiceConfig.from_config(self)
 
     def _resolve_message_patterns(self) -> None:
         """Resolve <<MATRX>> data-fetch patterns in all TextContent across messages."""
@@ -128,16 +150,27 @@ class UnifiedConfig:
                     content.text = resolve_matrx_patterns(content.text)
 
     @staticmethod
-    def _resolve_system_instruction(
+    def _normalize_system_instruction(
         raw: str | dict | SystemInstruction | None,
-    ) -> str | None:
+    ) -> SystemInstruction | None:
+        """Normalize to SystemInstruction object. Never resolves to string here."""
         if raw is None:
             return None
-        # Already resolved — skip re-wrapping to prevent date being prepended again
-        # on every dataclasses.replace() call during tool-call iteration loops.
-        if isinstance(raw, str):
+        if isinstance(raw, SystemInstruction):
             return raw
-        return str(SystemInstruction.from_value(raw))
+        return SystemInstruction.from_value(raw)
+
+    @property
+    def resolved_system_instruction(self) -> str | None:
+        """Resolve system_instruction to string on demand.
+
+        This is the single point of resolution for all provider translators.
+        Never call str(config.system_instruction) directly in a translator —
+        always use this property so the resolution logic lives in one place.
+        """
+        if self.system_instruction is None:
+            return None
+        return str(self.system_instruction)
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "UnifiedConfig":
@@ -147,13 +180,17 @@ class UnifiedConfig:
         Extracts system/developer messages from messages list and places them
         in system_instruction field.
         """
-        # Map max_tokens to max_output_tokens if needed (for API compatibility)
-        if "max_tokens" in data and "max_output_tokens" not in data:
-            data["max_output_tokens"] = data["max_tokens"]
-            del data["max_tokens"]
-        elif "max_tokens" in data:
-            # If both exist, remove max_tokens and use max_output_tokens
-            del data["max_tokens"]
+        _LEGACY_ALIASES = {
+            "max_tokens": "max_output_tokens",
+            "n": "count",
+        }
+        for old_key, new_key in _LEGACY_ALIASES.items():
+            if old_key in data:
+                vcprint(f"[DEPRECATION] UnifiedConfig.from_dict: '{old_key}' → '{new_key}'", color="yellow")
+                if new_key not in data or data[new_key] is None:
+                    data[new_key] = data.pop(old_key)
+                else:
+                    data.pop(old_key)
 
         valid_fields = {f.name for f in fields(cls)}
         valid_fields.add("model_id")
@@ -220,6 +257,8 @@ class UnifiedConfig:
             thinking_level=data.get("thinking_level"),
             include_thoughts=data.get("include_thoughts"),
             thinking_budget=data.get("thinking_budget"),
+            clear_thinking=data.get("clear_thinking"),
+            disable_reasoning=data.get("disable_reasoning"),
             response_format=data.get("response_format"),
             stop_sequences=data.get("stop_sequences", []),
             store=data.get("store"),
@@ -229,7 +268,7 @@ class UnifiedConfig:
             size=data.get("size"),
             quality=data.get("quality"),
             count=data.get("count", 1),
-            audio_voice=data.get("audio_voice"),
+            tts_voice=data.get("tts_voice"),
             audio_format=data.get("audio_format"),
             seconds=data.get("seconds"),
             fps=data.get("fps"),
@@ -243,6 +282,7 @@ class UnifiedConfig:
             height=data.get("height"),
             frame_images=data.get("frame_images"),
             reference_images=data.get("reference_images"),
+            image_loras=data.get("image_loras"),
             disable_safety_checker=data.get("disable_safety_checker"),
             custom_configs=data.get("custom_configs"),
             metadata=data.get("metadata", {}),
@@ -291,6 +331,8 @@ class UnifiedConfig:
             # Handle MessageList specially
             if isinstance(value, MessageList):
                 result[key] = value.to_dict_list()
+            elif isinstance(value, SystemInstruction):
+                result[key] = str(value)
             elif isinstance(value, list) and value and hasattr(value[0], "to_dict"):
                 result[key] = [item.to_dict() for item in value]
             elif hasattr(value, "to_dict"):
@@ -316,7 +358,7 @@ class UnifiedConfig:
         # Top-level columns
         result: dict[str, Any] = {
             "model": self.model,
-            "system_instruction": self.system_instruction,
+            "system_instruction": self.resolved_system_instruction,
             "messages": message_storage_dicts,
         }
 
@@ -346,6 +388,10 @@ class UnifiedConfig:
             config["include_thoughts"] = self.include_thoughts
         if self.thinking_budget is not None:
             config["thinking_budget"] = self.thinking_budget
+        if self.clear_thinking is not None:
+            config["clear_thinking"] = self.clear_thinking
+        if self.disable_reasoning is not None:
+            config["disable_reasoning"] = self.disable_reasoning
         if self.response_format is not None:
             config["response_format"] = self.response_format
         if self.stop_sequences:
@@ -360,6 +406,10 @@ class UnifiedConfig:
             config["store"] = self.store
         if self.verbosity is not None:
             config["verbosity"] = self.verbosity
+        if self.tts_voice is not None:
+            config["tts_voice"] = self.tts_voice
+        if self.audio_format is not None:
+            config["audio_format"] = self.audio_format
 
         result["config"] = config
         return result
@@ -396,15 +446,26 @@ class UnifiedConfig:
         Args:
             variables: dict mapping variable names to their values
         """
-        # Replace in system_instruction
-        if self.system_instruction:
+        if self.system_instruction is not None:
             for var_name, var_value in variables.items():
-                self.system_instruction = self.system_instruction.replace(
-                    f"{{{{{var_name}}}}}", str(var_value)
+                self.system_instruction.base_instruction = (
+                    self.system_instruction.base_instruction.replace(
+                        f"{{{{{var_name}}}}}", str(var_value)
+                    )
                 )
 
         # Replace in all messages
         self.messages.replace_variables(variables)
+
+    def apply_overrides(self, overrides: LLMParams) -> None:
+        """Apply typed config overrides from the API layer.
+
+        Only fields explicitly set (non-None) in `overrides` are applied.
+        Unknown fields are impossible because LLMParams uses extra="forbid".
+        """
+        for key, value in overrides.model_dump(exclude_none=True).items():
+            if hasattr(self, key):
+                setattr(self, key, value)
 
     def get_last_output(self) -> str:
         """Get the output of the last assistant message."""

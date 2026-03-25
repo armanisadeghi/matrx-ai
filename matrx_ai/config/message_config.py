@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+import json
 from typing import Any, Optional, Union
 
 from matrx_ai.db.models import CxMessage
@@ -190,8 +191,8 @@ class UnifiedMessage:
     ) -> Optional["UnifiedMessage"]:
         content = []
         assigned_role = "output"
-
         item_type = item.type
+             
         if item_type == "message":
             assigned_role = "assistant"
             for content_item in (item.content or []):
@@ -208,7 +209,9 @@ class UnifiedMessage:
             content.append(ThinkingContent.from_openai(item))
         elif item_type == "function_call":
             assigned_role = "tool"
-            content.append(ToolCallContent.from_openai(item))
+            new_content = ToolCallContent.from_openai(item)
+            # rich.print("\n\n[UNIFIED MESSAGE FROM OPENAI ITEM] NEW TOOL CALL CONTENT FROM OPENAI ITEM", new_content)
+            content.append(new_content)
         elif item_type == "web_search_call":
             assigned_role = "tool"
             content.append(WebSearchCallContent.from_openai(item))
@@ -222,6 +225,53 @@ class UnifiedMessage:
             role=assigned_role,
             content=content,
         )
+
+
+    @classmethod
+    def from_openai_modified(cls, items: list[dict[str, Any]]) -> Optional["UnifiedMessage"]:
+        content_blocks = []
+        final_merged_id = "openai_merged"
+        
+        for item in items:
+            print("\n============= [UNIFIED MESSAGE FROM OPENAI MODIFIED] =================\n")
+            vcprint(item, "[UNIFIED MESSAGE FROM OPENAI MODIFIED] Item", color="cyan")
+            item_id = item.get("id")
+            item_type = item.get("item_type")
+            internal_item_content = item.get("content")
+            metadata = item.get("metadata")
+    
+            final_merged_id += "_" + item_id
+
+            if item_type == "message":
+                new_content = TextContent.from_openai_modified(item)
+                vcprint(new_content, "[UNIFIED MESSAGE FROM OPENAI MODIFIED] New Content", color="cyan")
+                content_blocks.append(new_content)
+
+            elif item_type == "reasoning":
+                new_content = ThinkingContent.from_openai(internal_item_content)
+                vcprint(new_content, "[UNIFIED MESSAGE FROM OPENAI MODIFIED] New Content", color="cyan")
+                content_blocks.append(new_content)
+            elif item_type == "function_call":
+                new_content = ToolCallContent.from_openai(internal_item_content)
+                vcprint(new_content, "[UNIFIED MESSAGE FROM OPENAI MODIFIED] New Content", color="cyan")
+                content_blocks.append(new_content)
+            elif item_type == "web_search_call":
+                new_content = WebSearchCallContent.from_openai(internal_item_content)
+                vcprint(new_content, "[UNIFIED MESSAGE FROM OPENAI MODIFIED] New Content", color="cyan")
+                content_blocks.append(new_content)
+            else:
+                vcprint(
+                    item, f"WARNING: Unknown OpenAI item type: {item_type}", color="red"
+                )
+
+        return cls(
+            id=final_merged_id,
+            role="assistant",
+            content=content_blocks,
+        )
+
+
+
 
     @classmethod
     def from_anthropic_content(
@@ -343,6 +393,108 @@ class UnifiedMessage:
             )
             return None
 
+    def to_openai_items_modified(self) -> list[dict[str, Any]]:
+        """
+        Convert message to OpenAI Responses API format as a flat list of top-level
+        input items. Each content block becomes its own item at the input array level.
+
+        OpenAI Responses API expects:
+        - reasoning items as top-level: {"type": "reasoning", "id": "...", ...}
+        - function_call items as top-level: {"type": "function_call", "id": "...", ...}
+        - function_call_output as top-level: {"type": "function_call_output", ...}
+        - web_search_call as top-level: {"type": "web_search_call", "id": "...", ...}
+        - message items wrapping text: {"type": "message", "role": "...", "content": [...]}
+        - user input as: {"role": "user", "content": [...]}
+
+        Non-OpenAI thinking content (no signature) is included as input_text so
+        the reasoning context is preserved. Assistant text from any provider is
+        always emitted — with an id-bearing message wrapper when available, or a
+        plain role-based wrapper otherwise.
+        """
+        items: list[dict[str, Any]] = []
+        text_parts: list[dict[str, Any]] = []
+        text_content_id: str | None = None
+
+        for content in self.content:
+            if isinstance(content, ThinkingContent):
+                if content.provider == "openai" and content.signature:
+                    items.append({
+                        "type": "reasoning",
+                        "id": content.id,
+                        "summary": content.summary,
+                        "encrypted_content": content.signature,
+                    })
+                elif content.text:
+                    text_parts.append({"type": "input_text", "text": content.text})
+
+            elif isinstance(content, ToolCallContent):
+                openai_item_id = content.metadata.get("openai_item_id", content.id)
+                item: dict[str, Any] = {
+                    "type": "function_call",
+                    "id": openai_item_id,
+                    "call_id": content.id,
+                    "name": content.name,
+                    "arguments": json.dumps(content.arguments) if isinstance(content.arguments, dict) else content.arguments,
+                }
+                if content.metadata.get("status"):
+                    item["status"] = content.metadata["status"]
+                items.append(item)
+
+            elif isinstance(content, ToolResultContent):
+                output_str = content.content
+                if isinstance(output_str, (dict, list)):
+                    output_str = json.dumps(output_str)
+                elif not isinstance(output_str, str):
+                    output_str = str(output_str)
+                items.append({
+                    "type": "function_call_output",
+                    "call_id": content.call_id,
+                    "output": output_str,
+                })
+
+            elif isinstance(content, WebSearchCallContent):
+                item = {
+                    "type": "web_search_call",
+                    "id": content.id,
+                    "status": content.status,
+                }
+                if content.action:
+                    item["action"] = content.action
+                items.append(item)
+
+            elif isinstance(content, TextContent):
+                text_type = "output_text" if self.role == Role.ASSISTANT else "input_text"
+                text_parts.append({"type": text_type, "text": content.text})
+                if not text_content_id and content.id:
+                    text_content_id = content.id
+
+            else:
+                result = content.to_openai()
+                if result is not None:
+                    items.append(result)
+
+        if text_parts:
+            if self.role == Role.ASSISTANT and text_content_id:
+                items.append({
+                    "type": "message",
+                    "role": "assistant",
+                    "id": text_content_id,
+                    "content": text_parts,
+                })
+            elif self.role == Role.ASSISTANT:
+                items.append({
+                    "role": "assistant",
+                    "content": text_parts,
+                })
+            elif self.role in (Role.USER, Role.SYSTEM, Role.DEVELOPER):
+                role_str = self.role.value if hasattr(self.role, "value") else self.role
+                items.append({
+                    "role": role_str,
+                    "content": text_parts,
+                })
+
+        return items
+
     def to_anthropic_blocks(self) -> list[dict[str, Any]]:
         """
         Convert message content to Anthropic format blocks.
@@ -402,6 +554,26 @@ class UnifiedMessage:
         for content in self.content:
             output += content.get_output()
         return output
+
+    def attach_ephemeral(self, block: str) -> None:
+        """Append an ephemeral block to this message's first TextContent.
+
+        If no TextContent exists, one is created and appended to the content list.
+        """
+        for item in self.content:
+            if isinstance(item, TextContent):
+                item.attach_ephemeral(block)
+                return
+        new_tc = TextContent(text="")
+        new_tc.attach_ephemeral(block)
+        self.content.append(new_tc)
+
+    def detach_ephemeral(self) -> None:
+        """Remove the ephemeral block from this message's first TextContent."""
+        for item in self.content:
+            if isinstance(item, TextContent):
+                item.detach_ephemeral()
+                return
 
 
 @dataclass
@@ -523,6 +695,29 @@ class MessageList:
     def count_by_role(self, role: str) -> int:
         """Count messages with the given role."""
         return sum(1 for msg in self._messages if msg.role == role)
+
+    def attach_ephemeral_to_last_user(self, block: str) -> None:
+        """Append an ephemeral block to the last user message.
+
+        If no user message exists, a new one is created. The block is
+        bracketted by sentinels so it can be reversed by
+        detach_ephemeral_from_last_user(). Never writes to the DB.
+        """
+        if not block:
+            return
+        last_user = self.get_last_by_role(Role.USER)
+        if last_user is None:
+            last_user = UnifiedMessage(
+                role=Role.USER, content=[TextContent(text="")]
+            )
+            self._messages.append(last_user)
+        last_user.attach_ephemeral(block)
+
+    def detach_ephemeral_from_last_user(self) -> None:
+        """Remove the ephemeral block from the last user message."""
+        last_user = self.get_last_by_role(Role.USER)
+        if last_user is not None:
+            last_user.detach_ephemeral()
 
     def append_user_text(self, text: str, **kwargs) -> None:
         """

@@ -102,6 +102,33 @@ class ModelPricing:
 # Hard-coded pricing lookup for testing
 # In production, this will come from the database
 MODEL_PRICING: dict[str, ModelPricing] = {
+    # --- Gemini TTS models ---
+    # gemini-2.5-flash-preview-tts: text input $0.50/M, audio output $10.00/M
+    "gemini-2.5-flash-preview-tts": ModelPricing(
+        model_name="gemini-2.5-flash-preview-tts",
+        api="google",
+        tiers=[
+            PricingTier(
+                max_tokens=None,
+                input_price=0.50,   # text input per million tokens
+                output_price=10.00,  # audio output per million tokens
+                cached_input_price=0.05,
+            )
+        ],
+    ),
+    # gemini-2.5-pro-preview-tts: text input $1.00/M, audio output $20.00/M
+    "gemini-2.5-pro-preview-tts": ModelPricing(
+        model_name="gemini-2.5-pro-preview-tts",
+        api="google",
+        tiers=[
+            PricingTier(
+                max_tokens=None,
+                input_price=1.00,   # text input per million tokens
+                output_price=20.00,  # audio output per million tokens
+                cached_input_price=0.10,
+            )
+        ],
+    ),
     # --- Gemini 3 series (preview) ---
     # gemini-3.1-flash-lite-preview: text/image/video input $0.25/M, audio input $0.50/M, output $1.50/M
     # Note: audio_input_price ($0.50/M) not captured in PricingTier; text rate used for input_price
@@ -538,6 +565,127 @@ MODEL_PRICING: dict[str, ModelPricing] = {
             )
         ],
     ),
+    # --- Groq models (https://console.groq.com/docs/models) ---
+    "llama-3.1-8b-instant": ModelPricing(
+        model_name="llama-3.1-8b-instant",
+        api="groq",
+        tiers=[
+            PricingTier(
+                max_tokens=None,
+                input_price=0.05,
+                output_price=0.08,
+                cached_input_price=0.05,
+            )
+        ],
+    ),
+    "llama-3.3-70b-versatile": ModelPricing(
+        model_name="llama-3.3-70b-versatile",
+        api="groq",
+        tiers=[
+            PricingTier(
+                max_tokens=None,
+                input_price=0.59,
+                output_price=0.79,
+                cached_input_price=0.59,
+            )
+        ],
+    ),
+    "openai/gpt-oss-120b": ModelPricing(
+        model_name="openai/gpt-oss-120b",
+        api="groq",
+        tiers=[
+            PricingTier(
+                max_tokens=None,
+                input_price=0.15,
+                output_price=0.60,
+                cached_input_price=0.15,
+            )
+        ],
+    ),
+    "openai/gpt-oss-20b": ModelPricing(
+        model_name="openai/gpt-oss-20b",
+        api="groq",
+        tiers=[
+            PricingTier(
+                max_tokens=None,
+                input_price=0.075,
+                output_price=0.30,
+                cached_input_price=0.075,
+            )
+        ],
+    ),
+    "meta-llama/llama-4-scout-17b-16e-instruct": ModelPricing(
+        model_name="meta-llama/llama-4-scout-17b-16e-instruct",
+        api="groq",
+        tiers=[
+            PricingTier(
+                max_tokens=None,
+                input_price=0.11,
+                output_price=0.34,
+                cached_input_price=0.11,
+            )
+        ],
+    ),
+    "meta-llama/llama-prompt-guard-2-22m": ModelPricing(
+        model_name="meta-llama/llama-prompt-guard-2-22m",
+        api="groq",
+        tiers=[
+            PricingTier(
+                max_tokens=None,
+                input_price=0.03,
+                output_price=0.03,
+                cached_input_price=0.03,
+            )
+        ],
+    ),
+    "meta-llama/llama-prompt-guard-2-86m": ModelPricing(
+        model_name="meta-llama/llama-prompt-guard-2-86m",
+        api="groq",
+        tiers=[
+            PricingTier(
+                max_tokens=None,
+                input_price=0.04,
+                output_price=0.04,
+                cached_input_price=0.04,
+            )
+        ],
+    ),
+    "moonshotai/kimi-k2-instruct-0905": ModelPricing(
+        model_name="moonshotai/kimi-k2-instruct-0905",
+        api="groq",
+        tiers=[
+            PricingTier(
+                max_tokens=None,
+                input_price=1.00,
+                output_price=3.00,
+                cached_input_price=1.00,
+            )
+        ],
+    ),
+    "openai/gpt-oss-safeguard-20b": ModelPricing(
+        model_name="openai/gpt-oss-safeguard-20b",
+        api="groq",
+        tiers=[
+            PricingTier(
+                max_tokens=None,
+                input_price=0.075,
+                output_price=0.30,
+                cached_input_price=0.075,
+            )
+        ],
+    ),
+    "qwen/qwen3-32b": ModelPricing(
+        model_name="qwen/qwen3-32b",
+        api="groq",
+        tiers=[
+            PricingTier(
+                max_tokens=None,
+                input_price=0.29,
+                output_price=0.59,
+                cached_input_price=0.29,
+            )
+        ],
+    ),
     # xAI Grok models - ordered by specificity
     "grok-4-1-fast-reasoning": ModelPricing(
         model_name="grok-4-1-fast-reasoning",
@@ -584,30 +732,6 @@ MODEL_PRICING: dict[str, ModelPricing] = {
                 input_price=0.20,
                 output_price=0.50,
                 cached_input_price=0.05,
-            )
-        ],
-    ),
-    "openai/gpt-oss-120b": ModelPricing(
-        model_name="openai/gpt-oss-120b",
-        api="together",
-        tiers=[
-            PricingTier(
-                max_tokens=None,
-                input_price=0.15,
-                output_price=0.60,
-                cached_input_price=999,
-            )
-        ],
-    ),
-    "openai/gpt-oss-20b": ModelPricing(
-        model_name="openai/gpt-oss-20b",
-        api="together",
-        tiers=[
-            PricingTier(
-                max_tokens=None,
-                input_price=0.05,
-                output_price=0.20,
-                cached_input_price=999,
             )
         ],
     ),

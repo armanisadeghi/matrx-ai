@@ -1,4 +1,5 @@
 from matrx_ai.providers.google.google_api import GoogleChat
+from matrx_ai.providers.google.google_video_api import GoogleVideoGeneration
 from matrx_ai.providers.google.translator import GoogleProviderConfig, GoogleTranslator
 
-__all__ = ["GoogleChat", "GoogleTranslator", "GoogleProviderConfig"]
+__all__ = ["GoogleChat", "GoogleTranslator", "GoogleProviderConfig", "GoogleVideoGeneration"]

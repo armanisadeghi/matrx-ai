@@ -172,7 +172,12 @@ class PromptManagers:
             self._cache(prompt_id, PromptType.PROMPT)
             return await self._prompt_config(prompt_id)
 
-        return await self._builtin_config(prompt_id)
+        builtin_item = await self._builtin.load_item_or_none(id=prompt_id)
+        if builtin_item:
+            self._cache(prompt_id, PromptType.BUILTIN)
+            return await self._builtin_config(prompt_id)
+
+        raise ValueError(f"No prompt or builtin found with id: {prompt_id!r}")
 
     async def get_prompt_config(self, prompt_id: str) -> AgentConfig:
         return await self._prompt_config(prompt_id)
