@@ -10,6 +10,12 @@ allow-direct-references = true
 
 [tool.hatch.version]
 source = "vcs"
+# fallback-version is used when hatch-vcs cannot determine the version from
+# git history or tags. This happens when the repo is built from a shallow
+# clone (e.g. Coolify's `git clone --depth=1`), which doesn't fetch tags.
+# The fallback is overridden by real tag-derived versions in normal builds
+# (local dev, PyPI publish workflow, full clones).
+fallback-version = "0.0.0"
 
 [project]
 name = "matrx-ai"
