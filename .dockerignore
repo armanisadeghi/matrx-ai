@@ -1,4 +1,8 @@
-.git
+# NOTE: do NOT add `.git` here. `[tool.hatch.version] source = "vcs"` in
+# pyproject.toml means hatch-vcs reads the version from git tags during
+# the build. Excluding .git here is what caused the 2026-03-04 → present
+# deploy failures (hatchling.build.build_editable exit 1 in `uv sync`).
+# Multi-stage Dockerfile already keeps .git out of the runtime image.
 .gitignore
 .env
 .env.*
