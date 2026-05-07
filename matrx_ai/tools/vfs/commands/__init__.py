@@ -22,10 +22,11 @@ def load_all() -> None:
     import importlib
 
     modules = [
-        "cat", "cd", "chmod", "chown", "cp", "df", "du", "echo", "file", "find",
-        "grep", "head", "ln", "ls", "mkdir", "mv", "printf", "pwd", "readlink",
-        "realpath", "rm", "rmdir", "stat", "tail", "touch", "tree", "type",
-        "wc", "which",
+        "awk", "cat", "cd", "chmod", "chown", "cp", "cut", "df", "du", "echo",
+        "file", "find", "grep", "head", "ln", "ls", "mkdir", "mv", "printf",
+        "pwd", "readlink", "realpath", "rm", "rmdir", "sed", "sort", "stat",
+        "stubs", "tail", "touch", "tr", "tree", "type", "uniq", "wc", "which",
+        "xargs",
     ]
     for mod in modules:
         try:
