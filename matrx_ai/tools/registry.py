@@ -10,6 +10,12 @@ from pydantic import BaseModel
 
 from matrx_ai.tools.models import ToolDefinition, ToolType
 from matrx_ai.tools.tools_db import tools_manager_instance as tools_manager
+from matrx_ai.tools.vfs_routing import (
+    FS_EDIT_TOOL_DEFINITION,
+    is_vfs_globally_enabled,
+    remap,
+    should_route_to_vfs,
+)
 
 # All source_app values that belong to this codebase.
 # Any tool whose source_app matches one of these is treated as LOCAL
@@ -77,6 +83,7 @@ class ToolRegistryV2:
             try:
                 tool_def = self._row_to_definition(row)
                 if tool_def.tool_type == ToolType.LOCAL:
+                    self._apply_vfs_routing(tool_def)
                     tool_def._callable = self._resolve_callable(tool_def.function_path)
                 # EXTERNAL_HANDLER, AGENT, and EXTERNAL_MCP tools have no local
                 # callable to resolve — their execution is delegated at runtime.
@@ -102,6 +109,8 @@ class ToolRegistryV2:
                 color="red",
             )
 
+        count += self._maybe_inject_fs_edit()
+
         self._loaded = True
         return count
 
@@ -111,6 +120,7 @@ class ToolRegistryV2:
         for tool_def in definitions:
             if tool_def.tool_type == ToolType.LOCAL and tool_def._callable is None:
                 try:
+                    self._apply_vfs_routing(tool_def)
                     tool_def._callable = self._resolve_callable(tool_def.function_path)
                 except Exception as exc:
                     vcprint(
@@ -121,6 +131,7 @@ class ToolRegistryV2:
                     continue
             self._tools[tool_def.name] = tool_def
             count += 1
+        count += self._maybe_inject_fs_edit()
         self._loaded = True
         return count
 
@@ -405,6 +416,55 @@ class ToolRegistryV2:
             cost_cap_per_call=guardrail_config.get("cost_cap_per_call"),
             timeout_seconds=guardrail_config.get("timeout_seconds", 120.0),
         )
+
+    @staticmethod
+    def _apply_vfs_routing(tool_def: ToolDefinition) -> None:
+        # Mutates tool_def in place when the routing rule fires. We capture the
+        # original path on a private attr so observability/log tooling can tell
+        # the swap happened.
+        original = tool_def.function_path
+        if not should_route_to_vfs(original, tool_def.source_app):
+            return
+        new_path = remap(original)
+        if new_path == original:
+            return
+        tool_def._original_function_path = original
+        tool_def._routed_to_vfs = True
+        tool_def.function_path = new_path
+        vcprint(
+            {
+                "tool": tool_def.name,
+                "from": original,
+                "to": new_path,
+                "source_app": tool_def.source_app,
+            },
+            "[ToolRegistryV2] Routed tool to VFS implementation",
+            color="cyan",
+        )
+
+    def _maybe_inject_fs_edit(self) -> int:
+        # fs_edit has no real-disk equivalent; only register it when VFS is on
+        # (or someone explicitly routed it via source_app=matrx_vfs in the DB,
+        # in which case it will already be present and we skip).
+        if not is_vfs_globally_enabled():
+            return 0
+        if "fs_edit" in self._tools:
+            return 0
+        try:
+            tool_def = ToolDefinition(**FS_EDIT_TOOL_DEFINITION)
+            tool_def._callable = self._resolve_callable(tool_def.function_path)
+            self._tools[tool_def.name] = tool_def
+            return 1
+        except Exception as exc:
+            vcprint(
+                {
+                    "error": str(exc),
+                    "traceback": traceback.format_exc(),
+                },
+                "[ToolRegistryV2] Failed to inject synthetic fs_edit tool",
+                color="red",
+            )
+            return 0
 
     @staticmethod
     def _resolve_callable(function_path: str) -> Callable[..., Awaitable[Any]]:

@@ -11,7 +11,9 @@ class FsWriteArgs(BaseModel):
     path: str = Field(description="Path to the file to write (relative to workspace)")
     content: str = Field(description="Content to write")
     create_dirs: bool = Field(default=True, description="Create parent directories if missing")
-    append: bool = Field(default=False, description="Append to existing file instead of overwriting")
+    append: bool = Field(
+        default=False, description="Append to existing file instead of overwriting"
+    )
 
 
 class FsListArgs(BaseModel):
@@ -30,3 +32,12 @@ class FsSearchArgs(BaseModel):
 class FsMkdirArgs(BaseModel):
     path: str = Field(description="Directory path to create")
     parents: bool = Field(default=True, description="Create parent directories")
+
+
+class FsEditArgs(BaseModel):
+    path: str = Field(description="Path to the file to edit (relative to workspace)")
+    old_str: str = Field(description="Exact substring to replace")
+    new_str: str = Field(description="Replacement string")
+    replace_all: bool = Field(
+        default=False, description="Replace every occurrence (otherwise old_str must be unique)"
+    )

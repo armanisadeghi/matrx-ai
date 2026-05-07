@@ -60,6 +60,13 @@ class Settings(BaseSettings):
     sentry_traces_sample_rate: float = 1.0   # 1.0 = 100% in dev; lower in prod
     sentry_profiles_sample_rate: float = 1.0
 
+    # Virtual filesystem. When true, fs_*/shell_execute calls route through the
+    # VFS adapters (Postgres + memory cache) instead of the real disk. The env
+    # var MATRX_VFS_ENABLED is the source of truth at dispatch time; this
+    # setting exists for observability and downstream consumers.
+    matrx_vfs_enabled: bool = False
+    matrx_vfs_backend: str = "memory"
+
 
 @lru_cache
 def get_settings() -> Settings:

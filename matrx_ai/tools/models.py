@@ -208,6 +208,8 @@ class ToolDefinition(BaseModel):
     on_call_message_template: str | None = None
 
     _callable: Callable[..., Awaitable[Any]] | None = PrivateAttr(default=None)
+    _routed_to_vfs: bool = PrivateAttr(default=False)
+    _original_function_path: str | None = PrivateAttr(default=None)
 
     model_config = {"arbitrary_types_allowed": True}
 
