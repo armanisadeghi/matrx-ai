@@ -80,6 +80,10 @@ dependencies = [
     "pytest>=9.0.2",
     "update>=0.0.1",
     "pydub>=0.25.1",
+    # --- Virtual filesystem ---
+    "fsspec>=2026.4.0",
+    "wcmatch>=10.0",
+    "pathspec>=1.0.0",
 ]
 
 [project.urls]
