@@ -14,9 +14,7 @@ async def _run_pair(
     if sort_lines:
         real_out = sorted(h.normalize_real(real.stdout).splitlines())
         virt_out = sorted(virt.stdout.splitlines())
-        assert real_out == virt_out, (
-            f"sorted stdout differs.\nreal={real_out!r}\nvirt={virt_out!r}"
-        )
+        assert real_out == virt_out, f"sorted stdout differs.\nreal={real_out!r}\nvirt={virt_out!r}"
         real_err = h.normalize_real(real.stderr)
         assert real_err == virt.stderr, f"stderr differs.\nreal={real_err!r}\nvirt={virt.stderr!r}"
         assert real.exit_code == virt.exit_code, (

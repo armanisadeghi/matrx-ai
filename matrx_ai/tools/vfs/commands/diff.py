@@ -4,7 +4,7 @@ import difflib
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
-from matrx_ai.tools.vfs.commands.base import CommandContext, encode, fail, ok, resolve_cwd
+from matrx_ai.tools.vfs.commands.base import CommandContext, encode, fail, resolve_cwd
 from matrx_ai.tools.vfs.commands.registry import register
 from matrx_ai.tools.vfs.paths import basename, join
 from matrx_ai.tools.vfs.shell.runner import CommandResult
