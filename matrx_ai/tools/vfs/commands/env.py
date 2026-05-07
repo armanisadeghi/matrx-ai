@@ -51,7 +51,7 @@ async def cmd_env(ctx: CommandContext) -> CommandResult:
             i += 2
             continue
         if a.startswith("--unset="):
-            unset_names.append(a[len("--unset="):])
+            unset_names.append(a[len("--unset=") :])
             i += 1
             continue
         if a == "--":
