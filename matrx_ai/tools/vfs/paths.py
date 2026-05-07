@@ -1,12 +1,9 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Literal
+from datetime import datetime
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict
-
-if TYPE_CHECKING:
-    from datetime import datetime
-
 
 InodeType = Literal["file", "dir", "symlink"]
 
