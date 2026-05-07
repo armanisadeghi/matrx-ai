@@ -22,24 +22,40 @@ from matrx_ai.tools.implementations.vfs_filesystem import (
 )
 from matrx_ai.tools.implementations.vfs_shell import shell_execute
 from matrx_ai.tools.models import ToolContext
-from matrx_ai.tools.vfs.commands import CommandContext, ok, register
+from matrx_ai.tools.vfs.commands import CommandContext, load_all, ok, register
 from matrx_ai.tools.vfs.commands.registry import is_registered
 from matrx_ai.tools.vfs.shell.runner import CommandResult
 from matrx_ai.tools.vfs.workspace import clear_workspace_cache
 
-# Register a real-delay sleep command for the timeout test only. Do this at
-# import time so it's available before any test fixture runs and doesn't get
-# wiped by clear_workspace_cache (which only touches the FS singletons).
-if not is_registered("sleep"):
 
-    @register("sleep")
-    async def _sleep(ctx: CommandContext) -> CommandResult:
-        try:
-            seconds = float(ctx.args[0]) if ctx.args else 0.0
-        except ValueError:
-            return CommandResult(stderr=b"sleep: invalid time interval\n", exit_code=1)
-        await asyncio.sleep(seconds)
-        return ok()
+def _ensure_commands_loaded() -> None:
+    # Other test modules (e.g. tests/vfs/test_command_base.py) clear() the
+    # global command registry. The @register decorators only run on first
+    # import, so a plain load_all() after clear() is a no-op. Force-reload the
+    # command modules to re-execute their top-level @register decorators.
+    import importlib
+    import sys
+
+    load_all()
+    if not is_registered("echo"):
+        for mod_name in list(sys.modules):
+            if mod_name.startswith("matrx_ai.tools.vfs.commands.") and mod_name not in (
+                "matrx_ai.tools.vfs.commands.base",
+                "matrx_ai.tools.vfs.commands.registry",
+                "matrx_ai.tools.vfs.commands.runner",
+            ):
+                importlib.reload(sys.modules[mod_name])
+
+    if not is_registered("sleep"):
+
+        @register("sleep")
+        async def _sleep(ctx: CommandContext) -> CommandResult:
+            try:
+                seconds = float(ctx.args[0]) if ctx.args else 0.0
+            except ValueError:
+                return CommandResult(stderr=b"sleep: invalid time interval\n", exit_code=1)
+            await asyncio.sleep(seconds)
+            return ok()
 
 
 def _make_app_context(user_id: str) -> AppContext:
@@ -57,6 +73,7 @@ def _make_app_context(user_id: str) -> AppContext:
 @pytest.fixture(autouse=True)
 def fresh_workspace() -> Iterator[None]:
     clear_workspace_cache()
+    _ensure_commands_loaded()
     yield
     clear_workspace_cache()
 
